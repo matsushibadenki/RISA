@@ -42,6 +42,8 @@ RISA は **Relationally Involving Self-organizing Architecture** の略で、重
 - [RISA Constraints and Self-Organization Notes](docs/RISA-Constraints-and-Self-Organization-Notes.md)
 - [RISA Transformer Coevolution and Hypothesis Loop](docs/RISA-Transformer-Coevolution-and-Hypothesis-Loop.md)
 - [RISA Mixture of Architectures and Dynamic Routing](docs/RISA-Mixture-of-Architectures-and-Dynamic-Routing.md)
+- [RISA Open Source Landscape and Differentiation](docs/RISA-Open-Source-Landscape-and-Differentiation.md)
+- [RISA and SARA Engine Compatibility](docs/RISA-and-SARA-Engine-Compatibility.md)
 
 ## MVP-1 の範囲
 
