@@ -36,6 +36,13 @@ RISA は **Relationally Involving Self-organizing Architecture** の略で、重
 - [RISA MVP-1 Technical Design](docs/RISA-MVP-1-Technical-Design.md)
 - [RISA Concept Formation and Multimodal Notes](docs/RISA-Concept-Formation-and-Multimodal-Notes.md)
 - [RISA Design Policy](docs/policy.md)
+- [RISA vs ANN and SNN Assessment](docs/RISA-vs-ANN-and-SNN-Assessment.md)
+- [RISA Search and Activation Strategy Notes](docs/RISA-Search-and-Activation-Strategy-Notes.md)
+- [RISA Relation Field and Event Packets](docs/RISA-Relation-Field-and-Event-Packets.md)
+- [RISA Transformer and SNN Relationship Notes](docs/RISA-Transformer-SNN-Relationship-Notes.md)
+- [RISA RAG and SNN Cache Analogy Notes](docs/RISA-RAG-and-SNN-Cache-Analogy-Notes.md)
+- [RISA Concept Cells and Structure Metabolism](docs/RISA-Concept-Cells-and-Structure-Metabolism.md)
+- [RISA Constraints and Self-Organization Notes](docs/RISA-Constraints-and-Self-Organization-Notes.md)
 
 ## MVP-1 の範囲
 
@@ -97,6 +104,43 @@ fatigue_up
 - 学習 CLI
 - 予測 CLI
 - toy world データセット
+
+次に深める候補は以下です。
+
+- `State -> Event -> State` の表現強化
+- `圧縮 + 予測改善` に基づく概念採用
+- 文脈分岐と例外処理
+- Relation Attention に相当する探索制御
+- 高速イベント層と低速概念層の分離
+- Concept Cell の分裂 / 融合 / 休眠ルールの本格化
+
+## 現在の雛形
+
+最小の雛形として、以下を追加済みです。
+
+- `risa/core`: 基本データ構造
+- `risa/engine`: 入力、学習、抽象化、予測、保存
+- `risa/cli`: `train`, `predict`, `inspect`
+- `data/toy_world.json`: 最初の学習データ
+- `tests/`: 標準ライブラリ `unittest` による最小テスト
+
+現時点では、次の要素まで動作します。
+
+- 構造化イベントの読み込み
+- event node を含む最小グラフ更新
+- action/effect パターン学習
+- 共有 action/effect による簡易概念生成
+- `actor`, `action`, `context` を入口にした簡易局所活性化
+- 根拠イベントを含む予測説明
+- node ごとの `recent_activity`, `energy`, `dormant` を使った最小の構造代謝
+
+## 実行例
+
+```bash
+python3 -m risa.cli.main train data/toy_world.json --state-dir state
+python3 -m risa.cli.main predict --actor wolf --action run --state-dir state
+python3 -m unittest discover -s tests
+```
 
 ## ライセンス
 

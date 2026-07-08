@@ -162,6 +162,10 @@ Node(
     created_at: int,
     usage_count: int,
     stability: float,
+    recent_activity: float,
+    energy: float,
+    last_activated_at: int,
+    dormant: bool,
 )
 ```
 
@@ -574,6 +578,8 @@ PredictionQuery(
 2. 同じ action のパターン
 3. actor が属する抽象概念のパターン
 4. 同じ context を持つ近傍パターン
+
+MVP-1 の実装では、ここを「簡易局所活性化」として扱います。つまり全パターンを走査するのではなく、`actor`, `action`, `context` から引ける候補集合を先に集め、その局所集合だけを比較します。
 
 ### 11.3 スコアリング
 

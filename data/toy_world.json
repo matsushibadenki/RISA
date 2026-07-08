@@ -1,0 +1,48 @@
+[
+  {
+    "id": "e001",
+    "timestamp": 1,
+    "actor": "dog",
+    "action": "run",
+    "target": null,
+    "observed_effects": ["fatigue_up"],
+    "context_tags": ["animal", "movement"]
+  },
+  {
+    "id": "e002",
+    "timestamp": 2,
+    "actor": "dog",
+    "action": "rest",
+    "target": null,
+    "observed_effects": ["fatigue_down"],
+    "context_tags": ["animal", "recovery"]
+  },
+  {
+    "id": "e003",
+    "timestamp": 3,
+    "actor": "human",
+    "action": "run",
+    "target": null,
+    "observed_effects": ["fatigue_up"],
+    "context_tags": ["animal", "movement"]
+  },
+  {
+    "id": "e004",
+    "timestamp": 4,
+    "actor": "horse",
+    "action": "run",
+    "target": null,
+    "observed_effects": ["fatigue_up"],
+    "context_tags": ["animal", "movement"]
+  },
+  {
+    "id": "e005",
+    "timestamp": 5,
+    "actor": "dog",
+    "action": "drink",
+    "target": "water",
+    "observed_effects": ["thirst_down"],
+    "context_tags": ["animal", "hydration"]
+  }
+]
+

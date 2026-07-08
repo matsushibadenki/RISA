@@ -49,3 +49,6 @@ ENV/
 # Archives / temporary files
 *.tmp
 *.temp
+
+# Local runtime state
+state/
