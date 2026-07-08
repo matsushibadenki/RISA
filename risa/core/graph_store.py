@@ -50,6 +50,12 @@ class GraphStore:
                 edges.append(edge)
         return edges
 
+    def degree_out(self, node_id: str) -> int:
+        return len(self.adjacency_out.get(node_id, set()))
+
+    def degree_in(self, node_id: str) -> int:
+        return len(self.adjacency_in.get(node_id, set()))
+
     def to_dict(self) -> dict:
         return {
             "nodes": [node.to_dict() for node in self.nodes_by_id.values()],
@@ -66,4 +72,3 @@ class GraphStore:
             edge_data["context_tags"] = tuple(edge_data.get("context_tags", []))
             store.add_or_update_edge(Edge(**edge_data))
         return store
-

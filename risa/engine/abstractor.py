@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from risa.core.models import Edge, Node
 from risa.core.state import RisaState
+from risa.engine.metabolism import reward_concept_cell, should_prune_or_sleep
 
 
 def rebuild_concepts(state: RisaState, min_support: int = 2, min_actors: int = 2) -> None:
@@ -22,7 +23,9 @@ def rebuild_concepts(state: RisaState, min_support: int = 2, min_actors: int = 2
                 label=concept_label,
                 attributes={"shared_action": action, "shared_effect": effect},
                 abstraction_level=1,
-                stability=float(pattern.support),
+                stability=min(1.0, float(pattern.support) / 5.0),
+                recent_activity=min(5.0, float(pattern.support)),
+                energy=min(1.0, 0.4 + (0.1 * min(pattern.support, 4))),
             )
         )
         state.concept_members[concept_id] = sorted(pattern.actors)
@@ -44,3 +47,15 @@ def rebuild_concepts(state: RisaState, min_support: int = 2, min_actors: int = 2
             state.graph.add_or_update_edge(
                 Edge(source=actor_id, target=concept_id, relation_type="instance_of", evidence_count=pattern.support)
             )
+
+        reward_concept_cell(state, concept_id, support=pattern.support, member_count=len(pattern.actors))
+
+    _apply_concept_constraints(state)
+
+
+def _apply_concept_constraints(state: RisaState) -> None:
+    for node in state.graph.nodes_by_id.values():
+        if node.kind != "concept":
+            continue
+        if should_prune_or_sleep(state, node.id):
+            node.dormant = True

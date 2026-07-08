@@ -2,6 +2,7 @@ import unittest
 
 from risa.core.models import PredictionQuery
 from risa.core.state import RisaState
+from risa.engine.abstractor import rebuild_concepts
 from risa.engine.event_parser import parse_events
 from risa.engine.predictor import predict_next_effect
 from risa.engine.runtime import train_events
@@ -32,6 +33,17 @@ class TrainingAndPredictionTests(unittest.TestCase):
 
         self.assertEqual(result.predicted_effects, ["thirst_down"])
         self.assertGreater(result.score, 0)
+
+    def test_concept_cell_receives_energy_when_pattern_is_supported(self) -> None:
+        state = RisaState()
+        events = parse_events("data/toy_world.json")
+        train_events(state, events)
+        rebuild_concepts(state)
+
+        concept = state.graph.get_node("concept:shared_run_fatigue_up")
+        self.assertIsNotNone(concept)
+        self.assertFalse(concept.dormant)
+        self.assertGreater(concept.energy, 0.4)
 
 
 if __name__ == "__main__":

@@ -52,3 +52,6 @@ ENV/
 
 # Local runtime state
 state/
+
+# Archived drafts / old discussion seeds
+docs/old/

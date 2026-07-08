@@ -391,3 +391,7 @@ RISA
 > どの役割をどの方式に担わせると最も実用的な知能系になるか
 
 を見極めることが重要です。
+
+補足:
+
+特に Transformer と RISA の関係については、一方向パイプラインではなく「仮説の往復」として設計する視点が重要です。この点は [RISA と Transformer の共生・仮説ループのメモ](RISA-Transformer-Coevolution-and-Hypothesis-Loop.md) に整理します。

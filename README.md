@@ -30,9 +30,6 @@ RISA は **Relationally Involving Self-organizing Architecture** の略で、重
 
 ## ドキュメント
 
-- [RISA Architecture Design Philosophy](docs/RISA-Architecture-Design-Philosophy.md)
-- [RISA Architecture Design Philosophy 2](docs/RISA-Architecture-Design-Philosophy-2.md)
-- [RISA Architecture Design Philosophy 3](docs/RISA-Architecture-Design-Philosophy-3.md)
 - [RISA MVP-1 Technical Design](docs/RISA-MVP-1-Technical-Design.md)
 - [RISA Concept Formation and Multimodal Notes](docs/RISA-Concept-Formation-and-Multimodal-Notes.md)
 - [RISA Design Policy](docs/policy.md)
@@ -43,6 +40,8 @@ RISA は **Relationally Involving Self-organizing Architecture** の略で、重
 - [RISA RAG and SNN Cache Analogy Notes](docs/RISA-RAG-and-SNN-Cache-Analogy-Notes.md)
 - [RISA Concept Cells and Structure Metabolism](docs/RISA-Concept-Cells-and-Structure-Metabolism.md)
 - [RISA Constraints and Self-Organization Notes](docs/RISA-Constraints-and-Self-Organization-Notes.md)
+- [RISA Transformer Coevolution and Hypothesis Loop](docs/RISA-Transformer-Coevolution-and-Hypothesis-Loop.md)
+- [RISA Mixture of Architectures and Dynamic Routing](docs/RISA-Mixture-of-Architectures-and-Dynamic-Routing.md)
 
 ## MVP-1 の範囲
 
