@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from risa.core.models import Edge, Event, Pattern
+from risa.core.models import Edge, Event, Pattern, StructuralPattern, StructureDelta
 from risa.core.state import RisaState
 from risa.engine.graph_builder import normalize_label
 
@@ -36,6 +36,14 @@ def learn_from_event(state: RisaState, event: Event) -> None:
         pattern.actions.add(action)
         pattern.effects.add(effect_label)
         pattern.context_tags.update(normalize_label(tag) for tag in event.context_tags)
+        _update_structural_pattern(
+            state,
+            actor=actor,
+            action=action,
+            effect=effect_label,
+            context_key=context_key,
+            pattern_id=pattern_id,
+        )
 
         # Activation index narrows prediction to locally relevant effects and concepts.
         _index_append(state.activation_index, f"actor:{actor}", effect_label)
@@ -48,6 +56,77 @@ def _index_append(index: dict[str, list[str]], key: str, value: str) -> None:
     values = index.setdefault(key, [])
     if value not in values:
         values.append(value)
+
+
+def _update_structural_pattern(
+    state: RisaState,
+    actor: str,
+    action: str,
+    effect: str,
+    context_key: str,
+    pattern_id: str,
+) -> None:
+    role_signature = "entity->process->state"
+    structural_id = f"structural:{role_signature}:{context_key}"
+    structural_pattern = state.structural_patterns.get(structural_id)
+    if structural_pattern is None:
+        structural_pattern = StructuralPattern(
+            id=structural_id,
+            signature=structural_id,
+            role_signature=role_signature,
+        )
+        state.structural_patterns[structural_id] = structural_pattern
+
+    structural_pattern.support += 1
+    structural_pattern.actors.add(actor)
+    structural_pattern.actions.add(action)
+    structural_pattern.effects.add(effect)
+    if context_key != "__no_context__":
+        structural_pattern.context_tags.update(context_key.split("|"))
+    structural_pattern.member_pattern_ids.add(pattern_id)
+    _update_structure_deltas(state, structural_pattern)
+
+
+def _update_structure_deltas(state: RisaState, structural_pattern: StructuralPattern) -> None:
+    for other_pattern in state.structural_patterns.values():
+        if other_pattern.id == structural_pattern.id:
+            continue
+        if other_pattern.role_signature != structural_pattern.role_signature:
+            continue
+
+        delta = _build_structure_delta(other_pattern, structural_pattern)
+        state.structure_deltas[delta.id] = delta
+
+
+def _build_structure_delta(source: StructuralPattern, target: StructuralPattern) -> StructureDelta:
+    operations: list[str] = []
+
+    for action in sorted(target.actions - source.actions):
+        operations.append(f"ADD_ACTION:{action}")
+    for action in sorted(source.actions - target.actions):
+        operations.append(f"REMOVE_ACTION:{action}")
+
+    for effect in sorted(target.effects - source.effects):
+        operations.append(f"ADD_EFFECT:{effect}")
+    for effect in sorted(source.effects - target.effects):
+        operations.append(f"REMOVE_EFFECT:{effect}")
+
+    for context in sorted(target.context_tags - source.context_tags):
+        operations.append(f"ADD_CONTEXT:{context}")
+    for context in sorted(source.context_tags - target.context_tags):
+        operations.append(f"REMOVE_CONTEXT:{context}")
+
+    shared_support = min(source.support, target.support)
+    delta_id = f"delta:{source.id}=>{target.id}"
+    return StructureDelta(
+        id=delta_id,
+        source_pattern_id=source.id,
+        target_pattern_id=target.id,
+        role_signature=source.role_signature,
+        operations=operations,
+        support=shared_support,
+        context_tags=set(source.context_tags) | set(target.context_tags),
+    )
 
 
 def link_temporal_precedence(state: RisaState, previous_event: Event | None, current_event: Event) -> None:

@@ -30,6 +30,7 @@ RISA は **Relationally Involving Self-organizing Architecture** の略で、重
 
 ## ドキュメント
 
+- [RISA Roadmap](docs/ROADMAP.md)
 - [RISA MVP-1 Technical Design](docs/RISA-MVP-1-Technical-Design.md)
 - [RISA Concept Formation and Multimodal Notes](docs/RISA-Concept-Formation-and-Multimodal-Notes.md)
 - [RISA Design Policy](docs/policy.md)
@@ -44,6 +45,9 @@ RISA は **Relationally Involving Self-organizing Architecture** の略で、重
 - [RISA Mixture of Architectures and Dynamic Routing](docs/RISA-Mixture-of-Architectures-and-Dynamic-Routing.md)
 - [RISA Open Source Landscape and Differentiation](docs/RISA-Open-Source-Landscape-and-Differentiation.md)
 - [RISA and SARA Engine Compatibility](docs/RISA-and-SARA-Engine-Compatibility.md)
+- [RISA Structural Interpolation and Smoothing](docs/RISA-Structural-Interpolation-and-Smoothing.md)
+- [RISA Plasticity and Memory Reinforcement](docs/RISA-Plasticity-and-Memory-Reinforcement.md)
+- [RISA Structural Sharing and Knowledge Emergence](docs/RISA-Structural-Sharing-and-Knowledge-Emergence.md)
 
 ## MVP-1 の範囲
 
@@ -130,10 +134,14 @@ fatigue_up
 - 構造化イベントの読み込み
 - event node を含む最小グラフ更新
 - action/effect パターン学習
+- 文脈つき `StructuralPattern` の共有構造学習
 - 共有 action/effect による簡易概念生成
 - `actor`, `action`, `context` を入口にした簡易局所活性化
 - 根拠イベントを含む予測説明
 - node ごとの `recent_activity`, `energy`, `dormant` を使った最小の構造代謝
+- 同一イベントで共活性した構造に対する `co_activates_with` の最小強化
+- `co_activates_with` を根拠経路へ反映した予測説明
+- `co_activates_with` を使った局所候補探索
 
 ## 実行例
 

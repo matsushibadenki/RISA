@@ -3,13 +3,15 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 from risa.core.graph_store import GraphStore
-from risa.core.models import Event, Pattern
+from risa.core.models import Event, Pattern, StructuralPattern, StructureDelta
 
 
 @dataclass
 class RisaState:
     graph: GraphStore = field(default_factory=GraphStore)
     patterns: dict[str, Pattern] = field(default_factory=dict)
+    structural_patterns: dict[str, StructuralPattern] = field(default_factory=dict)
+    structure_deltas: dict[str, StructureDelta] = field(default_factory=dict)
     events_by_id: dict[str, Event] = field(default_factory=dict)
     actor_action_effect_counts: dict[str, dict[str, dict[str, int]]] = field(default_factory=dict)
     action_effect_counts: dict[str, dict[str, int]] = field(default_factory=dict)
@@ -22,6 +24,10 @@ class RisaState:
         return {
             "graph": self.graph.to_dict(),
             "patterns": {key: pattern.to_dict() for key, pattern in self.patterns.items()},
+            "structural_patterns": {
+                key: pattern.to_dict() for key, pattern in self.structural_patterns.items()
+            },
+            "structure_deltas": {key: delta.to_dict() for key, delta in self.structure_deltas.items()},
             "events": {key: event.to_dict() for key, event in self.events_by_id.items()},
             "actor_action_effect_counts": self.actor_action_effect_counts,
             "action_effect_counts": self.action_effect_counts,
@@ -45,6 +51,28 @@ class RisaState:
                 effects=set(pattern_data.get("effects", [])),
                 support=pattern_data.get("support", 0),
                 context_tags=set(pattern_data.get("context_tags", [])),
+            )
+        for key, pattern_data in data.get("structural_patterns", {}).items():
+            state.structural_patterns[key] = StructuralPattern(
+                id=pattern_data["id"],
+                signature=pattern_data["signature"],
+                role_signature=pattern_data["role_signature"],
+                support=pattern_data.get("support", 0),
+                actions=set(pattern_data.get("actions", [])),
+                effects=set(pattern_data.get("effects", [])),
+                actors=set(pattern_data.get("actors", [])),
+                context_tags=set(pattern_data.get("context_tags", [])),
+                member_pattern_ids=set(pattern_data.get("member_pattern_ids", [])),
+            )
+        for key, delta_data in data.get("structure_deltas", {}).items():
+            state.structure_deltas[key] = StructureDelta(
+                id=delta_data["id"],
+                source_pattern_id=delta_data["source_pattern_id"],
+                target_pattern_id=delta_data["target_pattern_id"],
+                role_signature=delta_data["role_signature"],
+                operations=list(delta_data.get("operations", [])),
+                support=delta_data.get("support", 0),
+                context_tags=set(delta_data.get("context_tags", [])),
             )
         for key, event_data in data.get("events", {}).items():
             state.events_by_id[key] = Event(**event_data)

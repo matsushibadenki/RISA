@@ -85,6 +85,54 @@ class Pattern:
 
 
 @dataclass
+class StructuralPattern:
+    id: str
+    signature: str
+    role_signature: str
+    support: int = 0
+    actions: set[str] = field(default_factory=set)
+    effects: set[str] = field(default_factory=set)
+    actors: set[str] = field(default_factory=set)
+    context_tags: set[str] = field(default_factory=set)
+    member_pattern_ids: set[str] = field(default_factory=set)
+
+    def to_dict(self) -> dict:
+        return {
+            "id": self.id,
+            "signature": self.signature,
+            "role_signature": self.role_signature,
+            "support": self.support,
+            "actions": sorted(self.actions),
+            "effects": sorted(self.effects),
+            "actors": sorted(self.actors),
+            "context_tags": sorted(self.context_tags),
+            "member_pattern_ids": sorted(self.member_pattern_ids),
+        }
+
+
+@dataclass
+class StructureDelta:
+    id: str
+    source_pattern_id: str
+    target_pattern_id: str
+    role_signature: str
+    operations: list[str] = field(default_factory=list)
+    support: int = 0
+    context_tags: set[str] = field(default_factory=set)
+
+    def to_dict(self) -> dict:
+        return {
+            "id": self.id,
+            "source_pattern_id": self.source_pattern_id,
+            "target_pattern_id": self.target_pattern_id,
+            "role_signature": self.role_signature,
+            "operations": list(self.operations),
+            "support": self.support,
+            "context_tags": sorted(self.context_tags),
+        }
+
+
+@dataclass
 class PredictionQuery:
     actor: str
     action: str

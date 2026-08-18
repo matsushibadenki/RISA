@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from risa.core.models import Edge, Event, Node
 from risa.core.state import RisaState
-from risa.engine.metabolism import activate_nodes
+from risa.engine.metabolism import activate_nodes, reinforce_coactivation
 
 
 def normalize_label(value: str) -> str:
@@ -19,6 +19,7 @@ def ingest_event(state: RisaState, event: Event) -> None:
     actor_id = _node_id("entity", event.actor)
     action_id = _node_id("process", event.action)
     event_id = _node_id("event", event.id)
+    coactive_node_ids = [actor_id, action_id]
 
     state.graph.add_or_update_node(
         Node(id=actor_id, kind="entity", label=normalize_label(event.actor), created_at=event.timestamp, usage_count=1)
@@ -69,6 +70,7 @@ def ingest_event(state: RisaState, event: Event) -> None:
 
     if event.target:
         target_id = _node_id("entity", event.target)
+        coactive_node_ids.append(target_id)
         state.graph.add_or_update_node(
             Node(id=target_id, kind="entity", label=normalize_label(event.target), created_at=event.timestamp, usage_count=1)
         )
@@ -91,6 +93,7 @@ def ingest_event(state: RisaState, event: Event) -> None:
 
     for effect in event.observed_effects:
         effect_id = _node_id("state", effect)
+        coactive_node_ids.append(effect_id)
         state.graph.add_or_update_node(
             Node(id=effect_id, kind="state", label=normalize_label(effect), created_at=event.timestamp, usage_count=1)
         )
@@ -115,3 +118,5 @@ def ingest_event(state: RisaState, event: Event) -> None:
                 last_updated=event.timestamp,
             )
         )
+
+    reinforce_coactivation(state, coactive_node_ids, event.timestamp)

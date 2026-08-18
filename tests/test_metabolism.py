@@ -2,7 +2,7 @@ import unittest
 
 from risa.core.models import Edge, Node
 from risa.core.state import RisaState
-from risa.engine.metabolism import activate_nodes, decay_nodes
+from risa.engine.metabolism import activate_nodes, decay_nodes, reinforce_coactivation
 
 
 class MetabolismTests(unittest.TestCase):
@@ -77,6 +77,21 @@ class MetabolismTests(unittest.TestCase):
         node = state.graph.get_node("concept:shared_run_fatigue_up")
         self.assertIsNotNone(node)
         self.assertLess(node.energy, 0.2)
+
+    def test_coactivation_reinforcement_strengthens_pair_usage(self) -> None:
+        state = RisaState()
+        state.graph.add_or_update_node(Node(id="entity:dog", kind="entity", label="dog", created_at=1))
+        state.graph.add_or_update_node(Node(id="process:run", kind="process", label="run", created_at=1))
+
+        reinforce_coactivation(state, ["entity:dog", "process:run"], timestamp=5)
+        reinforce_coactivation(state, ["entity:dog", "process:run"], timestamp=6)
+
+        edge = state.graph.edges_by_key.get(("entity:dog", "process:run", "co_activates_with"))
+        self.assertIsNotNone(edge)
+        assert edge is not None
+        self.assertGreaterEqual(edge.evidence_count, 2)
+        self.assertGreater(edge.reliability, 0.08)
+        self.assertLess(edge.plasticity, 0.97)
 
 
 if __name__ == "__main__":

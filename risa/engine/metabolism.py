@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+from itertools import combinations
+
+from risa.core.models import Edge
 from risa.core.models import Node
 from risa.core.state import RisaState
 
@@ -57,6 +60,54 @@ def reward_concept_cell(
     node.recent_activity = min(10.0, node.recent_activity + min(3.0, support / 2.0))
     node.energy = min(1.0, node.energy + min(0.4, (support * 0.05) + (member_count * 0.03)))
     node.stability = max(node.stability, min(1.0, (support / max(member_count, 1)) / 2.0))
+
+
+def reinforce_coactivation(
+    state: RisaState,
+    node_ids: list[str],
+    timestamp: int,
+    reliability_gain: float = 0.08,
+    plasticity_decay: float = 0.03,
+    bonus_energy_gain: float = 0.03,
+    bonus_activity_gain: float = 0.2,
+) -> None:
+    unique_ids = sorted(set(node_ids))
+    if len(unique_ids) < 2:
+        return
+
+    for left_id, right_id in combinations(unique_ids, 2):
+        left_node = state.graph.get_node(left_id)
+        right_node = state.graph.get_node(right_id)
+        if left_node is None or right_node is None:
+            continue
+
+        edge = state.graph.add_or_update_edge(
+            Edge(
+                source=left_id,
+                target=right_id,
+                relation_type="co_activates_with",
+                evidence_count=1,
+                reliability=reliability_gain,
+                plasticity=max(0.1, 1.0 - plasticity_decay),
+                last_updated=timestamp,
+            )
+        )
+        edge.reliability = min(1.0, edge.reliability + reliability_gain)
+        edge.plasticity = max(0.1, edge.plasticity - plasticity_decay)
+        edge.last_updated = timestamp
+
+        _activate_node(
+            left_node,
+            timestamp,
+            energy_gain=bonus_energy_gain,
+            activity_gain=bonus_activity_gain,
+        )
+        _activate_node(
+            right_node,
+            timestamp,
+            energy_gain=bonus_energy_gain,
+            activity_gain=bonus_activity_gain,
+        )
 
 
 def should_prune_or_sleep(

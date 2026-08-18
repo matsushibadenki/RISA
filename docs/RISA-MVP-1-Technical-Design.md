@@ -204,6 +204,9 @@ Edge(
 - `similar_to`
 - `abstracts_to`
 - `predicts`
+- `co_activates_with`
+
+`co_activates_with` は、同一イベント内で一緒に使われた構造を弱く結び、反復によって局所記憶を強めるための可塑性補助関係です。MVP-1 では最小形として導入し、将来は探索優先度や予測補正にも使えるようにします。
 
 ### 6.3 Event
 
@@ -484,6 +487,14 @@ reliability = evidence_count / opportunity_count
 ```
 
 `opportunity_count` は「その action が観測された回数」とします。
+
+この `reliability` 更新は、将来の RISA における **構造補間** の最小形と見なせます。  
+つまり MVP-1 ではまだ重いサブグラフ統合や構造平滑化は行わないが、
+
+- 関係ごとに確からしさを持つ
+- 新しい経験でその確からしさを滑らかに更新する
+
+という仕組みだけ先に入れておく。より広い設計意図は [RISA 構造補間と構造平滑化のメモ](RISA-Structural-Interpolation-and-Smoothing.md) に整理します。
 
 ### 9.5 可塑性更新
 
@@ -919,6 +930,8 @@ MVP-1 の次は MVP-2 として、以下を追加するのが自然です。
 - 矛盾管理
 - より明確な因果方向推定
 - 睡眠処理による圧縮
+- Structural Smoothing
+- サブグラフ差分統合
 - 自然言語から構造化イベントへの変換
 
 さらにその先では、映像・音・行動を統一的な状態遷移表現へ落とすマルチモーダル化が重要になります。この方針と論点は [RISA 概念形成とマルチモーダル学習メモ](RISA-Concept-Formation-and-Multimodal-Notes.md) に記録します。
