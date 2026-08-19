@@ -1,76 +1,138 @@
 # RISA
 
-RISA は **Relationally Involving Self-organizing Architecture** の略で、重みを学習するのではなく、**関係構造そのものを更新し続ける AI** を目指す研究プロジェクトです。
+RISA は **Relationally Involving Self-organizing Architecture** の略で、
+重み付き関数近似を知識の本体に置くのではなく、
+**経験から関係構造を自己更新し続ける知能**
+を目指す研究プロジェクトです。
 
-このリポジトリでは、まず小さな人工世界を対象に、動的グラフだけで
+現在の RISA は、
+単なる知識グラフや単なる構造保存ではなく、
 
-- 経験の蓄積
-- 反復パターンの学習
-- 抽象概念の生成
-- 次イベント予測
-- 推論経路の説明
+- 経験を状態遷移として蓄積する
+- 反復する構造を共有パターンとして圧縮する
+- 共活性と局所探索で必要な周辺だけを起動する
+- 保存済み構造から未保存の関係を導ける方向へ進む
 
-ができるかを検証します。
+という設計思想を中心にしています。
+
+特に重要なのは、
+
+> 概念は最初から与えられる分類名ではなく、
+> 多数の経験で繰り返し再利用された内部構造である
+
+という立場です。
 
 ## 現在の状態
 
-現在は構想整理フェーズで、コア実装はこれからです。公開時点では、設計思想と MVP-1 の技術設計を主な成果物として含んでいます。
+RISA はすでに
+**MVP-1 の雛形実装が動作している段階**
+です。
+
+現時点では、
+
+- 構造化イベントの学習
+- 最小グラフ更新
+- 共有構造パターンの学習
+- 構造差分の保存
+- 共活性ベースの局所探索
+- 説明付き予測
+- 簡易な構造代謝
+
+まで実装されています。
+
+つまり今は
+「構想だけのリポジトリ」ではなく、
+**小さく動く研究用コアを持ちながら設計思想を深めている段階**
+です。
 
 ## 目標
 
-当面の最終目標は、**実用的に動作する最小の RISA コア**を作ることです。
+最終目標は、
+**動作する実用性のある知能**
+を作ることです。
 
-そのために、最初のマイルストーンとして以下を目指します。
+そのために、当面は次を重視します。
 
-1. 構造化イベント列を学習できる
-2. 動的グラフを更新できる
-3. 小さな抽象概念を自動生成できる
-4. 未知の近縁イベントを予測できる
-5. 予測の理由を構造として説明できる
+1. 経験を壊れにくい構造記憶として保持できる
+2. 構造を圧縮し、再利用可能な内部単位を育てられる
+3. 局所探索だけで予測と説明ができる
+4. 新しい経験で継続的に改善できる
+5. 学習器が変わっても知識基盤を継承しやすい
 
-## ドキュメント
+## 設計思想
 
-- [RISA Roadmap](docs/ROADMAP.md)
-- [RISA MVP-1 Technical Design](docs/RISA-MVP-1-Technical-Design.md)
-- [RISA Concept Formation and Multimodal Notes](docs/RISA-Concept-Formation-and-Multimodal-Notes.md)
-- [RISA Design Policy](docs/policy.md)
-- [RISA vs ANN and SNN Assessment](docs/RISA-vs-ANN-and-SNN-Assessment.md)
-- [RISA Search and Activation Strategy Notes](docs/RISA-Search-and-Activation-Strategy-Notes.md)
-- [RISA Relation Field and Event Packets](docs/RISA-Relation-Field-and-Event-Packets.md)
-- [RISA Transformer and SNN Relationship Notes](docs/RISA-Transformer-SNN-Relationship-Notes.md)
-- [RISA RAG and SNN Cache Analogy Notes](docs/RISA-RAG-and-SNN-Cache-Analogy-Notes.md)
-- [RISA Concept Cells and Structure Metabolism](docs/RISA-Concept-Cells-and-Structure-Metabolism.md)
-- [RISA Constraints and Self-Organization Notes](docs/RISA-Constraints-and-Self-Organization-Notes.md)
-- [RISA Transformer Coevolution and Hypothesis Loop](docs/RISA-Transformer-Coevolution-and-Hypothesis-Loop.md)
-- [RISA Mixture of Architectures and Dynamic Routing](docs/RISA-Mixture-of-Architectures-and-Dynamic-Routing.md)
-- [RISA Open Source Landscape and Differentiation](docs/RISA-Open-Source-Landscape-and-Differentiation.md)
-- [RISA and SARA Engine Compatibility](docs/RISA-and-SARA-Engine-Compatibility.md)
-- [RISA Structural Interpolation and Smoothing](docs/RISA-Structural-Interpolation-and-Smoothing.md)
-- [RISA Plasticity and Memory Reinforcement](docs/RISA-Plasticity-and-Memory-Reinforcement.md)
-- [RISA Structural Sharing and Knowledge Emergence](docs/RISA-Structural-Sharing-and-Knowledge-Emergence.md)
+RISA の現状の中核思想は次です。
+
+- 知識は「保存された文章」ではなく「再利用可能な構造」である
+- 構造を大量に保存するだけでは知識創発は起きない
+- 重要なのは構造間で何を共有するかである
+- 概念は明示分類の結果ではなく、内部構造の再利用から立ち上がる
+- 推論は全探索ではなく局所活性化と局所探索で行う
+- 例外は削除するのではなく、文脈分化や差分学習の材料として扱う
+- 長期的には Transformer・SNN・Symbolic と共生する知能基盤を目指す
+
+現在の実装では、この思想をいきなり完全実装するのではなく、
+
+- `StructuralPattern`
+- `StructureDelta`
+- `co_activates_with`
+- `recent_activity` / `energy` / `dormant`
+
+のような最小要素から段階的に具体化しています。
 
 ## MVP-1 の範囲
 
-MVP-1 では自由な自然言語や画像入力は扱いません。まずは JSON 形式の構造化イベントを入力とし、次の能力だけを確実に作ります。
+MVP-1 では、
+自由自然言語や生の画像・音声はまだ直接扱いません。
+
+入力は JSON 形式の構造化イベントに限定し、
+まずは次を安定して成立させます。
 
 - イベントからノードとエッジを生成する
-- 時系列の反復から予測関係を作る
-- 類似イベント群から上位概念ノードを作る
+- 時系列反復から予測関係を学習する
+- 類似経験から共有構造を圧縮する
+- 共有構造間の差分を保存する
 - 次に起きやすい effect を予測する
-- その理由を経路として返す
+- 予測の根拠を構造として説明する
 
-## 実装方針
+この段階での RISA は、
+知覚器そのものではなく、
+**状態遷移イベントの統合器・構造記憶・局所推論器**
+として設計しています。
 
-初期実装では、複雑な最適化や大規模分散は行いません。まずは Python でシンプルに作り、以下を優先します。
+## 現在の実装内容
 
-- データ構造が明確であること
-- 学習更新が追跡できること
-- 予測理由が説明できること
-- 再学習時に結果が再現できること
+最小の研究用コアとして、以下を含みます。
+
+- `risa/core`
+  基本データ構造
+- `risa/engine`
+  学習、抽象化、予測、代謝、保存
+- `risa/cli`
+  `train`, `predict`, `inspect`
+- `data/toy_world.json`
+  最初の学習データ
+- `tests/`
+  `unittest` ベースの最小テスト
+
+現在動作している要素は次です。
+
+- 構造化イベントの読み込み
+- event node を含む最小グラフ更新
+- action / effect パターン学習
+- 文脈つき `StructuralPattern` の共有構造学習
+- 共有構造間の最小差分 `StructureDelta` の蓄積
+- 共有 action / effect による簡易概念生成
+- `actor`, `action`, `context` を入口にした簡易局所活性化
+- 根拠イベントと根拠経路を含む予測説明
+- `recent_activity`, `energy`, `dormant` を使った最小の構造代謝
+- 同一イベントで共活性した構造に対する `co_activates_with` の強化
+- `co_activates_with` を使った候補探索と説明補強
 
 ## 最初の評価タスク
 
-最初の実験は、以下のような toy world で行う想定です。
+最初の実験は、
+小さな toy world で行います。
 
 ```text
 dog run -> fatigue_up
@@ -80,7 +142,7 @@ horse run -> fatigue_up
 drink water -> thirst_down
 ```
 
-この学習後に、たとえば
+この学習後に、
 
 ```text
 wolf run -> ?
@@ -92,56 +154,46 @@ wolf run -> ?
 fatigue_up
 ```
 
-を予測できれば、RISA の最小原理が動いていると判断できます。
+を予測し、
+その理由を構造として返せれば、
+RISA の最小原理が機能していると判断できます。
 
-## リポジトリ方針
+## 次の重点課題
 
-- まずは研究として筋の良い最小系を作る
-- 思想よりも動作検証を優先する
-- 不要に複雑な実装へ飛ばない
-- 各段階を小さく完結させながら拡張する
+次に深める優先度が高い領域は次です。
 
-## 次の実装候補
-
-- `risa/core` の基本モデル定義
-- グラフストア
-- JSON イベントローダ
-- 学習 CLI
-- 予測 CLI
-- toy world データセット
-
-次に深める候補は以下です。
-
-- `State -> Event -> State` の表現強化
-- `圧縮 + 予測改善` に基づく概念採用
-- 文脈分岐と例外処理
-- Relation Attention に相当する探索制御
-- 高速イベント層と低速概念層の分離
+- `State -> Event -> State` 表現の強化
+- 共有構造から未保存関係を導く推論ベンチマーク
+- `shared relation unit` に相当する、より細かい再利用単位の導入
+- 文脈分岐と例外処理の改善
+- 共活性と信頼度に応じた探索半径の適応化
 - Concept Cell の分裂 / 融合 / 休眠ルールの本格化
 
-## 現在の雛形
+ロードマップ上では、
+特に
+**構造保存から構造共有へ、構造共有から知識創発へ**
+進めることが最重要テーマです。
 
-最小の雛形として、以下を追加済みです。
+## ドキュメント
 
-- `risa/core`: 基本データ構造
-- `risa/engine`: 入力、学習、抽象化、予測、保存
-- `risa/cli`: `train`, `predict`, `inspect`
-- `data/toy_world.json`: 最初の学習データ
-- `tests/`: 標準ライブラリ `unittest` による最小テスト
-
-現時点では、次の要素まで動作します。
-
-- 構造化イベントの読み込み
-- event node を含む最小グラフ更新
-- action/effect パターン学習
-- 文脈つき `StructuralPattern` の共有構造学習
-- 共有 action/effect による簡易概念生成
-- `actor`, `action`, `context` を入口にした簡易局所活性化
-- 根拠イベントを含む予測説明
-- node ごとの `recent_activity`, `energy`, `dormant` を使った最小の構造代謝
-- 同一イベントで共活性した構造に対する `co_activates_with` の最小強化
-- `co_activates_with` を根拠経路へ反映した予測説明
-- `co_activates_with` を使った局所候補探索
+- [RISA Roadmap](docs/ROADMAP.md)
+- [RISA MVP-1 Technical Design](docs/RISA-MVP-1-Technical-Design.md)
+- [RISA Design Policy](docs/policy.md)
+- [RISA Concept Formation and Multimodal Notes](docs/RISA-Concept-Formation-and-Multimodal-Notes.md)
+- [RISA Structural Sharing and Knowledge Emergence](docs/RISA-Structural-Sharing-and-Knowledge-Emergence.md)
+- [RISA Structural Interpolation and Smoothing](docs/RISA-Structural-Interpolation-and-Smoothing.md)
+- [RISA Plasticity and Memory Reinforcement](docs/RISA-Plasticity-and-Memory-Reinforcement.md)
+- [RISA Concept Cells and Structure Metabolism](docs/RISA-Concept-Cells-and-Structure-Metabolism.md)
+- [RISA Constraints and Self-Organization Notes](docs/RISA-Constraints-and-Self-Organization-Notes.md)
+- [RISA Search and Activation Strategy Notes](docs/RISA-Search-and-Activation-Strategy-Notes.md)
+- [RISA Relation Field and Event Packets](docs/RISA-Relation-Field-and-Event-Packets.md)
+- [RISA Transformer and SNN Relationship Notes](docs/RISA-Transformer-SNN-Relationship-Notes.md)
+- [RISA Transformer Coevolution and Hypothesis Loop](docs/RISA-Transformer-Coevolution-and-Hypothesis-Loop.md)
+- [RISA Mixture of Architectures and Dynamic Routing](docs/RISA-Mixture-of-Architectures-and-Dynamic-Routing.md)
+- [RISA and SARA Engine Compatibility](docs/RISA-and-SARA-Engine-Compatibility.md)
+- [RISA Open Source Landscape and Differentiation](docs/RISA-Open-Source-Landscape-and-Differentiation.md)
+- [RISA vs ANN and SNN Assessment](docs/RISA-vs-ANN-and-SNN-Assessment.md)
+- [RISA RAG and SNN Cache Analogy Notes](docs/RISA-RAG-and-SNN-Cache-Analogy-Notes.md)
 
 ## 実行例
 

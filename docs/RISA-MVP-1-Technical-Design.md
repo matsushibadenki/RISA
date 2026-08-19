@@ -83,6 +83,25 @@ MVP-1 では、RISA の知能を次のように定義します。
 - 新しい入力に対して、近い過去から次状態を予測する
 - 予測の根拠を構造として返す
 
+### 3.3 MVP-1 で採用する共有原理
+
+MVP-1 では、
+概念形成を
+「同型な構造を明示探索してクラスタリングする処理」
+としては作り込みません。
+
+代わりに、次を優先します。
+
+- 同じ役割署名を持つ経験が同じ共有パターンへ集まる
+- 共有された action / effect / context が再利用回数を増やす
+- 共通部分と差分は `StructuralPattern` と `StructureDelta` から得る
+
+これは将来、
+
+> 概念 = 繰り返し再利用される内部構造
+
+へ進めるための最小近似です。
+
 ---
 
 ## 4. システム境界
@@ -264,6 +283,58 @@ GraphStore(
     adjacency_in: dict[str, set[tuple[str, str]]],
 )
 ```
+
+### 6.7 Shared Structure Memory
+
+MVP-1 では、
+経験ごとに完結したグラフだけを保存するのではなく、
+繰り返し再利用される共有構造を別記憶として持ちます。
+
+```python
+StructuralPattern(
+    id: str,
+    signature: str,
+    role_signature: str,
+    support: int,
+    actions: set[str],
+    effects: set[str],
+    actors: set[str],
+    context_tags: set[str],
+    member_pattern_ids: set[str],
+)
+```
+
+これは将来の
+`shared relation unit`
+ほど細かくはありませんが、
+MVP-1 では
+「複数経験が同じ内部表現を再利用する」
+最初の足場として扱います。
+
+### 6.8 StructureDelta
+
+MVP-1 では、
+共有構造同士の差分も最小形で保存します。
+
+```python
+StructureDelta(
+    id: str,
+    source_pattern_id: str,
+    target_pattern_id: str,
+    role_signature: str,
+    operations: list[str],
+    support: int,
+    context_tags: set[str],
+)
+```
+
+目的は、
+
+- 共通構造と差分を分けて観察すること
+- 例外や変換パターンの芽を残すこと
+- 将来の「変化パターン学習」へ接続すること
+
+です。
 
 理由:
 

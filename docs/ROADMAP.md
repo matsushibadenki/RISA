@@ -33,6 +33,7 @@ RISA 从“可实际运行的最小核心”
 - [Done] 「構造保存だけでは知識創発は不十分」という課題を研究テーマとして明文化
 - [Done] 文脈つき `StructuralPattern` を共有構造メモリとして導入
 - [Done] `StructureDelta` を最小実装として保存開始
+- [Done] 「概念 = 繰り返し再利用される内部構造」という設計原則を明文化
 
 ---
 
@@ -82,6 +83,8 @@ to generate previously unstored relations.
 - [Next] 「保存した関係」ではなく「再利用可能な構造パターン」を知識単位として扱う
 - [Done] 文脈つき再利用可能パターンを最小実装として学習・予測へ接続する
 - [Done] 共有構造パターン同士の差分を `StructureDelta` として蓄積する
+- [Next] 明示的な同型探索より先に、共有される局所関係単位の再利用を優先する
+- [Next] 経験同士の共通部分と差分を、共有内部単位の重なりとして自然に得る設計へ寄せる
 - [Next] 類似構造・上位構造・役割構造への波及更新を設計する
 - [Next] 保存されていない関係を導けた時点を「知識創発」と定義する
 - [Later] 構造的不変量
@@ -199,10 +202,37 @@ available knowledge generated at inference time.
 
 - [Next] 多段経路探索から未学習の関係を導く推論ベンチマークを作る
 - [Next] `A -> B -> C -> D` から `A => D` を導く説明可能推論を評価する
+- [Next] 人間がまだ命名していない潜在構造を内部単位として保持し、有用性で評価する
 - [Later] 条件付き推論
   例:
   温度・圧力・履歴つき相変化推論
   を扱う
+
+### [Next] Reusable Relation Units
+
+日本語:
+経験を最初から完成済みグラフとして比較・分類するのではなく、
+小さな関係単位の再利用が積み重なった結果として
+概念や差分が見えてくる設計へ進める。
+
+English:
+Move toward a design where
+concepts and differences emerge
+from the reuse of small relation units
+rather than from explicit whole-structure matching.
+
+简体中文:
+推进一种设计：
+概念与差分
+并不是通过显式的整结构匹配得到，
+而是由小型关系单元的反复复用自然涌现。
+
+研究テーマ:
+
+- [Next] `shared relation unit` の最小データ型を定義する
+- [Next] 経験を「単一構造」ではなく「共有単位の組合せ」として保存する
+- [Next] 共通性を `same structure` 判定ではなく `same unit reuse` で近似する
+- [Later] 差分を別オブジェクトとして計算するのではなく、共有単位の非重複部分として導出する
 
 ---
 
