@@ -34,6 +34,7 @@ RISA 从“可实际运行的最小核心”
 - [Done] 文脈つき `StructuralPattern` を共有構造メモリとして導入
 - [Done] `StructureDelta` を最小実装として保存開始
 - [Done] 「概念 = 繰り返し再利用される内部構造」という設計原則を明文化
+- [Done] 「独立 Verifier より、共鳴・競合・予測誤差で構造を選別する」という原則を明文化
 
 ---
 
@@ -117,6 +118,53 @@ but also as inference guidance.
 - [Done] `co_activates_with` を候補探索に使う
 - [Done] 共活性を局所探索半径の最小制御に使う
 - [Next] 共活性半径を文脈や信頼度に応じて適応化する
+
+### [Next] Dynamic Structural Validation
+
+日本語:
+構造を静的に正誤判定するのではなく、
+予測誤差、共鳴、競合、恒常性の中で
+再生安定性を評価する検証方式へ進める。
+
+English:
+Validate structures through
+prediction error, resonance, competition, and homeostasis
+rather than through a separate static verifier.
+
+简体中文:
+不要只用独立的静态验证器判断结构对错，
+而要通过预测误差、共鸣、竞争与稳态机制
+来评估结构的再生稳定性。
+
+研究テーマ:
+
+- [Next] `predicted` と `observed` の局所誤差を構造更新へ接続する
+- [Next] 競合する経路を同時活性化したときの抑制ルールを設計する
+- [Next] 再現性が高い構造ほど安定する可塑性則を定義する
+- [Later] `synaptic scaling` に相当する構造恒常性を導入する
+- [Later] 独立 Verifier を標準経路にせず、必要時だけ補助的に使う
+
+### [Next] Replay and Gradual Consolidation
+
+日本語:
+新しい経験をいきなり長期構造へ固定せず、
+一時記憶、再生、既存構造との相互作用を経て
+徐々に統合する。
+
+English:
+Do not immediately commit new experience
+into long-term structure.
+Use temporary memory, replay, and gradual consolidation.
+
+简体中文:
+不要把新经验立刻写入长期结构，
+而应通过临时记忆、重放、与既有结构相互作用后
+再逐步整合。
+
+研究テーマ:
+
+- [Next] `Event Memory -> Structure Candidate -> Replay -> Consolidation` の最小ループを設計する
+- [Later] 高速一時記憶と低速長期構造の二層化を実装する
 
 ### [Next] Neural Representation + Structural Memory + Dynamic Inference
 
