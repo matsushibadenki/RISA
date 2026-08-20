@@ -23,9 +23,9 @@ def rebuild_concepts(state: RisaState, min_support: int = 2, min_actors: int = 2
                 label=concept_label,
                 attributes={"shared_action": action, "shared_effect": effect},
                 abstraction_level=1,
-                stability=min(1.0, float(pattern.support) / 5.0),
+                stability=min(1.0, (float(pattern.support) / 5.0) * max(0.4, pattern.validation_score)),
                 recent_activity=min(5.0, float(pattern.support)),
-                energy=min(1.0, 0.4 + (0.1 * min(pattern.support, 4))),
+                energy=min(1.0, 0.3 + (0.1 * min(pattern.support, 4)) + (0.2 * pattern.validation_score)),
             )
         )
         state.concept_members[concept_id] = sorted(pattern.actors)
@@ -48,7 +48,13 @@ def rebuild_concepts(state: RisaState, min_support: int = 2, min_actors: int = 2
                 Edge(source=actor_id, target=concept_id, relation_type="instance_of", evidence_count=pattern.support)
             )
 
-        reward_concept_cell(state, concept_id, support=pattern.support, member_count=len(pattern.actors))
+        reward_concept_cell(
+            state,
+            concept_id,
+            support=pattern.support,
+            member_count=len(pattern.actors),
+            validation_score=pattern.validation_score,
+        )
 
     _apply_concept_constraints(state)
 

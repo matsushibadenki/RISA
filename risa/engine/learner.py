@@ -3,6 +3,7 @@ from __future__ import annotations
 from risa.core.models import Edge, Event, Pattern, StructuralPattern, StructureDelta
 from risa.core.state import RisaState
 from risa.engine.graph_builder import normalize_label
+from risa.engine.validator import validation_effect_support
 
 
 def learn_from_event(state: RisaState, event: Event) -> None:
@@ -36,6 +37,13 @@ def learn_from_event(state: RisaState, event: Event) -> None:
         pattern.actions.add(action)
         pattern.effects.add(effect_label)
         pattern.context_tags.update(normalize_label(tag) for tag in event.context_tags)
+        pattern.validation_score = validation_effect_support(
+            state,
+            actor=actor,
+            action=action,
+            context_key=context_key,
+            effect=effect_label,
+        )
         _update_structural_pattern(
             state,
             actor=actor,
@@ -81,6 +89,13 @@ def _update_structural_pattern(
     structural_pattern.actors.add(actor)
     structural_pattern.actions.add(action)
     structural_pattern.effects.add(effect)
+    structural_pattern.validation_score = validation_effect_support(
+        state,
+        actor=actor,
+        action=action,
+        context_key=context_key,
+        effect=effect,
+    )
     if context_key != "__no_context__":
         structural_pattern.context_tags.update(context_key.split("|"))
     structural_pattern.member_pattern_ids.add(pattern_id)

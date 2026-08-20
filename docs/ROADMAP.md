@@ -35,6 +35,9 @@ RISA 从“可实际运行的最小核心”
 - [Done] `StructureDelta` を最小実装として保存開始
 - [Done] 「概念 = 繰り返し再利用される内部構造」という設計原則を明文化
 - [Done] 「独立 Verifier より、共鳴・競合・予測誤差で構造を選別する」という原則を明文化
+- [Done] 学習前予測と観測結果の比較による局所予測検証履歴を最小実装として導入
+- [Done] effect 単位の検証履歴を `Pattern` / `StructuralPattern` の安定性へ反映
+- [Done] 競合履歴を `co_activates_with` の reliability / plasticity へ反映
 
 ---
 
@@ -139,7 +142,9 @@ rather than through a separate static verifier.
 研究テーマ:
 
 - [Next] `predicted` と `observed` の局所誤差を構造更新へ接続する
-- [Next] 競合する経路を同時活性化したときの抑制ルールを設計する
+- [Done] `predicted` と `observed` の最小比較を学習ループへ接続する
+- [Done] 局所誤差履歴を共有構造の安定性スコアへ接続する
+- [Done] 競合する経路の最小抑制ルールを設計し、予測スコアと edge 可塑性へ接続する
 - [Next] 再現性が高い構造ほど安定する可塑性則を定義する
 - [Later] `synaptic scaling` に相当する構造恒常性を導入する
 - [Later] 独立 Verifier を標準経路にせず、必要時だけ補助的に使う

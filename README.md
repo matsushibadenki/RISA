@@ -37,6 +37,9 @@ RISA はすでに
 - 共活性ベースの局所探索
 - 説明付き予測
 - 簡易な構造代謝
+- 学習前予測と観測比較による局所検証履歴
+- effect 単位の検証履歴を共有構造の安定性へ反映
+- 競合履歴を `co_activates_with` の可塑性へ反映
 
 まで実装されています。
 
@@ -128,6 +131,9 @@ MVP-1 では、
 - `recent_activity`, `energy`, `dormant` を使った最小の構造代謝
 - 同一イベントで共活性した構造に対する `co_activates_with` の強化
 - `co_activates_with` を使った候補探索と説明補強
+- 学習前予測と観測結果の差を蓄積する最小の prediction-validation history
+- `Pattern` / `StructuralPattern` の `validation_score` を使った安定性補正
+- 競合履歴による `competition_inhibits` 経路の説明と `co_activates_with` 可塑性補正
 
 ## 最初の評価タスク
 

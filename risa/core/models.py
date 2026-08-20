@@ -70,6 +70,7 @@ class Pattern:
     effects: set[str] = field(default_factory=set)
     support: int = 0
     context_tags: set[str] = field(default_factory=set)
+    validation_score: float = 0.5
 
     def to_dict(self) -> dict:
         return {
@@ -81,6 +82,7 @@ class Pattern:
             "effects": sorted(self.effects),
             "support": self.support,
             "context_tags": sorted(self.context_tags),
+            "validation_score": self.validation_score,
         }
 
 
@@ -95,6 +97,7 @@ class StructuralPattern:
     actors: set[str] = field(default_factory=set)
     context_tags: set[str] = field(default_factory=set)
     member_pattern_ids: set[str] = field(default_factory=set)
+    validation_score: float = 0.5
 
     def to_dict(self) -> dict:
         return {
@@ -107,6 +110,7 @@ class StructuralPattern:
             "actors": sorted(self.actors),
             "context_tags": sorted(self.context_tags),
             "member_pattern_ids": sorted(self.member_pattern_ids),
+            "validation_score": self.validation_score,
         }
 
 

@@ -2,7 +2,12 @@ import unittest
 
 from risa.core.models import Edge, Node
 from risa.core.state import RisaState
-from risa.engine.metabolism import activate_nodes, decay_nodes, reinforce_coactivation
+from risa.engine.metabolism import (
+    activate_nodes,
+    apply_competition_inhibition,
+    decay_nodes,
+    reinforce_coactivation,
+)
 
 
 class MetabolismTests(unittest.TestCase):
@@ -92,6 +97,53 @@ class MetabolismTests(unittest.TestCase):
         self.assertGreaterEqual(edge.evidence_count, 2)
         self.assertGreater(edge.reliability, 0.08)
         self.assertLess(edge.plasticity, 0.97)
+
+    def test_competition_inhibition_weakens_loser_and_strengthens_winner(self) -> None:
+        state = RisaState()
+        state.graph.add_or_update_node(Node(id="process:run", kind="process", label="run", created_at=1))
+        state.graph.add_or_update_node(Node(id="state:fatigue_up", kind="state", label="fatigue_up", created_at=1))
+        state.graph.add_or_update_node(Node(id="state:thirst_down", kind="state", label="thirst_down", created_at=1))
+        state.graph.add_or_update_edge(
+            Edge(
+                source="process:run",
+                target="state:fatigue_up",
+                relation_type="co_activates_with",
+                reliability=0.5,
+                plasticity=0.2,
+                evidence_count=1,
+                last_updated=1,
+            )
+        )
+        state.graph.add_or_update_edge(
+            Edge(
+                source="process:run",
+                target="state:thirst_down",
+                relation_type="co_activates_with",
+                reliability=0.2,
+                plasticity=0.5,
+                evidence_count=1,
+                last_updated=1,
+            )
+        )
+
+        apply_competition_inhibition(
+            state,
+            action_id="process:run",
+            losing_effect_id="state:fatigue_up",
+            winning_effect_ids=["state:thirst_down"],
+            timestamp=3,
+        )
+
+        loser = state.graph.edges_by_key.get(("process:run", "state:fatigue_up", "co_activates_with"))
+        winner = state.graph.edges_by_key.get(("process:run", "state:thirst_down", "co_activates_with"))
+        self.assertIsNotNone(loser)
+        self.assertIsNotNone(winner)
+        assert loser is not None
+        assert winner is not None
+        self.assertLess(loser.reliability, 0.5)
+        self.assertGreater(loser.plasticity, 0.2)
+        self.assertGreater(winner.reliability, 0.2)
+        self.assertLess(winner.plasticity, 0.5)
 
 
 if __name__ == "__main__":

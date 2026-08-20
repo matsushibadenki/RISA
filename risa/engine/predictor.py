@@ -3,6 +3,7 @@ from __future__ import annotations
 from risa.core.models import PredictionQuery, PredictionResult
 from risa.core.state import RisaState
 from risa.engine.graph_builder import normalize_label
+from risa.engine.validator import competition_penalty, validation_support
 
 
 def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionResult:
@@ -18,6 +19,7 @@ def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionR
     )
     action_context_scores = state.action_context_effect_counts.get(action, {}).get(context_key, {})
     structural_pattern = _matching_structural_pattern(state, context_key)
+    validation_score = validation_support(state, actor, action, context_key)
 
     candidate_effects = _collect_local_candidates(state, actor, action, context_key)
     if not candidate_effects:
@@ -46,7 +48,10 @@ def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionR
 
         structural_support = 0.0
         if structural_pattern is not None and effect in structural_pattern.effects:
-            structural_support = min(1.0, structural_pattern.support / 5.0)
+            structural_support = min(
+                1.0,
+                (structural_pattern.support / 5.0) * max(0.4, structural_pattern.validation_score),
+            )
 
         coactivation_support = _coactivation_support(
             state,
@@ -54,15 +59,18 @@ def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionR
             action_id=action_id,
             effect_id=f"state:{effect}",
         )
+        inhibition_penalty = competition_penalty(state, action, context_key, effect)
 
         score = (
-            (0.23 * direct_match_score)
-            + (0.23 * action_pattern_score)
+            (0.21 * direct_match_score)
+            + (0.21 * action_pattern_score)
             + (0.20 * actor_context_score)
             + (0.15 * action_context_score)
             + (0.11 * concept_support)
             + (0.11 * structural_support)
             + (0.04 * coactivation_support)
+            + (0.08 * validation_score)
+            - (0.10 * inhibition_penalty)
         )
         if score > best_score:
             best_score = score
@@ -79,6 +87,15 @@ def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionR
         supporting_paths.append([actor_id, "co_activates_with", action_id])
     if _has_coactivation_edge(state, action_id, best_effect_id):
         supporting_paths.append([action_id, "co_activates_with", best_effect_id])
+    inhibition_penalty = competition_penalty(state, action, context_key, best_effect)
+    if inhibition_penalty > 0.0:
+        supporting_paths.append([f"context:{context_key}", "competition_inhibits", best_effect_id])
+    for effect in candidate_effects:
+        if effect == best_effect:
+            continue
+        alternative_penalty = competition_penalty(state, action, context_key, effect)
+        if alternative_penalty > 0.0:
+            supporting_paths.append([f"context:{context_key}", "competition_inhibits", f"state:{effect}"])
     supporting_paths.extend(_event_supporting_paths(state, actor, action, best_effect, context_key))
 
     evidence_event_ids = [
@@ -92,7 +109,7 @@ def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionR
         )
     ]
     explanation = (
-        f"Predicted {best_effect} from action '{action}' using locally activated action, context, structural, concept, and co-activation patterns."
+        f"Predicted {best_effect} from action '{action}' using locally activated action, context, structural, concept, co-activation, prediction-validation history, and competition inhibition."
     )
 
     return PredictionResult(

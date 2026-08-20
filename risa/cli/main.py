@@ -49,6 +49,7 @@ def main() -> None:
                     "edge_count": len(state.graph.edges_by_key),
                     "pattern_count": len(state.patterns),
                     "concept_count": len(state.concept_members),
+                    "validation_bucket_count": len(state.prediction_validation_stats),
                 },
                 indent=2,
             )
@@ -77,6 +78,7 @@ def main() -> None:
                     "node_count": len(state.graph.nodes_by_id),
                     "edge_count": len(state.graph.edges_by_key),
                     "pattern_count": len(state.patterns),
+                    "validation_bucket_count": len(state.prediction_validation_stats),
                     "concepts": state.concept_members,
                 },
                 indent=2,
@@ -87,4 +89,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

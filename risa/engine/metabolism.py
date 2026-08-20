@@ -51,6 +51,7 @@ def reward_concept_cell(
     node_id: str,
     support: int,
     member_count: int,
+    validation_score: float = 0.5,
 ) -> None:
     node = state.graph.get_node(node_id)
     if node is None:
@@ -58,8 +59,14 @@ def reward_concept_cell(
 
     node.dormant = False
     node.recent_activity = min(10.0, node.recent_activity + min(3.0, support / 2.0))
-    node.energy = min(1.0, node.energy + min(0.4, (support * 0.05) + (member_count * 0.03)))
-    node.stability = max(node.stability, min(1.0, (support / max(member_count, 1)) / 2.0))
+    node.energy = min(
+        1.0,
+        node.energy + min(0.4, (support * 0.05) + (member_count * 0.03) + (validation_score * 0.08)),
+    )
+    node.stability = max(
+        node.stability,
+        min(1.0, ((support / max(member_count, 1)) / 2.0) * max(0.4, validation_score)),
+    )
 
 
 def reinforce_coactivation(
@@ -110,6 +117,30 @@ def reinforce_coactivation(
         )
 
 
+def apply_competition_inhibition(
+    state: RisaState,
+    action_id: str,
+    losing_effect_id: str,
+    winning_effect_ids: list[str],
+    timestamp: int,
+    reliability_penalty: float = 0.05,
+    plasticity_rebound: float = 0.04,
+    winner_reliability_gain: float = 0.03,
+) -> None:
+    losing_edge = _find_edge(state, action_id, losing_effect_id, "co_activates_with")
+    if losing_edge is not None:
+        losing_edge.reliability = max(0.0, losing_edge.reliability - reliability_penalty)
+        losing_edge.plasticity = min(1.0, losing_edge.plasticity + plasticity_rebound)
+        losing_edge.last_updated = timestamp
+
+    for winning_effect_id in winning_effect_ids:
+        winning_edge = _find_edge(state, action_id, winning_effect_id, "co_activates_with")
+        if winning_edge is not None:
+            winning_edge.reliability = min(1.0, winning_edge.reliability + winner_reliability_gain)
+            winning_edge.plasticity = max(0.1, winning_edge.plasticity - (plasticity_rebound / 2.0))
+            winning_edge.last_updated = timestamp
+
+
 def should_prune_or_sleep(
     state: RisaState,
     node_id: str,
@@ -140,3 +171,14 @@ def _activate_node(
 def _connection_cost(state: RisaState, node_id: str, connection_cost_rate: float) -> float:
     total_degree = state.graph.degree_in(node_id) + state.graph.degree_out(node_id)
     return total_degree * connection_cost_rate
+
+
+def _find_edge(
+    state: RisaState,
+    source: str,
+    target: str,
+    relation_type: str,
+) -> Edge | None:
+    return state.graph.edges_by_key.get((source, target, relation_type)) or state.graph.edges_by_key.get(
+        (target, source, relation_type)
+    )
