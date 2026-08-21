@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from risa.core.models import Edge, Event, Node
 from risa.core.state import RisaState
-from risa.engine.metabolism import activate_nodes, reinforce_coactivation
+from risa.engine.metabolism import activate_nodes, reinforce_coactivation, reinforce_reproducible_relation
 
 
 def normalize_label(value: str) -> str:
@@ -117,6 +117,13 @@ def ingest_event(state: RisaState, event: Event) -> None:
                 evidence_count=1,
                 last_updated=event.timestamp,
             )
+        )
+        reinforce_reproducible_relation(
+            state,
+            source=action_id,
+            target=effect_id,
+            relation_type="affects",
+            timestamp=event.timestamp,
         )
 
     reinforce_coactivation(state, coactive_node_ids, event.timestamp)

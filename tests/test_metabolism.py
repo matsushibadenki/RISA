@@ -5,8 +5,10 @@ from risa.core.state import RisaState
 from risa.engine.metabolism import (
     activate_nodes,
     apply_competition_inhibition,
+    apply_prediction_outcome_plasticity,
     decay_nodes,
     reinforce_coactivation,
+    reinforce_reproducible_relation,
 )
 
 
@@ -144,6 +146,52 @@ class MetabolismTests(unittest.TestCase):
         self.assertGreater(loser.plasticity, 0.2)
         self.assertGreater(winner.reliability, 0.2)
         self.assertLess(winner.plasticity, 0.5)
+
+    def test_reproducible_relation_stabilizes_and_failed_prediction_reopens_plasticity(self) -> None:
+        state = RisaState()
+        state.graph.add_or_update_edge(
+            Edge(
+                source="process:run",
+                target="state:fatigue_up",
+                relation_type="affects",
+                reliability=0.4,
+                plasticity=0.6,
+                evidence_count=1,
+                last_updated=1,
+            )
+        )
+
+        reinforce_reproducible_relation(
+            state,
+            source="process:run",
+            target="state:fatigue_up",
+            relation_type="affects",
+            timestamp=2,
+        )
+        apply_prediction_outcome_plasticity(
+            state,
+            action_id="process:run",
+            predicted_effect_id="state:fatigue_up",
+            matched=True,
+            timestamp=3,
+        )
+
+        edge = state.graph.edges_by_key[("process:run", "state:fatigue_up", "affects")]
+        self.assertGreater(edge.reliability, 0.4)
+        self.assertLess(edge.plasticity, 0.6)
+
+        stable_reliability = edge.reliability
+        stable_plasticity = edge.plasticity
+        apply_prediction_outcome_plasticity(
+            state,
+            action_id="process:run",
+            predicted_effect_id="state:fatigue_up",
+            matched=False,
+            timestamp=4,
+        )
+
+        self.assertLess(edge.reliability, stable_reliability)
+        self.assertGreater(edge.plasticity, stable_plasticity)
 
 
 if __name__ == "__main__":

@@ -40,6 +40,7 @@ RISA はすでに
 - 学習前予測と観測比較による局所検証履歴
 - effect 単位の検証履歴を共有構造の安定性へ反映
 - 競合履歴を `co_activates_with` の可塑性へ反映
+- 反復観測された `affects` 関係を安定化し、予測誤差で再可塑化
 
 まで実装されています。
 
@@ -134,6 +135,7 @@ MVP-1 では、
 - 学習前予測と観測結果の差を蓄積する最小の prediction-validation history
 - `Pattern` / `StructuralPattern` の `validation_score` を使った安定性補正
 - 競合履歴による `competition_inhibits` 経路の説明と `co_activates_with` 可塑性補正
+- `affects` edge の再現性に応じた reliability / plasticity 更新と説明経路への反映
 
 ## 最初の評価タスク
 

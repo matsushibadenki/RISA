@@ -135,7 +135,34 @@ RISA では、
 
 方向を優先します。
 
-### 4.5 既存研究と OSS の利用方針
+### 4.5 スペクトル量は局所構造の補助診断として扱う
+
+局所的に活性化した関係場を、対称な親和行列やグラフ Laplacian として表せる場合、
+その固有値・固有空間は次を測るための有望な補助信号になり得ます。
+
+- 結合した局所構造が一つのまとまりとして安定しているか
+- 競合する経路によって構造が分断・不安定化していないか
+- 入力や文脈の小さな変化に対して、どの関係が敏感か
+
+ただし、スペクトル量を「正しさ」の判定器や中央編集者にはしません。
+RISA の一次的な更新根拠は、引き続き観測、予測誤差、共鳴、競合、再現性です。
+スペクトル量は、これらの局所ダイナミクスを可視化・要約・補助評価するためにのみ使います。
+
+MVP-1 のグラフはまだ疎で小さく、対称行列を学習するニューラル層も持たないため、
+固有値ベースの更新則を直ちに導入しません。採用には、既存の検証スコアと比べて
+予測精度、説明可能性、計算コストの少なくとも一つを改善する実験的根拠を求めます。
+
+English:
+Use spectral quantities only as local structural diagnostics, never as an autonomous truth oracle or central editor.
+They must demonstrate an empirical gain over the existing observation, prediction-error, resonance,
+competition, and reproducibility signals before affecting updates.
+
+简体中文：
+谱量只能作为局部结构的辅助诊断，不能充当自主的真值判定器或中央编辑器。
+只有在实验中相对于观测、预测误差、共鸣、竞争和可复现性信号表现出明确收益后，
+才可以影响结构更新。
+
+### 4.6 既存研究と OSS の利用方針
 
 RISA では、既存の Graph AI、イベント駆動系、世界モデル系 OSS を「そのまま答え」とは見なしません。  
 一方で、それらを競合として遠ざけるのも避けます。
@@ -335,6 +362,35 @@ RISA における「検証」は
 > 構造を再生してみて安定するかを見ること
 
 として定義する立場を優先します。
+
+### 6.5 構造因数分解と合成を知識創発の候補原理として扱う
+
+RISA は、完成済みの構造を大量に検索するだけで未知問題が解けるとは仮定しません。
+目指すのは、問題を再利用可能な関係・役割・時間制約を含む小さな構造単位へ分解し、
+局所的に活性化した候補だけを再結合して、状態遷移や解答候補を生成することです。
+
+ここでいう `StructuralPrimitive` は、人間が事前定義した固定の語彙ではありません。
+候補単位は少なくとも次を満たす場合にだけ採用を検討します。
+
+- 異なる経験で反復して再利用される
+- 組合せから元の経験構造を十分に再構成できる
+- 予測または未保存関係の導出を改善する
+- 全体の記述長を減らす
+
+したがって、素因数の「最小性」は絶対的なサイズではなく、
+**これ以上分解すると再利用性・再構成性・予測性能のどれかが下がること**で判断します。
+全探索による合成は許容しません。局所活性化、文脈、役割、時間制約を使って候補を絞り、
+合成した構造は予測誤差と再生安定性で検証します。
+
+English:
+Treat structural factorization and composition as a hypothesis for knowledge emergence.
+A `StructuralPrimitive` is not a fixed human ontology; it must earn adoption through reuse,
+reconstruction, predictive gain, and description-length reduction under local search.
+
+简体中文：
+将结构因式分解与组合视为知识涌现的研究假设。
+`StructuralPrimitive` 不是固定的人类本体；只有在局部搜索下同时满足复用、重构、预测收益和描述长度降低时，
+才应被采纳。
 
 ---
 

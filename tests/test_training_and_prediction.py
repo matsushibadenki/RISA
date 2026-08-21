@@ -257,6 +257,21 @@ class TrainingAndPredictionTests(unittest.TestCase):
         self.assertIn("competition inhibition", result.explanation)
         self.assertTrue(any("competition_inhibits" in path for path in result.supporting_paths))
 
+    def test_repeated_observations_stabilize_action_effect_relation(self) -> None:
+        state = RisaState()
+        events = parse_events("data/toy_world.json")
+        train_events(state, events)
+
+        edge = state.graph.edges_by_key.get(("process:run", "state:fatigue_up", "affects"))
+        self.assertIsNotNone(edge)
+        assert edge is not None
+        self.assertGreater(edge.reliability, 0.0)
+        self.assertLess(edge.plasticity, 1.0)
+
+        result = predict_next_effect(state, PredictionQuery(actor="dog", action="run"))
+        self.assertIn("reproducibility plasticity", result.explanation)
+        self.assertTrue(any("reproducibly_affects" in path for path in result.supporting_paths))
+
 
 if __name__ == "__main__":
     unittest.main()

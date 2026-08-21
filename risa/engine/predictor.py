@@ -59,6 +59,7 @@ def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionR
             action_id=action_id,
             effect_id=f"state:{effect}",
         )
+        reproducibility_support = _reproducibility_support(state, action_id, f"state:{effect}")
         inhibition_penalty = competition_penalty(state, action, context_key, effect)
 
         score = (
@@ -69,7 +70,8 @@ def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionR
             + (0.11 * concept_support)
             + (0.11 * structural_support)
             + (0.04 * coactivation_support)
-            + (0.08 * validation_score)
+            + (0.06 * reproducibility_support)
+            + (0.06 * validation_score)
             - (0.10 * inhibition_penalty)
         )
         if score > best_score:
@@ -87,6 +89,8 @@ def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionR
         supporting_paths.append([actor_id, "co_activates_with", action_id])
     if _has_coactivation_edge(state, action_id, best_effect_id):
         supporting_paths.append([action_id, "co_activates_with", best_effect_id])
+    if _reproducibility_support(state, action_id, best_effect_id) > 0.0:
+        supporting_paths.append([action_id, "reproducibly_affects", best_effect_id])
     inhibition_penalty = competition_penalty(state, action, context_key, best_effect)
     if inhibition_penalty > 0.0:
         supporting_paths.append([f"context:{context_key}", "competition_inhibits", best_effect_id])
@@ -109,7 +113,7 @@ def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionR
         )
     ]
     explanation = (
-        f"Predicted {best_effect} from action '{action}' using locally activated action, context, structural, concept, co-activation, prediction-validation history, and competition inhibition."
+        f"Predicted {best_effect} from action '{action}' using locally activated action, context, structural, concept, co-activation, reproducibility plasticity, prediction-validation history, and competition inhibition."
     )
 
     return PredictionResult(
@@ -183,6 +187,16 @@ def _coactivation_support(
     action_effect = _edge_strength(state, action_id, effect_id, "co_activates_with")
     actor_effect = _edge_strength(state, actor_id, effect_id, "co_activates_with")
     return min(1.0, actor_action + action_effect + (0.5 * actor_effect))
+
+
+def _reproducibility_support(state: RisaState, action_id: str, effect_id: str) -> float:
+    edge = state.graph.edges_by_key.get((action_id, effect_id, "affects"))
+    if edge is None:
+        return 0.0
+
+    evidence_factor = min(1.0, edge.evidence_count / 5.0)
+    stable_strength = (0.7 * edge.reliability) + (0.3 * evidence_factor)
+    return min(1.0, stable_strength * (1.0 - (0.5 * edge.plasticity)))
 
 
 def _edge_strength(

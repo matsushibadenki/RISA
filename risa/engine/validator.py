@@ -3,7 +3,7 @@ from __future__ import annotations
 from risa.core.models import Event, PredictionQuery
 from risa.core.state import RisaState
 from risa.engine.graph_builder import normalize_label
-from risa.engine.metabolism import apply_competition_inhibition
+from risa.engine.metabolism import apply_competition_inhibition, apply_prediction_outcome_plasticity
 
 
 def validate_event_prediction(state: RisaState, event: Event) -> None:
@@ -46,6 +46,13 @@ def validate_event_prediction(state: RisaState, event: Event) -> None:
         state,
         key=f"action_context_effect:{action}:{context_key}:{predicted_effect}",
         matched=matched,
+    )
+    apply_prediction_outcome_plasticity(
+        state,
+        action_id=f"process:{action}",
+        predicted_effect_id=f"state:{predicted_effect}",
+        matched=matched,
+        timestamp=event.timestamp,
     )
     if not matched:
         action_id = f"process:{action}"

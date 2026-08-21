@@ -141,6 +141,50 @@ def apply_competition_inhibition(
             winning_edge.last_updated = timestamp
 
 
+def reinforce_reproducible_relation(
+    state: RisaState,
+    source: str,
+    target: str,
+    relation_type: str,
+    timestamp: int,
+    reliability_gain: float = 0.025,
+    plasticity_decay: float = 0.02,
+) -> None:
+    """Stabilize a directly observed relation without creating a new one."""
+    edge = state.graph.edges_by_key.get((source, target, relation_type))
+    if edge is None:
+        return
+
+    edge.reliability = min(1.0, edge.reliability + reliability_gain)
+    edge.plasticity = max(0.1, edge.plasticity - plasticity_decay)
+    edge.last_updated = timestamp
+
+
+def apply_prediction_outcome_plasticity(
+    state: RisaState,
+    action_id: str,
+    predicted_effect_id: str,
+    matched: bool,
+    timestamp: int,
+    reliability_gain: float = 0.035,
+    reliability_penalty: float = 0.04,
+    plasticity_decay: float = 0.025,
+    plasticity_rebound: float = 0.04,
+) -> None:
+    """Update an existing action-to-effect path from its predicted outcome."""
+    edge = state.graph.edges_by_key.get((action_id, predicted_effect_id, "affects"))
+    if edge is None:
+        return
+
+    if matched:
+        edge.reliability = min(1.0, edge.reliability + reliability_gain)
+        edge.plasticity = max(0.1, edge.plasticity - plasticity_decay)
+    else:
+        edge.reliability = max(0.0, edge.reliability - reliability_penalty)
+        edge.plasticity = min(1.0, edge.plasticity + plasticity_rebound)
+    edge.last_updated = timestamp
+
+
 def should_prune_or_sleep(
     state: RisaState,
     node_id: str,

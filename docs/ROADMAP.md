@@ -145,8 +145,12 @@ rather than through a separate static verifier.
 - [Done] `predicted` と `observed` の最小比較を学習ループへ接続する
 - [Done] 局所誤差履歴を共有構造の安定性スコアへ接続する
 - [Done] 競合する経路の最小抑制ルールを設計し、予測スコアと edge 可塑性へ接続する
-- [Next] 再現性が高い構造ほど安定する可塑性則を定義する
+- [Done] 再現観測で `affects` edge の reliability を上げ、plasticity を下げる局所則を実装する
+- [Done] 学習前予測が外れた既存 `affects` edge を弱め、再適応可能にする局所則を実装する
 - [Later] `synaptic scaling` に相当する構造恒常性を導入する
+- [Later] 局所活性化サブグラフの対称親和行列または graph Laplacian を作り、スペクトル安定性プローブを評価する
+  - 固有値・固有空間を、結合性、競合による分断、文脈感度の補助指標として使う
+  - 予測精度、説明可能性、計算コストで既存の局所検証を上回る場合だけ更新則に昇格する
 - [Later] 独立 Verifier を標準経路にせず、必要時だけ補助的に使う
 
 ### [Next] Replay and Gradual Consolidation
@@ -230,6 +234,29 @@ transition-centric world modeling.
 - [Next] `State_t + Action -> State_{t+1}` を一次表現として強化する
 - [Next] CurrentState から複数の未来候補を探索する仕組みを設計する
 - [Later] 構造探索結果をシミュレーション的に評価する
+
+### [Next] Structural Factorization and Compositional Reasoning
+
+日本語:
+具体的な問題や経験を、再利用可能な関係・役割・時間制約を含む構造単位へ分解し、
+局所活性化した候補だけを再結合して、未保存の遷移や解答候補を導く。
+
+English:
+Factor concrete problems and experiences into reusable structural units with relations, roles,
+and temporal constraints, then compose only locally activated candidates to infer unstored transitions or answers.
+
+简体中文:
+将具体问题与经验分解为包含关系、角色和时间约束的可复用结构单元，
+只组合局部激活的候选单元，以推导未存储的状态迁移或答案。
+
+研究テーマ:
+
+- [Next] `StructuralPrimitive` の最小データ型を、関係、役割、入力条件、出力状態、時間制約、支持度で定義する
+- [Next] `StructuralPattern` から primitive 候補を抽出し、経験を「共有単位の組合せ」として表す最小実装を作る
+- [Next] 候補の採用を、再利用性、再構成性、予測改善、Minimum Description Length の四条件で評価する
+- [Next] 問題状態から目標状態への局所的な primitive 合成探索を、説明可能な経路として返す
+- [Later] 未学習の組合せ問題を使い、構造因数分解が単純な保存・検索を上回るか検証する
+- [Later] 人間が未命名の primitive を識別子のまま保持し、予測有用性で評価する
 
 ### [Next] Stored Structure != Available Knowledge
 
