@@ -392,6 +392,29 @@ through cooperation between neural representations and structural memory.
 - [Later] 曖昧候補を構造仮説として保留・比較する
 - [Later] 文脈で意味が確定した時だけ構造へ定着させる
 
+### [Later] Cross-Modal Structural Abstraction
+
+日本語:
+文章、映像、音、触覚の固有値を統合するのではなく、
+各 Encoder が抽出したイベントから状態、差分、関係、順序、反復、強度、予測誤差を構造候補として取り出す。
+別モダリティでも予測・再構成に役立つ構造だけを、段階的に共有側へ昇格させる。
+
+English:
+Do not merge modality-specific values directly. Extract state, difference, relation, order, repetition,
+intensity, and prediction error from encoder events, and promote only cross-modally useful structures.
+
+简体中文:
+不要直接合并模态特有的数值。应从编码器事件中提取状态、差异、关系、顺序、重复、强度和预测误差，
+并只提升那些跨模态仍有用的结构。
+
+研究テーマ:
+
+- [Later] `Event` にモダリティ由来、固有座標の参照、観測信頼度を追加する境界を定義する
+- [Later] `StructuralPattern` / `StructuralPrimitive` にモダリティごとの適用支持度を持たせる
+- [Later] `Universal -> Semi-universal -> Modality-specific` を固定分類ではなく、予測・再構成実績から連続的に推定する
+- [Later] 一つのモダリティで学んだ遷移構造が別モダリティの予測を改善するか、holdout 実験で検証する
+- [Later] 共通構造から各モダリティへ戻す Decoder / 生成経路を、知覚器との双方向仮説ループとして評価する
+
 ---
 
 ## Research Notes / 研究ノート / 研究说明

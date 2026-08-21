@@ -216,6 +216,35 @@ MVP-1 では以下を守ります。
 
 という分離を基本方針とします。
 
+### 5.2.1 モダリティ固有値と共有構造を混同しない
+
+RISA は、文章、映像、音、触覚の生データや座標値を直接同一視しません。
+語彙、画素・奥行き、周波数・位相、圧力・温度などは、各知覚器に残すモダリティ固有の情報です。
+
+一方で、各知覚器が抽出したイベントから得られる
+
+- 状態と差分
+- 関係と役割
+- 境界と反復
+- 順序と状態遷移
+- 強度の増減
+- 期待、観測、予測誤差
+
+は、共有構造候補として RISA が扱える可能性があります。
+
+ただし、構造を最初から `universal` とラベル付けしません。
+別のモダリティへ適用したときにも予測能力または再構成能力が保たれた構造だけを、
+段階的に共有側へ昇格させます。適用範囲は二値ではなく、
+`vision`、`audio`、`language`、`touch` ごとの支持度として持ちます。
+
+English:
+Keep modality-specific values in their perceptual layers. Promote relations to shared structure only when
+they preserve predictive or reconstructive value across modalities, with graded applicability rather than a binary label.
+
+简体中文：
+将模态特有的数值保留在感知层。只有当关系结构在跨模态时仍能保持预测或重构价值，
+才逐步提升为共享结构；适用范围应是分级的，而不是二元标签。
+
 ### 5.3 将来の双方向性
 
 ただし長期的には、知覚器と RISA の関係を単なる `前処理 -> 後処理` に固定しません。  
