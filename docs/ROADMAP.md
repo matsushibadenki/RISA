@@ -231,7 +231,8 @@ transition-centric world modeling.
 
 研究テーマ:
 
-- [Next] `State_t + Action -> State_{t+1}` を一次表現として強化する
+- [Done] 任意の `preconditions` を Event と primitive に保持し、`State_t + Action -> State_{t+1}` の最小表現を導入する
+- [Done] CurrentState と action を満たす採用済み primitive から、複数の次状態候補をスコア付きで返す `forecast` 経路を実装する
 - [Next] CurrentState から複数の未来候補を探索する仕組みを設計する
 - [Later] 構造探索結果をシミュレーション的に評価する
 
@@ -251,9 +252,11 @@ and temporal constraints, then compose only locally activated candidates to infe
 
 研究テーマ:
 
-- [Next] `StructuralPrimitive` の最小データ型を、関係、役割、入力条件、出力状態、時間制約、支持度で定義する
-- [Next] `StructuralPattern` から primitive 候補を抽出し、経験を「共有単位の組合せ」として表す最小実装を作る
+- [Done] `StructuralPrimitive` の最小データ型を、関係、役割、入力条件、出力状態、時間制約、支持度で定義する
+- [Done] 反復する `entity -> process -> state` 遷移から primitive 候補を抽出し、経験を primitive ID の組合せとして保存する
+- [Done] 再利用数・局所予測検証・圧縮代理値から、primitive 候補を provisional に採用・保留する局所則を実装する
 - [Next] 候補の採用を、再利用性、再構成性、予測改善、Minimum Description Length の四条件で評価する
+- [Done] action の時間的前後関係を使い、採用済み primitive の局所合成経路を CLI から返す最小実装を作る
 - [Next] 問題状態から目標状態への局所的な primitive 合成探索を、説明可能な経路として返す
 - [Later] 未学習の組合せ問題を使い、構造因数分解が単純な保存・検索を上回るか検証する
 - [Later] 人間が未命名の primitive を識別子のまま保持し、予測有用性で評価する

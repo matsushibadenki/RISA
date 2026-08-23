@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from risa.core.models import Edge, Event, Pattern, StructuralPattern, StructureDelta
+from risa.core.models import Edge, Event, Pattern, StructuralPattern, StructuralPrimitive, StructureDelta
 from risa.core.state import RisaState
 from risa.engine.graph_builder import normalize_label
 from risa.engine.validator import validation_effect_support
@@ -52,6 +52,16 @@ def learn_from_event(state: RisaState, event: Event) -> None:
             context_key=context_key,
             pattern_id=pattern_id,
         )
+        _update_structural_primitive(
+            state,
+            event_id=event.id,
+            action=action,
+            effect=effect_label,
+            preconditions=[normalize_label(condition) for condition in event.preconditions],
+            context_key=context_key,
+            pattern_id=pattern_id,
+            validation_score=pattern.validation_score,
+        )
 
         # Activation index narrows prediction to locally relevant effects and concepts.
         _index_append(state.activation_index, f"actor:{actor}", effect_label)
@@ -100,6 +110,56 @@ def _update_structural_pattern(
         structural_pattern.context_tags.update(context_key.split("|"))
     structural_pattern.member_pattern_ids.add(pattern_id)
     _update_structure_deltas(state, structural_pattern)
+
+
+def _update_structural_primitive(
+    state: RisaState,
+    event_id: str,
+    action: str,
+    effect: str,
+    preconditions: list[str],
+    context_key: str,
+    pattern_id: str,
+    validation_score: float,
+) -> None:
+    role_signature = "entity->process->state"
+    condition_key = "+".join(sorted(preconditions))
+    primitive_suffix = f"{action}->{effect}" if not condition_key else f"{condition_key}::{action}->{effect}"
+    primitive_id = f"primitive:transition:{role_signature}:{primitive_suffix}"
+    primitive = state.structural_primitives.get(primitive_id)
+    if primitive is None:
+        primitive = StructuralPrimitive(
+            id=primitive_id,
+            relation_type="transition",
+            role_signature=role_signature,
+            input_conditions={f"process:{action}"},
+            input_state_conditions={f"state:{condition}" for condition in preconditions},
+            output_state=effect,
+        )
+        state.structural_primitives[primitive_id] = primitive
+
+    primitive.support += 1
+    primitive.validation_score = validation_score
+    primitive.member_pattern_ids.add(pattern_id)
+    primitive.input_state_conditions.update(f"state:{condition}" for condition in preconditions)
+    primitive.evidence_event_ids.add(event_id)
+    if context_key != "__no_context__":
+        primitive.context_tags.update(context_key.split("|"))
+    _refresh_primitive_adoption(primitive)
+    _index_append(state.event_primitive_ids, event_id, primitive_id)
+
+
+def _refresh_primitive_adoption(primitive: StructuralPrimitive) -> None:
+    evidence_count = len(primitive.evidence_event_ids)
+    primitive.reuse_score = min(1.0, evidence_count / 3.0)
+    # This is a small-data proxy, not a full Minimum Description Length calculation.
+    primitive.compression_proxy = max(0.0, (evidence_count - 1) / (evidence_count + 1))
+    primitive.adoption_score = (
+        (0.45 * primitive.validation_score)
+        + (0.35 * primitive.reuse_score)
+        + (0.20 * primitive.compression_proxy)
+    )
+    primitive.adopted = evidence_count >= 2 and primitive.adoption_score >= 0.55
 
 
 def _update_structure_deltas(state: RisaState, structural_pattern: StructuralPattern) -> None:

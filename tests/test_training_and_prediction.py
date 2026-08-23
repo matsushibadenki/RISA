@@ -3,6 +3,7 @@ import unittest
 from risa.core.models import Event, PredictionQuery
 from risa.core.state import RisaState
 from risa.engine.abstractor import rebuild_concepts
+from risa.engine.composer import compose_to_effect, forecast_next_effects
 from risa.engine.event_parser import parse_events
 from risa.engine.predictor import predict_next_effect
 from risa.engine.runtime import train_events
@@ -271,6 +272,157 @@ class TrainingAndPredictionTests(unittest.TestCase):
         result = predict_next_effect(state, PredictionQuery(actor="dog", action="run"))
         self.assertIn("reproducibility plasticity", result.explanation)
         self.assertTrue(any("reproducibly_affects" in path for path in result.supporting_paths))
+
+    def test_repeated_transition_is_extracted_as_structural_primitive(self) -> None:
+        state = RisaState()
+        events = parse_events("data/toy_world.json")
+        train_events(state, events)
+
+        primitive_id = "primitive:transition:entity->process->state:run->fatigue_up"
+        primitive = state.structural_primitives.get(primitive_id)
+        self.assertIsNotNone(primitive)
+        assert primitive is not None
+        self.assertEqual(primitive.relation_type, "transition")
+        self.assertIn("process:run", primitive.input_conditions)
+        self.assertEqual(primitive.output_state, "fatigue_up")
+        self.assertGreaterEqual(primitive.support, 3)
+        self.assertIn(primitive_id, state.event_primitive_ids["e001"])
+        self.assertTrue(primitive.adopted)
+        self.assertGreater(primitive.reuse_score, 0.9)
+        self.assertGreater(primitive.compression_proxy, 0.0)
+
+        one_shot = state.structural_primitives[
+            "primitive:transition:entity->process->state:drink->thirst_down"
+        ]
+        self.assertFalse(one_shot.adopted)
+
+        restored = RisaState.from_dict(state.to_dict())
+        self.assertIn(primitive_id, restored.structural_primitives)
+        self.assertIn(primitive_id, restored.event_primitive_ids["e001"])
+        self.assertTrue(restored.structural_primitives[primitive_id].adopted)
+
+        result = predict_next_effect(state, PredictionQuery(actor="dog", action="run"))
+        self.assertIn("structural primitives", result.explanation)
+        self.assertTrue(any(path[0] == primitive_id and "composes_to" in path for path in result.supporting_paths))
+
+    def test_composer_finds_local_sequence_of_adopted_primitives(self) -> None:
+        state = RisaState()
+        events = [
+            Event("e001", 1, "dog", "run", observed_effects=["fatigue_up"], context_tags=["animal", "sequence"]),
+            Event("e002", 2, "dog", "rest", observed_effects=["fatigue_down"], context_tags=["animal", "sequence"]),
+            Event("e003", 3, "horse", "run", observed_effects=["fatigue_up"], context_tags=["animal", "sequence"]),
+            Event("e004", 4, "horse", "rest", observed_effects=["fatigue_down"], context_tags=["animal", "sequence"]),
+        ]
+        train_events(state, events)
+
+        result = compose_to_effect(
+            state,
+            start_action="run",
+            target_effect="fatigue_down",
+            context_tags=["animal", "sequence"],
+            max_steps=2,
+        )
+
+        self.assertEqual(result.target_effect, "fatigue_down")
+        self.assertEqual(len(result.primitive_ids), 2)
+        self.assertEqual(
+            result.primitive_ids[0],
+            "primitive:transition:entity->process->state:run->fatigue_up",
+        )
+        self.assertEqual(
+            result.primitive_ids[1],
+            "primitive:transition:entity->process->state:rest->fatigue_down",
+        )
+        self.assertGreater(result.score, 0.0)
+        self.assertTrue(any("precedes" in path for path in result.supporting_paths))
+
+    def test_composer_respects_state_preconditions(self) -> None:
+        state = RisaState()
+        events = [
+            Event(
+                "e001",
+                1,
+                "dog",
+                "run",
+                preconditions=["rested"],
+                observed_effects=["fatigue_up"],
+                context_tags=["animal", "sequence"],
+            ),
+            Event(
+                "e002",
+                2,
+                "dog",
+                "rest",
+                preconditions=["fatigue_up"],
+                observed_effects=["fatigue_down"],
+                context_tags=["animal", "sequence"],
+            ),
+            Event(
+                "e003",
+                3,
+                "horse",
+                "run",
+                preconditions=["rested"],
+                observed_effects=["fatigue_up"],
+                context_tags=["animal", "sequence"],
+            ),
+            Event(
+                "e004",
+                4,
+                "horse",
+                "rest",
+                preconditions=["fatigue_up"],
+                observed_effects=["fatigue_down"],
+                context_tags=["animal", "sequence"],
+            ),
+        ]
+        train_events(state, events)
+
+        blocked = compose_to_effect(
+            state,
+            start_action="run",
+            target_effect="fatigue_down",
+            context_tags=["animal", "sequence"],
+            start_states=["fatigue_up"],
+            max_steps=2,
+        )
+        self.assertEqual(blocked.primitive_ids, [])
+
+        result = compose_to_effect(
+            state,
+            start_action="run",
+            target_effect="fatigue_down",
+            context_tags=["animal", "sequence"],
+            start_states=["rested"],
+            max_steps=2,
+        )
+        self.assertEqual(len(result.primitive_ids), 2)
+        self.assertIn("state:rested", state.structural_primitives[result.primitive_ids[0]].input_state_conditions)
+        self.assertIn("state:fatigue_up", state.structural_primitives[result.primitive_ids[1]].input_state_conditions)
+
+    def test_forecast_returns_multiple_state_compatible_effects(self) -> None:
+        state = RisaState()
+        events = [
+            Event("e001", 1, "dog", "touch", preconditions=["charged"], observed_effects=["warm"], context_tags=["warm"]),
+            Event("e002", 2, "dog", "touch", preconditions=["charged"], observed_effects=["warm"], context_tags=["warm"]),
+            Event("e003", 3, "horse", "touch", preconditions=["charged"], observed_effects=["spark"], context_tags=["spark"]),
+            Event("e004", 4, "horse", "touch", preconditions=["charged"], observed_effects=["spark"], context_tags=["spark"]),
+        ]
+        train_events(state, events)
+
+        candidates = forecast_next_effects(
+            state,
+            action="touch",
+            current_states=["charged"],
+            max_candidates=3,
+        )
+
+        self.assertEqual({candidate.target_effect for candidate in candidates}, {"spark", "warm"})
+        self.assertTrue(all(candidate.score > 0.0 for candidate in candidates))
+        self.assertTrue(all("state:charged" in candidate.supporting_paths[0] for candidate in candidates))
+
+        blocked = forecast_next_effects(state, action="touch", current_states=["uncharged"])
+        self.assertEqual(blocked, [])
 
 
 if __name__ == "__main__":

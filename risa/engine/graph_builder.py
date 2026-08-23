@@ -47,6 +47,34 @@ def ingest_event(state: RisaState, event: Event) -> None:
             last_updated=event.timestamp,
         )
     )
+
+    for condition in event.preconditions:
+        condition_id = _node_id("state", condition)
+        coactive_node_ids.append(condition_id)
+        state.graph.add_or_update_node(
+            Node(id=condition_id, kind="state", label=normalize_label(condition), created_at=event.timestamp, usage_count=1)
+        )
+        state.graph.add_or_update_edge(
+            Edge(
+                source=event_id,
+                target=condition_id,
+                relation_type="has_precondition",
+                context_tags=tuple(sorted(event.context_tags)),
+                evidence_count=1,
+                last_updated=event.timestamp,
+            )
+        )
+        state.graph.add_or_update_edge(
+            Edge(
+                source=condition_id,
+                target=action_id,
+                relation_type="enables",
+                context_tags=tuple(sorted(event.context_tags)),
+                evidence_count=1,
+                last_updated=event.timestamp,
+            )
+        )
+        activate_nodes(state, [condition_id], event.timestamp)
     state.graph.add_or_update_edge(
         Edge(
             source=event_id,

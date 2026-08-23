@@ -46,6 +46,7 @@ class Event:
     actor: str
     action: str
     target: str | None = None
+    preconditions: list[str] = field(default_factory=list)
     observed_effects: list[str] = field(default_factory=list)
     context_tags: list[str] = field(default_factory=list)
 
@@ -115,6 +116,48 @@ class StructuralPattern:
 
 
 @dataclass
+class StructuralPrimitive:
+    """A reusable transition factor extracted from repeated event structure."""
+
+    id: str
+    relation_type: str
+    role_signature: str
+    input_conditions: set[str] = field(default_factory=set)
+    input_state_conditions: set[str] = field(default_factory=set)
+    output_state: str = ""
+    temporal_constraint: str = "event_to_effect"
+    context_tags: set[str] = field(default_factory=set)
+    member_pattern_ids: set[str] = field(default_factory=set)
+    evidence_event_ids: set[str] = field(default_factory=set)
+    support: int = 0
+    validation_score: float = 0.5
+    reuse_score: float = 0.0
+    compression_proxy: float = 0.0
+    adoption_score: float = 0.0
+    adopted: bool = False
+
+    def to_dict(self) -> dict:
+        return {
+            "id": self.id,
+            "relation_type": self.relation_type,
+            "role_signature": self.role_signature,
+            "input_conditions": sorted(self.input_conditions),
+            "input_state_conditions": sorted(self.input_state_conditions),
+            "output_state": self.output_state,
+            "temporal_constraint": self.temporal_constraint,
+            "context_tags": sorted(self.context_tags),
+            "member_pattern_ids": sorted(self.member_pattern_ids),
+            "evidence_event_ids": sorted(self.evidence_event_ids),
+            "support": self.support,
+            "validation_score": self.validation_score,
+            "reuse_score": self.reuse_score,
+            "compression_proxy": self.compression_proxy,
+            "adoption_score": self.adoption_score,
+            "adopted": self.adopted,
+        }
+
+
+@dataclass
 class StructureDelta:
     id: str
     source_pattern_id: str
@@ -150,6 +193,18 @@ class PredictionResult:
     score: float
     supporting_paths: list[list[str]] = field(default_factory=list)
     evidence_event_ids: list[str] = field(default_factory=list)
+    explanation: str = ""
+
+    def to_dict(self) -> dict:
+        return asdict(self)
+
+
+@dataclass
+class CompositionResult:
+    target_effect: str
+    primitive_ids: list[str] = field(default_factory=list)
+    supporting_paths: list[list[str]] = field(default_factory=list)
+    score: float = 0.0
     explanation: str = ""
 
     def to_dict(self) -> dict:

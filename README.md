@@ -125,6 +125,12 @@ MVP-1 では、
 - event node を含む最小グラフ更新
 - action / effect パターン学習
 - 文脈つき `StructuralPattern` の共有構造学習
+- 反復する action / effect 遷移からの `StructuralPrimitive` 抽出
+- Event を構成する primitive ID の保存
+- 再利用・検証・圧縮代理値による primitive の provisional 採用
+- 採用済み primitive を時間的に合成する `compose` CLI
+- 任意の `preconditions` を使う最小の `State_t + Action -> State_{t+1}` 表現
+- CurrentState と action から複数の effect 候補を保つ `forecast` CLI
 - 共有構造間の最小差分 `StructureDelta` の蓄積
 - 共有 action / effect による簡易概念生成
 - `actor`, `action`, `context` を入口にした簡易局所活性化

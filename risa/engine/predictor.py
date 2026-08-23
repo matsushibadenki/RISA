@@ -60,6 +60,7 @@ def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionR
             effect_id=f"state:{effect}",
         )
         reproducibility_support = _reproducibility_support(state, action_id, f"state:{effect}")
+        primitive_support = _primitive_support(state, action, effect, context_key)
         inhibition_penalty = competition_penalty(state, action, context_key, effect)
 
         score = (
@@ -71,7 +72,8 @@ def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionR
             + (0.11 * structural_support)
             + (0.04 * coactivation_support)
             + (0.06 * reproducibility_support)
-            + (0.06 * validation_score)
+            + (0.05 * primitive_support)
+            + (0.05 * validation_score)
             - (0.10 * inhibition_penalty)
         )
         if score > best_score:
@@ -91,6 +93,8 @@ def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionR
         supporting_paths.append([action_id, "co_activates_with", best_effect_id])
     if _reproducibility_support(state, action_id, best_effect_id) > 0.0:
         supporting_paths.append([action_id, "reproducibly_affects", best_effect_id])
+    for primitive in _matching_primitives(state, action, best_effect, adopted_only=True):
+        supporting_paths.append([primitive.id, "composes_to", best_effect_id])
     inhibition_penalty = competition_penalty(state, action, context_key, best_effect)
     if inhibition_penalty > 0.0:
         supporting_paths.append([f"context:{context_key}", "competition_inhibits", best_effect_id])
@@ -113,7 +117,7 @@ def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionR
         )
     ]
     explanation = (
-        f"Predicted {best_effect} from action '{action}' using locally activated action, context, structural, concept, co-activation, reproducibility plasticity, prediction-validation history, and competition inhibition."
+        f"Predicted {best_effect} from action '{action}' using locally activated action, context, structural primitives, concept, co-activation, reproducibility plasticity, prediction-validation history, and competition inhibition."
     )
 
     return PredictionResult(
@@ -148,6 +152,9 @@ def _collect_local_candidates(state: RisaState, actor: str, action: str, context
     structural_pattern = _matching_structural_pattern(state, context_key)
     if structural_pattern is not None:
         values.update(structural_pattern.effects)
+    values.update(
+        primitive.output_state for primitive in _matching_primitives(state, action, adopted_only=True)
+    )
 
     return sorted(effect for effect in values if _effect_is_not_dormant(state, effect))
 
@@ -197,6 +204,42 @@ def _reproducibility_support(state: RisaState, action_id: str, effect_id: str) -
     evidence_factor = min(1.0, edge.evidence_count / 5.0)
     stable_strength = (0.7 * edge.reliability) + (0.3 * evidence_factor)
     return min(1.0, stable_strength * (1.0 - (0.5 * edge.plasticity)))
+
+
+def _primitive_support(state: RisaState, action: str, effect: str, context_key: str) -> float:
+    primitives = _matching_primitives(state, action, effect, adopted_only=True)
+    if not primitives:
+        return 0.0
+
+    best_score = 0.0
+    for primitive in primitives:
+        support = min(1.0, primitive.support / 5.0)
+        if context_key == "__no_context__":
+            context_match = 0.7
+        elif not primitive.context_tags:
+            context_match = 0.5
+        else:
+            context_match = len(set(context_key.split("|")) & primitive.context_tags) / len(
+                set(context_key.split("|"))
+            )
+        best_score = max(best_score, support * max(0.4, primitive.validation_score) * context_match)
+    return best_score
+
+
+def _matching_primitives(
+    state: RisaState,
+    action: str,
+    effect: str | None = None,
+    adopted_only: bool = False,
+):
+    input_condition = f"process:{action}"
+    return [
+        primitive
+        for primitive in state.structural_primitives.values()
+        if input_condition in primitive.input_conditions
+        and (effect is None or primitive.output_state == effect)
+        and (not adopted_only or primitive.adopted)
+    ]
 
 
 def _edge_strength(

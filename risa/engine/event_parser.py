@@ -19,6 +19,7 @@ def _validate_event(data: dict) -> Event:
         actor=str(data["actor"]),
         action=str(data["action"]),
         target=None if data.get("target") is None else str(data.get("target")),
+        preconditions=[str(condition) for condition in data.get("preconditions", [])],
         observed_effects=[str(effect) for effect in data.get("observed_effects", [])],
         context_tags=[str(tag) for tag in data.get("context_tags", [])],
     )
@@ -41,4 +42,3 @@ def parse_events(path: str | Path) -> list[Event]:
             continue
         events.append(_validate_event(json.loads(line)))
     return events
-

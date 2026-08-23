@@ -275,10 +275,15 @@ Event(
     actor: str,
     action: str,
     target: str | None,
+    preconditions: list[str],
     observed_effects: list[str],
     context_tags: list[str],
 )
 ```
+
+`preconditions` は Event が成立する前に観測された状態です。省略可能であり、
+省略時は既存の action/effect 遷移として扱います。指定された場合だけ、
+RISA は `State_t + Action -> State_{t+1}` の状態条件として primitive に保持します。
 
 ### 6.4 Episode
 
@@ -348,7 +353,42 @@ MVP-1 では
 「複数経験が同じ内部表現を再利用する」
 最初の足場として扱います。
 
-### 6.8 StructureDelta
+### 6.8 StructuralPrimitive
+
+MVP-1 では、共有構造をさらに細かい再利用候補として観察するため、
+繰り返された `entity -> process -> state` 遷移から `StructuralPrimitive` を抽出します。
+
+```python
+StructuralPrimitive(
+    id: str,
+    relation_type: str,
+    role_signature: str,
+    input_conditions: set[str],
+    input_state_conditions: set[str],
+    output_state: str,
+    temporal_constraint: str,
+    context_tags: set[str],
+    member_pattern_ids: set[str],
+    evidence_event_ids: set[str],
+    support: int,
+    validation_score: float,
+    reuse_score: float,
+    compression_proxy: float,
+    adoption_score: float,
+    adopted: bool,
+)
+```
+
+各 Event は `event_primitive_ids` により、どの primitive 候補の組合せで説明されたかを保持します。
+MVP-1 の primitive は action/effect 遷移に限定され、任意の問題を因数分解・合成する完成機構ではありません。
+今後、再利用性、再構成性、予測改善、記述長削減を比較して初めて、長期的な構造因子として採用します。
+
+現実装では、候補を即座に推論へ使いません。複数 Event で再利用され、局所検証スコアと
+圧縮代理値から得る `adoption_score` が閾値を超えたものだけを `adopted` とします。
+`compression_proxy` は小規模データでの暫定指標であり、厳密な Minimum Description Length や
+複数 primitive による再構成性をまだ代替しません。
+
+### 6.9 StructureDelta
 
 MVP-1 では、
 共有構造同士の差分も最小形で保存します。
@@ -373,7 +413,30 @@ StructureDelta(
 
 です。
 
-### 6.9 Event Memory and Candidate Validation
+### 6.10 Primitive Composition
+
+MVP-1 では、採用済み primitive を action の時間的前後関係で局所探索し、
+目標 effect へ到達する最小の合成経路を返せます。
+
+```text
+process:run
+  -> primitive:run->fatigue_up
+  -> precedes
+  -> process:rest
+  -> primitive:rest->fatigue_down
+```
+
+CLI では `compose --start-action ... --start-state ... --goal-effect ...` として利用します。
+`--start-state` を渡すと、各 primitive の `input_state_conditions` を満たす経路だけを通ります。
+これは状態を追加的に積み上げる最小探索であり、状態の消費、否定、資源量、因果制約、
+複数未来候補のシミュレーションを備えた完成済み計画器ではありません。
+
+同じ状態条件と action に複数の採用済み primitive が適用できる場合は、
+`forecast --action ... --current-state ...` が effect 候補を一つに潰さず返します。
+各候補には primitive ID、状態条件、採用スコアを含む根拠経路を付けます。
+これは次状態候補の列挙であり、長期の分岐シミュレーションや行動選択はまだ扱いません。
+
+### 6.11 Event Memory and Candidate Validation
 
 MVP-1 の最小設計では、
 新しい経験をすぐに確定知識とみなすのではなく、
