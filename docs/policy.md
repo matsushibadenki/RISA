@@ -328,6 +328,30 @@ RISA では、
 より重視するのは、
 
 - 局所関係単位が繰り返し再利用されること
+
+### 6.3 代替構造を早期に潰さない
+
+同じ前提や結果を生成できる複数の構造は、単なる重複として即座に統合しません。文脈、必要資源、risk、
+実行結果が異なる可能性があるため、共通の代替groupと個別の根拠を保持し、同じGoal Specificationとconstraintで
+比較します。反復して優位な経路が見つかっても、環境変化へ適応できるよう少数派経路の削除は減衰・休眠規則に
+委ねます。代替関係は同値関係を意味しません。
+
+日本語: OR分岐は証拠を失わず、実行可能性と資源条件で比較します。
+
+English: OR branches preserve evidence and are compared by feasibility and resource conditions.
+
+简体中文: OR分支保留证据，并依据可行性与资源条件进行比较。
+
+### 6.4 有界探索の打切りを隠さない
+
+深さ、候補数、時間、memoryなどの上限で構造探索を打ち切った場合、その結果を「代替が存在しない」「最適解である」
+とは扱いません。探索範囲と打切り有無を結果へ保持し、完全性を必要とする利用側が再探索できる契約にします。
+
+日本語: 見つからないことと、探索しなかったことを区別します。
+
+English: Distinguish absence of evidence from regions that were not searched.
+
+简体中文: 区分“没有证据”和“尚未搜索的区域”。
 - 異なる経験が部分的に同じ内部資源を使うこと
 - その結果として後から見ると共通構造や差分が現れること
 
@@ -547,6 +571,121 @@ RISA の継続学習では、重み空間の微調整に相当する働きを、
 - 後戻り可能性
 
 を満たす仮説的編集として設計します。
+
+### 10.4 局所構造編集の安全条件
+
+Concept Cellの局所判断であっても、観測されていない関係を自由に生成してはいけません。
+自動構造編集は、次の条件を満たす場合に限定します。
+
+- 編集結果を既存の証拠Eventから導出できる
+- 元構造を削除せず、superseded関係として履歴を残す
+- どの局所統計が編集を要求したか説明できる
+- 新しい観測を編集後の構造へ継続してルーティングできる
+- 編集後のReplayで改善と副作用を再評価できる
+
+代替経路の生成や因果方向の変更など、証拠を超える操作は提案として保持し、追加観測または
+外部検証が得られるまで自動実行しません。自己組織化は無制約な自己改変ではなく、
+**局所自由度と証拠制約の組合せ**として実装します。
+
+排他的状態群も同じ原則に従います。状態名の類似や一時的な競合だけから排他性を推測せず、
+入力または十分に検証された構造として明示されたgroupだけを置換規則へ使用します。
+
+量的状態は単位と有効範囲が明確になるまで、異なる変数間で比較・統合しません。数値が近いという理由だけで
+同じ資源や同じ尺度とみなさず、変数名、将来の単位情報、観測文脈を保ったまま扱います。
+
+複数の量的状態を一つのEventで更新するときは原子的に扱います。一部だけ成功させず、すべての
+precondition、minimum、maximumを満たした場合だけ全deltaを適用します。単位の暗黙変換は禁止し、
+競合する仕様は学習前に拒否します。
+
+未来候補を複数保持するときは、候補間で離散状態や量的状態を共有更新しません。各trajectoryは独立した
+作業状態と根拠を持ち、探索幅と深さを必ず制限します。単一予測で採用されなかった少数候補を探索へ残す場合も、
+反復支持とReplay成功を最低条件とし、一度だけ現れた仮説を確定未来として扱いません。
+
+日本語: 多数派の予測と、あり得る少数未来の保持を分離します。
+
+English: Separate majority prediction from preservation of supported minority futures.
+
+简体中文: 将多数派预测与有证据支持的少数未来保留机制分离。
+
+branchを選択するときは、goal未達の高confidence候補をgoal達成候補より優先しません。到達可能なgoalが
+見つからない場合は、最もそれらしい候補を成功扱いせず「選択なし」を返します。goal、cost weight、avoid状態は
+外部から与えられた評価条件として根拠に残し、RISA自身が価値や安全を獲得したかのように扱いません。
+
+日本語: 評価値は分解して説明し、到達不能を成功に見せません。
+
+English: Keep utility components explainable and never present an unreachable goal as success.
+
+简体中文: 分解并解释效用组成，绝不把不可达目标表示为成功。
+
+複合goalでは部分達成率と完全達成を混同しません。AND、OR、数値条件の全節を満たし、かつhard constraintに
+違反しないbranchだけを選択可能とします。禁止状態は終端だけでなくtrajectory全体で確認し、一時的に通過して
+後から消えた違反も隠しません。
+
+日本語: 部分達成は診断情報であり、成功判定ではありません。
+
+English: Partial goal progress is diagnostic evidence, not a success decision.
+
+简体中文: 部分目标进展只是诊断信息，不等同于成功判定。
+
+hard constraintは可能な限り探索中に適用し、明らかに違反したbranchへ追加計算を使いません。ただし、将来の
+遷移で回復可能な終端goal条件をhard constraintとして早期適用してはなりません。soft riskは候補比較のため残し、
+hard constraintとの意味を混同しません。pruningは件数と理由種別を監査可能にします。
+
+日本語: 回復不能な違反だけを早期除外し、探索削減を成功の捏造に使いません。
+
+English: Prune only irreversible hard violations and keep pruning diagnostics auditable.
+
+简体中文: 只提前剪除不可恢复的硬约束违规，并保留可审计的剪枝诊断。
+
+反実仮想介入は永続記憶を変更せず、baselineから複製した作業状態だけへ適用します。各介入の仮定、変更内容、
+cost、探索診断、結果を一緒に返します。構造simulationで成功したことを因果効果の証明や実環境での安全保証と
+みなしません。実現不能案は高い部分scoreを持っていても選択しません。
+
+日本語: 反実仮想は明示した仮定の比較であり、観測事実や因果証明ではありません。
+
+English: Counterfactuals compare explicit assumptions; they are neither observations nor causal proof.
+
+简体中文: 反事实用于比较明确假设，并不等同于观测事实或因果证明。
+
+介入候補を自動生成する場合は、goalを出力した観測根拠のあるPrimitiveへ必ず接続し、根拠IDと逆算理由を残します。
+名前の類似だけで未観測actionや状態変化を発明しません。生成案は仮説としてsimulationへ渡し、完全goal達成、
+hard constraint、cost評価を通過しても実環境の実行許可とはみなしません。
+
+日本語: 根拠付き候補生成は探索の開始であり、因果証明や実行許可ではありません。
+
+English: Grounded candidate generation starts search; it does not prove causality or authorize execution.
+
+简体中文: 有依据的候选生成只是搜索起点，并不证明因果关系，也不授权执行。
+
+複数stepのgoal decompositionでは、単なる全体到着順ではなく、actor-localに観測された時間関係だけをchainの
+接続根拠に使います。各stepのPrimitive根拠順序、未充足の外部前提、資源逆算、探索深度を説明可能にします。
+循環や根拠のない隙間を推測で埋めず、線形chainで表現できない場合は未解決として残します。
+
+日本語: action列は観測構造から提案し、提案列そのものの再検証なしに実行しません。
+
+English: Derive action sequences from observed structure and revalidate the exact sequence before execution.
+
+简体中文: 从已观测结构中推导动作序列，并在执行前重新验证该精确序列。
+
+提案sequenceの検証では、最終goalだけが一致しても途中actionの順序・前提・資源・hard constraintが一致しなければ
+成功とみなしません。完走branchだけを評価へ渡し、途中失敗と観測されていないaction接続を別々に説明します。
+自由探索で偶然同じgoalへ到達した結果を、提案sequenceの検証成功として代用しません。
+
+日本語: 計画の成功は、終点だけでなく提案した過程の成立を必要とします。
+
+English: Plan validation requires the proposed process to hold, not merely the final state.
+
+简体中文: 计划验证不仅要求最终状态成立，也要求所提出的过程本身成立。
+
+複数前提を持つ計画では、すべての前提について供給元Primitiveまたは外部前提を明示します。一つの前提だけを
+満たして全体goalを達成可能とみなさず、依存edgeと未解決状態を説明へ残します。依存graphを線形化した後も、
+元graphを失わず、sequence成功だけで依存説明を置き換えません。
+
+日本語: AND前提は省略せず、供給関係と未解決部分を明示します。
+
+English: Never omit conjunctive prerequisites; expose both suppliers and unresolved dependencies.
+
+简体中文: 不得省略合取前提；必须明确其供给关系和未解决依赖。
 
 ---
 

@@ -1,0 +1,73 @@
+[
+  {
+    "id": "b001",
+    "timestamp": 1,
+    "actor": "robot_a",
+    "action": "route",
+    "numeric_preconditions": {"energy": 2.0},
+    "state_variable_deltas": {"energy": -2.0},
+    "state_variable_specs": {
+      "energy": {"unit": "joule", "minimum": 0.0, "maximum": 10.0}
+    },
+    "observed_effects": ["safe_path"]
+  },
+  {
+    "id": "b002",
+    "timestamp": 2,
+    "actor": "robot_a",
+    "action": "finish",
+    "preconditions": ["safe_path"],
+    "observed_effects": ["arrived_safe"]
+  },
+  {
+    "id": "b003",
+    "timestamp": 3,
+    "actor": "robot_b",
+    "action": "route",
+    "numeric_preconditions": {"energy": 2.0},
+    "state_variable_deltas": {"energy": -2.0},
+    "observed_effects": ["safe_path"]
+  },
+  {
+    "id": "b004",
+    "timestamp": 4,
+    "actor": "robot_b",
+    "action": "finish",
+    "preconditions": ["safe_path"],
+    "observed_effects": ["arrived_safe"]
+  },
+  {
+    "id": "b005",
+    "timestamp": 5,
+    "actor": "robot_c",
+    "action": "route",
+    "numeric_preconditions": {"energy": 5.0},
+    "state_variable_deltas": {"energy": -5.0},
+    "observed_effects": ["fast_path"]
+  },
+  {
+    "id": "b006",
+    "timestamp": 6,
+    "actor": "robot_c",
+    "action": "finish",
+    "preconditions": ["fast_path"],
+    "observed_effects": ["arrived_fast"]
+  },
+  {
+    "id": "b007",
+    "timestamp": 7,
+    "actor": "robot_d",
+    "action": "route",
+    "numeric_preconditions": {"energy": 5.0},
+    "state_variable_deltas": {"energy": -5.0},
+    "observed_effects": ["fast_path"]
+  },
+  {
+    "id": "b008",
+    "timestamp": 8,
+    "actor": "robot_d",
+    "action": "finish",
+    "preconditions": ["fast_path"],
+    "observed_effects": ["arrived_fast"]
+  }
+]

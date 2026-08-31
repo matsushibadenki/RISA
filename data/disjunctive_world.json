@@ -1,0 +1,117 @@
+[
+  {
+    "id": "d001",
+    "timestamp": 1,
+    "actor": "worker_a",
+    "action": "prepare_frame",
+    "observed_effects": ["frame_ready"],
+    "context_tags": ["assembly"]
+  },
+  {
+    "id": "d002",
+    "timestamp": 2,
+    "actor": "worker_a",
+    "action": "prepare_power_safe",
+    "preconditions": ["frame_ready"],
+    "numeric_preconditions": {"energy": 1.0},
+    "state_variable_deltas": {"energy": -1.0},
+    "state_variable_specs": {
+      "energy": {"unit": "joule", "minimum": 0.0, "maximum": 10.0}
+    },
+    "observed_effects": ["power_ready"],
+    "context_tags": ["assembly"]
+  },
+  {
+    "id": "d003",
+    "timestamp": 3,
+    "actor": "worker_a",
+    "action": "launch",
+    "preconditions": ["frame_ready", "power_ready"],
+    "observed_effects": ["launched"],
+    "context_tags": ["assembly"]
+  },
+  {
+    "id": "d004",
+    "timestamp": 4,
+    "actor": "worker_b",
+    "action": "prepare_frame",
+    "observed_effects": ["frame_ready"],
+    "context_tags": ["assembly"]
+  },
+  {
+    "id": "d005",
+    "timestamp": 5,
+    "actor": "worker_b",
+    "action": "prepare_power_safe",
+    "preconditions": ["frame_ready"],
+    "numeric_preconditions": {"energy": 1.0},
+    "state_variable_deltas": {"energy": -1.0},
+    "observed_effects": ["power_ready"],
+    "context_tags": ["assembly"]
+  },
+  {
+    "id": "d006",
+    "timestamp": 6,
+    "actor": "worker_b",
+    "action": "launch",
+    "preconditions": ["frame_ready", "power_ready"],
+    "observed_effects": ["launched"],
+    "context_tags": ["assembly"]
+  },
+  {
+    "id": "d007",
+    "timestamp": 7,
+    "actor": "worker_c",
+    "action": "prepare_frame",
+    "observed_effects": ["frame_ready"],
+    "context_tags": ["assembly"]
+  },
+  {
+    "id": "d008",
+    "timestamp": 8,
+    "actor": "worker_c",
+    "action": "prepare_power_fast",
+    "preconditions": ["frame_ready"],
+    "numeric_preconditions": {"energy": 3.0},
+    "state_variable_deltas": {"energy": -3.0},
+    "observed_effects": ["power_ready"],
+    "context_tags": ["assembly"]
+  },
+  {
+    "id": "d009",
+    "timestamp": 9,
+    "actor": "worker_c",
+    "action": "launch",
+    "preconditions": ["frame_ready", "power_ready"],
+    "observed_effects": ["launched"],
+    "context_tags": ["assembly"]
+  },
+  {
+    "id": "d010",
+    "timestamp": 10,
+    "actor": "worker_d",
+    "action": "prepare_frame",
+    "observed_effects": ["frame_ready"],
+    "context_tags": ["assembly"]
+  },
+  {
+    "id": "d011",
+    "timestamp": 11,
+    "actor": "worker_d",
+    "action": "prepare_power_fast",
+    "preconditions": ["frame_ready"],
+    "numeric_preconditions": {"energy": 3.0},
+    "state_variable_deltas": {"energy": -3.0},
+    "observed_effects": ["power_ready"],
+    "context_tags": ["assembly"]
+  },
+  {
+    "id": "d012",
+    "timestamp": 12,
+    "actor": "worker_d",
+    "action": "launch",
+    "preconditions": ["frame_ready", "power_ready"],
+    "observed_effects": ["launched"],
+    "context_tags": ["assembly"]
+  }
+]

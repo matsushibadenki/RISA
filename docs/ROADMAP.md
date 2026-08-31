@@ -38,6 +38,23 @@ RISA 从“可实际运行的最小核心”
 - [Done] 学習前予測と観測結果の比較による局所予測検証履歴を最小実装として導入
 - [Done] effect 単位の検証履歴を `Pattern` / `StructuralPattern` の安定性へ反映
 - [Done] 競合履歴を `co_activates_with` の reliability / plasticity へ反映
+- [Done] 現行世界モデルによる Event Replay と Primitive 再評価の最小ループ
+- [Done] actor 別の自己生成状態を連鎖させる deployment Replay
+- [Done] MVP-1 state transition semantics: 離散状態、消費、排他置換、量的資源、単位、上下限、原子的更新
+
+### [Done] MVP-1 State Transition Semantics Milestone
+
+日本語:
+構造化Eventから、離散状態と量的状態を安全に更新し、Replay・forecast・Compositionで同じ意味論を共有する
+最小実行基盤が完成した。
+
+English:
+The MVP-1 core now shares one state-transition semantics across replay, forecasting, and composition,
+including discrete state, consumption, exclusive replacement, bounded numeric resources, and atomic updates.
+
+简体中文:
+MVP-1核心现已在重放、预测与组合中共享统一的状态转移语义，支持离散状态、状态消耗、排他替换、
+有界数值资源与原子更新。
 
 ---
 
@@ -172,8 +189,79 @@ Use temporary memory, replay, and gradual consolidation.
 
 研究テーマ:
 
-- [Next] `Event Memory -> Structure Candidate -> Replay -> Consolidation` の最小ループを設計する
+- [Done] `Event Memory -> Structure Candidate -> Replay -> Consolidation` の最小ループを実装する
+- [Done] clean evidence に加え、自己生成状態を次段へ渡す deployment Replay を実装する
+- [Done] active state dropout による controlled perturbation Replay を実装する
+- [Done] Replay種別ごとに`SPLIT_CONTEXT` / `REPAIR_TRANSITION` / `ADD_REDUNDANT_PATH`候補を生成する
+- [Done] 観測contextで根拠を分配できる`SPLIT_CONTEXT`を安全な局所編集として実行する
+- [Done] superseded Primitiveへの新規観測をcontext variantへ継続ルーティングする
+- [Done] 同一actorの直前effectがpreconditionを満たす場合だけ`REPAIR_TRANSITION`を実行する
+- [Done] 全体到着順を`globally_precedes`、actor-local順を`precedes`として分離する
+- [Done] 継続学習バッチを保存済みの全体・actor-local系列へ接続する
+- [Done] process集約edgeに加えて`event_precedes` / `event_globally_precedes`を保持する
+- [Done] actor-localなevent-level順序を予測説明の根拠パスへ接続する
+- [Done] `consumed_states`により状態消費をPrimitive・Graph・Replay・Compositionへ接続する
+- [Done] deployment trajectoryを`remove -> add`順で更新する
+- [Done] `state_group_updates`と排他的状態群による状態置換を実装する
+- [Done] group候補を継続蓄積し、forecast/replay/compositionの削除集合へ反映する
+- [Done] `numeric_preconditions`と`state_variable_deltas`による部分消費を実装する
+- [Done] actor別deployment trajectoryとCLIへ数値状態を接続する
+- [Done] state variableの単位・上下限・原子的複数更新を実装する
+- [Done] `resulting_variables`をforecast/composition結果へ追加する
+- [Done] 状態分岐を独立trajectoryとして保持するbounded branch simulationを実装する
+- [Done] 採用済み候補に加え、反復支持・Replay成功した少数候補を分岐探索だけに残す
+- [Done] 離散状態、量的状態、Primitive根拠をbranchごとに独立して追跡する
+- [Done] goal、confidence、resource cost、trajectory riskを分解するbranch evaluatorを実装する
+- [Done] goal未達branchを選択せず、到達不能時に選択なしを返す
+- [Done] `evaluate` CLIでsimulationからbranch選択までを接続する
+- [Done] goalのAND/OR、数値条件、hard constraintを表すGoal Specificationを実装する
+- [Done] 部分達成scoreと完全達成、hard constraint適合を分離して説明する
+- [Done] 到達不能・制約違反だけの場合に選択なしを返す
+- [Done] simulation中に禁止状態へ入ったbranchを早期除外するconstraint-aware searchを実装する
+- [Done] 初期状態違反を展開前に停止する
+- [Done] expanded candidate、constraint prune、beam pruneを探索診断として返す
+- [Done] soft riskとhard constraintを探索意味論上で分離する
+- [Done] 初期状態・action・状態変数を介入して比較するCounterfactual Planning MVPを実装する
+- [Done] baselineと介入案を同じGoal Specificationで独立評価する
+- [Done] 介入costをbranch utilityから分離してplan scoreへ反映する
+- [Done] 不可能な介入を選択せず、永続構造を変更しないことを検証する
+- [Done] Goal Specificationと既存Primitiveから介入候補を生成するIntervention Candidate Generationを実装する
+- [Done] Primitiveのstate条件、numeric precondition、deltaから不足入力を逆算する
+- [Done] 生成理由とevidence Primitive IDを介入案へ保持する
+- [Done] 手動案と生成案を同じcounterfactual plannerで比較可能にする
+- [Done] 複数Primitiveを逆向きに接続するBackward Goal Decomposition MVPを実装する
+- [Done] actor-localな`precedes`が観測されたPrimitiveだけをchainへ接続する
+- [Done] chain全体のnumeric preconditionとdeltaから必要初期値を逆算する
+- [Done] 循環を避け、深度と候補数を制限してaction sequenceと順序付き根拠を返す
+- [Done] suggested action sequenceを厳密に実行するSequence-Constrained Simulation MVPを実装する
+- [Done] sequence隣接actionのactor-local `precedes`を展開前に再検証する
+- [Done] 指定stepごとにstate、numeric condition、hard constraintを検査する
+- [Done] sequence完走、途中失敗、不正edgeを別診断として返す
+- [Done] 複数の未充足前提をsubplanとして統合するConjunctive Plan Graph MVPを実装する
+- [Done] Primitive nodeとrequired-state dependency edgeを明示型として保持する
+- [Done] 全AND前提を再帰解決し、未解決状態を隠さず保持する
+- [Done] 依存順序と観測済み`precedes`を満たすaction sequenceへ線形化する
+- [Done] 同score時は依存説明を持つplan graphを線形chainより優先する
+- [Done] 各前提の複数producerを保持・比較するDisjunctive Subplan Search MVPを実装する
+- [Done] producerの直積を上限付きで列挙し、同じ`alternative_group_id`へまとめる
+- [Done] variantごとの`selected_producers`、必要資源、action sequence、根拠Primitiveを保持する
+- [Done] OR候補をSequence-Constrained Simulationで独立評価し、安全・高速経路から制約適合案を選ぶ
+- [Done] 入れ子のproducer代替を再帰展開するNested AND-OR Plan Graph MVPを実装する
+- [Done] 各PrimitiveのAND前提と各stateのOR producerを任意深度まで同じ規則で展開する
+- [Done] visited Primitiveと観測済み`precedes`到達性により循環・根拠なし接続を除外する
+- [Done] `alternative_choice_count`と`dependency_depth`をplan graphへ記録する
+- [Done] 候補上限による不完全探索を`alternative_search_truncated`として明示する
+- [Next] 全順列線形化を廃止するPartial-Order Plan Execution MVPへ進む
+- [Later] `ADD_REDUNDANT_PATH`は代替経路の観測証拠が得られるまで自動実行しない
 - [Later] 高速一時記憶と低速長期構造の二層化を実装する
+- [Later] working / episodic / semantic / procedural memory の更新速度を分離する
+- [Later] Transformer teacher なしで replay target を形成する self-teaching を検証する
+
+日本語: 入れ子のAND/OR探索は完了し、次は部分順序graphを直接実行します。
+
+English: Nested AND/OR search is implemented; direct partial-order execution is next.
+
+简体中文: 已实现嵌套AND/OR搜索；下一步直接执行偏序图。
 
 ### [Next] Neural Representation + Structural Memory + Dynamic Inference
 
@@ -233,8 +321,22 @@ transition-centric world modeling.
 
 - [Done] 任意の `preconditions` を Event と primitive に保持し、`State_t + Action -> State_{t+1}` の最小表現を導入する
 - [Done] CurrentState と action を満たす採用済み primitive から、複数の次状態候補をスコア付きで返す `forecast` 経路を実装する
-- [Next] CurrentState から複数の未来候補を探索する仕組みを設計する
-- [Later] 構造探索結果をシミュレーション的に評価する
+- [Done] CurrentState から複数の未来候補をbounded beamで探索する
+- [Done] 構造探索結果をgoal達成度、confidence、cost、riskで評価する
+- [Done] 終端goalとtrajectory-level hard constraintを型として評価する
+- [Done] forbidden stateのconstraint-aware pruningをgoal-directed評価へ接続する
+- [Done] 複数介入案を同じGoal Specificationで比較するgoal-directed planningを実装する
+- [Done] 手動介入案の比較から、単一Primitiveに基づく根拠付き候補生成へ進む
+- [Done] 単段候補生成から、複数step action sequenceの逆向き構成へ進む
+- [Done] learned precedenceの自由分岐ではなく、提案sequenceそのものの実現性を検証する
+- [Done] 線形sequenceからAND前提を持つplan graphへ進む
+- [Next] 単一producer選択からOR代替subplanを保持するplan graphへ進む
+
+日本語: AND前提をすべて満たす依存graphを実装済み。次は代替subplanを保持する。
+
+English: Conjunctive dependency graphs are implemented. Next, preserve alternative subplans.
+
+简体中文: 已实现合取依赖图。下一步是保留可替代的子计划。
 
 ### [Next] Structural Factorization and Compositional Reasoning
 

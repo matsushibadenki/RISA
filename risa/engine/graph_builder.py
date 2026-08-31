@@ -75,6 +75,115 @@ def ingest_event(state: RisaState, event: Event) -> None:
             )
         )
         activate_nodes(state, [condition_id], event.timestamp)
+
+    for consumed in event.consumed_states:
+        consumed_id = _node_id("state", consumed)
+        coactive_node_ids.append(consumed_id)
+        state.graph.add_or_update_node(
+            Node(
+                id=consumed_id,
+                kind="state",
+                label=normalize_label(consumed),
+                created_at=event.timestamp,
+                usage_count=1,
+            )
+        )
+        state.graph.add_or_update_edge(
+            Edge(
+                source=event_id,
+                target=consumed_id,
+                relation_type="consumes_state",
+                context_tags=tuple(sorted(event.context_tags)),
+                evidence_count=1,
+                last_updated=event.timestamp,
+            )
+        )
+        activate_nodes(state, [consumed_id], event.timestamp)
+
+    for group, state_name in event.state_group_updates.items():
+        group_id = _node_id("state_group", group)
+        state_id = _node_id("state", state_name)
+        state.graph.add_or_update_node(
+            Node(
+                id=group_id,
+                kind="state_group",
+                label=normalize_label(group),
+                created_at=event.timestamp,
+                usage_count=1,
+            )
+        )
+        state.graph.add_or_update_node(
+            Node(
+                id=state_id,
+                kind="state",
+                label=normalize_label(state_name),
+                created_at=event.timestamp,
+                usage_count=1,
+            )
+        )
+        state.graph.add_or_update_edge(
+            Edge(
+                source=event_id,
+                target=group_id,
+                relation_type="updates_state_group",
+                context_tags=tuple(sorted(event.context_tags)),
+                evidence_count=1,
+                last_updated=event.timestamp,
+            )
+        )
+        state.graph.add_or_update_edge(
+            Edge(
+                source=group_id,
+                target=state_id,
+                relation_type="allows_state",
+                context_tags=tuple(sorted(event.context_tags)),
+                evidence_count=1,
+                last_updated=event.timestamp,
+            )
+        )
+
+    for variable in sorted(set(event.numeric_preconditions) | set(event.state_variable_deltas)):
+        variable_id = _node_id("state_variable", variable)
+        spec = state.state_variable_specs.get(normalize_label(variable))
+        attributes = {}
+        if spec is not None:
+            attributes = {
+                "unit": spec.unit,
+                "minimum": "" if spec.minimum is None else str(spec.minimum),
+                "maximum": "" if spec.maximum is None else str(spec.maximum),
+            }
+        state.graph.add_or_update_node(
+            Node(
+                id=variable_id,
+                kind="state_variable",
+                label=normalize_label(variable),
+                created_at=event.timestamp,
+                usage_count=1,
+                attributes=attributes,
+            )
+        )
+        if variable in event.numeric_preconditions:
+            state.graph.add_or_update_edge(
+                Edge(
+                    source=event_id,
+                    target=variable_id,
+                    relation_type="requires_state_variable",
+                    context_tags=tuple(sorted(event.context_tags)),
+                    evidence_count=1,
+                    last_updated=event.timestamp,
+                )
+            )
+        if variable in event.state_variable_deltas:
+            state.graph.add_or_update_edge(
+                Edge(
+                    source=event_id,
+                    target=variable_id,
+                    relation_type="changes_state_variable",
+                    context_tags=tuple(sorted(event.context_tags)),
+                    evidence_count=1,
+                    last_updated=event.timestamp,
+                )
+            )
     state.graph.add_or_update_edge(
         Edge(
             source=event_id,

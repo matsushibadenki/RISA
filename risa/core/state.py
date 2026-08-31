@@ -3,7 +3,15 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 from risa.core.graph_store import GraphStore
-from risa.core.models import Event, Pattern, StructuralPattern, StructuralPrimitive, StructureDelta
+from risa.core.models import (
+    Event,
+    Pattern,
+    StructuralAdaptationCandidate,
+    StructuralPattern,
+    StructuralPrimitive,
+    StateVariableSpec,
+    StructureDelta,
+)
 
 
 @dataclass
@@ -13,7 +21,12 @@ class RisaState:
     structural_patterns: dict[str, StructuralPattern] = field(default_factory=dict)
     structural_primitives: dict[str, StructuralPrimitive] = field(default_factory=dict)
     structure_deltas: dict[str, StructureDelta] = field(default_factory=dict)
+    structural_adaptation_candidates: dict[str, StructuralAdaptationCandidate] = field(
+        default_factory=dict
+    )
     event_primitive_ids: dict[str, list[str]] = field(default_factory=dict)
+    exclusive_state_groups: dict[str, set[str]] = field(default_factory=dict)
+    state_variable_specs: dict[str, StateVariableSpec] = field(default_factory=dict)
     events_by_id: dict[str, Event] = field(default_factory=dict)
     actor_action_effect_counts: dict[str, dict[str, dict[str, int]]] = field(default_factory=dict)
     action_effect_counts: dict[str, dict[str, int]] = field(default_factory=dict)
@@ -35,7 +48,17 @@ class RisaState:
                 key: primitive.to_dict() for key, primitive in self.structural_primitives.items()
             },
             "structure_deltas": {key: delta.to_dict() for key, delta in self.structure_deltas.items()},
+            "structural_adaptation_candidates": {
+                key: candidate.to_dict()
+                for key, candidate in self.structural_adaptation_candidates.items()
+            },
             "event_primitive_ids": self.event_primitive_ids,
+            "exclusive_state_groups": {
+                key: sorted(values) for key, values in self.exclusive_state_groups.items()
+            },
+            "state_variable_specs": {
+                key: spec.to_dict() for key, spec in self.state_variable_specs.items()
+            },
             "events": {key: event.to_dict() for key, event in self.events_by_id.items()},
             "actor_action_effect_counts": self.actor_action_effect_counts,
             "action_effect_counts": self.action_effect_counts,
@@ -83,6 +106,16 @@ class RisaState:
                 role_signature=primitive_data["role_signature"],
                 input_conditions=set(primitive_data.get("input_conditions", [])),
                 input_state_conditions=set(primitive_data.get("input_state_conditions", [])),
+                consumed_states=set(primitive_data.get("consumed_states", [])),
+                state_group_updates=dict(primitive_data.get("state_group_updates", {})),
+                numeric_preconditions={
+                    key: float(value)
+                    for key, value in primitive_data.get("numeric_preconditions", {}).items()
+                },
+                state_variable_deltas={
+                    key: float(value)
+                    for key, value in primitive_data.get("state_variable_deltas", {}).items()
+                },
                 output_state=primitive_data.get("output_state", ""),
                 temporal_constraint=primitive_data.get("temporal_constraint", "event_to_effect"),
                 context_tags=set(primitive_data.get("context_tags", [])),
@@ -92,6 +125,20 @@ class RisaState:
                 validation_score=primitive_data.get("validation_score", 0.5),
                 reuse_score=primitive_data.get("reuse_score", 0.0),
                 compression_proxy=primitive_data.get("compression_proxy", 0.0),
+                replay_count=primitive_data.get("replay_count", 0),
+                replay_success_count=primitive_data.get("replay_success_count", 0),
+                replay_score=primitive_data.get("replay_score", 0.5),
+                deployment_replay_count=primitive_data.get("deployment_replay_count", 0),
+                deployment_replay_success_count=primitive_data.get(
+                    "deployment_replay_success_count", 0
+                ),
+                deployment_replay_score=primitive_data.get("deployment_replay_score", 0.5),
+                perturbation_replay_count=primitive_data.get("perturbation_replay_count", 0),
+                perturbation_replay_success_count=primitive_data.get(
+                    "perturbation_replay_success_count", 0
+                ),
+                perturbation_replay_score=primitive_data.get("perturbation_replay_score", 0.5),
+                superseded_by=set(primitive_data.get("superseded_by", [])),
                 adoption_score=primitive_data.get("adoption_score", 0.0),
                 adopted=primitive_data.get("adopted", False),
             )
@@ -105,7 +152,23 @@ class RisaState:
                 support=delta_data.get("support", 0),
                 context_tags=set(delta_data.get("context_tags", [])),
             )
+        for key, candidate_data in data.get("structural_adaptation_candidates", {}).items():
+            state.structural_adaptation_candidates[key] = StructuralAdaptationCandidate(
+                primitive_id=candidate_data["primitive_id"],
+                reason=candidate_data["reason"],
+                proposed_operation=candidate_data["proposed_operation"],
+                pressure=candidate_data.get("pressure", 0.0),
+                evidence=dict(candidate_data.get("evidence", {})),
+                status=candidate_data.get("status", "proposed"),
+                result_primitive_ids=list(candidate_data.get("result_primitive_ids", [])),
+                result_structure_ids=list(candidate_data.get("result_structure_ids", [])),
+            )
         for key, event_data in data.get("events", {}).items():
+            event_data = dict(event_data)
+            event_data["state_variable_specs"] = {
+                name: StateVariableSpec(**spec)
+                for name, spec in event_data.get("state_variable_specs", {}).items()
+            }
             state.events_by_id[key] = Event(**event_data)
         state.actor_action_effect_counts = data.get("actor_action_effect_counts", {})
         state.action_effect_counts = data.get("action_effect_counts", {})
@@ -114,6 +177,13 @@ class RisaState:
         state.prediction_validation_stats = data.get("prediction_validation_stats", {})
         state.prediction_competition_stats = data.get("prediction_competition_stats", {})
         state.event_primitive_ids = data.get("event_primitive_ids", {})
+        state.exclusive_state_groups = {
+            key: set(values) for key, values in data.get("exclusive_state_groups", {}).items()
+        }
+        state.state_variable_specs = {
+            key: StateVariableSpec(**spec)
+            for key, spec in data.get("state_variable_specs", {}).items()
+        }
         state.concept_members = data.get("concept_members", {})
         state.activation_index = data.get("activation_index", {})
         return state

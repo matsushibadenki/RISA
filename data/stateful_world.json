@@ -1,0 +1,58 @@
+[
+  {
+    "id": "s001",
+    "timestamp": 1,
+    "actor": "robot_a",
+    "action": "charge",
+    "state_group_updates": {"battery": "charged"},
+    "state_variable_deltas": {"energy": 10.0},
+    "state_variable_specs": {
+      "energy": {"unit": "joule", "minimum": 0.0, "maximum": 10.0}
+    },
+    "observed_effects": ["charged"],
+    "context_tags": ["robot", "power"]
+  },
+  {
+    "id": "s002",
+    "timestamp": 2,
+    "actor": "robot_a",
+    "action": "use",
+    "preconditions": ["charged"],
+    "state_group_updates": {"battery": "depleted"},
+    "numeric_preconditions": {"energy": 5.0},
+    "state_variable_deltas": {"energy": -5.0},
+    "state_variable_specs": {
+      "energy": {"unit": "joule", "minimum": 0.0, "maximum": 10.0}
+    },
+    "observed_effects": ["depleted"],
+    "context_tags": ["robot", "power"]
+  },
+  {
+    "id": "s003",
+    "timestamp": 3,
+    "actor": "robot_b",
+    "action": "charge",
+    "state_group_updates": {"battery": "charged"},
+    "state_variable_deltas": {"energy": 10.0},
+    "state_variable_specs": {
+      "energy": {"unit": "joule", "minimum": 0.0, "maximum": 10.0}
+    },
+    "observed_effects": ["charged"],
+    "context_tags": ["robot", "power"]
+  },
+  {
+    "id": "s004",
+    "timestamp": 4,
+    "actor": "robot_b",
+    "action": "use",
+    "preconditions": ["charged"],
+    "state_group_updates": {"battery": "depleted"},
+    "numeric_preconditions": {"energy": 5.0},
+    "state_variable_deltas": {"energy": -5.0},
+    "state_variable_specs": {
+      "energy": {"unit": "joule", "minimum": 0.0, "maximum": 10.0}
+    },
+    "observed_effects": ["depleted"],
+    "context_tags": ["robot", "power"]
+  }
+]

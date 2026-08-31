@@ -175,7 +175,11 @@ def _event_supporting_paths(
         event_context = "|".join(sorted(normalize_label(tag) for tag in event.context_tags)) or "__no_context__"
         if context_key != "__no_context__" and event_context != context_key:
             continue
-        paths.append([f"entity:{normalize_label(event.actor)}", f"event:{normalize_label(event.id)}", f"state:{effect}"])
+        event_id = f"event:{normalize_label(event.id)}"
+        paths.append([f"entity:{normalize_label(event.actor)}", event_id, f"state:{effect}"])
+        for edge in state.graph.edges_by_key.values():
+            if edge.target == event_id and edge.relation_type == "event_precedes":
+                paths.append([edge.source, "event_precedes", event_id, f"state:{effect}"])
     return paths[:3]
 
 

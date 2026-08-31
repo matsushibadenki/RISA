@@ -1,0 +1,54 @@
+[
+  {
+    "id": "c001",
+    "timestamp": 1,
+    "actor": "worker_a",
+    "action": "prepare_frame",
+    "observed_effects": ["frame_ready"],
+    "context_tags": ["assembly"]
+  },
+  {
+    "id": "c002",
+    "timestamp": 2,
+    "actor": "worker_a",
+    "action": "prepare_power",
+    "preconditions": ["frame_ready"],
+    "observed_effects": ["power_ready"],
+    "context_tags": ["assembly"]
+  },
+  {
+    "id": "c003",
+    "timestamp": 3,
+    "actor": "worker_a",
+    "action": "launch",
+    "preconditions": ["frame_ready", "power_ready"],
+    "observed_effects": ["launched"],
+    "context_tags": ["assembly"]
+  },
+  {
+    "id": "c004",
+    "timestamp": 4,
+    "actor": "worker_b",
+    "action": "prepare_frame",
+    "observed_effects": ["frame_ready"],
+    "context_tags": ["assembly"]
+  },
+  {
+    "id": "c005",
+    "timestamp": 5,
+    "actor": "worker_b",
+    "action": "prepare_power",
+    "preconditions": ["frame_ready"],
+    "observed_effects": ["power_ready"],
+    "context_tags": ["assembly"]
+  },
+  {
+    "id": "c006",
+    "timestamp": 6,
+    "actor": "worker_b",
+    "action": "launch",
+    "preconditions": ["frame_ready", "power_ready"],
+    "observed_effects": ["launched"],
+    "context_tags": ["assembly"]
+  }
+]
