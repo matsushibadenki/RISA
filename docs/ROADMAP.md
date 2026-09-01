@@ -251,17 +251,22 @@ Use temporary memory, replay, and gradual consolidation.
 - [Done] visited Primitiveと観測済み`precedes`到達性により循環・根拠なし接続を除外する
 - [Done] `alternative_choice_count`と`dependency_depth`をplan graphへ記録する
 - [Done] 候補上限による不完全探索を`alternative_search_truncated`として明示する
-- [Next] 全順列線形化を廃止するPartial-Order Plan Execution MVPへ進む
+- [Done] 全順列線形化を廃止するPartial-Order Plan Execution MVPを実装する
+- [Done] incoming dependencyを満たしたready Primitiveをbranchごとに直接実行する
+- [Done] plan graph指定Primitive IDへ実行候補を固定し、同名actionの混入を防ぐ
+- [Done] 9 node graphを全順列なしで完走し、独立subplanの順序をbranchとして保持する
+- [Done] ready node展開、deadlock、Primitive不一致を探索診断へ追加する
+- [Next] 状態消費・排他更新・共有資源の競合を検出するPlan Graph Threat Detection MVPへ進む
 - [Later] `ADD_REDUNDANT_PATH`は代替経路の観測証拠が得られるまで自動実行しない
 - [Later] 高速一時記憶と低速長期構造の二層化を実装する
 - [Later] working / episodic / semantic / procedural memory の更新速度を分離する
 - [Later] Transformer teacher なしで replay target を形成する self-teaching を検証する
 
-日本語: 入れ子のAND/OR探索は完了し、次は部分順序graphを直接実行します。
+日本語: 部分順序graphの直接実行は完了し、次は独立subplan間の干渉を検出します。
 
-English: Nested AND/OR search is implemented; direct partial-order execution is next.
+English: Partial-order execution is implemented; cross-subplan threat detection is next.
 
-简体中文: 已实现嵌套AND/OR搜索；下一步直接执行偏序图。
+简体中文: 已实现偏序执行；下一步检测子计划之间的冲突。
 
 ### [Next] Neural Representation + Structural Memory + Dynamic Inference
 

@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 import math
-from itertools import permutations
 from pathlib import Path
 
 from risa.core.models import (
@@ -20,6 +19,7 @@ from risa.engine.graph_builder import normalize_label
 from risa.engine.simulator import (
     simulate_action_sequence_with_diagnostics,
     simulate_branches_with_diagnostics,
+    simulate_plan_graph_with_diagnostics,
 )
 
 
@@ -306,13 +306,14 @@ def generate_conjunctive_plan_candidates(
             )
             if len(nodes) < 2:
                 continue
-            sequence = _linearize_plan_graph(state, nodes, dependencies, context)
-            if not sequence:
+            ordered_ids = _topological_plan_primitive_ids(nodes, dependencies)
+            if not ordered_ids:
                 continue
-            ordered_primitives = [
-                next(item for item in nodes.values() if _primitive_action(item) == action)
-                for action in sequence
-            ]
+            ordered_primitives = [nodes[primitive_id] for primitive_id in ordered_ids]
+            sequence = [_primitive_action(item) for item in ordered_primitives]
+            if any(action is None for action in sequence):
+                continue
+            sequence = [action for action in sequence if action]
             produced_states = {primitive.output_state for primitive in ordered_primitives}
             add_states = sorted(unresolved - produced_states - baseline_states)
             if forbidden.intersection(add_states):
@@ -429,17 +430,14 @@ def generate_disjunctive_plan_candidates(
             ) in variants[:max_candidates]:
                 if alternative_choice_count == 0:
                     continue
-                sequence = _linearize_plan_graph(state, nodes, dependencies, context)
-                if not sequence:
+                ordered_ids = _topological_plan_primitive_ids(nodes, dependencies)
+                if not ordered_ids:
                     continue
-                ordered_primitives = [
-                    next(
-                        item
-                        for item in nodes.values()
-                        if _primitive_action(item) == action
-                    )
-                    for action in sequence
-                ]
+                ordered_primitives = [nodes[primitive_id] for primitive_id in ordered_ids]
+                sequence = [_primitive_action(item) for item in ordered_primitives]
+                if any(action is None for action in sequence):
+                    continue
+                sequence = [action for action in sequence if action]
                 produced_states = {
                     primitive.output_state for primitive in ordered_primitives
                 }
@@ -689,7 +687,17 @@ def plan_counterfactuals(
             **baseline_variables,
             **intervention.variable_overrides,
         }
-        if intervention.suggested_action_sequence:
+        if intervention.plan_graph is not None:
+            simulation = simulate_plan_graph_with_diagnostics(
+                state,
+                plan_graph=intervention.plan_graph,
+                start_states=sorted(intervention_states),
+                start_variables=intervention_variables,
+                context_tags=context_tags,
+                forbidden_states=goal_specification.forbidden_states,
+                max_branches=max_branches,
+            )
+        elif intervention.suggested_action_sequence:
             simulation = simulate_action_sequence_with_diagnostics(
                 state,
                 actions=intervention.suggested_action_sequence,
@@ -717,11 +725,19 @@ def plan_counterfactuals(
             "constraint_pruned_count": simulation.constraint_pruned_count,
             "beam_pruned_count": simulation.beam_pruned_count,
         }
-        if intervention.suggested_action_sequence:
+        if intervention.suggested_action_sequence and intervention.plan_graph is None:
             search_diagnostics.update(
                 {
                     "sequence_failed_count": simulation.sequence_failed_count,
                     "invalid_sequence_edge_count": simulation.invalid_sequence_edge_count,
+                }
+            )
+        if intervention.plan_graph is not None:
+            search_diagnostics.update(
+                {
+                    "ready_node_expansion_count": simulation.ready_node_expansion_count,
+                    "deadlock_count": simulation.deadlock_count,
+                    "primitive_mismatch_count": simulation.primitive_mismatch_count,
                 }
             )
         evaluation = evaluate_branches(
@@ -989,32 +1005,35 @@ def _action_reaches(
     return False
 
 
-def _linearize_plan_graph(
-    state: RisaState,
+def _topological_plan_primitive_ids(
     nodes: dict[str, StructuralPrimitive],
     dependencies: list[PlanGraphDependency],
-    context: set[str],
 ) -> list[str]:
-    if len(nodes) > 7:
-        return []
-    primitive_ids = sorted(nodes)
-    dependency_pairs = {
-        (dependency.source_primitive_id, dependency.target_primitive_id)
-        for dependency in dependencies
-    }
-    for order in permutations(primitive_ids):
-        positions = {primitive_id: index for index, primitive_id in enumerate(order)}
-        if any(positions[source] >= positions[target] for source, target in dependency_pairs):
-            continue
-        actions = [_primitive_action(nodes[primitive_id]) for primitive_id in order]
-        if any(action is None for action in actions):
-            continue
-        if all(
-            _actions_observed_in_order(state, source, target, context)
-            for source, target in zip(actions, actions[1:])
+    incoming = {primitive_id: set() for primitive_id in nodes}
+    outgoing = {primitive_id: set() for primitive_id in nodes}
+    for dependency in dependencies:
+        if (
+            dependency.source_primitive_id not in nodes
+            or dependency.target_primitive_id not in nodes
         ):
-            return [action for action in actions if action]
-    return []
+            return []
+        incoming[dependency.target_primitive_id].add(dependency.source_primitive_id)
+        outgoing[dependency.source_primitive_id].add(dependency.target_primitive_id)
+    ready = sorted(
+        primitive_id for primitive_id, producers in incoming.items() if not producers
+    )
+    ordered_ids: list[str] = []
+    while ready:
+        primitive_id = ready.pop(0)
+        ordered_ids.append(primitive_id)
+        for target_id in sorted(outgoing[primitive_id]):
+            incoming[target_id].discard(primitive_id)
+            if not incoming[target_id] and target_id not in ordered_ids and target_id not in ready:
+                ready.append(target_id)
+        ready.sort()
+    if len(ordered_ids) != len(nodes):
+        return []
+    return ordered_ids
 
 
 def _observed_next_actions(

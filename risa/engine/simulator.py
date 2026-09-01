@@ -4,6 +4,8 @@ from dataclasses import replace
 
 from risa.core.models import (
     BranchSimulationReport,
+    ConjunctivePlanGraph,
+    PlanGraphSimulationReport,
     SequenceSimulationReport,
     TrajectoryBranch,
     TrajectoryStep,
@@ -281,6 +283,160 @@ def simulate_action_sequence_with_diagnostics(
         constraint_pruned_count=constraint_pruned_count,
         beam_pruned_count=beam_pruned_count,
         sequence_failed_count=sequence_failed_count,
+    )
+
+
+def simulate_plan_graph_with_diagnostics(
+    state: RisaState,
+    plan_graph: ConjunctivePlanGraph,
+    start_states: list[str] | None = None,
+    start_variables: dict[str, float] | None = None,
+    context_tags: list[str] | None = None,
+    forbidden_states: list[str] | None = None,
+    max_branches: int = 8,
+) -> PlanGraphSimulationReport:
+    """Execute dependency-ready primitive nodes without pre-linearizing the graph."""
+    primitive_ids = set(plan_graph.primitive_ids)
+    primitives = {
+        primitive_id: state.structural_primitives[primitive_id]
+        for primitive_id in primitive_ids
+        if primitive_id in state.structural_primitives
+    }
+    if not primitive_ids or len(primitives) != len(primitive_ids) or max_branches < 1:
+        return PlanGraphSimulationReport(
+            plan_graph_id=plan_graph.id,
+            primitive_mismatch_count=len(primitive_ids - set(primitives)) or 1,
+        )
+    incoming: dict[str, set[str]] = {primitive_id: set() for primitive_id in primitive_ids}
+    for dependency in plan_graph.dependencies:
+        if (
+            dependency.source_primitive_id not in primitive_ids
+            or dependency.target_primitive_id not in primitive_ids
+        ):
+            return PlanGraphSimulationReport(
+                plan_graph_id=plan_graph.id,
+                primitive_mismatch_count=1,
+            )
+        incoming[dependency.target_primitive_id].add(dependency.source_primitive_id)
+
+    context = {normalize_label(tag) for tag in context_tags or []}
+    forbidden = {normalize_label(item) for item in forbidden_states or []}
+    initial = TrajectoryBranch(
+        current_states=sorted(normalize_label(item) for item in start_states or []),
+        current_variables={
+            normalize_label(name): float(value)
+            for name, value in (start_variables or {}).items()
+        },
+    )
+    if forbidden.intersection(initial.current_states):
+        return PlanGraphSimulationReport(
+            plan_graph_id=plan_graph.id,
+            constraint_pruned_count=1,
+        )
+
+    active: list[tuple[TrajectoryBranch, frozenset[str]]] = [(initial, frozenset())]
+    completed: list[TrajectoryBranch] = []
+    expanded_candidate_count = 0
+    constraint_pruned_count = 0
+    beam_pruned_count = 0
+    ready_node_expansion_count = 0
+    deadlock_count = 0
+    primitive_mismatch_count = 0
+
+    while active:
+        expanded: list[tuple[TrajectoryBranch, frozenset[str]]] = []
+        for branch, executed in active:
+            if len(executed) == len(primitive_ids):
+                completed.append(replace(branch, terminated_reason="plan_graph_complete"))
+                continue
+            ready = sorted(
+                primitive_id
+                for primitive_id in primitive_ids - set(executed)
+                if incoming[primitive_id].issubset(executed)
+            )
+            if not ready:
+                deadlock_count += 1
+                continue
+            progressed = False
+            for primitive_id in ready:
+                ready_node_expansion_count += 1
+                primitive = primitives[primitive_id]
+                actions = sorted(
+                    condition.removeprefix("process:")
+                    for condition in primitive.input_conditions
+                    if condition.startswith("process:")
+                )
+                if not actions:
+                    primitive_mismatch_count += 1
+                    continue
+                candidates = forecast_next_effects(
+                    state,
+                    action=actions[0],
+                    current_states=branch.current_states,
+                    current_variables=branch.current_variables,
+                    context_tags=sorted(context),
+                    max_candidates=max(1, len(state.structural_primitives)),
+                    include_supported_alternatives=True,
+                )
+                candidate = next(
+                    (item for item in candidates if primitive_id in item.primitive_ids),
+                    None,
+                )
+                if candidate is None:
+                    continue
+                progressed = True
+                expanded_candidate_count += 1
+                next_states = (
+                    set(branch.current_states) - set(candidate.removed_states)
+                ) | {candidate.target_effect}
+                if forbidden.intersection(next_states):
+                    constraint_pruned_count += 1
+                    continue
+                step = TrajectoryStep(
+                    action=actions[0],
+                    effect=candidate.target_effect,
+                    primitive_id=primitive_id,
+                    states_before=list(branch.current_states),
+                    states_after=sorted(next_states),
+                    variables_before=dict(branch.current_variables),
+                    variables_after=dict(candidate.resulting_variables),
+                    removed_states=list(candidate.removed_states),
+                    score=candidate.score,
+                )
+                expanded.append(
+                    (
+                        TrajectoryBranch(
+                            steps=[*branch.steps, step],
+                            current_states=sorted(next_states),
+                            current_variables=dict(candidate.resulting_variables),
+                            score=branch.score * candidate.score,
+                        ),
+                        frozenset({*executed, primitive_id}),
+                    )
+                )
+            if not progressed:
+                deadlock_count += 1
+        expanded.sort(
+            key=lambda item: (-item[0].score, _branch_signature(item[0]), sorted(item[1]))
+        )
+        beam_pruned_count += max(0, len(expanded) - max_branches)
+        active = expanded[:max_branches]
+
+    completed.sort(key=lambda branch: (-branch.score, _branch_signature(branch)))
+    beam_pruned_count += max(0, len(completed) - max_branches)
+    selected = completed[:max_branches]
+    for index, branch in enumerate(selected, start=1):
+        branch.id = f"branch:{index:03d}"
+        branch.score = round(branch.score, 6)
+    return PlanGraphSimulationReport(
+        branches=selected,
+        plan_graph_id=plan_graph.id,
+        expanded_candidate_count=expanded_candidate_count,
+        constraint_pruned_count=constraint_pruned_count,
+        beam_pruned_count=beam_pruned_count,
+        ready_node_expansion_count=ready_node_expansion_count,
+        deadlock_count=deadlock_count,
+        primitive_mismatch_count=primitive_mismatch_count,
     )
 
 

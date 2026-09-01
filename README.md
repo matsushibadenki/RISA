@@ -64,6 +64,7 @@ RISA はすでに
 - 複数のAND前提subplanを依存graphへ統合するConjunctive Planning
 - 同じ前提を満たす複数producerを保持・実行比較するDisjunctive Planning
 - 入れ子のAND/OR前提を深さ制限付きで展開するNested AND-OR Planning
+- dependency-ready Primitiveを直接実行するPartial-Order Plan Execution
 
 まで実装されています。
 
@@ -294,6 +295,15 @@ English: Nested producer alternatives are expanded recursively with explicit dep
 
 简体中文: 递归展开嵌套生产者替代方案，并显式记录深度与截断信息。
 
+plan graph付き介入は、固定action列ではなくdependencyを満たしたready Primitiveから実行します。独立した
+subplanの順序はbranchとして保持し、各stepでplanが指定したPrimitive IDだけを適用します。これにより7 nodeの
+全順列制限をなくし、同名actionの別Primitiveが混ざることも防ぎます。診断にはready node展開数、deadlock数、
+Primitive不一致数を含めます。
+
+English: Plan graphs execute dependency-ready primitive IDs directly without factorial pre-linearization.
+
+简体中文: 计划图直接执行依赖已满足的原语ID，无需阶乘级预线性化。
+
 ## 次の重点課題
 
 次に深める優先度が高い領域は次です。
@@ -303,7 +313,7 @@ English: Nested producer alternatives are expanded recursively with explicit dep
 - `shared relation unit` に相当する、より細かい再利用単位の導入
 - 文脈分岐と例外処理の改善
 - 目的・制約・不確実性を扱うbranch評価の拡張
-- 独立subplanを全順列なしで実行するPartial-Order Plan Execution
+- 独立subplan間の状態消費・資源競合を検出するPlan Graph Threat Detection
 - 共活性と信頼度に応じた探索半径の適応化
 - Concept Cell の分裂 / 融合 / 休眠ルールの本格化
 

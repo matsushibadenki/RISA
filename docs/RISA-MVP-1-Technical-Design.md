@@ -934,6 +934,37 @@ English: AND/OR dependencies expand to leaves with explicit depth and truncation
 
 简体中文: 将AND/OR依赖展开到叶节点，并明确记录深度与截断证据。
 
+### 6.27 Partial-Order Plan Execution
+
+`simulate_plan_graph_with_diagnostics`は、plan graphを事前に一つのaction列へ固定せず、各branchで未実行Primitiveの
+incoming dependencyを検査します。全producerが完了したnodeをreadyとし、現在のstate・数値変数・contextへ
+実際に適用できるnodeだけを展開します。複数ready nodeは異なる実行順branchになります。
+
+実行候補はaction名だけで選ばず、`plan_graph.primitive_ids`が指定したPrimitive IDと一致するforecastだけを採用します。
+これにより同じactionに複数effectや条件違いのPrimitiveがある場合も、計画外の構造へすり替わりません。全node完了時は
+`terminated_reason="plan_graph_complete"`です。
+
+診断値は次です。
+
+- `ready_node_expansion_count`: dependency上readyになり、適用を試みたnode数
+- `deadlock_count`: 未実行nodeがあるのにreadyまたは適用可能nodeがないbranch数
+- `primitive_mismatch_count`: graph参照先不在、graph外dependency、action条件欠落の数
+- 共通のexpanded candidate、constraint prune、beam prune
+
+候補生成時の説明用`action_sequence`はKahn型topological sortで線形時間に作り、旧来の最大7 node全順列探索は
+廃止します。実行器はそのsequenceには依存しません。9 nodeのwide graphを使うテストで、独立した8 producerを
+複数順序で実行し、終端Primitiveまで完走することを検証します。
+
+現段階では実並列実行ではなく、partial orderの逐次interleavingです。また、独立node間で一方が他方の必要stateを
+consumeするthreat、排他state更新、共有numeric resourceの競合を事前解析してdependencyを追加する機能はありません。
+これらは実行時branch失敗としては観測できますが、次段階ではplan graph生成時に明示します。
+
+日本語: 全順列を作らず、依存を満たしたPrimitiveをID固定で直接実行します。
+
+English: Dependency-ready primitives execute by exact ID without enumerating all total orders.
+
+简体中文: 无需枚举所有全序，按精确ID执行依赖已满足的原语。
+
 `ADD_REDUNDANT_PATH`は存在しない因果経路を生成してしまう危険があるため、現段階では提案に留めます。
 
 理由:

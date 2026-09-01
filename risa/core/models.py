@@ -353,6 +353,30 @@ class SequenceSimulationReport:
 
 
 @dataclass
+class PlanGraphSimulationReport:
+    branches: list[TrajectoryBranch] = field(default_factory=list)
+    plan_graph_id: str = ""
+    expanded_candidate_count: int = 0
+    constraint_pruned_count: int = 0
+    beam_pruned_count: int = 0
+    ready_node_expansion_count: int = 0
+    deadlock_count: int = 0
+    primitive_mismatch_count: int = 0
+
+    def to_dict(self) -> dict:
+        return {
+            "branches": [branch.to_dict() for branch in self.branches],
+            "plan_graph_id": self.plan_graph_id,
+            "expanded_candidate_count": self.expanded_candidate_count,
+            "constraint_pruned_count": self.constraint_pruned_count,
+            "beam_pruned_count": self.beam_pruned_count,
+            "ready_node_expansion_count": self.ready_node_expansion_count,
+            "deadlock_count": self.deadlock_count,
+            "primitive_mismatch_count": self.primitive_mismatch_count,
+        }
+
+
+@dataclass
 class GoalSpecification:
     required_states: list[str] = field(default_factory=list)
     any_state_groups: list[list[str]] = field(default_factory=list)

@@ -1,12 +1,15 @@
 import unittest
 
 from risa.core.models import (
+    ConjunctivePlanGraph,
     Event,
     GoalSpecification,
     InterventionSpecification,
     PredictionQuery,
+    PlanGraphDependency,
     StateVariableSpec,
     StructuralAdaptationCandidate,
+    StructuralPrimitive,
 )
 from risa.cli.main import build_parser
 from risa.core.state import RisaState
@@ -30,6 +33,7 @@ from risa.engine.simulator import (
     simulate_action_sequence_with_diagnostics,
     simulate_branches,
     simulate_branches_with_diagnostics,
+    simulate_plan_graph_with_diagnostics,
 )
 from risa.engine.state_variables import apply_variable_deltas
 
@@ -645,7 +649,12 @@ class TrainingAndPredictionTests(unittest.TestCase):
             candidate.suggested_action_sequence,
         )
         self.assertEqual(branch.steps[-1].effect, "launched")
-        self.assertEqual(branch.terminated_reason, "sequence_complete")
+        self.assertEqual(branch.terminated_reason, "plan_graph_complete")
+        self.assertGreater(
+            outcome.evaluation.search_diagnostics["ready_node_expansion_count"],
+            0,
+        )
+        self.assertEqual(outcome.evaluation.search_diagnostics["deadlock_count"], 0)
 
     def test_disjunctive_subplan_search_preserves_and_compares_producers(self) -> None:
         state = RisaState()
@@ -783,6 +792,64 @@ class TrainingAndPredictionTests(unittest.TestCase):
         )
         self.assertEqual(len(limited), 1)
         self.assertTrue(limited[0].plan_graph.alternative_search_truncated)
+
+    def test_partial_order_executor_runs_large_graph_and_pins_primitives(self) -> None:
+        state = RisaState()
+        producer_ids = []
+        dependencies = []
+        for index in range(8):
+            primitive = StructuralPrimitive(
+                id=f"primitive:source:{index}",
+                relation_type="transition",
+                role_signature="entity->process->state",
+                input_conditions={f"process:prepare_{index}"},
+                output_state=f"ready_{index}",
+                adopted=True,
+                adoption_score=0.9,
+            )
+            state.structural_primitives[primitive.id] = primitive
+            producer_ids.append(primitive.id)
+            dependencies.append(
+                PlanGraphDependency(
+                    source_primitive_id=primitive.id,
+                    target_primitive_id="primitive:finish",
+                    required_state=f"ready_{index}",
+                )
+            )
+        terminal = StructuralPrimitive(
+            id="primitive:finish",
+            relation_type="transition",
+            role_signature="entity->process->state",
+            input_conditions={"process:finish"},
+            input_state_conditions={f"state:ready_{index}" for index in range(8)},
+            output_state="complete",
+            adopted=True,
+            adoption_score=0.9,
+        )
+        state.structural_primitives[terminal.id] = terminal
+        graph = ConjunctivePlanGraph(
+            id="plan_graph:wide",
+            primitive_ids=[*producer_ids, terminal.id],
+            dependencies=dependencies,
+        )
+
+        report = simulate_plan_graph_with_diagnostics(
+            state,
+            graph,
+            max_branches=16,
+        )
+
+        self.assertTrue(report.branches)
+        self.assertTrue(all(len(branch.steps) == 9 for branch in report.branches))
+        self.assertTrue(
+            all(branch.steps[-1].primitive_id == terminal.id for branch in report.branches)
+        )
+        self.assertTrue(
+            all(branch.terminated_reason == "plan_graph_complete" for branch in report.branches)
+        )
+        self.assertGreater(report.ready_node_expansion_count, 9)
+        self.assertEqual(report.deadlock_count, 0)
+        self.assertEqual(report.primitive_mismatch_count, 0)
 
     def test_train_and_predict_generalizes_run_to_fatigue(self) -> None:
         state = RisaState()

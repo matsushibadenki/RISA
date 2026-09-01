@@ -352,6 +352,18 @@ English: OR branches preserve evidence and are compared by feasibility and resou
 English: Distinguish absence of evidence from regions that were not searched.
 
 简体中文: 区分“没有证据”和“尚未搜索的区域”。
+
+### 6.5 計画はaction名ではなく根拠構造を実行する
+
+同名actionに複数の構造的意味がある場合、action名だけを指定した実行は計画の根拠を失います。plan graphは
+Primitive IDを実行単位とし、dependency、前提、effectが一致する構造だけを適用します。説明用の線形sequenceと
+実行契約を混同しません。
+
+日本語: 計画した構造と、実行した構造を一致させます。
+
+English: The executed primitive must be the same evidence-bearing structure that was planned.
+
+简体中文: 实际执行的原语必须与计划时具有证据的结构一致。
 - 異なる経験が部分的に同じ内部資源を使うこと
 - その結果として後から見ると共通構造や差分が現れること
 
