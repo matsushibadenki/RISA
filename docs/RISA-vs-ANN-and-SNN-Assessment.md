@@ -39,6 +39,9 @@ ANN、特に Transformer は大規模事前学習に非常に強いです。
 
 SNN は現時点では大規模学習アルゴリズムがまだ発展途上です。
 
+樹状branch、eligibility、feedback、modulation、多時間スケールEvent Memoryを組み合わせる案は有望ですが、
+surrogate-gradient SNNやANNと同条件で比較していないため、学習困難を解決済みとは評価しません。
+
 ### 3.3 RISA
 
 RISA は、現時点の予想では大規模事前学習はかなり不利です。

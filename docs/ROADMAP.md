@@ -139,6 +139,130 @@ but also as inference guidance.
 - [Done] 共活性を局所探索半径の最小制御に使う
 - [Next] 共活性半径を文脈や信頼度に応じて適応化する
 
+### [Later] Fractal Canopy Routing Experiment
+
+日本語:
+固定の木構造を知識分類として与えるのではなく、
+`routing -> local processing -> integration`
+という同じ局所計算則を複数スケールで再利用し、
+問題ごとに探索深度と活性branchを変える。
+
+English:
+Reuse one local
+`routing -> processing -> integration`
+rule across scales, with adaptive depth and active branches,
+rather than imposing a fixed knowledge taxonomy.
+
+简体中文:
+不预设固定知识分类树，
+而是在多个尺度复用
+`路由 -> 局部处理 -> 整合`
+规则，并按问题动态调整深度与活跃分支。
+
+研究テーマ:
+
+- [Later] 同一query集合をflat local activation、固定階層routing、自己相似canopy routingで比較する
+- [Later] easy queryは浅く、難問・新規問題は深くまたは複数branchへ進むadaptive stoppingを実装する
+- [Later] `co_activates_with`、context、replay stabilityをrouter特徴として使い、全探索を避ける
+- [Later] treeに閉じず、複数領域へ属する構造をsparse cross-linkで再利用する
+- [Later] 頻繁に再利用されるrouteの成長、低利用branchの休眠、誤分岐branchのpruningをConcept Cell代謝と接続する
+- [Later] 新branch追加時に既存queryの到達率・予測を壊さない継続学習テストを行う
+- [Later] shallow/deep route間で同じ答えに至るconsistencyと、追加計算による改善量を測る
+- [Later] Transformer側の実験は小規模encoderまたは既存model adapterで行い、RISAコアの前提条件にしない
+
+最初の評価指標:
+
+- holdout goal到達率または予測精度
+- queryあたりの活性node数、探索edge数、推論時間
+- easy/hard query別の平均探索深度
+- 新規branch学習後の旧query回帰率
+- routeと根拠構造の説明可能性
+
+採用条件:
+
+- flat local activationと同等以上の品質で探索量を削減する
+- または同程度の計算量で未知構造へのgeneralizationを改善する
+- 木構造の固定分類に退化せず、cross-linkと文脈別routeを保持できる
+
+この実験はFractalNetの自己相似subpathとanytime性、Mixture-of-Depthsの動的計算配分から着想を得ます。ただし、
+学習後のbranch自律成長やConcept Cell代謝への接続はRISA独自の未検証仮説として扱います。
+
+参考一次資料:
+
+- [FractalNet: Ultra-Deep Neural Networks without Residuals](https://arxiv.org/abs/1605.07648)
+- [Mixture-of-Depths: Dynamically allocating compute in transformer-based language models](https://arxiv.org/abs/2404.02258)
+
+### [Next] Hierarchical Local Credit Assignment
+
+日本語:
+global gradient Backpropagationを必須にせず、
+局所活動、時間、階層構造、outcome modulationから、
+どの構造が結果へ寄与したかを逆向きに割り当てる。
+
+English:
+Assign outcome credit backward through local activity traces,
+time, and hierarchy without requiring global end-to-end gradients.
+
+简体中文:
+无需依赖全局端到端梯度，
+通过局部活动轨迹、时间与层级结构反向分配结果信用。
+
+研究テーマ:
+
+- [Next] Event/Primitive/Concept Cellごとに有限長のactivity traceと親子branch traceを保持する
+- [Next] outcome発生時に、直近のactive subgraphだけへcredit packetを逆向き伝播する
+- [Next] `activity * temporal proximity * contribution * modulation * novelty`を分解記録する
+- [Next] 成功強化、失敗弱化、未関与branch無更新の三状態を最小局所則として実装する
+- [Next] delayed reward課題でeligibility trace長とcredit減衰を比較する
+- [Later] STDP型時間窓、bAP型branch通知、neuromodulation型global scalarを個別ablationする
+- [Later] 局所strength更新と、接続・pruning・branch growthのtopology更新を分離する
+- [Later] Fractal Canopyのroot-to-leaf活動履歴をcredit routing indexとして利用する
+- [Later] replay時に過去traceへcreditを再配分し、online時との整合性を検証する
+- [Later] credit競合時の総量制約とhomeostatic normalizationを導入する
+- [Next] `LocalUnit`のactivity、eligibility、threshold、context、structural budgetを明示型として定義する
+- [Later] 同じ`process -> integrate -> feedback -> plasticity` protocolをbranch、unit、moduleの三尺度で再利用する
+- [Later] flat、固定canopy、局所則で成長するcanopyを同じevent課題で比較する
+- [Later] 形を誘導せずに、再利用・局所credit・接続costだけから樹状構造が創発するか観測する
+- [Later] fast activity、eligibility、strength、topologyの更新時間スケールを分離する
+- [Next] `Fast Trace -> Medium Trace -> Event Memory -> Structural Memory`のcredit memory階層を型として設計する
+- [Next] Event Memoryへmodule/branch activityの圧縮snapshotと不確実性を保持する
+- [Next] delayed outcomeからEvent Memoryを検索し、関連branchだけへcredit packetを再配送する
+- [Later] 数step、数十step、複数episodeへ遅延を伸ばすcredit horizon benchmarkを作る
+- [Later] recurrent loopで同一outcome creditを重複適用しないpacket IDと適用履歴を導入する
+- [Later] point-neuron SNN、STDP SNN、surrogate-gradient SNN、dendritic local-credit modelを同一budgetで比較する
+- [Later] Transformer比較は精度だけでなくonline adaptation、更新範囲、energy proxy、忘却も測る
+
+最小実験順序:
+
+1. 二段・三段の人工因果chainで、真の寄与branchだけが強化されるか確認する
+2. distractor branchを増やし、Hebbian-onlyより誤強化が少ないか比較する
+3. rewardを遅延させ、trace減衰と長期credit assignmentの限界を測る
+4. branchの追加・pruningを有効化し、strength-only学習との差を比較する
+5. 小規模Backprop baselineと到達精度、sample数、更新範囲、忘却を比較する
+6. surrogate-gradient SNNと同じ時系列課題・計算budgetで比較する
+7. Event Memory replayあり・なしで長期creditの到達距離を比較する
+
+成功指標:
+
+- causally relevant branchへのcredit precision / recall
+- delayed outcomeまでの最大有効深度と時間
+- 1 eventあたりの更新node数と計算量
+- 新規課題学習後の旧構造保持率
+- credit経路をEvent IDとPrimitive IDで説明できる割合
+
+失敗条件:
+
+- rewardに近いnodeだけを強化し、長期依存を識別できない
+- 頻度の高いdistractorへcreditが漏れる
+- hierarchyの深さとともに信号が消失または一枝へ独占される
+- topology growthが探索爆発を起こし、pruningで必要経路まで失う
+
+この研究では、Backward informationとBackward gradientを明確に区別します。Backpropは比較baselineや限定moduleで
+利用可能ですが、RISAコアの更新に必須とはしません。
+
+最大リスクは長距離credit assignmentです。数stepの成功だけで原理成立とせず、時間・階層深度・replay回数を
+段階的に増やし、どこでcreditが消失、拡散、誤帰属するかを失敗結果として保存します。
+
 ### [Next] Dynamic Structural Validation
 
 日本語:

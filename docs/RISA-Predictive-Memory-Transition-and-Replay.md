@@ -9,7 +9,8 @@ Kumar and Isola の `Pretraining Recurrent Networks without Recurrence` は、
 2. recurrent updater が、現在 memory と次入力から次 memory を一段だけ予測する。
 
 Sequential Memory Transfer (SMT) は「何を記憶すべきか」と「どう一段更新するか」を分離し、
-Backpropagation Through Time を使わずに updater を事前学習します。Deployment Memory Transfer
+この論文のSMT実験ではBackpropagation Through Timeを使わずにupdaterを事前学習します。これはRISA全体で
+Backward informationやgradient学習を禁止する方針を意味しません。Deployment Memory Transfer
 (DMT) は updater 自身が生成した memory を入力にして追加学習し、逐次実行時の drift を抑えます。
 
 ## RISA への採用

@@ -315,6 +315,10 @@ English: Plan graphs execute dependency-ready primitive IDs directly without fac
 - 目的・制約・不確実性を扱うbranch評価の拡張
 - 独立subplan間の状態消費・資源競合を検出するPlan Graph Threat Detection
 - 共活性と信頼度に応じた探索半径の適応化
+- 自己相似な局所routingで探索深度を動的配分するFractal Canopy実験
+- global gradientを必須にしないHierarchical Local Credit Assignment
+- 脳の物質ではなく局所計算原理を工業化するLocal Unit実験
+- Event Memoryを介して遅延creditを戻すMulti-Timescale Credit Memory
 - Concept Cell の分裂 / 融合 / 休眠ルールの本格化
 
 ロードマップ上では、
@@ -332,6 +336,8 @@ English: Plan graphs execute dependency-ready primitive IDs directly without fac
 - [RISA Structural Interpolation and Smoothing](docs/RISA-Structural-Interpolation-and-Smoothing.md)
 - [RISA Plasticity and Memory Reinforcement](docs/RISA-Plasticity-and-Memory-Reinforcement.md)
 - [RISA Predictive Memory Transition and Structural Replay](docs/RISA-Predictive-Memory-Transition-and-Replay.md)
+- [RISA Hierarchical Local Credit Assignment](docs/RISA-Hierarchical-Local-Credit-Assignment.md)
+- [RISA Industrialized Neural Computation Principles](docs/RISA-Industrialized-Neural-Computation-Principles.md)
 - [RISA Concept Cells and Structure Metabolism](docs/RISA-Concept-Cells-and-Structure-Metabolism.md)
 - [RISA Constraints and Self-Organization Notes](docs/RISA-Constraints-and-Self-Organization-Notes.md)
 - [RISA Search and Activation Strategy Notes](docs/RISA-Search-and-Activation-Strategy-Notes.md)

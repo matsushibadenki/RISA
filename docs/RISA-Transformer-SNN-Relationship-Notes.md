@@ -363,7 +363,25 @@ SNN 的層を RAG のような retrieval と見るより、RISA 内部世界モ�
 
 ---
 
-## 13. 結論
+## 13. SNN学習は未解決
+
+RISAで検討しているdendritic-like local computation、hierarchical local credit、modulation、structural plasticityは、
+単純なpoint-neuron + STDPより強いcredit assignmentを作れる可能性があります。しかし現時点では設計仮説であり、
+SNNの深層学習・長期依存・大規模化を解決済みとは扱いません。
+
+特に局所eligibilityだけでは、数千event前や複数episode前の原因へcreditを戻せない可能性があります。そのため、
+RISAのEvent Memoryを活動経路の圧縮記憶として使い、遅延outcomeから関連module・branchへcreditを再配送する
+Multi-Timescale Credit Memoryを比較実験します。
+
+日本語: SNN学習問題は未解決であり、樹状階層とEvent Memoryは検証すべき候補解です。
+
+English: SNN learning remains unresolved; dendritic hierarchy and event-memory credit replay are testable candidates.
+
+简体中文: SNN学习问题仍未解决；树突层级与事件记忆信用重放是可检验的候选方案。
+
+---
+
+## 14. 結論
 
 現時点では、
 

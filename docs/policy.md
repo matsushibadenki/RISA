@@ -190,6 +190,130 @@ RISA では、既存の Graph AI、イベント駆動系、世界モデル系 OS
 
 といった RISA の中核だけを、独自の研究対象として深めます。
 
+### 4.7 Global Gradient Backpropagationを必須にしない
+
+RISAが目指すのは、あらゆる逆向き情報を禁止するAIではありません。必須依存を避ける対象は、損失から全計算経路へ
+微分gradientをend-to-endで伝播し、一つの中央目的から全parameterを同期更新する
+**global gradient Backpropagation**です。
+
+次のBackward informationは利用可能であり、積極的な研究対象とします。
+
+- goalやconstraintから必要条件を逆向きにたどるbackward planning
+- 発火・イベント後に直前の活動branchをたどるeligibility trace
+- 局所的な予測誤差と成功・失敗信号
+- 時間的近接、因果順序、replay履歴
+- reward、novelty、neuromodulationに相当する疎なglobal signal
+- bAPに着想を得た、活動した局所branchへの逆向き通知
+
+したがって原則は次です。
+
+> **Backward informationは使う。しかしBackward gradientは必須ではない。**
+
+中核仮説は、global differential credit assignmentの代わりに、活動履歴と構造階層を使う
+**hierarchical local credit assignment**です。
+
+```text
+outcome / reward
+  -> recently active branch
+    -> active sub-branch
+      -> eligible local relation or synapse
+        -> local plasticity and topology update
+```
+
+局所creditの初期候補は次の分解可能な形で扱います。
+
+```text
+credit = local_activity
+       * temporal_proximity
+       * branch_contribution
+       * outcome_modulation
+       * novelty
+```
+
+各因子と更新根拠を記録し、単一の不透明scoreだけで構造を編集しません。成功時の強化だけでなく、失敗時の弱化、
+共活動による接続候補、低利用による休眠・pruning、新規相関によるbranch growthを含め、
+**parameter/strength learningとtopology learningを分離評価**します。
+
+global gradient Backpropagationは比較baseline、知覚adapter、teacher、限定された局所moduleの訓練に使うことを
+禁止しません。ただし、RISAの永続構造記憶と継続学習がそれなしでは更新不能になる設計は避けます。局所方式が
+Backprop並みのcredit assignmentを実現したと主張するには、長期依存課題での性能、sample efficiency、計算量、
+忘却耐性、説明可能性を同一条件で比較する必要があります。
+
+日本語: global gradientを必須にせず、逆向き情報と構造traceによる局所credit assignmentを研究します。
+
+English: Backward information is allowed; mandatory global backward gradients are not the foundation.
+
+简体中文: 允许使用反向信息，但不把全局反向梯度作为系统必需基础。
+
+### 4.8 脳の物質ではなく計算原理を工業化する
+
+RISAはニューロン、樹状突起、神経修飾物質などを原子・分子レベルで忠実に複製することを目的にしません。
+生物学から抽出した計算原理を、検証可能で交換可能な工業的unitへ置換します。
+
+優先して抽出する原理は次です。
+
+- branch内の局所非線形計算
+- event/spikeによる時間依存通信
+- activity traceと局所可塑性
+- integration結果からactive branchへ戻るBackward information
+- reward、context、noveltyに相当する疎なmodulation
+- branchの生成、休眠、pruningを含む構造可塑性
+- 再帰接続と複数時間スケールの状態
+
+生物学用語は着想元を示すために使い、実装同一性を主張しません。例えば`bAP-like`は生物学的bAPの再現ではなく、
+integration結果を直前に活動したbranchへ局所通知する工学的interfaceを意味します。
+
+各unitは推論器と受動的parameterだけでなく、少なくとも次の局所状態と更新interfaceを持つ方向を優先します。
+
+```text
+LocalUnit {
+  activation_state
+  recent_activity
+  eligibility_trace
+  connection_strength
+  local_threshold
+  local_context
+  structural_budget
+}
+```
+
+学習は外部optimizerだけが行う処理ではなく、unit自身が活動履歴、時間関係、feedback、制約から局所更新候補を作る
+分散機構として設計します。ただし安全性、再現性、rollbackのため、候補のcommitを別層で制約することは許容します。
+
+自己相似性は固定されたフラクタル形状として与えません。`local processing -> integration -> feedback -> plasticity`という
+同じprotocolがbranch、unit、module、領域で再利用されることを研究仮説とします。形が樹状・canopy状へ成長するかは
+実験結果であり、設計上の必須条件ではありません。
+
+日本語: 脳の材料をコピーせず、局所計算・時間・feedback・可塑性の原理を交換可能な部品へ変換します。
+
+English: Engineer replaceable units from neural computation principles rather than copying biological material.
+
+简体中文: 不复制生物材料，而是把局部计算、时间、反馈与可塑性原理工程化为可替换单元。
+
+### 4.9 SNNの学習問題を解決済みと扱わない
+
+樹状的局所計算、eligibility、feedback、modulation、構造可塑性は、SNNのcredit assignmentを改善する有力仮説です。
+しかし、これらを組み合わせただけで深い時間依存や大規模課題の学習が解決したとはみなしません。
+
+特に次を未解決問題として保持します。
+
+- 数千event以上離れた原因へのcredit assignment
+- recurrent経路でのcredit重複と循環
+- 局所最適の集合が大域goalを満たす条件
+- 長期trace保持のmemory cost
+- branch growthによる探索・credit経路爆発
+- surrogate-gradient SNNやTransformerとの品質・計算量比較
+
+短期局所traceだけで扱えないcreditは、Event MemoryとStructural Memoryへ圧縮して保持し、outcome判明時またはReplay時に
+関連moduleへ再配送する多時間スケール方式を優先研究します。保存されていない活動を後からもっともらしく捏造せず、
+traceの欠落・曖昧性・候補数を診断として残します。
+
+日本語: 有力な設計仮説は得たが、SNN学習問題は未解決として比較実験を続けます。
+
+English: The hypothesis is promising, but SNN learning remains unresolved until controlled comparisons succeed.
+
+简体中文: 该假设很有潜力，但在受控对比实验成功之前，SNN学习问题仍视为未解决。
+
 ---
 
 ## 5. スコープ管理ポリシー

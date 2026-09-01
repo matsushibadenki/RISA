@@ -308,6 +308,32 @@ Transformer にとって Attention が鍵だったように、RISA にも「ど�
 
 ### 今後の研究課題
 
+#### Fractal Canopy Routing
+
+局所活性化を一段の近傍探索で終わらせず、同じrouting則を概念、領域、subconcept、具体経験という異なるスケールで
+再利用する実験を行います。目的はフラクタル形状そのものではなく、queryの難しさに応じた可変深度計算です。
+
+```text
+root activation
+  -> local route
+    -> local processing
+      -> stop or descend
+        -> integrate selected branches
+```
+
+RISAでは固定taxonomyを前提にしません。複数branchに再利用される構造はsparse cross-linkを持てるものとし、
+Concept Cellの利用頻度、共活性、replay stability、context適合度をrouting信号の候補にします。easy queryの浅い終了、
+hard queryの深い探索、novel queryの複数branch横断を、flat local activationとのablationで比較します。
+
+FractalNetが示した異なる深さのsubpathとanytime性、Mixture-of-Depthsが示した入力依存の計算配分は参考になります。
+ただし、動的なbranch生成、pruning、再成長はこれらの結果から直接保証されないため、別仮説として検証します。
+
+日本語: 自己相似な局所routingで、必要な問題だけ深く探索します。
+
+English: Self-similar local routing spends depth only where the problem requires it.
+
+简体中文: 通过自相似的局部路由，只对需要的问题进行更深搜索。
+
 - 何をもって「関連が強い」と判断するか
 - 文脈で attention をどう変えるか
 - 概念とイベントのどちらを優先起動するか
