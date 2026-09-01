@@ -362,6 +362,7 @@ class PlanGraphSimulationReport:
     ready_node_expansion_count: int = 0
     deadlock_count: int = 0
     primitive_mismatch_count: int = 0
+    declared_threat_count: int = 0
 
     def to_dict(self) -> dict:
         return {
@@ -373,6 +374,7 @@ class PlanGraphSimulationReport:
             "ready_node_expansion_count": self.ready_node_expansion_count,
             "deadlock_count": self.deadlock_count,
             "primitive_mismatch_count": self.primitive_mismatch_count,
+            "declared_threat_count": self.declared_threat_count,
         }
 
 
@@ -396,6 +398,22 @@ class PlanGraphDependency:
 
 
 @dataclass
+class PlanGraphThreat:
+    id: str
+    threat_type: str
+    source_primitive_id: str
+    affected_primitive_id: str
+    resource: str
+    severity: str
+    ordering: str
+    resolution_hint: str
+    explanation: str
+
+    def to_dict(self) -> dict:
+        return asdict(self)
+
+
+@dataclass
 class ConjunctivePlanGraph:
     id: str
     primitive_ids: list[str] = field(default_factory=list)
@@ -407,6 +425,7 @@ class ConjunctivePlanGraph:
     alternative_choice_count: int = 0
     dependency_depth: int = 0
     alternative_search_truncated: bool = False
+    threats: list[PlanGraphThreat] = field(default_factory=list)
 
     def to_dict(self) -> dict:
         return asdict(self)

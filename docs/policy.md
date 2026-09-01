@@ -488,6 +488,21 @@ Primitive IDを実行単位とし、dependency、前提、effectが一致する�
 English: The executed primitive must be the same evidence-bearing structure that was planned.
 
 简体中文: 实际执行的原语必须与计划时具有证据的结构一致。
+
+### 6.6 潜在threatと失敗確定を区別する
+
+plan graph内で状態消費、排他更新、共有資源消費が見つかっても、それだけでplan全体を不可能と判定しません。
+安全な順序、十分な初期資源、途中の再供給で解消できる可能性があるためです。threatの根拠、現在の順序、severityを
+保持し、実行またはsimulationで検証します。
+
+ordering dependencyを自動追加する場合は、少なくとも循環を作らないこと、goalへのcausal linkを壊さないこと、
+元graphとrepair後graphを比較可能に残すことを条件にします。
+
+日本語: 潜在競合を説明し、検証前に不可能と断定しません。
+
+English: Explain potential interference without declaring failure before execution evidence.
+
+简体中文: 解释潜在干扰，但不在获得执行证据前断定计划失败。
 - 異なる経験が部分的に同じ内部資源を使うこと
 - その結果として後から見ると共通構造や差分が現れること
 

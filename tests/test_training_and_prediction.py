@@ -20,6 +20,7 @@ from risa.engine.event_parser import parse_events
 from risa.engine.evaluator import evaluate_branches
 from risa.engine.predictor import predict_next_effect
 from risa.engine.planner import (
+    detect_plan_graph_threats,
     generate_backward_intervention_candidates,
     generate_conjunctive_plan_candidates,
     generate_disjunctive_plan_candidates,
@@ -850,6 +851,135 @@ class TrainingAndPredictionTests(unittest.TestCase):
         self.assertGreater(report.ready_node_expansion_count, 9)
         self.assertEqual(report.deadlock_count, 0)
         self.assertEqual(report.primitive_mismatch_count, 0)
+
+    def test_plan_graph_threats_explain_and_preserve_safe_order(self) -> None:
+        state = RisaState()
+        prepare = StructuralPrimitive(
+            id="primitive:prepare_shared",
+            relation_type="transition",
+            role_signature="entity->process->state",
+            input_conditions={"process:prepare_shared"},
+            output_state="shared",
+            adopted=True,
+            adoption_score=0.9,
+        )
+        use = StructuralPrimitive(
+            id="primitive:use_shared",
+            relation_type="transition",
+            role_signature="entity->process->state",
+            input_conditions={"process:use_shared"},
+            input_state_conditions={"state:shared"},
+            output_state="used",
+            adopted=True,
+            adoption_score=0.9,
+        )
+        consume = StructuralPrimitive(
+            id="primitive:consume_shared",
+            relation_type="transition",
+            role_signature="entity->process->state",
+            input_conditions={"process:consume_shared"},
+            input_state_conditions={"state:shared"},
+            consumed_states={"state:shared"},
+            output_state="consumed",
+            adopted=True,
+            adoption_score=0.9,
+        )
+        finish = StructuralPrimitive(
+            id="primitive:finish_shared",
+            relation_type="transition",
+            role_signature="entity->process->state",
+            input_conditions={"process:finish_shared"},
+            input_state_conditions={"state:used", "state:consumed"},
+            output_state="complete",
+            adopted=True,
+            adoption_score=0.9,
+        )
+        nodes = {
+            primitive.id: primitive
+            for primitive in (prepare, use, consume, finish)
+        }
+        state.structural_primitives.update(nodes)
+        dependencies = [
+            PlanGraphDependency(prepare.id, use.id, "shared"),
+            PlanGraphDependency(prepare.id, consume.id, "shared"),
+            PlanGraphDependency(use.id, finish.id, "used"),
+            PlanGraphDependency(consume.id, finish.id, "consumed"),
+        ]
+        threats = detect_plan_graph_threats(state, nodes, dependencies)
+        graph = ConjunctivePlanGraph(
+            id="plan_graph:shared_state_threat",
+            primitive_ids=list(nodes),
+            dependencies=dependencies,
+            threats=threats,
+        )
+
+        self.assertEqual(len(threats), 1)
+        self.assertEqual(threats[0].threat_type, "state_clobber")
+        self.assertEqual(threats[0].ordering, "unordered")
+        self.assertEqual(threats[0].affected_primitive_id, use.id)
+
+        report = simulate_plan_graph_with_diagnostics(
+            state,
+            graph,
+            max_branches=8,
+        )
+        self.assertTrue(report.branches)
+        self.assertEqual(report.declared_threat_count, 1)
+        self.assertGreater(report.deadlock_count, 0)
+        self.assertEqual(
+            [step.action for step in report.branches[0].steps],
+            ["prepare_shared", "use_shared", "consume_shared", "finish_shared"],
+        )
+
+        planning = plan_counterfactuals(
+            state,
+            start_action="prepare_shared",
+            goal_specification=GoalSpecification(required_states=["complete"]),
+            interventions=[
+                InterventionSpecification(
+                    id="threat_aware_plan",
+                    start_action="prepare_shared",
+                    plan_graph=graph,
+                )
+            ],
+            max_branches=8,
+            include_baseline=False,
+        )
+        self.assertEqual(planning.selected_intervention_id, "threat_aware_plan")
+        self.assertTrue(planning.outcomes[0].feasible)
+        self.assertEqual(
+            planning.outcomes[0].evaluation.search_diagnostics[
+                "declared_threat_count"
+            ],
+            1,
+        )
+
+    def test_plan_graph_threat_detector_covers_exclusive_and_numeric_resources(self) -> None:
+        state = RisaState()
+        state.exclusive_state_groups["mode"] = {"state:on", "state:off"}
+        switch = StructuralPrimitive(
+            id="primitive:switch_off",
+            relation_type="transition",
+            role_signature="entity->process->state",
+            state_group_updates={"mode": "off"},
+            state_variable_deltas={"energy": -1.0},
+        )
+        require_on = StructuralPrimitive(
+            id="primitive:require_on",
+            relation_type="transition",
+            role_signature="entity->process->state",
+            input_state_conditions={"state:on"},
+            state_variable_deltas={"energy": -2.0},
+        )
+        nodes = {switch.id: switch, require_on.id: require_on}
+
+        threats = detect_plan_graph_threats(state, nodes, [])
+
+        self.assertEqual(
+            {threat.threat_type for threat in threats},
+            {"exclusive_state_clobber", "numeric_resource_contention"},
+        )
+        self.assertTrue(all(threat.ordering == "unordered" for threat in threats))
 
     def test_train_and_predict_generalizes_run_to_fatigue(self) -> None:
         state = RisaState()

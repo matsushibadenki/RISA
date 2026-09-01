@@ -380,17 +380,22 @@ Use temporary memory, replay, and gradual consolidation.
 - [Done] plan graph指定Primitive IDへ実行候補を固定し、同名actionの混入を防ぐ
 - [Done] 9 node graphを全順列なしで完走し、独立subplanの順序をbranchとして保持する
 - [Done] ready node展開、deadlock、Primitive不一致を探索診断へ追加する
-- [Next] 状態消費・排他更新・共有資源の競合を検出するPlan Graph Threat Detection MVPへ進む
+- [Done] 状態消費・排他更新・共有資源の競合を検出するPlan Graph Threat Detection MVPを実装する
+- [Done] `state_clobber`、`exclusive_state_clobber`、`numeric_resource_contention`を明示型にする
+- [Done] dependency推移関係からthreat orderingとseverityを分類する
+- [Done] threatを即時拒否せず、partial-order実行で安全順と失敗順を比較する
+- [Done] threat数、根拠Primitive、対象resource、解決順序hintを説明へ保持する
+- [Next] 解消可能なthreatへ非循環ordering edgeを提案するThreat-Aware Ordering Repair MVPへ進む
 - [Later] `ADD_REDUNDANT_PATH`は代替経路の観測証拠が得られるまで自動実行しない
 - [Later] 高速一時記憶と低速長期構造の二層化を実装する
 - [Later] working / episodic / semantic / procedural memory の更新速度を分離する
 - [Later] Transformer teacher なしで replay target を形成する self-teaching を検証する
 
-日本語: 部分順序graphの直接実行は完了し、次は独立subplan間の干渉を検出します。
+日本語: 独立subplan間の干渉検出は完了し、次は安全な順序修復を提案します。
 
-English: Partial-order execution is implemented; cross-subplan threat detection is next.
+English: Cross-subplan threat detection is implemented; safe ordering repair is next.
 
-简体中文: 已实现偏序执行；下一步检测子计划之间的冲突。
+简体中文: 已实现子计划冲突检测；下一步提出安全的顺序修复。
 
 ### [Next] Neural Representation + Structural Memory + Dynamic Inference
 

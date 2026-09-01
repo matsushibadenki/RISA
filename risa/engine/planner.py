@@ -11,6 +11,7 @@ from risa.core.models import (
     GoalSpecification,
     InterventionSpecification,
     PlanGraphDependency,
+    PlanGraphThreat,
     StructuralPrimitive,
 )
 from risa.core.state import RisaState
@@ -343,6 +344,7 @@ def generate_conjunctive_plan_candidates(
                 ),
                 unresolved_states=add_states,
                 action_sequence=sequence,
+                threats=detect_plan_graph_threats(state, nodes, dependencies),
             )
             candidates.append(
                 InterventionSpecification(
@@ -478,6 +480,7 @@ def generate_disjunctive_plan_candidates(
                     alternative_choice_count=alternative_choice_count,
                     dependency_depth=_plan_dependency_depth(terminal.id, dependencies),
                     alternative_search_truncated=search_truncated,
+                    threats=detect_plan_graph_threats(state, nodes, dependencies),
                 )
                 candidates.append(
                     InterventionSpecification(
@@ -738,6 +741,7 @@ def plan_counterfactuals(
                     "ready_node_expansion_count": simulation.ready_node_expansion_count,
                     "deadlock_count": simulation.deadlock_count,
                     "primitive_mismatch_count": simulation.primitive_mismatch_count,
+                    "declared_threat_count": simulation.declared_threat_count,
                 }
             )
         evaluation = evaluate_branches(
@@ -1034,6 +1038,128 @@ def _topological_plan_primitive_ids(
     if len(ordered_ids) != len(nodes):
         return []
     return ordered_ids
+
+
+def detect_plan_graph_threats(
+    state: RisaState,
+    nodes: dict[str, StructuralPrimitive],
+    dependencies: list[PlanGraphDependency],
+) -> list[PlanGraphThreat]:
+    """Detect state and resource interference without rejecting the plan."""
+    outgoing: dict[str, set[str]] = {primitive_id: set() for primitive_id in nodes}
+    for dependency in dependencies:
+        if dependency.source_primitive_id in nodes and dependency.target_primitive_id in nodes:
+            outgoing[dependency.source_primitive_id].add(dependency.target_primitive_id)
+
+    def reaches(source_id: str, target_id: str) -> bool:
+        frontier = list(outgoing.get(source_id, set()))
+        visited = set(frontier)
+        while frontier:
+            current = frontier.pop(0)
+            if current == target_id:
+                return True
+            for next_id in outgoing.get(current, set()):
+                if next_id not in visited:
+                    visited.add(next_id)
+                    frontier.append(next_id)
+        return False
+
+    threats: list[PlanGraphThreat] = []
+    seen: set[tuple[str, str, str, str]] = set()
+
+    def add_threat(
+        threat_type: str,
+        source_id: str,
+        affected_id: str,
+        resource: str,
+        explanation: str,
+    ) -> None:
+        key = (threat_type, source_id, affected_id, resource)
+        if key in seen:
+            return
+        seen.add(key)
+        source_before = reaches(source_id, affected_id)
+        affected_before = reaches(affected_id, source_id)
+        ordering = "source_before_affected" if source_before else (
+            "affected_before_source" if affected_before else "unordered"
+        )
+        severity = "high" if source_before else ("low" if affected_before else "medium")
+        resolution_hint = (
+            f"Order '{affected_id}' before '{source_id}'."
+            if not affected_before
+            else "Existing dependency already orders the affected primitive first."
+        )
+        threats.append(
+            PlanGraphThreat(
+                id=f"threat:{threat_type}:{source_id}:{affected_id}:{resource}",
+                threat_type=threat_type,
+                source_primitive_id=source_id,
+                affected_primitive_id=affected_id,
+                resource=resource,
+                severity=severity,
+                ordering=ordering,
+                resolution_hint=resolution_hint,
+                explanation=explanation,
+            )
+        )
+
+    primitive_ids = sorted(nodes)
+    for source_id in primitive_ids:
+        source = nodes[source_id]
+        consumed = {item.removeprefix("state:") for item in source.consumed_states}
+        for affected_id in primitive_ids:
+            if source_id == affected_id:
+                continue
+            affected = nodes[affected_id]
+            required = {
+                item.removeprefix("state:") for item in affected.input_state_conditions
+            }
+            for state_name in sorted(consumed.intersection(required)):
+                add_threat(
+                    "state_clobber",
+                    source_id,
+                    affected_id,
+                    state_name,
+                    f"'{source_id}' consumes state '{state_name}' required by '{affected_id}'.",
+                )
+            for group, next_state in source.state_group_updates.items():
+                conflicting_states = {
+                    item.removeprefix("state:")
+                    for item in state.exclusive_state_groups.get(group, set())
+                    if item.removeprefix("state:") != next_state
+                }
+                for state_name in sorted(required.intersection(conflicting_states)):
+                    add_threat(
+                        "exclusive_state_clobber",
+                        source_id,
+                        affected_id,
+                        state_name,
+                        f"'{source_id}' replaces exclusive group '{group}' while "
+                        f"'{affected_id}' requires '{state_name}'.",
+                    )
+
+    for index, left_id in enumerate(primitive_ids):
+        left = nodes[left_id]
+        for right_id in primitive_ids[index + 1 :]:
+            if reaches(left_id, right_id) or reaches(right_id, left_id):
+                continue
+            right = nodes[right_id]
+            shared = {
+                name
+                for name, delta in left.state_variable_deltas.items()
+                if delta < 0.0 and right.state_variable_deltas.get(name, 0.0) < 0.0
+            }
+            for variable in sorted(shared):
+                add_threat(
+                    "numeric_resource_contention",
+                    left_id,
+                    right_id,
+                    variable,
+                    f"Unordered primitives consume shared numeric resource '{variable}'.",
+                )
+
+    threats.sort(key=lambda item: item.id)
+    return threats
 
 
 def _observed_next_actions(

@@ -965,6 +965,42 @@ English: Dependency-ready primitives execute by exact ID without enumerating all
 
 简体中文: 无需枚举所有全序，按精确ID执行依赖已满足的原语。
 
+### 6.28 Plan Graph Threat Detection
+
+`detect_plan_graph_threats`は、plan graph内のPrimitive間干渉を実行前に静的検査し、`PlanGraphThreat`として保存します。
+
+検出対象:
+
+- `state_clobber`: sourceが、affected Primitiveの必要stateをconsumeする
+- `exclusive_state_clobber`: sourceの排他group更新が、affected Primitiveの必要stateを置換する
+- `numeric_resource_contention`: dependencyで順序づけられていない2 Primitiveが同じ数値資源を減少させる
+
+各threatはsource/affected Primitive ID、stateまたはvariable、severity、現在のordering、resolution hint、説明を持ちます。
+dependencyの推移閉包で、破壊側が先なら`high`、利用側が先なら`low`、未順序なら`medium`とします。
+
+```text
+prepare_shared
+   /       \
+use_shared  consume_shared
+   \       /
+      finish
+```
+
+この例では`consume_shared`が`use_shared`の必要stateを消費します。両者は同時readyなので、consume先行branchは
+deadlockしますが、use先行branchは完走できます。そのため検出時点でplan全体を拒否せず、threatを保持したまま
+partial-order executorで順序を比較します。planner診断の`declared_threat_count`からplanに含まれる静的threat数を
+確認できます。
+
+numeric resource contentionは不足の証明ではなく潜在競合です。十分な初期資源があれば両方実行できます。また、
+producerによる途中補給、排他groupの再生成、複雑なcausal link保護までは解析しません。現段階ではordering edgeを
+自動追加せず、次段階で安全性と循環を検査したrepair候補として提案します。
+
+日本語: 独立subplan間の干渉を説明可能なthreatとして保持し、実行順で検証します。
+
+English: Cross-subplan interference is retained as an explainable threat and tested through execution order.
+
+简体中文: 将子计划间干扰保留为可解释冲突，并通过执行顺序进行验证。
+
 `ADD_REDUNDANT_PATH`は存在しない因果経路を生成してしまう危険があるため、現段階では提案に留めます。
 
 理由:

@@ -437,6 +437,7 @@ def simulate_plan_graph_with_diagnostics(
         ready_node_expansion_count=ready_node_expansion_count,
         deadlock_count=deadlock_count,
         primitive_mismatch_count=primitive_mismatch_count,
+        declared_threat_count=len(plan_graph.threats),
     )
 
 

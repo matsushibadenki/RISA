@@ -65,6 +65,7 @@ RISA はすでに
 - 同じ前提を満たす複数producerを保持・実行比較するDisjunctive Planning
 - 入れ子のAND/OR前提を深さ制限付きで展開するNested AND-OR Planning
 - dependency-ready Primitiveを直接実行するPartial-Order Plan Execution
+- state消費・排他更新・数値資源競合を説明するPlan Graph Threat Detection
 
 まで実装されています。
 
@@ -304,6 +305,15 @@ English: Plan graphs execute dependency-ready primitive IDs directly without fac
 
 简体中文: 计划图直接执行依赖已满足的原语ID，无需阶乘级预线性化。
 
+plan生成時には、あるPrimitiveが別のPrimitiveの必要stateを消費する`state_clobber`、排他的状態を置換する
+`exclusive_state_clobber`、未順序のsubplanが同じ数値資源を消費する`numeric_resource_contention`を検出します。
+threatはplanを即時拒否せず、順序、severity、推奨解決順とともに保持し、partial-order executorで実現可能な順序を
+検証します。
+
+English: Static threats remain explainable hypotheses and are validated by partial-order execution.
+
+简体中文: 静态冲突作为可解释假设保留，并由偏序执行进行验证。
+
 ## 次の重点課題
 
 次に深める優先度が高い領域は次です。
@@ -313,7 +323,7 @@ English: Plan graphs execute dependency-ready primitive IDs directly without fac
 - `shared relation unit` に相当する、より細かい再利用単位の導入
 - 文脈分岐と例外処理の改善
 - 目的・制約・不確実性を扱うbranch評価の拡張
-- 独立subplan間の状態消費・資源競合を検出するPlan Graph Threat Detection
+- 解消可能なthreatへ安全なordering constraintを提案するThreat-Aware Ordering Repair
 - 共活性と信頼度に応じた探索半径の適応化
 - 自己相似な局所routingで探索深度を動的配分するFractal Canopy実験
 - global gradientを必須にしないHierarchical Local Credit Assignment
