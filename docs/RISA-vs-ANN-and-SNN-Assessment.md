@@ -1,5 +1,11 @@
 # RISA と ANN / SNN の比較評価メモ
 
+> 2026-09-05: 現行の実装評価は[設計評価](RISA-Structural-AI-Assessment-2026-09-05.md)、優先順位は[ROADMAP](ROADMAP.md)、規範は[policy §0](policy.md)を参照。この文書の歴史的な仕様・仮説は、現行実装の完全性や性能の実証ではありません。
+>
+> Current assessment, priorities and rules are in the linked documents. Historical specifications/hypotheses here do not establish current completeness or performance.
+>
+> 当前评估、优先级与规则以上述链接为准。本文历史规格与假设不证明当前实现完整性或性能。
+
 ## 1. 目的
 
 この文書は、RISA を ANN や SNN と比較したときに、アーキテクチャ上どのような長所・短所が予想されるかを整理するための設計メモです。

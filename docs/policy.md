@@ -1,5 +1,48 @@
 # RISA 設計ポリシー
 
+## 0. 現行の判断基準 / Current decision rules / 当前决策准则 — 2026-09-05
+
+日本語: 今回の[実装評価](RISA-Structural-AI-Assessment-2026-09-05.md)に基づく規範。
+以下を既存の研究的記述より優先し、実行順序は[ROADMAP](ROADMAP.md)へ一本化する。
+構造記憶と局所更新を中核とする方向は維持し、能力の主張は比較実験が支持する範囲に限定する。
+この改訂は方針の変更であり、以下の未完了契約が実装済みになったことを意味しない。
+
+English: These rules take precedence over earlier research proposals. The roadmap is the single execution plan.
+Preserve structural memory and local updates; limit capability claims to controlled evidence. This policy revision
+does not implement the outstanding contracts below.
+
+简体中文: 以下规则优先于旧研究提案，路线图统一执行顺序。保留结构记忆与局部更新方向，能力声明须有受控证据。
+本次修改的是方针，不表示下列未完成契约已经实现。
+
+| Rule | 日本語 | English | 简体中文 |
+| --- | --- | --- | --- |
+| P1 | 機能存在、仮説、実証結果を区別。toy例だけで知能原理成立としない | Separate implementation, hypothesis and empirical result; toy success is not proof | 区分实现、假设与实证，玩具成功不等于原理成立 |
+| P2 | 一つのoutcomeを原子的に適用。同時effectと代替outcomeを分離し、全実行経路で同じ意味論を使う | Apply entire outcomes atomically; distinguish joint effects/alternatives across all execution paths | 原子应用完整结果，所有执行路径区分同时效果与备选结果 |
+| P3 | 観測IDの再利用とReplayは新規独立証拠に数えない。訂正・時間・episode・出典・versionを保持 | Reused IDs/replays are not new independent evidence; retain correction/time/episode/provenance/version contracts | 重用ID与重放不算新独立证据，保留更正、时间、回合、来源及版本契约 |
+| P4 | 役割・対象・文脈の適用条件を保持。共活性は検索信号であり、適用性や因果の根拠へ自動昇格しない | Preserve role/object/context applicability; coactivation guides retrieval, not automatic applicability/causality | 保留角色、对象与上下文适用条件，共激活只引导检索，不自动证明适用性或因果 |
+| P5 | 観測・導出・仮説を区別。説明は実在証拠と適用規則を参照。根拠不足は棄却可能にする | Distinguish observed/derived/hypothetical claims; cite evidence and rules, and allow abstention | 区分观测、推导与假设，解释引用证据和规则，允许弃答 |
+| P6 | 内部Replayは整合性診断。独立環境・held-out・baseline・ablationを能力評価に必須とする | Replay checks consistency; independent environments, holdouts, baselines and ablations evaluate capability | 重放检查一致性，能力评估必须使用独立环境、留出集、基线与消融 |
+| P7 | 観測順序、適用条件、hard temporal constraintを分離。what-ifを因果同定と呼ばない | Separate observed order, applicability and hard temporal constraints; what-if is not causal identification | 分离观测顺序、适用性和硬时间约束，假设比较不等于因果同定 |
+| P8 | 手動scoreを確率と呼ばない。圧縮はschema・束縛・例外を含む実測costで評価 | Heuristic scores are not probabilities; measure compression including schemas, bindings and exceptions | 启发式分数不是概率，压缩需计入schema、绑定与例外成本 |
+| P9 | 局所性は走査数・更新数・Replay予算・時間・memoryで評価。探索半径だけで主張しない | Measure scans, updates, replay budgets, time and memory, not radius alone | 用扫描、更新、重放预算、时间及内存评估局部性，而非仅看半径 |
+| P10 | 中核修正・評価を先行し、新機構は一つずつ比較。既存plannerを固定して学習の寄与を測る | Fix semantics and evaluate first; add mechanisms individually, holding planning fixed to isolate learning | 先修语义再评估，逐项引入机制，固定规划器以隔离学习收益 |
+
+日本語: 「独立Verifierを標準経路にしない」は内部学習機構の選択であり、独立したテストや環境oracleを
+避ける理由にはしない。自己整合する構造が現実に正しいとは限らない。前提やdeltaを人が与えるモードと、
+観測から学習するモードも区別する。知識単位は観測の圧縮と未知問題への有用性の両方で判断する。
+構造＋文脈の推論は適用範囲と不確実性を返す契約とし、単に未保存の出力が出たことを知識創発とは認定しない。
+
+English: Avoiding an internal intelligent verifier never excuses omitting independent tests or environment oracles.
+Self-consistency is not external correctness. Distinguish supplied preconditions/deltas from learned models.
+Knowledge units require compression and usefulness on unseen problems; inference must report applicability and
+uncertainty. Producing an unstored output alone does not establish knowledge emergence.
+
+简体中文: 不采用内部智能验证器不意味着省略独立测试与环境oracle。自洽不等于外部正确。
+区分人工给定前提/delta与自主学习模型。知识单元须兼具压缩与未见问题上的实用性，推理须报告适用范围与不确定性。
+仅生成未存储的输出不能证明知识涌现。
+
+---
+
 ## 1. 目的
 
 この文書は、RISA の設計・実装・評価を進めるうえでの基本ポリシーを定義するものです。

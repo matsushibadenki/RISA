@@ -1,0 +1,110 @@
+{
+  "deployment_replay_branch_union": [
+    {
+      "action": "route",
+      "outputs": [
+        "left",
+        "right"
+      ],
+      "states": []
+    },
+    {
+      "action": "join",
+      "outputs": [
+        "impossible"
+      ],
+      "states": [
+        "left",
+        "right"
+      ]
+    },
+    {
+      "action": "join",
+      "outputs": [],
+      "states": [
+        "right"
+      ]
+    }
+  ],
+  "duplicate_ingestion": {
+    "count_after": 6,
+    "count_before": 3,
+    "unique_events": 3
+  },
+  "simultaneous_effects": {
+    "branches": [
+      {
+        "states": [
+          "lit"
+        ],
+        "variables": {
+          "energy": 2.0
+        }
+      },
+      {
+        "states": [
+          "warm"
+        ],
+        "variables": {
+          "energy": 2.0
+        }
+      }
+    ],
+    "observed_together": [
+      "lit",
+      "warm"
+    ]
+  },
+  "target_binding": {
+    "heater": [
+      "cold"
+    ],
+    "ice": [
+      "cold"
+    ]
+  },
+  "unknown_action": {
+    "evidence_event_ids": [],
+    "explanation": "Predicted tired from action 'never_seen' using locally activated action, context, structural primitives, concept, co-activation, reproducibility plasticity, prediction-validation history, and competition inhibition.",
+    "predicted_effects": [
+      "tired"
+    ],
+    "score": 0.0991,
+    "supporting_paths": [
+      [
+        "entity:dog",
+        "process:never_seen",
+        "state:tired"
+      ],
+      [
+        "structural:entity->process->state:__no_context__",
+        "context:__no_context__",
+        "state:tired"
+      ],
+      [
+        "entity:dog",
+        "event:0",
+        "state:tired"
+      ],
+      [
+        "entity:dog",
+        "event:1",
+        "state:tired"
+      ],
+      [
+        "event:0",
+        "event_precedes",
+        "event:1",
+        "state:tired"
+      ]
+    ]
+  },
+  "unseen_actor_control": {
+    "action_frequency_baseline": [
+      "tired"
+    ],
+    "risa": [
+      "tired"
+    ]
+  }
+}

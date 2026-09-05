@@ -22,6 +22,25 @@ RISA は **Relationally Involving Self-organizing Architecture** の略で、
 
 という立場です。
 
+
+## 設計評価と現在の優先順位 / Assessment / 设计评估 — 2026-09-05
+
+**構造ベースのAIとして研究を続ける価値はあります。ただし、汎化の優位性は未実証です。**
+既存55テストは通過していますが、追加診断で同時effectの分離、deployment Replayの候補混合、target照合の欠落、
+同一Event再投入による二重計数を確認しました。状態遷移意味論が全経路で完成したという従来の評価は修正します。
+以下の機能一覧は実装の存在を示し、任意の入力での正しさや研究仮説の証明を意味しません。
+
+English: Structural AI research is worth continuing, but generalization advantages are unproven. All 55 existing tests
+pass; new probes expose joint-effect splitting, replay branch mixing, ignored targets and duplicate counting.
+The earlier claim of fully shared transition semantics is withdrawn. Feature listings indicate implementation, not general correctness.
+
+简体中文: 结构AI研究值得继续，但泛化优势尚未证实。现有55项测试通过；新增诊断发现同时效果拆分、重放分支混合、
+target忽略与重复计数。撤回此前已全面统一转移语义的评价；功能列表只说明实现存在，不代表普遍正确。
+
+- [設計評価・再現結果 / Assessment / 评估](docs/RISA-Structural-AI-Assessment-2026-09-05.md)
+- [現行ロードマップ / Current roadmap / 当前路线图](docs/ROADMAP.md)
+- [現行ポリシー / Current policy / 当前方针](docs/policy.md)
+
 ## 現在の状態
 
 RISA はすでに
@@ -209,7 +228,12 @@ fatigue_up
 
 を予測し、
 その理由を構造として返せれば、
-RISA の最小原理が機能していると判断できます。
+最小の動作確認になります。ただしaction頻度だけでも同じ答えが出るため、
+この例だけでは構造学習の追加価値や体系的汎化を示しません。
+
+English: This is a smoke check; action frequency gives the same answer, so it does not establish structural generalization.
+
+简体中文: 这只是基本运行检查；动作频度也能得到相同答案，因此不能证明结构泛化。
 
 分岐状態遷移は次のコマンドで確認できます。
 
@@ -314,27 +338,15 @@ English: Static threats remain explainable hypotheses and are validated by parti
 
 简体中文: 静态冲突作为可解释假设保留，并由偏序执行进行验证。
 
-## 次の重点課題
+## 次の重点課題 / Next priorities / 下一步重点
 
-次に深める優先度が高い領域は次です。
+- [Next] G0: 同時effect・Replay・証拠・対象照合・保存契約を修正 / Repair joint effects, replay, evidence, target matching and persistence / 修正同时效果、重放、证据、对象匹配与保存契约
+- [Next] G1: 独立環境・baseline・held-out・ablationで中核を測定 / Evaluate with independent environments, baselines, holdouts and ablations / 使用独立环境、基线、留出集与消融评估核心
+- [Later] G2–G3: 役割束縛と未知合成、継続適応、計算予算 / Role bindings, unseen composition, adaptation and bounded cost / 角色绑定、未见组合、持续适应与有界成本
+- [Later] G4: 用途検証と追加研究。Canopy・SNN・階層creditは比較結果から再判断 / Validate applications; gate canopy, SNN and hierarchical credit on evidence / 验证应用，根据证据决定Canopy、SNN与层级信用研究
 
-- `State -> Event -> State` 表現の強化
-- 共有構造から未保存関係を導く推論ベンチマーク
-- `shared relation unit` に相当する、より細かい再利用単位の導入
-- 文脈分岐と例外処理の改善
-- 目的・制約・不確実性を扱うbranch評価の拡張
-- 解消可能なthreatへ安全なordering constraintを提案するThreat-Aware Ordering Repair
-- 共活性と信頼度に応じた探索半径の適応化
-- 自己相似な局所routingで探索深度を動的配分するFractal Canopy実験
-- global gradientを必須にしないHierarchical Local Credit Assignment
-- 脳の物質ではなく局所計算原理を工業化するLocal Unit実験
-- Event Memoryを介して遅延creditを戻すMulti-Timescale Credit Memory
-- Concept Cell の分裂 / 融合 / 休眠ルールの本格化
-
-ロードマップ上では、
-特に
-**構造保存から構造共有へ、構造共有から知識創発へ**
-進めることが最重要テーマです。
+完了条件と仮説の見直し条件は[ROADMAP](docs/ROADMAP.md)に集約しています。
+The roadmap defines completion and revision gates. 路线图统一规定完成与修订条件。
 
 ## ドキュメント
 
