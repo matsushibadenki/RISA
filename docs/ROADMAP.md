@@ -1,6 +1,6 @@
 # RISA Roadmap / RISA ロードマップ / RISA 路线图
 
-Updated: 2026-09-05. [Design assessment / 設計評価 / 设计评估](RISA-Structural-AI-Assessment-2026-09-05.md)
+Updated: 2026-09-06. [Design assessment / 設計評価 / 设计评估](RISA-Structural-AI-Assessment-2026-09-05.md)
 
 ## Authority and objective / 位置付けと目的 / 定位与目标
 
@@ -126,7 +126,14 @@ English: G1 passes when reproducible comparative tables and failure cases exist.
 - [Later] 型付き関係と役割束縛 / Typed relations and role bindings / 类型化关系与角色绑定
 - [Later] 前後観測・失敗例から前提候補を比較 / Compare preconditions from before/after and failures / 从前后观测与失败比较前提候选
 - [Later] 観測順序と適用条件を分離し、未観測合成を独立環境で検証 / Separate observed order from applicability and validate novel compositions / 分离观测顺序与适用性，验证新组合
-- [Later] 共有schema＋束縛＋例外の記述長とheld-out予測改善で採用 / Adopt using schema/binding/exception length and held-out gain / 按schema、绑定、例外描述长度与留出收益采纳
+- [Later] 未説明residualと共有unitから匿名の`UnnamedConceptCandidate`を生成 / Generate anonymous candidates from unexplained residuals and shared units / 从未解释残差与共享单元生成匿名候选
+- [Later] 証拠多様性、記述長、held-out予測、未知束縛、例外costを分解した概念圧を記録 / Record decomposed concept pressure across evidence diversity, description length, holdout prediction, unseen bindings, and exception cost / 分项记录证据多样性、描述长度、留出预测、未知绑定与例外成本形成的概念压力
+- [Later] `latent -> proposed -> provisional -> adopted -> specialized/merged/dormant/rejected`の候補ライフサイクル / Candidate lifecycle with promotion, specialization, merging, dormancy, and rejection / 包含提升、分化、合并、休眠与拒绝的候选生命周期
+- [Later] 共有schema＋束縛＋例外の実測記述長とheld-out予測改善で採用 / Adopt using measured schema/binding/exception length and held-out gain / 按schema、绑定、例外的实测描述长度与留出收益采纳
+- [Later] 採用概念による派生indexを作り、元Eventを変更せず再解釈 / Re-index through adopted concepts without modifying source events / 通过已采纳概念建立派生索引，不修改原始事件
+- [Later] lineageとgenerationを追跡し、候補自身の派生物による循環支持を禁止 / Track lineage and generations; forbid circular self-support from derived records / 跟踪谱系与代次，禁止派生记录形成循环自证
+
+詳細設計: [未分知と概念凝縮 / Undivided Knowledge and Concept Condensation / 未分知识与概念凝聚](RISA-Undivided-Knowledge-and-Concept-Condensation.md)
 
 日本語: G0/G1後、構造共有なし・具体遷移表との比較を固定plannerで実施する。最終採用の初期閾値は、
 compositionとbindingの両方で最強の適用可能baselineより成功率が5ポイント以上高く、差の95%区間下限が0超、
@@ -134,15 +141,25 @@ compositionとbindingの両方で最強の適用可能baselineより成功率が
 満たさない場合はfailureを一つ選んで改訂し、2回の事前登録比較でも改善しなければ役割表現・共有単位を再検討する。
 自動schema獲得が勝てなければ、明示schemaを使う説明可能な記憶・計画部品へ用途を絞る。
 
+概念凝縮の追加条件として、候補なし方式より実測記述長を減らし、false generalizationを増やさないことを要求する。
+新概念を使う二世代目以降の候補探索は、祖先と重ならない独立held-out episodeで追加改善が確認できた場合だけ「知能複利」と報告する。
+
 English: After G0/G1, hold the planner fixed. Initial adoption gate: at least +5 percentage points over the strongest
 applicable baseline on both composition and binding, a positive lower 95% bound for the difference, equal budget caps,
 and no more than 2 points of loss on familiar tasks. These are prospective thresholds, not results.
 After two preregistered revisions without improvement, reconsider bindings/sharing; if schema induction adds no value,
 narrow the product to explainable memory/planning with supplied schemas.
 
+Concept condensation must also reduce measured description length over the no-candidate variant without increasing
+false generalization. Report second-generation discovery as intelligence compounding only when it improves independent
+held-out episodes whose evidence does not overlap the candidate lineage.
+
 简体中文: G0/G1后固定规划器。初始采纳条件：组合与绑定任务均超过最强适用基线至少5个百分点，
 差值95%区间下限大于0，遵守相同预算上限，已知任务下降不超过2个百分点。以上是预设门槛，不是实测结果。
 两轮预注册改订后仍无改善，则重新考虑绑定与共享表示；自动schema归纳无收益时，收敛为使用显式schema的可解释记忆与规划组件。
+
+概念凝聚还必须比无候选版本降低实测描述长度，且不增加错误泛化。只有当第二代及后续发现能改善与候选谱系证据不重叠的
+独立留出回合时，才可称为智能复利。
 
 ## G3 — Adaptation and bounded cost / 継続適応と計算予算 / 持续适应与计算预算
 

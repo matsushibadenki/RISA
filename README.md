@@ -23,7 +23,7 @@ RISA は **Relationally Involving Self-organizing Architecture** の略で、
 という立場です。
 
 
-## 設計評価と現在の優先順位 / Assessment / 设计评估 — 2026-09-05
+## 設計評価と現在の優先順位 / Assessment / 设计评估 — 2026-09-06
 
 **構造ベースのAIとして研究を続ける価値はあります。ただし、汎化の優位性は未実証です。**
 既存55テストは通過していますが、追加診断で同時effectの分離、deployment Replayの候補混合、target照合の欠落、
@@ -40,6 +40,7 @@ target忽略与重复计数。撤回此前已全面统一转移语义的评价�
 - [設計評価・再現結果 / Assessment / 评估](docs/RISA-Structural-AI-Assessment-2026-09-05.md)
 - [現行ロードマップ / Current roadmap / 当前路线图](docs/ROADMAP.md)
 - [現行ポリシー / Current policy / 当前方针](docs/policy.md)
+- [未分知と概念凝縮 / Undivided Knowledge and Concept Condensation / 未分知识与概念凝聚](docs/RISA-Undivided-Knowledge-and-Concept-Condensation.md)
 
 ## 現在の状態
 
@@ -343,6 +344,7 @@ English: Static threats remain explainable hypotheses and are validated by parti
 - [Next] G0: 同時effect・Replay・証拠・対象照合・保存契約を修正 / Repair joint effects, replay, evidence, target matching and persistence / 修正同时效果、重放、证据、对象匹配与保存契约
 - [Next] G1: 独立環境・baseline・held-out・ablationで中核を測定 / Evaluate with independent environments, baselines, holdouts and ablations / 使用独立环境、基线、留出集与消融评估核心
 - [Later] G2–G3: 役割束縛と未知合成、継続適応、計算予算 / Role bindings, unseen composition, adaptation and bounded cost / 角色绑定、未见组合、持续适应与有界成本
+- [Later] G2: 未命名構造候補を、証拠多様性・圧縮・held-out予測・反例で検証して概念へ昇格 / Validate unnamed structural candidates through evidence diversity, compression, holdout prediction, and counterexamples / 通过证据多样性、压缩、留出预测与反例验证无名结构候选并提升为概念
 - [Later] G4: 用途検証と追加研究。Canopy・SNN・階層creditは比較結果から再判断 / Validate applications; gate canopy, SNN and hierarchical credit on evidence / 验证应用，根据证据决定Canopy、SNN与层级信用研究
 
 完了条件と仮説の見直し条件は[ROADMAP](docs/ROADMAP.md)に集約しています。
@@ -353,6 +355,7 @@ The roadmap defines completion and revision gates. 路线图统一规定完成�
 - [RISA Roadmap](docs/ROADMAP.md)
 - [RISA MVP-1 Technical Design](docs/RISA-MVP-1-Technical-Design.md)
 - [RISA Design Policy](docs/policy.md)
+- [RISA Undivided Knowledge and Concept Condensation](docs/RISA-Undivided-Knowledge-and-Concept-Condensation.md)
 - [RISA Concept Formation and Multimodal Notes](docs/RISA-Concept-Formation-and-Multimodal-Notes.md)
 - [RISA Structural Sharing and Knowledge Emergence](docs/RISA-Structural-Sharing-and-Knowledge-Emergence.md)
 - [RISA Structural Interpolation and Smoothing](docs/RISA-Structural-Interpolation-and-Smoothing.md)

@@ -496,6 +496,45 @@ RISA では、
 
 - 局所関係単位が繰り返し再利用されること
 
+### 6.2.1 未命名候補を名前より先に保持する
+
+異なる表現、対象、文脈に残る構造を見つけても、直ちに名前付きConcept Cellへしません。
+まず匿名の構造候補として、支持Event、反例、型付き役割、適用範囲、生成履歴を保持します。
+候補は、実測記述長を減らし、独立held-outの予測または合成を改善し、false generalizationを増やさない場合にだけ昇格させます。
+
+名前は概念本体ではなく、多言語の表示aliasです。英語、日本語、简体中文の名称は同じ内部IDへ結び付け、
+名称の自然さを採用根拠にしません。新しい単語の生成だけを知識生成とみなしません。
+
+English: Preserve a discovered structure as an anonymous candidate before naming it. Promotion requires measured
+description-length reduction, improvement on independent held-out prediction or composition, and no increase in false
+generalization. Names are multilingual aliases, not evidence or concept identity.
+
+简体中文: 发现结构后先以匿名候选保存，不立即创建命名Concept Cell。只有在降低实测描述长度、改善独立留出预测或组合、
+且不增加错误泛化时才提升。名称只是多语言别名，不是证据或概念本体。
+
+### 6.2.2 反復量と独立証拠を分ける
+
+文章やEventの反復量は候補発見に役立ちますが、同じ内容の複製、同一sourceの言い換え、同一Event ID、
+内部Replayを独立証拠として数えません。support、source diversity、episode diversity、actor/target/context diversityを分離します。
+
+English: Repetition may reveal candidates, but duplicates, same-source paraphrases, reused Event IDs, and internal
+replay are not independent evidence. Track support and evidence diversity separately.
+
+简体中文: 重复有助于发现候选，但重复文本、同源改写、相同Event ID与内部重放不是独立证据。
+应分别记录支持度与来源、回合、actor、target及上下文多样性。
+
+### 6.2.3 新概念による再解釈は派生層で行う
+
+採用概念を使って既存記憶を再探索するときも、元Eventを書き換えません。再解釈はderived edge/indexとして保持し、
+候補の親子関係とgenerationを追跡します。同じ祖先証拠から生成した派生物は、元候補の新規支持に数えません。
+各generationの追加価値は、新しい独立held-out episodeで評価します。
+
+English: Reinterpretation through adopted concepts creates derived edges or indices without rewriting source events.
+Track lineage and generations; derivatives from the same ancestral evidence cannot support their own ancestor.
+
+简体中文: 使用已采纳概念重新解释记忆时，不改写原始事件，只创建派生边或索引。跟踪候选谱系与代次，
+来自同一祖先证据的派生结果不得反向支持其祖先候选。
+
 ### 6.3 代替構造を早期に潰さない
 
 同じ前提や結果を生成できる複数の構造は、単なる重複として即座に統合しません。文脈、必要資源、risk、
