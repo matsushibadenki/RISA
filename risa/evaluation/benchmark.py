@@ -215,6 +215,9 @@ class RisaEvaluationModel:
         self.enable_change_adaptation = (
             enable_g2_features and name != "risa_no_change_adaptation"
         )
+        self.enable_candidate_concepts = (
+            enable_g2_features and name != "risa_no_candidate_concepts"
+        )
         self.options = TrainingOptions(
             enable_metabolism=name != "risa_no_metabolism",
             enable_replay=name != "risa_no_replay",
@@ -260,6 +263,7 @@ class RisaEvaluationModel:
                 context_tags=list(case.context),
                 target_roles=list(case.target_roles) if self.enable_role_binding else [],
                 enable_change_adaptation=self.enable_change_adaptation,
+                enable_candidate_concepts=self.enable_candidate_concepts,
             ),
         )
         return tuple(sorted(result.predicted_effects))
@@ -276,6 +280,8 @@ class RisaEvaluationModel:
             current_states=sorted(current_states),
             context_tags=list(case.context),
             max_candidates=16,
+            target_roles=list(case.target_roles) if self.enable_role_binding else [],
+            enable_candidate_concepts=self.enable_candidate_concepts,
         )
         return [
             TransitionRule(

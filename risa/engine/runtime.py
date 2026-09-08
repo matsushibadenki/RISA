@@ -12,6 +12,7 @@ from risa.engine.graph_builder import normalize_label
 from risa.engine.learner import learn_from_event, link_temporal_precedence
 from risa.engine.metabolism import decay_nodes
 from risa.engine.replay import replay_structural_memory
+from risa.engine.readout_compaction import restore_compacted_readouts_for_learning
 from risa.engine.state_variables import merge_state_variable_specs
 from risa.engine.validator import validate_event_prediction
 
@@ -36,6 +37,7 @@ def train_events(
     new_events = _validate_and_filter_events(state, events)
     if not new_events:
         return state
+    restore_compacted_readouts_for_learning(state)
     state.state_variable_specs = merge_state_variable_specs(
         state.state_variable_specs,
         new_events,

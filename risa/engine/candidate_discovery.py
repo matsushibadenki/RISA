@@ -96,7 +96,42 @@ def discover_unnamed_candidates(state: RisaState) -> dict[str, UnnamedConceptCan
             candidate.false_generalization_delta = previous.false_generalization_delta
         candidates[candidate_id] = candidate
     state.unnamed_concept_candidates = candidates
+    rebuild_candidate_inference_index(state)
     return candidates
+
+
+def rebuild_candidate_inference_index(state: RisaState) -> None:
+    """Rebuild the derived index; source Events and persisted graph stay unchanged."""
+    state.candidate_inference_index.clear()
+    for candidate in state.unnamed_concept_candidates.values():
+        if candidate.lifecycle_status != "adopted":
+            continue
+        action = normalize_label(str(candidate.structural_schema.get("action", "")))
+        role = normalize_label(str(candidate.structural_schema.get("target_role", "")))
+        if not action or not role:
+            continue
+        key = f"action:{action}:target_role:{role}"
+        values = state.candidate_inference_index.setdefault(key, [])
+        if candidate.id not in values:
+            values.append(candidate.id)
+
+
+def matching_adopted_candidates(
+    state: RisaState,
+    action: str,
+    target_roles: list[str] | set[str] | tuple[str, ...],
+) -> list[UnnamedConceptCandidate]:
+    candidate_ids: set[str] = set()
+    normalized_action = normalize_label(action)
+    for role in target_roles:
+        key = f"action:{normalized_action}:target_role:{normalize_label(role)}"
+        candidate_ids.update(state.candidate_inference_index.get(key, []))
+    return [
+        state.unnamed_concept_candidates[candidate_id]
+        for candidate_id in sorted(candidate_ids)
+        if candidate_id in state.unnamed_concept_candidates
+        and state.unnamed_concept_candidates[candidate_id].lifecycle_status == "adopted"
+    ]
 
 
 def evaluate_unnamed_candidate(
@@ -167,4 +202,5 @@ def evaluate_unnamed_candidate(
         candidate.lifecycle_status = "provisional" if passes else "rejected"
     else:
         candidate.lifecycle_status = "adopted" if passes else "rejected"
+    rebuild_candidate_inference_index(state)
     return candidate

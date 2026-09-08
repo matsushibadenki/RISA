@@ -4,6 +4,7 @@ from dataclasses import replace
 from pathlib import Path
 import unittest
 
+from experiments.candidate_transfer_evaluation import run_candidate_transfer
 from risa.evaluation.benchmark import generate_benchmark, load_manifest, run_benchmark
 
 
@@ -104,6 +105,30 @@ class ComparativeEvaluationTests(unittest.TestCase):
         self.assertLess(success("risa_no_role_binding", "binding"), 1.0)
         self.assertEqual(success("risa", "composition_learned"), 1.0)
         self.assertEqual(success("grounded_transition", "composition_learned"), 0.0)
+
+    def test_redundant_candidate_is_rejected_but_preserves_compressed_readout(self) -> None:
+        result = run_candidate_transfer(
+            {
+                "benchmark_version": "test-candidate",
+                "seeds": [19],
+                "development_episodes_per_seed": 16,
+                "final_episodes_per_seed": 4,
+                "minimum_gain": 0.05,
+                "bootstrap_samples": 100,
+            }
+        )
+
+        self.assertEqual(
+            result["decision"], "rejected_redundant_single_transition_candidate"
+        )
+        self.assertEqual(result["leakage_audit"]["development_final_overlap"], 0)
+        final = next(
+            row for row in result["aggregate"] if row["partition"] == "final"
+        )
+        self.assertEqual(final["paired_delta"], 0.0)
+        self.assertEqual(final["false_generalization_delta"], 0.0)
+        self.assertEqual(final["compressed_readout_candidate_success_rate"], 1.0)
+        self.assertLess(final["compressed_readout_no_candidate_success_rate"], 1.0)
 
 
 if __name__ == "__main__":

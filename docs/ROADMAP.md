@@ -37,7 +37,7 @@ Freeze metrics and thresholds before evaluation; do not relax gates after seeing
 | [Done] | 学習前予測、誤差履歴、共活性、代謝、Replay、文脈分裂の最小経路 | Minimal pre-update prediction, error history, coactivation, metabolism, replay, context splitting | 最小学前预测、误差历史、共激活、代谢、重放与上下文分裂 |
 | [Done] | 状態消費・排他更新・数値資源・単位と上下限の部品 | Consumption, exclusive replacement, numeric resources, units and bounds | 状态消耗、互斥替换、数值资源、单位与边界 |
 | [Done] | 分岐simulation、goal/constraint評価、what-if、AND/OR、偏序実行、threat検出 | Branch simulation, goal/constraint evaluation, what-if, AND/OR, partial-order execution, threats | 分支模拟、目标与约束评估、假设比较、AND/OR、偏序执行及冲突检测 |
-| [Done] | G0反例、G1/G2評価基盤、G2学習機構を回帰テスト化し、全79テストが通過 | G0 counterexamples, G1/G2 evaluation and G2 learning mechanisms covered; all 79 tests pass | G0反例、G1/G2评估及G2学习机制已纳入回归测试，全部79项测试通过 |
+| [Done] | G0反例、G1/G2評価基盤、G2学習機構を回帰テスト化し、全81テストが通過 | G0 counterexamples, G1/G2 evaluation and G2 learning mechanisms covered; all 81 tests pass | G0反例、G1/G2评估及G2学习机制已纳入回归测试，全部81项测试通过 |
 
 日本語: G0で意味論を修正し、G1で比較測定した。G2では型付き役割束縛、前提学習、変化適応を実装し、対象課題で改善した。
 明示済み前提のcompositionは具体遷移表と同率で、保存量と時間には大差が残るため、候補概念の実利用と効率をG2.4で改善する。
@@ -133,25 +133,33 @@ G2将据此重设角色绑定、变化适应及证据效率。
 - [Done] G2.4a action/context/effect/actor/target/roleのevidence index、compact graph保存、直近件数制限Replayを実装 / Implement evidence indices, compact graph persistence and recent-event-bounded replay / 实现证据索引、紧凑图持久化及按最近事件数限制的重放
 - [Done] G2.4b 複数target・source・episodeの共有から`UnnamedConceptCandidate`を生成し、反例と記述長を記録 / Generate unnamed candidates from diverse target/source/episode support and record counterexamples and description length / 从多target、source及episode的共享结构生成无名候选，并记录反例与描述长度
 - [Done] G2.4c development/final非重複証拠で`proposed -> provisional -> adopted/rejected`を判定し、証拠変化時に評価を無効化 / Evaluate proposed, provisional, adopted or rejected states on disjoint development/final evidence and invalidate changed evidence / 用互不重叠的development/final证据评估候选，并在证据变化时使评估失效
-- [Next] 採用候補を予測・計画の派生indexへ接続し、元Eventを変更せず効果をablation / Connect adopted candidates to prediction/planning indices without changing source events and ablate their effect / 将已采纳候选接入预测与规划派生索引，不修改原始事件，并进行消融
+- [Done] 採用候補を派生indexから予測と一時Primitiveへ接続し、元Event・保存graphを変更しない / Connect adopted candidates from a derived index to prediction and ephemeral primitives without changing events or the stored graph / 从派生索引将已采纳候选接入预测及临时原语，不修改Event或持久化图
+- [Done] Eventから再構築可能な頻度表・activation indexを保存対象から外し、legacy stateのみfallback読込 / Omit rebuildable count and activation indices from persistence with a legacy fallback / 不再持久化可从Event重建的频度表及activation索引，并保留旧状态回退
+- [Done] candidate-transferを5 seed・final 200件で比較し、候補あり/なし100%・差0の単一遷移候補を全て棄却 / Compare candidate transfer over five seeds and 200 final cases; reject all redundant single-transition candidates at 100% versus 100% / 用5个seed及200个final案例比较候选迁移；候选有无均为100%，拒绝全部冗余单一转移候选
+- [Next] 複数relation、時間列、適用前提、変数束縛を持つ候補へ拡張し、既存readoutで解けないtransferを評価 / Extend candidates with multiple relations, temporal sequences, applicability and variable bindings, then test transfer unavailable to existing readouts / 将候选扩展到多关系、时间序列、适用条件及变量绑定，并评估现有readout无法解决的迁移
+- [Done] candidate-backed role readout圧縮を回帰一致時だけ適用し、不一致rollback、保存再構築、新規学習時復元を実装 / Apply candidate-backed role compaction only after regression equivalence, with rollback, reload reconstruction and restoration before learning / 仅在回归一致时应用候选支持的角色readout压缩，并实现不一致回滚、重载重建及学习前恢复
+- [Done] 5 seed診断で対象role readoutを平均81 bytesから2 bytesへ削減し、候補経由の成功率100%を維持 / Reduce the targeted role readout from 81 to 2 bytes on average over five seeds while preserving 100% candidate-backed success / 5个seed中目标角色readout平均由81 bytes降至2 bytes，并保持候选路径100%成功率
+- [Next] 総memory・p95時間・広い回帰query corpusでcandidate-backed compactionを評価 / Evaluate candidate-backed compaction on total memory, p95 latency and a broader regression-query corpus / 在总内存、p95时延及更广回归query语料上评估候选支持的压缩
 - [Next] `specialized/merged/dormant`、二世代候補、祖先を含む循環支持禁止を完成 / Complete specialization, merging, dormancy, second-generation candidates and ancestor-aware circular-support prevention / 完成分化、合并、休眠、第二代候选及祖先感知的循环自证防止
-- [Next] state全体の圧縮とindex/full-scan計測で保存量・p95走査差を縮小 / Reduce total state size and measure indexed versus full-scan p95 work / 压缩完整状态并测量索引版与全扫描版的p95工作量
+- [Next] 残るstate重複を圧縮し、index/full-scanの品質・保存量・p95走査差を測定 / Compress remaining state duplication and measure indexed/full-scan quality, storage and p95 work / 压缩剩余状态重复，并测量索引版与全扫描版的质量、存储量及p95工作量
 
 詳細設計: [未分知と概念凝縮 / Undivided Knowledge and Concept Condensation / 未分知识与概念凝聚](RISA-Undivided-Knowledge-and-Concept-Condensation.md)
+
+候補の追加価値検証: [G2候補転移評価 / Candidate transfer evaluation / 候选迁移评估](G2-Candidate-Transfer-Evaluation-2026-09-08.md)
 
 日本語: [G2比較結果](G2-Structural-Reuse-Evaluation-2026-09-08.md)では、final 200 episodeでRISAは観測から前提を学ぶ
 composition 100%（具体遷移表0%）、binding 100%（同75%、役割束縛なし75%）、B期drift 75%（同33.3%、
 変化適応なし33.3%）だった。Control、明示前提composition、A1/A2は100%を維持し、Uncertaintyは94%で同率だった。
-役割型は入力で与えており自動型発見ではない。保存量は静的学習後148,762 bytes対3,458 bytesで、効率の課題は未解決である。
+役割型は入力で与えており自動型発見ではない。保存量は静的学習後138,918 bytes対3,458 bytesで、効率の課題は未解決である。
 
 English: The [G2 comparison](G2-Structural-Reuse-Evaluation-2026-09-08.md) reports 100% versus 0% on learned-
 applicability composition, 100% versus 75% on binding, and 75% versus 33.3% in phase B drift over the pooled final
 episodes. Control, supplied-precondition composition and A1/A2 remain at 100%; uncertainty ties at 94%. Target roles
-are supplied rather than induced. Static state remains large at 148,762 bytes versus 3,458 bytes.
+are supplied rather than induced. Static state remains large at 138,918 bytes versus 3,458 bytes.
 
 简体中文: [G2比较结果](G2-Structural-Reuse-Evaluation-2026-09-08.md)显示：从观测学习适用条件的composition为100%对0%，
 binding为100%对75%，B阶段drift为75%对33.3%。Control、已提供前提的composition及A1/A2保持100%，Uncertainty同为94%。
-target角色由输入提供，尚未自动归纳。静态状态仍为148,762 bytes，而基线为3,458 bytes。
+target角色由输入提供，尚未自动归纳。静态状态仍为138,918 bytes，而基线为3,458 bytes。
 
 日本語: G0/G1後、構造共有なし・具体遷移表との比較を固定plannerで実施する。最終採用の初期閾値は、
 compositionとbindingの両方で最強の適用可能baselineより成功率が5ポイント以上高く、差の95%区間下限が0超、

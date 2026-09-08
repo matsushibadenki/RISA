@@ -330,6 +330,7 @@ class PredictionQuery:
     actor_roles: list[str] = field(default_factory=list)
     target_roles: list[str] = field(default_factory=list)
     enable_change_adaptation: bool = True
+    enable_candidate_concepts: bool = True
 
 
 @dataclass

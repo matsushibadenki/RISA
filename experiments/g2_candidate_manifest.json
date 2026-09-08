@@ -1,0 +1,8 @@
+{
+  "benchmark_version": "g2-c1-candidate.0.0",
+  "seeds": [104729, 130363, 155921, 181081, 206369],
+  "development_episodes_per_seed": 160,
+  "final_episodes_per_seed": 40,
+  "minimum_gain": 0.05,
+  "bootstrap_samples": 2000
+}

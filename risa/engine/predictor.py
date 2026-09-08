@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from risa.core.models import PredictionQuery, PredictionResult
 from risa.core.state import RisaState
+from risa.engine.candidate_discovery import matching_adopted_candidates
 from risa.engine.graph_builder import normalize_label
 from risa.engine.evidence import matching_evidence_event_ids
 from risa.engine.validator import competition_penalty, validation_support
@@ -12,6 +13,11 @@ def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionR
     action = normalize_label(query.action)
     target = normalize_label(query.target) if query.target else ""
     target_roles = sorted({normalize_label(role) for role in query.target_roles})
+    adopted_candidates = (
+        matching_adopted_candidates(state, action, target_roles)
+        if query.enable_candidate_concepts
+        else []
+    )
     actor_id = f"entity:{actor}"
     action_id = f"process:{action}"
     actor_scores = state.actor_action_effect_counts.get(actor, {}).get(action, {})
@@ -20,7 +26,7 @@ def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionR
         f"process:{action}" in primitive.input_conditions
         for primitive in state.structural_primitives.values()
     )
-    if not action_scores and not action_has_structural_evidence:
+    if not action_scores and not action_has_structural_evidence and not adopted_candidates:
         return PredictionResult(
             predicted_effects=[],
             score=0.0,
@@ -53,7 +59,13 @@ def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionR
         )
         for effect, count in role_scores.items():
             target_role_scores[effect] = target_role_scores.get(effect, 0) + count
-    if target and not actor_target_scores and not target_scores and not target_role_scores:
+    if (
+        target
+        and not actor_target_scores
+        and not target_scores
+        and not target_role_scores
+        and not adopted_candidates
+    ):
         return PredictionResult(
             predicted_effects=[],
             score=0.0,
@@ -80,7 +92,14 @@ def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionR
     candidate_effects = _collect_local_candidates(state, actor, action, context_key)
     if target:
         candidate_effects = sorted(
-            set(actor_target_scores) | set(target_scores) | set(target_role_scores)
+            set(actor_target_scores)
+            | set(target_scores)
+            | set(target_role_scores)
+            | {
+                normalize_label(str(effect))
+                for candidate in adopted_candidates
+                for effect in candidate.structural_schema.get("effects", [])
+            }
         )
     if not candidate_effects:
         return PredictionResult(
@@ -112,6 +131,26 @@ def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionR
             else 0.0
         )
         recent_change_support = 1.0 if effect in recent_grounded_outcome else 0.0
+        candidate_concept_support = max(
+            (
+                min(
+                    1.0,
+                    0.5
+                    + (0.25 * candidate.reconstruction_gain)
+                    + max(
+                        candidate.heldout_prediction_delta,
+                        candidate.heldout_composition_delta,
+                    ),
+                )
+                for candidate in adopted_candidates
+                if effect
+                in {
+                    normalize_label(str(item))
+                    for item in candidate.structural_schema.get("effects", [])
+                }
+            ),
+            default=0.0,
+        )
 
         concept_support = 0.0
         concept_id = f"concept:shared_{action}_{effect}"
@@ -153,6 +192,7 @@ def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionR
             + (0.20 * actor_target_score)
             + (0.15 * target_score)
             + (0.20 * target_role_score)
+            + (0.30 * candidate_concept_support)
             + (0.50 * recent_change_support)
             - (0.10 * inhibition_penalty)
         )
@@ -176,10 +216,33 @@ def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionR
         key=lambda primitive: (primitive.adoption_score, primitive.support, primitive.id),
         default=None,
     )
+    best_candidate = max(
+        (
+            candidate
+            for candidate in adopted_candidates
+            if best_effect
+            in {
+                normalize_label(str(item))
+                for item in candidate.structural_schema.get("effects", [])
+            }
+        ),
+        key=lambda candidate: (
+            max(candidate.heldout_prediction_delta, candidate.heldout_composition_delta),
+            candidate.reconstruction_gain,
+            candidate.description_length_delta,
+            candidate.id,
+        ),
+        default=None,
+    )
     if recent_grounded_outcome and best_effect in recent_grounded_outcome:
         predicted_effects = recent_grounded_outcome
     elif target_grounded_outcome:
         predicted_effects = target_grounded_outcome
+    elif best_candidate is not None:
+        predicted_effects = sorted(
+            normalize_label(str(effect))
+            for effect in best_candidate.structural_schema.get("effects", [])
+        )
     elif best_outcome is not None:
         predicted_effects = sorted(best_outcome.produced_states)
     else:
@@ -202,6 +265,19 @@ def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionR
         supporting_paths.append([action_id, "reproducibly_affects", best_effect_id])
     for primitive in _matching_primitives(state, action, best_effect, adopted_only=True):
         supporting_paths.append([primitive.id, "composes_to", best_effect_id])
+    if best_candidate is not None:
+        matched_role = normalize_label(
+            str(best_candidate.structural_schema.get("target_role", ""))
+        )
+        supporting_paths.append(
+            [
+                best_candidate.id,
+                f"role:{matched_role}",
+                "derives_for",
+                f"entity:{target}",
+                best_effect_id,
+            ]
+        )
     inhibition_penalty = competition_penalty(state, action, context_key, best_effect)
     if inhibition_penalty > 0.0:
         supporting_paths.append([f"context:{context_key}", "competition_inhibits", best_effect_id])
@@ -231,6 +307,10 @@ def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionR
         target=target,
         target_roles=target_roles,
     )
+    if best_candidate is not None:
+        evidence_event_ids = sorted(
+            set(evidence_event_ids).union(best_candidate.supporting_event_ids)
+        )
     explanation = (
         f"Derived {predicted_effects} from action '{action}' using observed evidence, locally activated "
         "action, context, structural primitives, concept, co-activation, reproducibility plasticity, "
@@ -250,6 +330,7 @@ def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionR
                 f"action:{action}",
                 f"target:{target}",
                 *[f"target_role:{role}" for role in target_roles],
+                *([best_candidate.id] if best_candidate is not None else []),
                 *(["recent_change_run:3"] if recent_grounded_outcome else []),
                 f"context:{context_key}",
             ]

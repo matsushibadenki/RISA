@@ -35,6 +35,7 @@ from risa.engine.planner import (
 )
 from risa.engine.persistence import load_state, save_state
 from risa.engine.replay import _replay_deployment_trajectory, replay_structural_memory
+from risa.engine.readout_compaction import compact_adopted_candidate_readouts
 from risa.engine.runtime import train_events
 from risa.engine.simulator import (
     simulate_action_sequence_with_diagnostics,
@@ -49,7 +50,10 @@ class TrainingAndPredictionTests(unittest.TestCase):
     def test_cli_parses_numeric_state_variables(self) -> None:
         parser = build_parser()
         forecast_args = parser.parse_args(
-            ["forecast", "--action", "spend", "--variable", "energy=5"]
+            [
+                "forecast", "--action", "spend", "--variable", "energy=5",
+                "--target-role", "battery",
+            ]
         )
         compose_args = parser.parse_args(
             [
@@ -60,6 +64,8 @@ class TrainingAndPredictionTests(unittest.TestCase):
                 "spent",
                 "--start-variable",
                 "energy=10",
+                "--target-role",
+                "battery",
             ]
         )
         simulate_args = parser.parse_args(
@@ -106,7 +112,9 @@ class TrainingAndPredictionTests(unittest.TestCase):
         )
 
         self.assertEqual(dict(forecast_args.variable), {"energy": 5.0})
+        self.assertEqual(forecast_args.target_role, ["battery"])
         self.assertEqual(dict(compose_args.start_variable), {"energy": 10.0})
+        self.assertEqual(compose_args.target_role, ["battery"])
         self.assertEqual(dict(simulate_args.start_variable), {"energy": 5.0})
         self.assertEqual(simulate_args.max_branches, 4)
         self.assertEqual(evaluate_args.goal_state, ["arrived_safe"])
@@ -2618,6 +2626,7 @@ class TrainingAndPredictionTests(unittest.TestCase):
                 composition_delta_ci_lower=0.0,
                 false_generalization_delta=0.0,
             )
+
         evaluate_unnamed_candidate(
             state,
             candidate.id,
@@ -2630,6 +2639,70 @@ class TrainingAndPredictionTests(unittest.TestCase):
             false_generalization_delta=-0.01,
         )
         self.assertEqual(candidate.lifecycle_status, "adopted")
+        self.assertEqual(
+            state.candidate_inference_index[
+                "action:inspect:target_role:heating_device"
+            ],
+            [candidate.id],
+        )
+
+        state.action_target_role_context_effect_counts.clear()
+        without_candidate = predict_next_effect(
+            state,
+            PredictionQuery(
+                actor="robot-d",
+                action="inspect",
+                target="new-radiator",
+                target_roles=["heating_device"],
+                enable_candidate_concepts=False,
+            ),
+        )
+        self.assertEqual(without_candidate.claim_status, "abstained")
+        with_candidate = predict_next_effect(
+            state,
+            PredictionQuery(
+                actor="robot-d",
+                action="inspect",
+                target="new-radiator",
+                target_roles=["heating_device"],
+            ),
+        )
+        self.assertEqual(with_candidate.predicted_effects, ["warm"])
+        self.assertIn(candidate.id, with_candidate.applicability_basis)
+        self.assertTrue(
+            any(path[0] == candidate.id for path in with_candidate.supporting_paths)
+        )
+
+        state.structural_primitives.clear()
+        self.assertEqual(
+            forecast_next_effects(
+                state,
+                "inspect",
+                target_roles=["heating_device"],
+                enable_candidate_concepts=False,
+            ),
+            [],
+        )
+        candidate_forecast = forecast_next_effects(
+            state,
+            "inspect",
+            target_roles=["heating_device"],
+        )
+        self.assertEqual(candidate_forecast[0].added_states, ["warm"])
+        self.assertEqual(candidate_forecast[0].primitive_ids, [f"derived:{candidate.id}"])
+        self.assertEqual(set(state.events_by_id), {event.id for event in events})
+
+        compact_payload = state.to_dict()
+        self.assertNotIn("activation_index", compact_payload)
+        self.assertNotIn("action_effect_counts", compact_payload)
+        self.assertNotIn("candidate_inference_index", compact_payload)
+        adopted_restored = RisaState.from_dict(compact_payload)
+        self.assertEqual(
+            adopted_restored.candidate_inference_index[
+                "action:inspect:target_role:heating_device"
+            ],
+            [candidate.id],
+        )
 
         with self.assertRaisesRegex(ValueError, "overlaps supporting evidence"):
             evaluate_unnamed_candidate(
@@ -2643,6 +2716,95 @@ class TrainingAndPredictionTests(unittest.TestCase):
                 composition_delta_ci_lower=0.0,
                 false_generalization_delta=0.0,
             )
+
+    def test_candidate_backed_readout_compaction_is_equivalent_and_reversible(self) -> None:
+        state = RisaState()
+        support = [
+            Event(
+                "compact-heater", 1, "robot-a", "inspect", target="heater",
+                target_roles=["heating_device"], observed_effects=["warm"],
+                episode_id="compact-a", source="sensor-a",
+            ),
+            Event(
+                "compact-radiator", 2, "robot-b", "inspect", target="radiator",
+                target_roles=["heating_device"], observed_effects=["warm"],
+                episode_id="compact-b", source="sensor-b",
+            ),
+        ]
+        train_events(state, support)
+        candidate = next(iter(state.unnamed_concept_candidates.values()))
+        evaluate_unnamed_candidate(
+            state,
+            candidate.id,
+            partition="development",
+            evaluation_event_ids=["compact-dev"],
+            prediction_delta=0.08,
+            composition_delta=0.0,
+            prediction_delta_ci_lower=0.01,
+            composition_delta_ci_lower=0.0,
+            false_generalization_delta=0.0,
+        )
+        evaluate_unnamed_candidate(
+            state,
+            candidate.id,
+            partition="final",
+            evaluation_event_ids=["compact-final"],
+            prediction_delta=0.07,
+            composition_delta=0.0,
+            prediction_delta_ci_lower=0.01,
+            composition_delta_ci_lower=0.0,
+            false_generalization_delta=0.0,
+        )
+        queries = [
+            PredictionQuery(
+                actor="heldout", action="inspect", target="new-heater",
+                target_roles=["heating_device"],
+            ),
+            PredictionQuery(
+                actor="heldout", action="inspect", target="new-cooler",
+                target_roles=["cooling_device"],
+            ),
+        ]
+        rollback_state = RisaState.from_dict(state.to_dict())
+        rollback_query = PredictionQuery(
+            actor="heldout", action="inspect", target="new-heater",
+            target_roles=["heating_device"], enable_candidate_concepts=False,
+        )
+        rollback_result = compact_adopted_candidate_readouts(
+            rollback_state, [rollback_query]
+        )
+        self.assertFalse(rollback_result.applied)
+        self.assertEqual(rollback_result.mismatch_query_indexes, [0])
+        self.assertTrue(rollback_state.action_target_role_context_effect_counts)
+        self.assertEqual(rollback_state.compacted_role_readouts, {})
+
+        before = [predict_next_effect(state, query).predicted_effects for query in queries]
+        result = compact_adopted_candidate_readouts(state, queries)
+        after = [predict_next_effect(state, query).predicted_effects for query in queries]
+
+        self.assertTrue(result.applied)
+        self.assertEqual(before, after)
+        self.assertLess(result.readout_bytes_after, result.readout_bytes_before)
+        self.assertEqual(len(state.compacted_role_readouts), 1)
+
+        restored = RisaState.from_dict(state.to_dict())
+        self.assertEqual(
+            [predict_next_effect(restored, query).predicted_effects for query in queries],
+            before,
+        )
+        self.assertEqual(len(restored.compacted_role_readouts), 1)
+        train_events(
+            restored,
+            [
+                Event(
+                    "new-evidence", 3, "robot-c", "inspect", target="boiler",
+                    target_roles=["heating_device"], observed_effects=["warm"],
+                    episode_id="compact-c", source="sensor-c",
+                )
+            ],
+        )
+        self.assertEqual(restored.compacted_role_readouts, {})
+        self.assertTrue(restored.action_target_role_context_effect_counts)
 
     def test_legacy_state_migrates_single_output_to_atomic_output_set(self) -> None:
         legacy = RisaState().to_dict()

@@ -4,6 +4,7 @@ from collections import deque
 
 from risa.core.models import CompositionResult, StructuralPrimitive
 from risa.core.state import RisaState
+from risa.engine.candidate_discovery import matching_adopted_candidates
 from risa.engine.graph_builder import normalize_label
 from risa.engine.transitions import apply_primitive_transition
 
@@ -16,6 +17,8 @@ def forecast_next_effects(
     context_tags: list[str] | None = None,
     max_candidates: int = 3,
     include_supported_alternatives: bool = False,
+    target_roles: list[str] | None = None,
+    enable_candidate_concepts: bool = True,
 ) -> list[CompositionResult]:
     """Return locally applicable next-state candidates without collapsing uncertainty."""
     normalized_action = normalize_label(action)
@@ -33,6 +36,8 @@ def forecast_next_effects(
         available_states,
         available_variables,
         include_supported_alternatives=include_supported_alternatives,
+        target_roles=target_roles or [],
+        enable_candidate_concepts=enable_candidate_concepts,
     ):
         score = _primitive_score(primitive, context)
         produced_states = sorted(primitive.produced_states)
@@ -80,6 +85,8 @@ def compose_to_effect(
     start_states: list[str] | None = None,
     start_variables: dict[str, float] | None = None,
     max_steps: int = 3,
+    target_roles: list[str] | None = None,
+    enable_candidate_concepts: bool = True,
 ) -> CompositionResult:
     """Find a local sequence of adopted transition primitives toward an effect."""
     action = normalize_label(start_action)
@@ -95,7 +102,13 @@ def compose_to_effect(
     while queue:
         current_action, available_states, available_variables, primitive_ids, paths, score, depth = queue.popleft()
         for primitive in _adopted_primitives_for_action(
-            state, current_action, context, available_states, available_variables
+            state,
+            current_action,
+            context,
+            available_states,
+            available_variables,
+            target_roles=target_roles or [],
+            enable_candidate_concepts=enable_candidate_concepts,
         ):
             primitive_score = _primitive_score(primitive, context)
             produced_states = sorted(primitive.produced_states)
@@ -168,9 +181,11 @@ def _adopted_primitives_for_action(
     available_states: set[str],
     available_variables: dict[str, float],
     include_supported_alternatives: bool = False,
+    target_roles: list[str] | None = None,
+    enable_candidate_concepts: bool = True,
 ) -> list[StructuralPrimitive]:
     input_condition = f"process:{action}"
-    return [
+    primitives = [
         primitive
         for primitive in state.structural_primitives.values()
         if (primitive.adopted or (include_supported_alternatives and _is_supported_alternative(primitive)))
@@ -183,6 +198,50 @@ def _adopted_primitives_for_action(
         ) is not None
         and _context_compatible(primitive.context_tags, context)
     ]
+    if enable_candidate_concepts:
+        primitives.extend(
+            _candidate_primitives_for_action(state, action, target_roles or [])
+        )
+    return primitives
+
+
+def _candidate_primitives_for_action(
+    state: RisaState,
+    action: str,
+    target_roles: list[str],
+) -> list[StructuralPrimitive]:
+    derived: list[StructuralPrimitive] = []
+    for candidate in matching_adopted_candidates(state, action, target_roles):
+        effects = {
+            normalize_label(str(effect))
+            for effect in candidate.structural_schema.get("effects", [])
+        }
+        if not effects:
+            continue
+        heldout_gain = max(
+            candidate.heldout_prediction_delta,
+            candidate.heldout_composition_delta,
+        )
+        derived.append(
+            StructuralPrimitive(
+                id=f"derived:{candidate.id}",
+                relation_type="candidate_transition",
+                role_signature=f"target:{candidate.typed_role_variables.get('target', '')}",
+                input_conditions={f"process:{action}"},
+                output_states=effects,
+                evidence_event_ids=set(candidate.supporting_event_ids),
+                support=len(candidate.supporting_event_ids),
+                validation_score=min(1.0, 0.5 + heldout_gain),
+                reuse_score=candidate.reconstruction_gain,
+                compression_proxy=float(candidate.description_length_delta),
+                adoption_score=min(
+                    1.0,
+                    0.5 + heldout_gain + (0.25 * candidate.reconstruction_gain),
+                ),
+                adopted=True,
+            )
+        )
+    return derived
 
 
 def _is_supported_alternative(primitive: StructuralPrimitive) -> bool:

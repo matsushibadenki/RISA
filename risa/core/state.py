@@ -48,6 +48,8 @@ class RisaState:
     change_hypotheses: dict[str, ChangeHypothesis] = field(default_factory=dict)
     applicability_hypotheses: dict[str, ApplicabilityHypothesis] = field(default_factory=dict)
     evidence_index: dict[str, list[str]] = field(default_factory=dict)
+    candidate_inference_index: dict[str, list[str]] = field(default_factory=dict)
+    compacted_role_readouts: dict[str, str] = field(default_factory=dict)
     unnamed_concept_candidates: dict[str, UnnamedConceptCandidate] = field(default_factory=dict)
 
     def to_dict(self) -> dict:
@@ -74,17 +76,9 @@ class RisaState:
                 key: spec.to_dict() for key, spec in self.state_variable_specs.items()
             },
             "events": {key: event.to_dict() for key, event in self.events_by_id.items()},
-            "actor_action_effect_counts": self.actor_action_effect_counts,
-            "action_effect_counts": self.action_effect_counts,
-            "actor_action_context_effect_counts": self.actor_action_context_effect_counts,
-            "action_context_effect_counts": self.action_context_effect_counts,
-            "actor_action_target_context_effect_counts": self.actor_action_target_context_effect_counts,
-            "action_target_context_effect_counts": self.action_target_context_effect_counts,
-            "action_target_role_context_effect_counts": self.action_target_role_context_effect_counts,
             "prediction_validation_stats": self.prediction_validation_stats,
             "prediction_competition_stats": self.prediction_competition_stats,
             "concept_members": self.concept_members,
-            "activation_index": self.activation_index,
             "change_hypotheses": {
                 key: hypothesis.to_dict()
                 for key, hypothesis in self.change_hypotheses.items()
@@ -97,6 +91,7 @@ class RisaState:
                 key: candidate.to_dict()
                 for key, candidate in self.unnamed_concept_candidates.items()
             },
+            "compacted_role_readouts": dict(sorted(self.compacted_role_readouts.items())),
         }
 
     @classmethod
@@ -210,19 +205,6 @@ class RisaState:
                 for name, spec in event_data.get("state_variable_specs", {}).items()
             }
             state.events_by_id[key] = Event(**event_data)
-        state.actor_action_effect_counts = data.get("actor_action_effect_counts", {})
-        state.action_effect_counts = data.get("action_effect_counts", {})
-        state.actor_action_context_effect_counts = data.get("actor_action_context_effect_counts", {})
-        state.action_context_effect_counts = data.get("action_context_effect_counts", {})
-        state.actor_action_target_context_effect_counts = data.get(
-            "actor_action_target_context_effect_counts", {}
-        )
-        state.action_target_context_effect_counts = data.get(
-            "action_target_context_effect_counts", {}
-        )
-        state.action_target_role_context_effect_counts = data.get(
-            "action_target_role_context_effect_counts", {}
-        )
         state.prediction_validation_stats = data.get("prediction_validation_stats", {})
         state.prediction_competition_stats = data.get("prediction_competition_stats", {})
         state.event_primitive_ids = data.get("event_primitive_ids", {})
@@ -234,7 +216,6 @@ class RisaState:
             for key, spec in data.get("state_variable_specs", {}).items()
         }
         state.concept_members = data.get("concept_members", {})
-        state.activation_index = data.get("activation_index", {})
         state.change_hypotheses = {
             key: ChangeHypothesis(**hypothesis)
             for key, hypothesis in data.get("change_hypotheses", {}).items()
@@ -247,8 +228,38 @@ class RisaState:
             key: UnnamedConceptCandidate(**candidate)
             for key, candidate in data.get("unnamed_concept_candidates", {}).items()
         }
+        state.compacted_role_readouts = dict(data.get("compacted_role_readouts", {}))
         from risa.engine.evidence import index_event_evidence
 
         for event in state.events_by_id.values():
             index_event_evidence(state, event)
+        if state.events_by_id:
+            from risa.engine.prediction_indexes import rebuild_prediction_indexes
+
+            rebuild_prediction_indexes(state)
+            from risa.engine.readout_compaction import apply_persisted_readout_compaction
+
+            apply_persisted_readout_compaction(state)
+        else:
+            state.actor_action_effect_counts = data.get("actor_action_effect_counts", {})
+            state.action_effect_counts = data.get("action_effect_counts", {})
+            state.actor_action_context_effect_counts = data.get(
+                "actor_action_context_effect_counts", {}
+            )
+            state.action_context_effect_counts = data.get(
+                "action_context_effect_counts", {}
+            )
+            state.actor_action_target_context_effect_counts = data.get(
+                "actor_action_target_context_effect_counts", {}
+            )
+            state.action_target_context_effect_counts = data.get(
+                "action_target_context_effect_counts", {}
+            )
+            state.action_target_role_context_effect_counts = data.get(
+                "action_target_role_context_effect_counts", {}
+            )
+            state.activation_index = data.get("activation_index", {})
+        from risa.engine.candidate_discovery import rebuild_candidate_inference_index
+
+        rebuild_candidate_inference_index(state)
         return state

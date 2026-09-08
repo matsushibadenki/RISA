@@ -59,6 +59,7 @@ def build_parser() -> argparse.ArgumentParser:
     compose_parser.add_argument("--start-action", required=True)
     compose_parser.add_argument("--goal-effect", required=True)
     compose_parser.add_argument("--context", action="append", default=[])
+    compose_parser.add_argument("--target-role", action="append", default=[])
     compose_parser.add_argument("--start-state", action="append", default=[])
     compose_parser.add_argument(
         "--start-variable", action="append", type=_parse_variable_assignment, default=[]
@@ -73,6 +74,7 @@ def build_parser() -> argparse.ArgumentParser:
         "--variable", action="append", type=_parse_variable_assignment, default=[]
     )
     forecast_parser.add_argument("--context", action="append", default=[])
+    forecast_parser.add_argument("--target-role", action="append", default=[])
     forecast_parser.add_argument("--max-candidates", type=int, default=3)
     forecast_parser.add_argument("--state-dir", default="state")
 
@@ -213,6 +215,7 @@ def main() -> None:
             start_states=args.start_state,
             start_variables=dict(args.start_variable),
             max_steps=args.max_steps,
+            target_roles=args.target_role,
         )
         print(json.dumps(result.to_dict(), indent=2))
         return
@@ -226,6 +229,7 @@ def main() -> None:
             current_variables=dict(args.variable),
             context_tags=args.context,
             max_candidates=args.max_candidates,
+            target_roles=args.target_role,
         )
         print(json.dumps([candidate.to_dict() for candidate in candidates], indent=2))
         return

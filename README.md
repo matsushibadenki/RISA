@@ -26,23 +26,24 @@ RISA は **Relationally Involving Self-organizing Architecture** の略で、
 ## 設計評価と現在の優先順位 / Assessment / 设计评估 — 2026-09-08
 
 **構造ベースのAIとして研究を続ける価値があります。ただし、一般的な優位性はまだ未実証です。**
-G2では役割束縛、前提学習、変化適応を実装し、全79テストが通過しています。final評価は、観測から前提を学ぶcompositionで
+G2では役割束縛、前提学習、変化適応を実装し、全81テストが通過しています。final評価は、観測から前提を学ぶcompositionで
 100%対具体遷移表0%、未知target bindingで100%対75%、B期driftで75%対33.3%でした。明示前提compositionは同率で、
-役割型は外部入力、保存量は約43倍なので、次は候補概念の実利用、自動schema獲得、効率改善を進めます。
+役割型は外部入力、保存量は約40倍なので、次は候補概念の比較評価、自動schema獲得、効率改善を進めます。
 以下の機能一覧は実装の存在を示し、任意の入力での正しさや研究仮説の証明を意味しません。
 
 English: Structural AI research remains worthwhile, but a general advantage is not established. G2 implements role
-binding, applicability learning and change adaptation; all 79 tests pass. Final success is 100% versus 0% on learned
+binding, applicability learning and change adaptation; all 81 tests pass. Final success is 100% versus 0% on learned
 composition, 100% versus 75% on binding, and 75% versus 33.3% in phase-B drift. Supplied composition still ties,
-roles are external inputs, and state is about 43× larger, so candidate use, schema induction and efficiency are next.
+roles are external inputs, and state is about 40× larger, so candidate evaluation, schema induction and efficiency are next.
 
-简体中文: 结构AI研究仍值得继续，但尚未证明普遍优势。G2已实现角色绑定、适用条件学习及变化适应，全部79项测试通过。
+简体中文: 结构AI研究仍值得继续，但尚未证明普遍优势。G2已实现角色绑定、适用条件学习及变化适应，全部81项测试通过。
 最终成功率在观测学习composition为100%对0%，binding为100%对75%，B阶段drift为75%对33.3%。已提供前提的
-composition仍持平，角色来自外部输入，状态约大43倍，因此下一步是候选概念应用、schema自动归纳及效率改进。
+composition仍持平，角色来自外部输入，状态约大40倍，因此下一步是候选概念评估、schema自动归纳及效率改进。
 
 - [設計評価・再現結果 / Assessment / 评估](docs/RISA-Structural-AI-Assessment-2026-09-05.md)
 - [現行ロードマップ / Current roadmap / 当前路线图](docs/ROADMAP.md)
 - [G2構造再利用評価 / G2 structural reuse evaluation / G2结构复用评估](docs/G2-Structural-Reuse-Evaluation-2026-09-08.md)
+- [G2候補転移評価 / G2 candidate transfer evaluation / G2候选迁移评估](docs/G2-Candidate-Transfer-Evaluation-2026-09-08.md)
 - [現行ポリシー / Current policy / 当前方针](docs/policy.md)
 - [未分知と概念凝縮 / Undivided Knowledge and Concept Condensation / 未分知识与概念凝聚](docs/RISA-Undivided-Knowledge-and-Concept-Condensation.md)
 
@@ -354,7 +355,10 @@ English: Static threats remain explainable hypotheses and are validated by parti
 - [Done] G1: 5 seed・各split 200 held-out episodeでbaseline・ablation・oracle比較を実施 / Compared baselines, ablations and oracle over five seeds and 200 held-out episodes per split / 已用5个seed及每个split 200个留出回合比较基线、消融与oracle
 - [Done] G2.1–G2.3: 未知targetの役割束縛、変化点適応、前提学習 / Role binding, change adaptation and applicability learning / 角色绑定、变化适应及适用条件学习
 - [Done] G2.4基盤: evidence index、compact graph、予算付きReplay、匿名候補の段階評価 / Evidence index, compact graph, bounded replay and staged unnamed-candidate evaluation / 证据索引、紧凑图、有界重放及无名候选分阶段评估
-- [Next] G2.4: 採用候補を推論へ接続し、自動schema獲得と保存量・p95効率を比較 / Use adopted candidates in inference and evaluate automatic schema acquisition, storage and p95 work / 将已采纳候选接入推理，并评估schema自动获取、存储量及p95效率
+- [Done] G2.4推論接続: 採用候補を派生indexから予測・一時Primitiveへ接続 / Connect adopted candidates to prediction and ephemeral primitives through a derived index / 通过派生索引将已采纳候选接入预测及临时原语
+- [Done] G2.4候補評価: 5 seed・final 200件で単一遷移候補は100%対100%、改善0として棄却 / Reject redundant single-transition candidates after a 100% versus 100% comparison over five seeds and 200 final cases / 以5个种子及200个final案例得到100%对100%，拒绝冗余单一转移候选
+- [Done] G2.4候補圧縮: 回帰一致・rollback・再読込・新規学習復元を実装し、対象readoutを81→2 bytesへ圧縮 / Candidate compaction with equivalence, rollback, reload and learning restoration; targeted readout reduced from 81 to 2 bytes / 实现含一致性、回滚、重载及学习恢复的候选压缩，目标readout由81降至2 bytes
+- [Next] G2.4再設計: 複数relation・時間列・適用前提を持つ候補、自動schema獲得、候補による安全なreadout圧縮 / Multi-relation, temporal and applicability candidates, automatic schema acquisition, and safe candidate-backed readout compression / 多关系、时间及适用条件候选、schema自动获取与候选支持的安全readout压缩
 - [Later] G3: 継続適応と計算予算の大規模検証 / Large-scale validation of continual adaptation and bounded cost / 大规模验证持续适应与计算预算
 - [Later] G4: 用途検証と追加研究。Canopy・SNN・階層creditは比較結果から再判断 / Validate applications; gate canopy, SNN and hierarchical credit on evidence / 验证应用，根据证据决定Canopy、SNN与层级信用研究
 
@@ -366,6 +370,7 @@ The roadmap defines completion and revision gates. 路线图统一规定完成�
 - [RISA Roadmap](docs/ROADMAP.md)
 - [G1 Comparative Evaluation](docs/G1-Comparative-Evaluation-2026-09-08.md)
 - [G2 Structural Reuse Evaluation](docs/G2-Structural-Reuse-Evaluation-2026-09-08.md)
+- [G2 Candidate Transfer Evaluation](docs/G2-Candidate-Transfer-Evaluation-2026-09-08.md)
 - [RISA MVP-1 Technical Design](docs/RISA-MVP-1-Technical-Design.md)
 - [RISA Design Policy](docs/policy.md)
 - [RISA Undivided Knowledge and Concept Condensation](docs/RISA-Undivided-Knowledge-and-Concept-Condensation.md)

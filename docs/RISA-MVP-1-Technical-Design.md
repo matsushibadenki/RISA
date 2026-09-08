@@ -41,6 +41,15 @@
 - 日本語: `UnnamedConceptCandidate`は異なるtarget、source、episodeにまたがる共有schemaから生成する。derived/replay Eventを一次支持から除外し、developmentとfinalの証拠ID重複を拒否する。候補は`proposed -> provisional -> adopted/rejected`へ進み、支持または反例が変われば評価を無効化する。
 - English: `UnnamedConceptCandidate` is generated from schemas shared across targets, sources and episodes. Derived/replay events cannot provide primary support, development/final evidence overlap is rejected, and changed support invalidates evaluation. The implemented lifecycle is `proposed -> provisional -> adopted/rejected`.
 - 简体中文: `UnnamedConceptCandidate`由跨target、source及episode共享的schema生成。derived/replay Event不能作为主要支持，development与final证据重叠会被拒绝，支持变化会使评估失效；已实现生命周期为`proposed -> provisional -> adopted/rejected`。
+- 日本語: 採用候補は非永続の`candidate_inference_index`へ載せる。予測は候補支持を明示し、計画は`derived:candidate:*`の一時Primitiveへ変換する。Eventと保存graphは変更せず、flagで候補利用を無効化できる。
+- English: Adopted candidates enter a non-persisted `candidate_inference_index`. Prediction exposes candidate support and planning materializes `derived:candidate:*` ephemeral primitives. Events and the stored graph remain unchanged, and candidate use can be disabled.
+- 简体中文: 已采纳候选进入不持久化的`candidate_inference_index`。预测会显示候选支持，规划将其转换为`derived:candidate:*`临时原语；Event及持久化图保持不变，并可关闭候选使用。
+- 日本語: Eventから決定的に再構築できる頻度表とactivation indexはschema v3の保存payloadから除外し、読込時に再構築する。Eventを持たないlegacy payloadだけは旧indexをfallbackで読む。
+- English: Count tables and the activation index are omitted from schema-v3 persistence and deterministically rebuilt from events. Legacy payloads without events retain a fallback to their stored indices.
+- 简体中文: schema v3不再持久化可从Event确定性重建的频度表及activation索引，读取时重新生成；没有Event的旧payload仍回退读取旧索引。
+- 日本語: candidate-backed compactionは指定回帰queryの`predicted_effects`が圧縮前後で一致する場合だけrole readoutを削除し、不一致なら原子的にrollbackする。directiveを保存して再読込時に再適用し、新規Event学習前には全readoutをEventから復元してdirectiveを破棄する。
+- English: Candidate-backed compaction removes a role readout only when regression-query outputs match before and after, rolling back atomically on mismatch. Persisted directives reapply after reload; new learning restores all readouts from events and discards the stale directives.
+- 简体中文: 候选支持的压缩仅在指定回归query的`predicted_effects`压缩前后一致时删除角色readout，不一致则原子回滚。directive会持久化并在重载后重新应用；新Event学习前从Event恢复全部readout并丢弃旧directive。
 - 日本語: 実測値と未完了条件は[G2構造再利用評価](G2-Structural-Reuse-Evaluation-2026-09-08.md)と[ROADMAP](ROADMAP.md)を正とする。
 - English: The [G2 evaluation](G2-Structural-Reuse-Evaluation-2026-09-08.md) and [ROADMAP](ROADMAP.md) are authoritative for measured results and unfinished gates.
 - 简体中文: 实测结果及未完成门槛以[G2评估](G2-Structural-Reuse-Evaluation-2026-09-08.md)和[ROADMAP](ROADMAP.md)为准。

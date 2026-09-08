@@ -29,17 +29,21 @@ temporal edges in composition.
 - [Done] 完全なbefore観測を持つ成功2件以上と失敗1件以上から`ApplicabilityHypothesis`を作り、成功反例で撤回する。
 - [Done] action/context/effect/actor/target/role index、`compact-v1` graph保存、件数制限Replayを実装する。
 - [Done] 多様なtarget、source、episodeで共有されるschemaを`UnnamedConceptCandidate`とし、非重複のdevelopment/final証拠で段階評価する。
+- [Done] 採用済み候補だけを派生indexへ載せ、予測と保存されない一時Primitiveへ接続する。機能flagで候補なし経路を保持する。
 
 English: Events now carry typed roles; prediction can bind unseen targets through observed role evidence. Three recent
 same-context outcomes can form a reversible change hypothesis. Complete successful and failed before-state observations
 can form conservative applicability hypotheses that retract on counterexamples. Evidence lookup is indexed, graphs use
 the lossless `compact-v1` format, and replay is bounded. Diverse repeated schemas can become unnamed candidates and move
 from proposed to provisional and adopted or rejected using disjoint evidence.
+Only adopted candidates enter a derived inference index. Prediction and planning consume them through ephemeral
+primitives without modifying source events or the persisted graph; a feature flag preserves the no-candidate path.
 
 简体中文: Event现可携带类型化角色，预测能借助已观测角色证据绑定未见target；同一context最近3次结果可形成可逆变化
 假设；完整成功及失败前态观测可形成保守的适用条件假设，并在反例出现时撤回。证据查询已索引化，图采用无损
 `compact-v1`格式，重放有数量上限。跨多个target、source及episode复现的schema可形成无名候选，并使用不重叠证据从
 proposed推进至provisional，再进入adopted或rejected。
+只有已采纳候选会进入派生推理索引；预测与规划通过不持久化的临时原语使用候选，不修改源Event或持久化图，并保留无候选开关。
 
 ## Final results / 最終結果 / 最终结果
 
@@ -71,25 +75,30 @@ adaptation with a measurable transient recovery cost.
 日本語: G2.1〜G2.3の各機構は対応ablationに対して効果があり、G1で観測した3つの失敗を改善した。特に前提を
 入力せずbefore/afterと失敗例から学ぶcompositionでは、同じplannerを使う具体遷移表の0%に対して100%だった。
 ただし、これは構造AI全般の優位性を実証しない。target roleは入力で明示され、自動型発見ではない。前提学習は完全観測を
-必要とし、状態消費の意味までは帰納しない。匿名候補の採用判定は実装済みだが、まだ予測・計画を自動改善しない。
+必要とし、状態消費の意味までは帰納しない。候補の昇格には明示的なheld-out指標が必要である。採用候補は予測・計画で
+利用可能だが、後続の候補転移評価では既存role readoutを超える改善がなかった。
 
 English: Each G2.1–G2.3 mechanism changes its matching ablation and fixes the three G1 failures. Learned-applicability
 composition reaches 100% while the grounded table with the same planner reaches 0%. This does not establish a general
 structural-AI advantage. Target roles are supplied, applicability induction requires complete observations and does not
-induce consumption semantics, and adopted unnamed candidates are not yet used automatically by prediction or planning.
+induce consumption semantics. Candidate promotion still requires explicitly supplied held-out metrics. Adopted candidates
+are usable by prediction and planning; the follow-up transfer evaluation found no gain over the existing role readout.
 
 简体中文: G2.1至G2.3各机制都优于对应消融，并改善了G1发现的三类失败。从观测学习适用条件的composition达到100%，
 而使用同一规划器的具体转移表为0%。这仍不能证明结构AI具有普遍优势。target角色由输入提供，适用条件归纳要求完整观测，
-且尚未学习状态消耗语义；无名候选虽可完成采纳判定，但尚未自动改善预测或规划。
+且尚未学习状态消耗语义；候选提升仍需要显式提供留出指标。已采纳候选现可用于预测及规划，但后续迁移评估显示其
+没有超过现有角色readout。
 
-Static RISA state averages 148,762 bytes after training versus 3,458 bytes for the grounded transition table, about
-43 times larger. The compact graph reduced the earlier G2 snapshot from roughly 221,701 bytes by about 33%, but total
-state compression remains [Next]. Python-level Control prediction averages about 0.0556 ms versus 0.0009 ms; these
+Static RISA state averages 138,918 bytes after training versus 3,458 bytes for the grounded transition table, about
+40 times larger. Compact graph storage and rebuilding count/activation indices from immutable events reduced the earlier
+G2 snapshot from roughly 221,701 bytes by about 37%, but total state compression remains [Next]. Python-level Control
+prediction averages about 0.0572 ms versus 0.0009 ms; these
 timings are environment-sensitive and show direction rather than a portable performance guarantee.
 
 The original broad G2 gate remains open because supplied-precondition composition still ties the strongest baseline and
-the type schema is external. The next gate is to connect adopted candidates to derived prediction/planning indices,
-test automatic type/schema acquisition on lineage-disjoint held-out episodes, and reduce stored size and indexed p95 work.
+the type schema is external. The subsequent [candidate-transfer evaluation](G2-Candidate-Transfer-Evaluation-2026-09-08.md)
+found 100% versus 100% and rejected every single-transition candidate as redundant. Candidate schemas must now represent
+multi-relation, temporal or applicability structure unavailable to current readouts; compression remains a separate gate.
 
 ## Artifacts / 成果物 / 产物
 
@@ -99,3 +108,4 @@ test automatic type/schema acquisition on lineage-disjoint held-out episodes, an
 - Benchmark: [`risa/evaluation/benchmark.py`](../risa/evaluation/benchmark.py)
 - Candidate discovery: [`risa/engine/candidate_discovery.py`](../risa/engine/candidate_discovery.py)
 - Evidence index: [`risa/engine/evidence.py`](../risa/engine/evidence.py)
+- Candidate transfer evaluation: [`G2-Candidate-Transfer-Evaluation-2026-09-08.md`](G2-Candidate-Transfer-Evaluation-2026-09-08.md)
