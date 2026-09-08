@@ -30,6 +30,7 @@ temporal edges in composition.
 - [Done] action/context/effect/actor/target/role index、`compact-v1` graph保存、件数制限Replayを実装する。
 - [Done] 多様なtarget、source、episodeで共有されるschemaを`UnnamedConceptCandidate`とし、非重複のdevelopment/final証拠で段階評価する。
 - [Done] 採用済み候補だけを派生indexへ載せ、予測と保存されない一時Primitiveへ接続する。機能flagで候補なし経路を保持する。
+- [Done] 同じtarget roleを2段階で束縛し、前提・消費状態・数値条件・変数差分を保つ時間列候補を発見し、採用後は一時macroとして合成する。
 
 English: Events now carry typed roles; prediction can bind unseen targets through observed role evidence. Three recent
 same-context outcomes can form a reversible change hypothesis. Complete successful and failed before-state observations
@@ -38,12 +39,15 @@ the lossless `compact-v1` format, and replay is bounded. Diverse repeated schema
 from proposed to provisional and adopted or rejected using disjoint evidence.
 Only adopted candidates enter a derived inference index. Prediction and planning consume them through ephemeral
 primitives without modifying source events or the persisted graph; a feature flag preserves the no-candidate path.
+Two-step temporal candidates additionally bind the same target role across steps and retain applicability, consumption
+and numeric transitions. Adopted temporal candidates compose as ephemeral macros.
 
 简体中文: Event现可携带类型化角色，预测能借助已观测角色证据绑定未见target；同一context最近3次结果可形成可逆变化
 假设；完整成功及失败前态观测可形成保守的适用条件假设，并在反例出现时撤回。证据查询已索引化，图采用无损
 `compact-v1`格式，重放有数量上限。跨多个target、source及episode复现的schema可形成无名候选，并使用不重叠证据从
 proposed推进至provisional，再进入adopted或rejected。
 只有已采纳候选会进入派生推理索引；预测与规划通过不持久化的临时原语使用候选，不修改源Event或持久化图，并保留无候选开关。
+两步时间序列候选还会在各步绑定同一target角色，并保存适用条件、状态消耗及数值转移；采纳后作为临时宏参与组合。
 
 ## Final results / 最終結果 / 最终结果
 
@@ -97,8 +101,9 @@ timings are environment-sensitive and show direction rather than a portable perf
 
 The original broad G2 gate remains open because supplied-precondition composition still ties the strongest baseline and
 the type schema is external. The subsequent [candidate-transfer evaluation](G2-Candidate-Transfer-Evaluation-2026-09-08.md)
-found 100% versus 100% and rejected every single-transition candidate as redundant. Candidate schemas must now represent
-multi-relation, temporal or applicability structure unavailable to current readouts; compression remains a separate gate.
+found 100% versus 100% and rejected every single-transition candidate as redundant. The later temporal-candidate evaluation
+found 100% versus 75% after preserving typed role scope through fallback, with false generalization at 0% versus 33.3%.
+Two-step temporal schemas therefore pass this scoped transfer gate. Compression remains a separate gate.
 
 ## Artifacts / 成果物 / 产物
 
@@ -109,3 +114,5 @@ multi-relation, temporal or applicability structure unavailable to current reado
 - Candidate discovery: [`risa/engine/candidate_discovery.py`](../risa/engine/candidate_discovery.py)
 - Evidence index: [`risa/engine/evidence.py`](../risa/engine/evidence.py)
 - Candidate transfer evaluation: [`G2-Candidate-Transfer-Evaluation-2026-09-08.md`](G2-Candidate-Transfer-Evaluation-2026-09-08.md)
+- Temporal candidate evaluation: [`G2-Temporal-Candidate-Evaluation-2026-09-09.md`](G2-Temporal-Candidate-Evaluation-2026-09-09.md)
+- Relational candidate evaluation: [`G2-Relational-Candidate-Evaluation-2026-09-09.md`](G2-Relational-Candidate-Evaluation-2026-09-09.md)

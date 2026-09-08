@@ -64,6 +64,12 @@ class TrainingAndPredictionTests(unittest.TestCase):
                 "spent",
                 "--start-variable",
                 "energy=10",
+                "--actor-role",
+                "operator",
+                "--actor",
+                "robot-a",
+                "--target",
+                "battery-a",
                 "--target-role",
                 "battery",
             ]
@@ -114,6 +120,9 @@ class TrainingAndPredictionTests(unittest.TestCase):
         self.assertEqual(dict(forecast_args.variable), {"energy": 5.0})
         self.assertEqual(forecast_args.target_role, ["battery"])
         self.assertEqual(dict(compose_args.start_variable), {"energy": 10.0})
+        self.assertEqual(compose_args.actor_role, ["operator"])
+        self.assertEqual(compose_args.actor, "robot-a")
+        self.assertEqual(compose_args.target, "battery-a")
         self.assertEqual(compose_args.target_role, ["battery"])
         self.assertEqual(dict(simulate_args.start_variable), {"energy": 5.0})
         self.assertEqual(simulate_args.max_branches, 4)
@@ -2717,6 +2726,177 @@ class TrainingAndPredictionTests(unittest.TestCase):
                 false_generalization_delta=0.0,
             )
 
+    def test_temporal_candidate_reuses_a_same_target_plan_without_stored_primitives(self) -> None:
+        state = RisaState()
+        support = [
+            Event(
+                "charge-a", 1, "robot-a", "charge", target="device-a",
+                target_roles=["powered_device"], preconditions=["connected"],
+                numeric_preconditions={"energy": 2.0},
+                state_variable_deltas={"energy": -1.0},
+                observed_effects=["charged"],
+                episode_id="sequence-a", source="sensor-a",
+            ),
+            Event(
+                "activate-a", 2, "robot-a", "activate", target="device-a",
+                target_roles=["powered_device"], preconditions=["charged"],
+                consumed_states=["charged"], numeric_preconditions={"energy": 1.0},
+                state_variable_deltas={"energy": -1.0},
+                observed_states_before=["charged"], before_state_observed=True,
+                observed_effects=["online"], episode_id="sequence-a", source="sensor-a",
+            ),
+            Event(
+                "charge-b", 3, "robot-b", "charge", target="device-b",
+                target_roles=["powered_device"], preconditions=["connected"],
+                numeric_preconditions={"energy": 2.0},
+                state_variable_deltas={"energy": -1.0},
+                observed_effects=["charged"],
+                episode_id="sequence-b", source="sensor-b",
+            ),
+            Event(
+                "activate-b", 4, "robot-b", "activate", target="device-b",
+                target_roles=["powered_device"], preconditions=["charged"],
+                consumed_states=["charged"], numeric_preconditions={"energy": 1.0},
+                state_variable_deltas={"energy": -1.0},
+                observed_states_before=["charged"], before_state_observed=True,
+                observed_effects=["online"], episode_id="sequence-b", source="sensor-b",
+            ),
+            Event(
+                "charge-c", 5, "robot-c", "charge", target="device-c",
+                target_roles=["powered_device"], preconditions=["connected"],
+                numeric_preconditions={"energy": 2.0},
+                state_variable_deltas={"energy": -1.0}, observed_effects=["charged"],
+                episode_id="sequence-c", source="sensor-c",
+            ),
+            Event(
+                "activate-c-failed", 6, "robot-c", "activate", target="device-c",
+                target_roles=["powered_device"], preconditions=["charged"],
+                observed_states_before=["charged"], before_state_observed=True,
+                observed_effects=[], transition_succeeded=False,
+                episode_id="sequence-c", source="sensor-c",
+            ),
+            Event(
+                "activate-c-retry", 7, "robot-c", "activate", target="device-c",
+                target_roles=["powered_device"], preconditions=["charged"],
+                consumed_states=["charged"], numeric_preconditions={"energy": 1.0},
+                state_variable_deltas={"energy": -1.0},
+                observed_states_before=["charged"], before_state_observed=True,
+                observed_effects=["online"], episode_id="sequence-c", source="sensor-c",
+            ),
+        ]
+        train_events(state, support)
+        candidate = next(
+            item
+            for item in state.unnamed_concept_candidates.values()
+            if item.structural_schema.get("kind") == "temporal_sequence"
+        )
+
+        self.assertEqual(candidate.structural_schema["target_binding"], "same_target")
+        self.assertEqual(candidate.typed_role_variables, {"target": "powered_device"})
+        self.assertEqual(len(candidate.structural_schema["steps"]), 2)
+        self.assertEqual(candidate.target_diversity, 2)
+        self.assertIn("activate-c-failed", candidate.counterexample_event_ids)
+        self.assertNotIn("activate-c-retry", candidate.supporting_event_ids)
+        self.assertGreater(candidate.description_length_delta, 0)
+        evaluate_unnamed_candidate(
+            state,
+            candidate.id,
+            partition="development",
+            evaluation_event_ids=["sequence-dev-1", "sequence-dev-2"],
+            prediction_delta=0.0,
+            composition_delta=0.25,
+            prediction_delta_ci_lower=0.0,
+            composition_delta_ci_lower=0.1,
+            false_generalization_delta=0.0,
+        )
+        evaluate_unnamed_candidate(
+            state,
+            candidate.id,
+            partition="final",
+            evaluation_event_ids=["sequence-final-1", "sequence-final-2"],
+            prediction_delta=0.0,
+            composition_delta=0.2,
+            prediction_delta_ci_lower=0.0,
+            composition_delta_ci_lower=0.08,
+            false_generalization_delta=0.0,
+        )
+        self.assertEqual(candidate.lifecycle_status, "adopted")
+        plan_key = "plan_start:charge:goal:online:target_role:powered_device"
+        self.assertEqual(state.candidate_inference_index[plan_key], [candidate.id])
+
+        source_event_ids = set(state.events_by_id)
+        state.structural_primitives.clear()
+        without_candidate = compose_to_effect(
+            state,
+            "charge",
+            "online",
+            target_roles=["powered_device"],
+            enable_candidate_concepts=False,
+            start_states=["connected"],
+            start_variables={"energy": 2.0},
+            max_steps=2,
+        )
+        with_candidate = compose_to_effect(
+            state,
+            "charge",
+            "online",
+            target_roles=["powered_device"],
+            start_states=["connected"],
+            start_variables={"energy": 2.0},
+            max_steps=2,
+        )
+        wrong_role = compose_to_effect(
+            state,
+            "charge",
+            "online",
+            target_roles=["heating_device"],
+            start_states=["connected"],
+            start_variables={"energy": 2.0},
+            max_steps=2,
+        )
+        insufficient = compose_to_effect(
+            state,
+            "charge",
+            "online",
+            target_roles=["powered_device"],
+            start_states=["connected"],
+            start_variables={"energy": 1.0},
+            max_steps=2,
+        )
+
+        self.assertEqual(without_candidate.primitive_ids, [])
+        self.assertEqual(wrong_role.primitive_ids, [])
+        self.assertIn("do not match query role bindings", wrong_role.explanation)
+        self.assertEqual(insufficient.primitive_ids, [])
+        self.assertEqual(with_candidate.added_states, ["online"])
+        self.assertEqual(with_candidate.removed_states, ["charged"])
+        self.assertEqual(with_candidate.variable_deltas, {"energy": -2.0})
+        self.assertEqual(with_candidate.resulting_variables, {"energy": 0.0})
+        self.assertEqual(
+            with_candidate.primitive_ids,
+            [
+                f"derived:{candidate.id}:step:1",
+                f"derived:{candidate.id}:step:2",
+            ],
+        )
+        self.assertTrue(
+            all("bind:target=same_target" in path for path in with_candidate.supporting_paths)
+        )
+        self.assertEqual(set(state.events_by_id), source_event_ids)
+
+        restored = RisaState.from_dict(state.to_dict())
+        self.assertEqual(restored.candidate_inference_index[plan_key], [candidate.id])
+        restored_result = compose_to_effect(
+            restored,
+            "charge",
+            "online",
+            target_roles=["powered_device"],
+            start_states=["connected"],
+            start_variables={"energy": 2.0},
+            max_steps=2,
+        )
+        self.assertEqual(restored_result.primitive_ids, with_candidate.primitive_ids)
+
     def test_candidate_backed_readout_compaction_is_equivalent_and_reversible(self) -> None:
         state = RisaState()
         support = [
@@ -2805,6 +2985,114 @@ class TrainingAndPredictionTests(unittest.TestCase):
         )
         self.assertEqual(restored.compacted_role_readouts, {})
         self.assertTrue(restored.action_target_role_context_effect_counts)
+
+    def test_temporal_candidate_binds_actor_and_target_role_variables(self) -> None:
+        state = RisaState()
+        events: list[Event] = []
+        timestamp = 1
+        for actor, target, source in (
+            ("controller-a", "device-a", "sensor-a"),
+            ("controller-b", "device-b", "sensor-b"),
+        ):
+            episode = f"relational-{target}"
+            events.extend(
+                [
+                    Event(
+                        f"{episode}-prepare", timestamp, actor, "prepare",
+                        target=target, actor_roles=["controller"],
+                        target_roles=["powered_device"], observed_effects=["ready"],
+                        episode_id=episode, source=source,
+                    ),
+                    Event(
+                        f"{episode}-start", timestamp + 1, actor, "start",
+                        target=target, actor_roles=["controller"],
+                        target_roles=["powered_device"], preconditions=["ready"],
+                        observed_states_before=["ready"], before_state_observed=True,
+                        observed_effects=["running"], episode_id=episode, source=source,
+                    ),
+                ]
+            )
+            timestamp += 2
+        train_events(state, events)
+        candidate = next(
+            item
+            for item in state.unnamed_concept_candidates.values()
+            if item.structural_schema.get("kind") == "temporal_sequence"
+        )
+
+        self.assertEqual(
+            candidate.typed_role_variables,
+            {"target": "powered_device", "actor": "controller"},
+        )
+        self.assertEqual(candidate.structural_schema["actor_binding"], "same_actor")
+        self.assertEqual(
+            candidate.structural_schema["variable_constraints"],
+            [{"left": "actor", "relation": "not_equal", "right": "target"}],
+        )
+        evaluate_unnamed_candidate(
+            state,
+            candidate.id,
+            partition="development",
+            evaluation_event_ids=["relational-dev"],
+            prediction_delta=0.0,
+            composition_delta=0.2,
+            prediction_delta_ci_lower=0.0,
+            composition_delta_ci_lower=0.05,
+            false_generalization_delta=-0.1,
+        )
+        evaluate_unnamed_candidate(
+            state,
+            candidate.id,
+            partition="final",
+            evaluation_event_ids=["relational-final"],
+            prediction_delta=0.0,
+            composition_delta=0.2,
+            prediction_delta_ci_lower=0.0,
+            composition_delta_ci_lower=0.05,
+            false_generalization_delta=-0.1,
+        )
+
+        valid = compose_to_effect(
+            state, "prepare", "running",
+            actor_roles=["controller"], target_roles=["powered_device"],
+            actor="controller-new", target="device-new", max_steps=2,
+        )
+        wrong_actor = compose_to_effect(
+            state, "prepare", "running",
+            actor_roles=["observer"], target_roles=["powered_device"], max_steps=2,
+        )
+        missing_actor_role = compose_to_effect(
+            state, "prepare", "running",
+            target_roles=["powered_device"], max_steps=2,
+        )
+        untyped_baseline = compose_to_effect(
+            state, "prepare", "running",
+            actor_roles=["observer"], target_roles=["powered_device"],
+            enable_candidate_concepts=False, max_steps=2,
+        )
+        same_identity = compose_to_effect(
+            state, "prepare", "running",
+            actor_roles=["controller"], target_roles=["powered_device"],
+            actor="self-controller", target="self-controller", max_steps=2,
+        )
+        same_identity_baseline = compose_to_effect(
+            state, "prepare", "running",
+            actor_roles=["controller"], target_roles=["powered_device"],
+            actor="self-controller", target="self-controller",
+            enable_candidate_concepts=False, max_steps=2,
+        )
+
+        self.assertEqual(len(valid.primitive_ids), 2)
+        self.assertTrue(
+            all("bind:actor=same_actor" in path for path in valid.supporting_paths)
+        )
+        self.assertEqual(wrong_actor.primitive_ids, [])
+        self.assertEqual(missing_actor_role.primitive_ids, [])
+        self.assertTrue(untyped_baseline.primitive_ids)
+        self.assertEqual(same_identity.primitive_ids, [])
+        self.assertTrue(same_identity_baseline.primitive_ids)
+        self.assertIn("identities violate", same_identity.explanation)
+        self.assertIn("do not match query role bindings", wrong_actor.explanation)
 
     def test_legacy_state_migrates_single_output_to_atomic_output_set(self) -> None:
         legacy = RisaState().to_dict()

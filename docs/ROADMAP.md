@@ -37,7 +37,7 @@ Freeze metrics and thresholds before evaluation; do not relax gates after seeing
 | [Done] | 学習前予測、誤差履歴、共活性、代謝、Replay、文脈分裂の最小経路 | Minimal pre-update prediction, error history, coactivation, metabolism, replay, context splitting | 最小学前预测、误差历史、共激活、代谢、重放与上下文分裂 |
 | [Done] | 状態消費・排他更新・数値資源・単位と上下限の部品 | Consumption, exclusive replacement, numeric resources, units and bounds | 状态消耗、互斥替换、数值资源、单位与边界 |
 | [Done] | 分岐simulation、goal/constraint評価、what-if、AND/OR、偏序実行、threat検出 | Branch simulation, goal/constraint evaluation, what-if, AND/OR, partial-order execution, threats | 分支模拟、目标与约束评估、假设比较、AND/OR、偏序执行及冲突检测 |
-| [Done] | G0反例、G1/G2評価基盤、G2学習機構を回帰テスト化し、全81テストが通過 | G0 counterexamples, G1/G2 evaluation and G2 learning mechanisms covered; all 81 tests pass | G0反例、G1/G2评估及G2学习机制已纳入回归测试，全部81项测试通过 |
+| [Done] | G0反例、G1/G2評価基盤、G2学習機構を回帰テスト化し、全85テストが通過 | G0 counterexamples, G1/G2 evaluation and G2 learning mechanisms covered; all 85 tests pass | G0反例、G1/G2评估及G2学习机制已纳入回归测试，全部85项测试通过 |
 
 日本語: G0で意味論を修正し、G1で比較測定した。G2では型付き役割束縛、前提学習、変化適応を実装し、対象課題で改善した。
 明示済み前提のcompositionは具体遷移表と同率で、保存量と時間には大差が残るため、候補概念の実利用と効率をG2.4で改善する。
@@ -136,7 +136,12 @@ G2将据此重设角色绑定、变化适应及证据效率。
 - [Done] 採用候補を派生indexから予測と一時Primitiveへ接続し、元Event・保存graphを変更しない / Connect adopted candidates from a derived index to prediction and ephemeral primitives without changing events or the stored graph / 从派生索引将已采纳候选接入预测及临时原语，不修改Event或持久化图
 - [Done] Eventから再構築可能な頻度表・activation indexを保存対象から外し、legacy stateのみfallback読込 / Omit rebuildable count and activation indices from persistence with a legacy fallback / 不再持久化可从Event重建的频度表及activation索引，并保留旧状态回退
 - [Done] candidate-transferを5 seed・final 200件で比較し、候補あり/なし100%・差0の単一遷移候補を全て棄却 / Compare candidate transfer over five seeds and 200 final cases; reject all redundant single-transition candidates at 100% versus 100% / 用5个seed及200个final案例比较候选迁移；候选有无均为100%，拒绝全部冗余单一转移候选
-- [Next] 複数relation、時間列、適用前提、変数束縛を持つ候補へ拡張し、既存readoutで解けないtransferを評価 / Extend candidates with multiple relations, temporal sequences, applicability and variable bindings, then test transfer unavailable to existing readouts / 将候选扩展到多关系、时间序列、适用条件及变量绑定，并评估现有readout无法解决的迁移
+- [Done] 2段階時間列候補をEventから発見し、同一target役割変数、状態前提・消費、数値前提・変数差分を保持して一時macroとして合成 / Discover two-step temporal candidates from events, preserve a same-target role variable plus state and numeric applicability and transitions, and compose them as ephemeral macros / 从Event发现两步时间序列候选，保存同一target角色变量、状态与数值适用条件及转移，并作为临时宏组合
+- [Done] role不一致時の無型fallbackを止め、時間列候補を5 seed・development 800・final 200件で比較し、100%対75%・差+25ポイント・false generalization 0%対33.3%で採用 / Stop untyped fallback on role mismatch; compare over five seeds, 800 development and 200 final cases, and adopt at 100% versus 75%, +25 points and 0% versus 33.3% false generalization / 禁止角色不匹配时回退到无类型路径；以5个seed、800个development及200个final案例比较，候选100%对75%、提升25个百分点、错误泛化0%对33.3%，因此采纳
+- [Done] actor/target二つの型付きrole変数を時間schema・派生index・Composition query・CLIへ通し、role不一致と欠落時にabstain / Carry typed actor and target variables through temporal schemas, derived indices, composition queries and CLI, abstaining on mismatched or missing roles / 将actor与target两个类型化角色变量贯穿时间schema、派生索引、Composition query及CLI，并在角色不匹配或缺失时弃答
+- [Done] 関係候補を5 seed・development 800・final 200件で比較し、100%対40%・差+60ポイント・false generalization 0%対75%で採用 / Compare relational candidates over five seeds, 800 development and 200 final cases; adopt at 100% versus 40%, +60 points and 0% versus 75% false generalization / 以5个seed、800个development及200个final案例比较关系候选；候选100%对40%、提升60个百分点、错误泛化0%对75%，因此采纳
+- [Done] 具体actor/target identityをComposition query・CLIへ通し、支持Eventから一貫して帰納できる`equal`/`not_equal`制約を実行時検査 / Pass concrete actor and target identities into composition queries and CLI, enforcing consistently induced equality or inequality constraints at runtime / 将具体actor及target identity传入Composition query与CLI，并在运行时检查从支持Event一致归纳的同一或差异约束
+- [Next] actor/target固定二変数を任意entity集合とrelation edgeへ一般化し、独立transferで評価 / Generalize the fixed actor/target pair to arbitrary entity sets and relation edges and evaluate on independent transfer / 将固定actor/target双变量推广至任意entity集合及relation边，并在独立迁移中评估
 - [Done] candidate-backed role readout圧縮を回帰一致時だけ適用し、不一致rollback、保存再構築、新規学習時復元を実装 / Apply candidate-backed role compaction only after regression equivalence, with rollback, reload reconstruction and restoration before learning / 仅在回归一致时应用候选支持的角色readout压缩，并实现不一致回滚、重载重建及学习前恢复
 - [Done] 5 seed診断で対象role readoutを平均81 bytesから2 bytesへ削減し、候補経由の成功率100%を維持 / Reduce the targeted role readout from 81 to 2 bytes on average over five seeds while preserving 100% candidate-backed success / 5个seed中目标角色readout平均由81 bytes降至2 bytes，并保持候选路径100%成功率
 - [Next] 総memory・p95時間・広い回帰query corpusでcandidate-backed compactionを評価 / Evaluate candidate-backed compaction on total memory, p95 latency and a broader regression-query corpus / 在总内存、p95时延及更广回归query语料上评估候选支持的压缩
@@ -146,6 +151,10 @@ G2将据此重设角色绑定、变化适应及证据效率。
 詳細設計: [未分知と概念凝縮 / Undivided Knowledge and Concept Condensation / 未分知识与概念凝聚](RISA-Undivided-Knowledge-and-Concept-Condensation.md)
 
 候補の追加価値検証: [G2候補転移評価 / Candidate transfer evaluation / 候选迁移评估](G2-Candidate-Transfer-Evaluation-2026-09-08.md)
+
+時間列候補の追加価値検証: [G2時間列候補評価 / Temporal candidate evaluation / 时间序列候选评估](G2-Temporal-Candidate-Evaluation-2026-09-09.md)
+
+関係候補の追加価値検証: [G2関係候補評価 / Relational candidate evaluation / 关系候选评估](G2-Relational-Candidate-Evaluation-2026-09-09.md)
 
 日本語: [G2比較結果](G2-Structural-Reuse-Evaluation-2026-09-08.md)では、final 200 episodeでRISAは観測から前提を学ぶ
 composition 100%（具体遷移表0%）、binding 100%（同75%、役割束縛なし75%）、B期drift 75%（同33.3%、

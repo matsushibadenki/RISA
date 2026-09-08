@@ -60,6 +60,9 @@ def build_parser() -> argparse.ArgumentParser:
     compose_parser.add_argument("--goal-effect", required=True)
     compose_parser.add_argument("--context", action="append", default=[])
     compose_parser.add_argument("--target-role", action="append", default=[])
+    compose_parser.add_argument("--actor-role", action="append", default=[])
+    compose_parser.add_argument("--actor")
+    compose_parser.add_argument("--target")
     compose_parser.add_argument("--start-state", action="append", default=[])
     compose_parser.add_argument(
         "--start-variable", action="append", type=_parse_variable_assignment, default=[]
@@ -216,6 +219,9 @@ def main() -> None:
             start_variables=dict(args.start_variable),
             max_steps=args.max_steps,
             target_roles=args.target_role,
+            actor_roles=args.actor_role,
+            actor=args.actor,
+            target=args.target,
         )
         print(json.dumps(result.to_dict(), indent=2))
         return

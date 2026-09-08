@@ -26,24 +26,28 @@ RISA は **Relationally Involving Self-organizing Architecture** の略で、
 ## 設計評価と現在の優先順位 / Assessment / 设计评估 — 2026-09-08
 
 **構造ベースのAIとして研究を続ける価値があります。ただし、一般的な優位性はまだ未実証です。**
-G2では役割束縛、前提学習、変化適応を実装し、全81テストが通過しています。final評価は、観測から前提を学ぶcompositionで
+G2では役割束縛、前提学習、変化適応を実装し、全85テストが通過しています。final評価は、観測から前提を学ぶcompositionで
 100%対具体遷移表0%、未知target bindingで100%対75%、B期driftで75%対33.3%でした。明示前提compositionは同率で、
-役割型は外部入力、保存量は約40倍なので、次は候補概念の比較評価、自動schema獲得、効率改善を進めます。
+役割型は外部入力、保存量は約40倍です。型付き2段階時間列候補は既存経路比+25ポイント、actor/target二変数とidentity制約の候補は+60ポイントとなり、現在は任意entity関係と効率評価へ進んでいます。
 以下の機能一覧は実装の存在を示し、任意の入力での正しさや研究仮説の証明を意味しません。
 
 English: Structural AI research remains worthwhile, but a general advantage is not established. G2 implements role
-binding, applicability learning and change adaptation; all 81 tests pass. Final success is 100% versus 0% on learned
+binding, applicability learning and change adaptation; all 85 tests pass. Final success is 100% versus 0% on learned
 composition, 100% versus 75% on binding, and 75% versus 33.3% in phase-B drift. Supplied composition still ties,
-roles are external inputs, and state is about 40× larger, so candidate evaluation, schema induction and efficiency are next.
+roles are external inputs, and state is about 40× larger. Single-transition candidates were redundant, while a typed
+two-step temporal candidate gains 25 points over the existing path, and an actor/target candidate with identity constraints
+gains 60 points. Arbitrary entity relations and efficiency are next.
 
-简体中文: 结构AI研究仍值得继续，但尚未证明普遍优势。G2已实现角色绑定、适用条件学习及变化适应，全部81项测试通过。
+简体中文: 结构AI研究仍值得继续，但尚未证明普遍优势。G2已实现角色绑定、适用条件学习及变化适应，全部85项测试通过。
 最终成功率在观测学习composition为100%对0%，binding为100%对75%，B阶段drift为75%对33.3%。已提供前提的
-composition仍持平，角色来自外部输入，状态约大40倍，因此下一步是候选概念评估、schema自动归纳及效率改进。
+composition仍持平，角色来自外部输入，状态约大40倍。类型化两步时间候选比现有路径高25个百分点，含identity约束的actor/target双变量候选高60个百分点；下一门槛是任意entity关系及效率评估。
 
 - [設計評価・再現結果 / Assessment / 评估](docs/RISA-Structural-AI-Assessment-2026-09-05.md)
 - [現行ロードマップ / Current roadmap / 当前路线图](docs/ROADMAP.md)
 - [G2構造再利用評価 / G2 structural reuse evaluation / G2结构复用评估](docs/G2-Structural-Reuse-Evaluation-2026-09-08.md)
 - [G2候補転移評価 / G2 candidate transfer evaluation / G2候选迁移评估](docs/G2-Candidate-Transfer-Evaluation-2026-09-08.md)
+- [G2時間列候補評価 / G2 temporal candidate evaluation / G2时间序列候选评估](docs/G2-Temporal-Candidate-Evaluation-2026-09-09.md)
+- [G2関係候補評価 / G2 relational candidate evaluation / G2关系候选评估](docs/G2-Relational-Candidate-Evaluation-2026-09-09.md)
 - [現行ポリシー / Current policy / 当前方针](docs/policy.md)
 - [未分知と概念凝縮 / Undivided Knowledge and Concept Condensation / 未分知识与概念凝聚](docs/RISA-Undivided-Knowledge-and-Concept-Condensation.md)
 
@@ -358,7 +362,11 @@ English: Static threats remain explainable hypotheses and are validated by parti
 - [Done] G2.4推論接続: 採用候補を派生indexから予測・一時Primitiveへ接続 / Connect adopted candidates to prediction and ephemeral primitives through a derived index / 通过派生索引将已采纳候选接入预测及临时原语
 - [Done] G2.4候補評価: 5 seed・final 200件で単一遷移候補は100%対100%、改善0として棄却 / Reject redundant single-transition candidates after a 100% versus 100% comparison over five seeds and 200 final cases / 以5个种子及200个final案例得到100%对100%，拒绝冗余单一转移候选
 - [Done] G2.4候補圧縮: 回帰一致・rollback・再読込・新規学習復元を実装し、対象readoutを81→2 bytesへ圧縮 / Candidate compaction with equivalence, rollback, reload and learning restoration; targeted readout reduced from 81 to 2 bytes / 实现含一致性、回滚、重载及学习恢复的候选压缩，目标readout由81降至2 bytes
-- [Next] G2.4再設計: 複数relation・時間列・適用前提を持つ候補、自動schema獲得、候補による安全なreadout圧縮 / Multi-relation, temporal and applicability candidates, automatic schema acquisition, and safe candidate-backed readout compression / 多关系、时间及适用条件候选、schema自动获取与候选支持的安全readout压缩
+- [Done] G2.4時間列候補: 同一target変数を束縛する2段階schemaへ、前提・消費状態・数値条件・変数差分を保持し、一時macroとして合成 / Temporal candidates bind one target across two steps, preserve applicability and state/variable transitions, and compose as ephemeral macros / 时间序列候选在两步中绑定同一target，保存适用条件及状态与变量转移，并作为临时宏进行组合
+- [Done] G2.4時間列評価: 5 seed・final 200件で候補100%対既存75%、差+25ポイント、false generalization 0%対33.3%として採用 / Adopt the temporal candidate at 100% versus 75%, a 25-point gain, and 0% versus 33.3% false generalization over five seeds and 200 final cases / 5个种子及200个final案例中候选100%对现有路径75%、提升25个百分点、错误泛化0%对33.3%，因此采纳
+- [Done] G2.4関係候補: actor/target二変数を束縛し、5 seed・final 200件で100%対40%、差+60ポイント、false generalization 0%対75% / Bind actor and target variables; reach 100% versus 40%, +60 points, and 0% versus 75% false generalization over five seeds and 200 final cases / 绑定actor与target变量；5个种子及200个final案例达到100%对40%、提升60个百分点、错误泛化0%对75%
+- [Done] G2.4 identity制約: 支持Eventからactor/targetの`equal`/`not_equal`を帰納し、具体queryで検査 / Infer actor/target equality or inequality from supporting events and enforce it on concrete queries / 从支持Event归纳actor/target的同一或差异，并在具体query中检查
+- [Next] G2.4再設計: 任意entity relation、総memory・p95・広い回帰集合の圧縮評価 / Arbitrary entity relations and compression evaluation over total memory, p95 and broad regressions / 任意entity关系，以及总内存、p95与广泛回归上的压缩评估
 - [Later] G3: 継続適応と計算予算の大規模検証 / Large-scale validation of continual adaptation and bounded cost / 大规模验证持续适应与计算预算
 - [Later] G4: 用途検証と追加研究。Canopy・SNN・階層creditは比較結果から再判断 / Validate applications; gate canopy, SNN and hierarchical credit on evidence / 验证应用，根据证据决定Canopy、SNN与层级信用研究
 

@@ -5,6 +5,9 @@ from pathlib import Path
 import unittest
 
 from experiments.candidate_transfer_evaluation import run_candidate_transfer
+from experiments.temporal_candidate_evaluation import (
+    run_temporal_candidate_evaluation,
+)
 from risa.evaluation.benchmark import generate_benchmark, load_manifest, run_benchmark
 
 
@@ -129,6 +132,56 @@ class ComparativeEvaluationTests(unittest.TestCase):
         self.assertEqual(final["false_generalization_delta"], 0.0)
         self.assertEqual(final["compressed_readout_candidate_success_rate"], 1.0)
         self.assertLess(final["compressed_readout_no_candidate_success_rate"], 1.0)
+
+    def test_role_scoped_temporal_candidate_is_adopted_on_disjoint_evidence(self) -> None:
+        result = run_temporal_candidate_evaluation(
+            {
+                "benchmark_version": "test-temporal-candidate",
+                "seeds": [23],
+                "development_episodes_per_seed": 16,
+                "final_episodes_per_seed": 40,
+                "minimum_gain": 0.05,
+                "bootstrap_samples": 100,
+            }
+        )
+
+        self.assertEqual(
+            result["decision"], "adopted_role_scoped_temporal_candidate"
+        )
+        self.assertEqual(result["leakage_audit"]["support_development_overlap"], 0)
+        self.assertEqual(result["leakage_audit"]["support_final_overlap"], 0)
+        self.assertEqual(result["leakage_audit"]["development_final_overlap"], 0)
+        final = next(
+            row for row in result["aggregate"] if row["partition"] == "final"
+        )
+        self.assertEqual(final["candidate_success_rate"], 1.0)
+        self.assertEqual(final["existing_path_success_rate"], 0.75)
+        self.assertEqual(final["paired_delta"], 0.25)
+        self.assertEqual(final["candidate_false_generalization_rate"], 0.0)
+
+    def test_actor_target_relational_candidate_is_adopted(self) -> None:
+        result = run_temporal_candidate_evaluation(
+            {
+                "benchmark_version": "test-relational-candidate",
+                "seeds": [29],
+                "development_episodes_per_seed": 20,
+                "final_episodes_per_seed": 40,
+                "minimum_gain": 0.05,
+                "bootstrap_samples": 100,
+                "actor_target_role_binding": True,
+            }
+        )
+
+        self.assertEqual(
+            result["decision"], "adopted_role_scoped_temporal_candidate"
+        )
+        final = next(
+            row for row in result["aggregate"] if row["partition"] == "final"
+        )
+        self.assertEqual(final["candidate_success_rate"], 1.0)
+        self.assertEqual(final["existing_path_success_rate"], 0.4)
+        self.assertEqual(final["paired_delta"], 0.6)
+        self.assertEqual(final["candidate_false_generalization_rate"], 0.0)
 
 
 if __name__ == "__main__":

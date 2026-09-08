@@ -75,26 +75,10 @@ def discover_unnamed_candidates(state: RisaState) -> dict[str, UnnamedConceptCan
             reconstruction_gain=round(len(events) / (len(events) + len(counterexamples)), 6),
             exception_cost=len(counterexamples),
         )
-        previous = previous_candidates.get(candidate_id)
-        if (
-            previous is not None
-            and previous.supporting_event_ids == candidate.supporting_event_ids
-            and previous.counterexample_event_ids == candidate.counterexample_event_ids
-        ):
-            candidate.lifecycle_status = previous.lifecycle_status
-            candidate.evaluation_event_ids = list(previous.evaluation_event_ids)
-            candidate.development_evaluation_event_ids = list(
-                previous.development_evaluation_event_ids
-            )
-            candidate.final_evaluation_event_ids = list(
-                previous.final_evaluation_event_ids
-            )
-            candidate.heldout_prediction_delta = previous.heldout_prediction_delta
-            candidate.heldout_composition_delta = previous.heldout_composition_delta
-            candidate.prediction_delta_ci_lower = previous.prediction_delta_ci_lower
-            candidate.composition_delta_ci_lower = previous.composition_delta_ci_lower
-            candidate.false_generalization_delta = previous.false_generalization_delta
+        _restore_unchanged_evaluation(candidate, previous_candidates.get(candidate_id))
         candidates[candidate_id] = candidate
+
+    candidates.update(_discover_temporal_sequence_candidates(state, previous_candidates))
     state.unnamed_concept_candidates = candidates
     rebuild_candidate_inference_index(state)
     return candidates
@@ -106,14 +90,48 @@ def rebuild_candidate_inference_index(state: RisaState) -> None:
     for candidate in state.unnamed_concept_candidates.values():
         if candidate.lifecycle_status != "adopted":
             continue
+        kind = str(candidate.structural_schema.get("kind", "single_transition"))
+        if kind == "temporal_sequence":
+            steps = candidate.structural_schema.get("steps", [])
+            goal_effects = candidate.structural_schema.get("goal_effects", [])
+            role = normalize_label(
+                str(candidate.structural_schema.get("target_role", ""))
+            )
+            actor_role = normalize_label(
+                str(candidate.structural_schema.get("actor_role", ""))
+            )
+            if not isinstance(steps, list) or not steps or not role:
+                continue
+            first_step = steps[0]
+            if not isinstance(first_step, dict):
+                continue
+            start_action = normalize_label(str(first_step.get("action", "")))
+            indexed_goal_effects = goal_effects if isinstance(goal_effects, list) else []
+            for goal_effect in indexed_goal_effects:
+                goal = normalize_label(str(goal_effect))
+                if start_action and goal:
+                    role_key = (
+                        f"plan_start:{start_action}:goal:{goal}:target_role:{role}"
+                    )
+                    if actor_role:
+                        role_key += f":actor_role:{actor_role}"
+                    _add_candidate_index(
+                        state,
+                        role_key,
+                        candidate.id,
+                    )
+                    _add_candidate_index(
+                        state,
+                        f"plan_start:{start_action}:goal:{goal}",
+                        candidate.id,
+                    )
+            continue
         action = normalize_label(str(candidate.structural_schema.get("action", "")))
         role = normalize_label(str(candidate.structural_schema.get("target_role", "")))
         if not action or not role:
             continue
         key = f"action:{action}:target_role:{role}"
-        values = state.candidate_inference_index.setdefault(key, [])
-        if candidate.id not in values:
-            values.append(candidate.id)
+        _add_candidate_index(state, key, candidate.id)
 
 
 def matching_adopted_candidates(
@@ -132,6 +150,288 @@ def matching_adopted_candidates(
         if candidate_id in state.unnamed_concept_candidates
         and state.unnamed_concept_candidates[candidate_id].lifecycle_status == "adopted"
     ]
+
+
+def matching_adopted_plan_candidates(
+    state: RisaState,
+    start_action: str,
+    target_effect: str,
+    target_roles: list[str] | set[str] | tuple[str, ...],
+    actor_roles: list[str] | set[str] | tuple[str, ...] = (),
+) -> list[UnnamedConceptCandidate]:
+    """Return adopted temporal schemas matching a role-bound plan query."""
+    candidate_ids: set[str] = set()
+    normalized_action = normalize_label(start_action)
+    normalized_effect = normalize_label(target_effect)
+    for role in target_roles:
+        target_key = (
+            f"plan_start:{normalized_action}:goal:{normalized_effect}:"
+            f"target_role:{normalize_label(role)}"
+        )
+        candidate_ids.update(state.candidate_inference_index.get(target_key, []))
+        for actor_role in actor_roles:
+            key = f"{target_key}:actor_role:{normalize_label(actor_role)}"
+            candidate_ids.update(state.candidate_inference_index.get(key, []))
+    return [
+        state.unnamed_concept_candidates[candidate_id]
+        for candidate_id in sorted(candidate_ids)
+        if candidate_id in state.unnamed_concept_candidates
+        and state.unnamed_concept_candidates[candidate_id].lifecycle_status == "adopted"
+        and state.unnamed_concept_candidates[candidate_id].structural_schema.get("kind")
+        == "temporal_sequence"
+    ]
+
+
+def has_adopted_plan_candidate_for_goal(
+    state: RisaState,
+    start_action: str,
+    target_effect: str,
+) -> bool:
+    """Report whether an adopted typed plan covers a start/goal pair at any role."""
+    key = (
+        f"plan_start:{normalize_label(start_action)}:"
+        f"goal:{normalize_label(target_effect)}"
+    )
+    return any(
+        candidate_id in state.unnamed_concept_candidates
+        and state.unnamed_concept_candidates[candidate_id].lifecycle_status == "adopted"
+        for candidate_id in state.candidate_inference_index.get(key, [])
+    )
+
+
+def _discover_temporal_sequence_candidates(
+    state: RisaState,
+    previous_candidates: dict[str, UnnamedConceptCandidate],
+) -> dict[str, UnnamedConceptCandidate]:
+    """Find two-step, same-target schemas whose first effect enables the second step."""
+    by_episode: dict[str, list[Event]] = defaultdict(list)
+    for event in state.events_by_id.values():
+        if (
+            event.target
+            and not event.source.startswith(("derived:", "replay:"))
+        ):
+            by_episode[event.episode_id or "__default__"].append(event)
+
+    pair_groups: dict[
+        tuple[object, ...], list[tuple[Event, Event, str, str]]
+    ] = defaultdict(list)
+    all_by_start_role: dict[
+        tuple[str, str, str], list[tuple[Event, Event, str, str]]
+    ] = defaultdict(list)
+    for episode_events in by_episode.values():
+        ordered = sorted(episode_events, key=lambda item: (item.timestamp, item.id))
+        for first, second in zip(ordered, ordered[1:]):
+            if normalize_label(first.target or "") != normalize_label(second.target or ""):
+                continue
+            shared_roles = {
+                normalize_label(role) for role in first.target_roles
+            }.intersection(normalize_label(role) for role in second.target_roles)
+            shared_actor_roles: set[str] = set()
+            if normalize_label(first.actor) == normalize_label(second.actor):
+                shared_actor_roles = {
+                    normalize_label(role) for role in first.actor_roles
+                }.intersection(normalize_label(role) for role in second.actor_roles)
+            actor_role_options = sorted(shared_actor_roles) or [""]
+            for role in sorted(shared_roles):
+                for actor_role in actor_role_options:
+                    all_by_start_role[
+                        (normalize_label(first.action), role, actor_role)
+                    ].append((first, second, role, actor_role))
+            if (
+                not first.transition_succeeded
+                or not second.transition_succeeded
+                or not first.observed_effects
+                or not second.observed_effects
+            ):
+                continue
+            first_effects = _normalized_tuple(first.observed_effects)
+            second_requirements = _event_state_requirements(second)
+            if not set(first_effects).intersection(second_requirements):
+                continue
+            first_step = _event_step_signature(first)
+            second_step = _event_step_signature(second)
+            for role in sorted(shared_roles):
+                for actor_role in actor_role_options:
+                    signature = (role, actor_role, first_step, second_step)
+                    record = (first, second, role, actor_role)
+                    pair_groups[signature].append(record)
+
+    candidates: dict[str, UnnamedConceptCandidate] = {}
+    for (role, actor_role, first_step, second_step), records in sorted(
+        pair_groups.items()
+    ):
+        targets = {normalize_label(first.target or "") for first, _, _, _ in records}
+        sources = {
+            event.source for first, second, _, _ in records for event in (first, second)
+        }
+        episodes = {first.episode_id for first, _, _, _ in records}
+        if len(targets) < 2 or len(sources) < 2 or len(episodes) < 2:
+            continue
+        first_schema = _step_schema(first_step)
+        second_schema = _step_schema(second_step)
+        goal_effects = list(second_schema["effects"])
+        signature_text = repr(
+            ("temporal_sequence", role, actor_role, first_step, second_step)
+        )
+        candidate_id = (
+            f"candidate:temporal:{hashlib.sha256(signature_text.encode()).hexdigest()[:16]}"
+        )
+        counterexample_ids: set[str] = set()
+        for other_first, other_second, _, _ in all_by_start_role[
+            (first_schema["action"], role, actor_role)
+        ]:
+            if not (
+                other_first.transition_succeeded
+                and other_second.transition_succeeded
+                and other_first.observed_effects
+                and other_second.observed_effects
+            ) or (
+                _event_step_signature(other_first),
+                _event_step_signature(other_second),
+            ) != (first_step, second_step):
+                counterexample_ids.update((other_first.id, other_second.id))
+        supporting_ids = sorted(
+            {
+                event.id
+                for first, second, _, _ in records
+                for event in (first, second)
+            }
+        )
+        concrete_length = sum(
+            len(normalize_label(first.target or ""))
+            + len(repr(_event_step_signature(first)))
+            + len(repr(_event_step_signature(second)))
+            for first, second, _, _ in records
+        )
+        schema_length = (
+            len(role) + len(actor_role) + len(repr(first_step)) + len(repr(second_step))
+        )
+        structural_schema: dict[str, object] = {
+            "kind": "temporal_sequence",
+            "target_role": role,
+            "target_binding": "same_target",
+            "steps": [first_schema, second_schema],
+            "goal_effects": goal_effects,
+        }
+        typed_role_variables = {"target": role}
+        if actor_role:
+            identity_relations = {
+                normalize_label(first.actor) == normalize_label(first.target or "")
+                for first, _, _, _ in records
+            }
+            variable_constraints: list[dict[str, str]] = []
+            if len(identity_relations) == 1:
+                variable_constraints.append(
+                    {
+                        "left": "actor",
+                        "relation": "equal" if True in identity_relations else "not_equal",
+                        "right": "target",
+                    }
+                )
+            structural_schema.update(
+                {
+                    "actor_role": actor_role,
+                    "actor_binding": "same_actor",
+                    "variable_constraints": variable_constraints,
+                }
+            )
+            typed_role_variables["actor"] = actor_role
+        candidate = UnnamedConceptCandidate(
+            id=candidate_id,
+            structural_schema=structural_schema,
+            typed_role_variables=typed_role_variables,
+            supporting_event_ids=supporting_ids,
+            counterexample_event_ids=sorted(counterexample_ids.difference(supporting_ids)),
+            source_diversity=len(sources),
+            episode_diversity=len(episodes),
+            actor_diversity=len(
+                {
+                    normalize_label(event.actor)
+                    for first, second, _, _ in records
+                    for event in (first, second)
+                }
+            ),
+            target_diversity=len(targets),
+            context_diversity=len(
+                {
+                    tuple(sorted(normalize_label(tag) for tag in event.context_tags))
+                    for first, second, _, _ in records
+                    for event in (first, second)
+                }
+            ),
+            description_length_delta=concrete_length - schema_length,
+            reconstruction_gain=round(
+                len(records) / (len(records) + len(counterexample_ids)), 6
+            ),
+            exception_cost=len(counterexample_ids),
+        )
+        _restore_unchanged_evaluation(candidate, previous_candidates.get(candidate_id))
+        candidates[candidate_id] = candidate
+    return candidates
+
+
+def _normalized_tuple(values: list[str]) -> tuple[str, ...]:
+    return tuple(sorted({normalize_label(value) for value in values}))
+
+
+def _event_state_requirements(event: Event) -> tuple[str, ...]:
+    requirements = {normalize_label(value) for value in event.preconditions}
+    if event.before_state_observed:
+        requirements.update(normalize_label(value) for value in event.observed_states_before)
+    return tuple(sorted(requirements))
+
+
+def _event_step_signature(event: Event) -> tuple[object, ...]:
+    return (
+        normalize_label(event.action),
+        _event_state_requirements(event),
+        _normalized_tuple(event.consumed_states),
+        tuple(sorted((normalize_label(key), float(value)) for key, value in event.numeric_preconditions.items())),
+        tuple(sorted((normalize_label(key), float(value)) for key, value in event.state_variable_deltas.items())),
+        _normalized_tuple(event.observed_effects),
+    )
+
+
+def _step_schema(signature: tuple[object, ...]) -> dict[str, object]:
+    action, requirements, consumed, numeric, deltas, effects = signature
+    return {
+        "action": action,
+        "target_variable": "target",
+        "requires": list(requirements),
+        "consumes": list(consumed),
+        "numeric_preconditions": dict(numeric),
+        "state_variable_deltas": dict(deltas),
+        "effects": list(effects),
+    }
+
+
+def _restore_unchanged_evaluation(
+    candidate: UnnamedConceptCandidate,
+    previous: UnnamedConceptCandidate | None,
+) -> None:
+    if (
+        previous is None
+        or previous.supporting_event_ids != candidate.supporting_event_ids
+        or previous.counterexample_event_ids != candidate.counterexample_event_ids
+    ):
+        return
+    candidate.lifecycle_status = previous.lifecycle_status
+    candidate.evaluation_event_ids = list(previous.evaluation_event_ids)
+    candidate.development_evaluation_event_ids = list(
+        previous.development_evaluation_event_ids
+    )
+    candidate.final_evaluation_event_ids = list(previous.final_evaluation_event_ids)
+    candidate.heldout_prediction_delta = previous.heldout_prediction_delta
+    candidate.heldout_composition_delta = previous.heldout_composition_delta
+    candidate.prediction_delta_ci_lower = previous.prediction_delta_ci_lower
+    candidate.composition_delta_ci_lower = previous.composition_delta_ci_lower
+    candidate.false_generalization_delta = previous.false_generalization_delta
+
+
+def _add_candidate_index(state: RisaState, key: str, candidate_id: str) -> None:
+    values = state.candidate_inference_index.setdefault(key, [])
+    if candidate_id not in values:
+        values.append(candidate_id)
 
 
 def evaluate_unnamed_candidate(

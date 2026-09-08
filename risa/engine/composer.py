@@ -2,9 +2,17 @@ from __future__ import annotations
 
 from collections import deque
 
-from risa.core.models import CompositionResult, StructuralPrimitive
+from risa.core.models import (
+    CompositionResult,
+    StructuralPrimitive,
+    UnnamedConceptCandidate,
+)
 from risa.core.state import RisaState
-from risa.engine.candidate_discovery import matching_adopted_candidates
+from risa.engine.candidate_discovery import (
+    has_adopted_plan_candidate_for_goal,
+    matching_adopted_candidates,
+    matching_adopted_plan_candidates,
+)
 from risa.engine.graph_builder import normalize_label
 from risa.engine.transitions import apply_primitive_transition
 
@@ -86,6 +94,9 @@ def compose_to_effect(
     start_variables: dict[str, float] | None = None,
     max_steps: int = 3,
     target_roles: list[str] | None = None,
+    actor_roles: list[str] | None = None,
+    actor: str | None = None,
+    target: str | None = None,
     enable_candidate_concepts: bool = True,
 ) -> CompositionResult:
     """Find a local sequence of adopted transition primitives toward an effect."""
@@ -96,6 +107,49 @@ def compose_to_effect(
     initial_variables = {
         normalize_label(name): float(value) for name, value in (start_variables or {}).items()
     }
+    if enable_candidate_concepts:
+        role_matching_plans = matching_adopted_plan_candidates(
+            state, action, effect, target_roles or [], actor_roles or []
+        )
+        identity_matching_plans = [
+            candidate
+            for candidate in role_matching_plans
+            if _candidate_identity_constraints_match(candidate, actor, target)
+        ]
+        if role_matching_plans and not identity_matching_plans:
+            return CompositionResult(
+                target_effect=effect,
+                explanation=(
+                    f"Abstained because concrete actor/target identities violate "
+                    f"an adopted typed plan for action '{action}' and effect '{effect}'."
+                ),
+            )
+        candidate_result = _compose_adopted_candidate_plan(
+            state,
+            identity_matching_plans,
+            action,
+            effect,
+            initial_states,
+            initial_variables,
+            max_steps,
+        )
+        if candidate_result is not None:
+            return candidate_result
+        if (
+            not role_matching_plans
+            and has_adopted_plan_candidate_for_goal(state, action, effect)
+        ):
+            normalized_roles = sorted(
+                {normalize_label(role) for role in target_roles}
+            )
+            return CompositionResult(
+                target_effect=effect,
+                explanation=(
+                    f"Abstained because adopted typed plans for action '{action}' and "
+                    f"effect '{effect}' do not match query role bindings; "
+                    f"target roles are {normalized_roles}."
+                ),
+            )
     queue = deque([(action, initial_states, initial_variables, [], [], 1.0, 0)])
     best_depth_by_action: dict[str, int] = {action: 0}
 
@@ -172,6 +226,177 @@ def compose_to_effect(
         target_effect=effect,
         explanation=f"No adopted local primitive composition found from action '{action}' to effect '{effect}'.",
     )
+
+
+def _compose_adopted_candidate_plan(
+    state: RisaState,
+    candidates: list[UnnamedConceptCandidate],
+    start_action: str,
+    target_effect: str,
+    initial_states: set[str],
+    initial_variables: dict[str, float],
+    max_steps: int,
+) -> CompositionResult | None:
+    """Apply a learned same-target macro without materializing it in stored memory."""
+    for candidate in candidates:
+        raw_steps = candidate.structural_schema.get("steps", [])
+        if not isinstance(raw_steps, list) or not raw_steps or len(raw_steps) > max_steps:
+            continue
+        available_states = set(initial_states)
+        available_variables = dict(initial_variables)
+        primitive_ids: list[str] = []
+        paths: list[list[str]] = []
+        removed_states: set[str] = set()
+        applicable = True
+        for index, raw_step in enumerate(raw_steps):
+            if not isinstance(raw_step, dict):
+                applicable = False
+                break
+            step_action = normalize_label(str(raw_step.get("action", "")))
+            effects = {
+                normalize_label(str(value)) for value in raw_step.get("effects", [])
+            }
+            if not step_action or not effects:
+                applicable = False
+                break
+            primitive_id = f"derived:{candidate.id}:step:{index + 1}"
+            primitive = StructuralPrimitive(
+                id=primitive_id,
+                relation_type="candidate_temporal_step",
+                role_signature=(
+                    f"actor:{candidate.typed_role_variables.get('actor', '')}:"
+                    f"target:{candidate.typed_role_variables.get('target', '')}:"
+                    "binding:same_actor,same_target"
+                ),
+                input_conditions={f"process:{step_action}"},
+                input_state_conditions={
+                    f"state:{normalize_label(str(value))}"
+                    for value in raw_step.get("requires", [])
+                },
+                consumed_states={
+                    f"state:{normalize_label(str(value))}"
+                    for value in raw_step.get("consumes", [])
+                },
+                numeric_preconditions={
+                    normalize_label(str(name)): float(value)
+                    for name, value in dict(
+                        raw_step.get("numeric_preconditions", {})
+                    ).items()
+                },
+                state_variable_deltas={
+                    normalize_label(str(name)): float(value)
+                    for name, value in dict(
+                        raw_step.get("state_variable_deltas", {})
+                    ).items()
+                },
+                output_states=effects,
+                evidence_event_ids=set(candidate.supporting_event_ids),
+                support=len(candidate.supporting_event_ids),
+                validation_score=min(
+                    1.0, 0.5 + candidate.heldout_composition_delta
+                ),
+                reuse_score=candidate.reconstruction_gain,
+                compression_proxy=float(candidate.description_length_delta),
+                adoption_score=min(
+                    1.0,
+                    0.5
+                    + candidate.heldout_composition_delta
+                    + (0.25 * candidate.reconstruction_gain),
+                ),
+                adopted=True,
+            )
+            application = apply_primitive_transition(
+                state, primitive, available_states, available_variables
+            )
+            if application is None:
+                applicable = False
+                break
+            primitive_ids.append(primitive_id)
+            paths.append(
+                [
+                    candidate.id,
+                    *(
+                        ["bind:actor=same_actor"]
+                        if candidate.typed_role_variables.get("actor")
+                        else []
+                    ),
+                    "bind:target=same_target",
+                    f"process:{step_action}",
+                    primitive_id,
+                    *[f"state:{value}" for value in sorted(effects)],
+                ]
+            )
+            removed_states.update(application.removed_states)
+            available_states = {
+                f"state:{value}" for value in application.resulting_states
+            }
+            available_variables = application.resulting_variables
+        if not applicable or f"state:{target_effect}" not in available_states:
+            continue
+        initial_state_names = {
+            value.removeprefix("state:") for value in initial_states
+        }
+        resulting_state_names = {
+            value.removeprefix("state:") for value in available_states
+        }
+        variable_deltas = {
+            name: round(value - initial_variables.get(name, 0.0), 12)
+            for name, value in available_variables.items()
+            if value != initial_variables.get(name, 0.0)
+        }
+        return CompositionResult(
+            target_effect=target_effect,
+            added_states=sorted(resulting_state_names.difference(initial_state_names)),
+            removed_states=sorted(removed_states),
+            variable_deltas=variable_deltas,
+            resulting_variables=available_variables,
+            primitive_ids=primitive_ids,
+            supporting_paths=paths,
+            score=round(
+                min(
+                    1.0,
+                    0.5
+                    + candidate.heldout_composition_delta
+                    + (0.25 * candidate.reconstruction_gain),
+                ),
+                4,
+            ),
+            explanation=(
+                f"Applied adopted temporal candidate '{candidate.id}' as a "
+                f"{len(primitive_ids)}-step same-target composition toward "
+                f"effect '{target_effect}'."
+            ),
+        )
+    return None
+
+
+def _candidate_identity_constraints_match(
+    candidate: UnnamedConceptCandidate,
+    actor: str | None,
+    target: str | None,
+) -> bool:
+    if actor is None or target is None:
+        return True
+    bindings = {
+        "actor": normalize_label(actor),
+        "target": normalize_label(target),
+    }
+    constraints = candidate.structural_schema.get("variable_constraints", [])
+    if not isinstance(constraints, list):
+        return True
+    for constraint in constraints:
+        if not isinstance(constraint, dict):
+            continue
+        left = bindings.get(str(constraint.get("left", "")))
+        right = bindings.get(str(constraint.get("right", "")))
+        relation = str(constraint.get("relation", ""))
+        if left is None or right is None:
+            continue
+        if relation == "equal" and left != right:
+            return False
+        if relation == "not_equal" and left == right:
+            return False
+    return True
 
 
 def _adopted_primitives_for_action(
