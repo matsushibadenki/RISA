@@ -48,6 +48,7 @@ def build_parser() -> argparse.ArgumentParser:
     predict_parser.add_argument("--actor", required=True)
     predict_parser.add_argument("--action", required=True)
     predict_parser.add_argument("--target")
+    predict_parser.add_argument("--target-role", action="append", default=[])
     predict_parser.add_argument("--context", action="append", default=[])
     predict_parser.add_argument("--state-dir", default="state")
 
@@ -178,6 +179,7 @@ def main() -> None:
                 action=args.action,
                 target=args.target,
                 context_tags=args.context,
+                target_roles=args.target_role,
             ),
         )
         print(format_prediction(result))

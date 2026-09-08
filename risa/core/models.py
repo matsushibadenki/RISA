@@ -64,6 +64,13 @@ class Event:
     state_variable_specs: dict[str, StateVariableSpec] = field(default_factory=dict)
     observed_effects: list[str] = field(default_factory=list)
     context_tags: list[str] = field(default_factory=list)
+    episode_id: str = "__default__"
+    source: str = "unknown"
+    actor_roles: list[str] = field(default_factory=list)
+    target_roles: list[str] = field(default_factory=list)
+    observed_states_before: list[str] = field(default_factory=list)
+    before_state_observed: bool = False
+    transition_succeeded: bool = True
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -139,11 +146,13 @@ class StructuralPrimitive:
     role_signature: str
     input_conditions: set[str] = field(default_factory=set)
     input_state_conditions: set[str] = field(default_factory=set)
+    learned_state_conditions: set[str] = field(default_factory=set)
     consumed_states: set[str] = field(default_factory=set)
     state_group_updates: dict[str, str] = field(default_factory=dict)
     numeric_preconditions: dict[str, float] = field(default_factory=dict)
     state_variable_deltas: dict[str, float] = field(default_factory=dict)
     output_state: str = ""
+    output_states: set[str] = field(default_factory=set)
     temporal_constraint: str = "event_to_effect"
     context_tags: set[str] = field(default_factory=set)
     member_pattern_ids: set[str] = field(default_factory=set)
@@ -165,6 +174,19 @@ class StructuralPrimitive:
     adoption_score: float = 0.0
     adopted: bool = False
 
+    def __post_init__(self) -> None:
+        if self.output_states:
+            self.output_states = set(self.output_states)
+            if not self.output_state:
+                self.output_state = sorted(self.output_states)[0]
+        elif self.output_state:
+            self.output_states = {self.output_state}
+
+    @property
+    def produced_states(self) -> set[str]:
+        """Return every state added by this atomic transition outcome."""
+        return set(self.output_states) or ({self.output_state} if self.output_state else set())
+
     def to_dict(self) -> dict:
         return {
             "id": self.id,
@@ -172,11 +194,13 @@ class StructuralPrimitive:
             "role_signature": self.role_signature,
             "input_conditions": sorted(self.input_conditions),
             "input_state_conditions": sorted(self.input_state_conditions),
+            "learned_state_conditions": sorted(self.learned_state_conditions),
             "consumed_states": sorted(self.consumed_states),
             "state_group_updates": dict(sorted(self.state_group_updates.items())),
             "numeric_preconditions": dict(sorted(self.numeric_preconditions.items())),
             "state_variable_deltas": dict(sorted(self.state_variable_deltas.items())),
             "output_state": self.output_state,
+            "output_states": sorted(self.produced_states),
             "temporal_constraint": self.temporal_constraint,
             "context_tags": sorted(self.context_tags),
             "member_pattern_ids": sorted(self.member_pattern_ids),
@@ -238,11 +262,74 @@ class StructuralAdaptationCandidate:
 
 
 @dataclass
+class ChangeHypothesis:
+    id: str
+    action: str
+    target: str
+    context_key: str
+    previous_outcome: list[str] = field(default_factory=list)
+    current_outcome: list[str] = field(default_factory=list)
+    detected_at: int = 0
+    evidence_event_ids: list[str] = field(default_factory=list)
+    support: int = 0
+    status: str = "active"
+
+    def to_dict(self) -> dict:
+        return asdict(self)
+
+
+@dataclass
+class ApplicabilityHypothesis:
+    primitive_id: str
+    required_states: list[str] = field(default_factory=list)
+    supporting_event_ids: list[str] = field(default_factory=list)
+    counterexample_event_ids: list[str] = field(default_factory=list)
+    status: str = "active"
+
+    def to_dict(self) -> dict:
+        return asdict(self)
+
+
+@dataclass
+class UnnamedConceptCandidate:
+    id: str
+    structural_schema: dict[str, object] = field(default_factory=dict)
+    typed_role_variables: dict[str, str] = field(default_factory=dict)
+    supporting_event_ids: list[str] = field(default_factory=list)
+    counterexample_event_ids: list[str] = field(default_factory=list)
+    source_diversity: int = 0
+    episode_diversity: int = 0
+    actor_diversity: int = 0
+    target_diversity: int = 0
+    context_diversity: int = 0
+    description_length_delta: int = 0
+    reconstruction_gain: float = 0.0
+    exception_cost: int = 0
+    parent_candidate_ids: list[str] = field(default_factory=list)
+    derivation_generation: int = 0
+    lifecycle_status: str = "proposed"
+    evaluation_event_ids: list[str] = field(default_factory=list)
+    development_evaluation_event_ids: list[str] = field(default_factory=list)
+    final_evaluation_event_ids: list[str] = field(default_factory=list)
+    heldout_prediction_delta: float = 0.0
+    heldout_composition_delta: float = 0.0
+    prediction_delta_ci_lower: float = 0.0
+    composition_delta_ci_lower: float = 0.0
+    false_generalization_delta: float = 0.0
+
+    def to_dict(self) -> dict:
+        return asdict(self)
+
+
+@dataclass
 class PredictionQuery:
     actor: str
     action: str
     target: str | None = None
     context_tags: list[str] = field(default_factory=list)
+    actor_roles: list[str] = field(default_factory=list)
+    target_roles: list[str] = field(default_factory=list)
+    enable_change_adaptation: bool = True
 
 
 @dataclass
@@ -252,6 +339,8 @@ class PredictionResult:
     supporting_paths: list[list[str]] = field(default_factory=list)
     evidence_event_ids: list[str] = field(default_factory=list)
     explanation: str = ""
+    claim_status: str = "hypothetical"
+    applicability_basis: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -260,6 +349,7 @@ class PredictionResult:
 @dataclass
 class CompositionResult:
     target_effect: str
+    added_states: list[str] = field(default_factory=list)
     removed_states: list[str] = field(default_factory=list)
     variable_deltas: dict[str, float] = field(default_factory=dict)
     resulting_variables: dict[str, float] = field(default_factory=dict)
@@ -268,8 +358,27 @@ class CompositionResult:
     score: float = 0.0
     explanation: str = ""
 
+    def __post_init__(self) -> None:
+        if self.added_states:
+            self.added_states = sorted(set(self.added_states))
+            if not self.target_effect:
+                self.target_effect = self.added_states[0]
+        elif self.target_effect:
+            self.added_states = [self.target_effect]
+
     def to_dict(self) -> dict:
         return asdict(self)
+
+
+@dataclass
+class TransitionApplication:
+    """The complete result of applying one primitive to one world state."""
+
+    added_states: list[str] = field(default_factory=list)
+    removed_states: list[str] = field(default_factory=list)
+    resulting_states: list[str] = field(default_factory=list)
+    variable_deltas: dict[str, float] = field(default_factory=dict)
+    resulting_variables: dict[str, float] = field(default_factory=dict)
 
 
 @dataclass
@@ -293,12 +402,21 @@ class TrajectoryStep:
     action: str
     effect: str
     primitive_id: str
+    effects: list[str] = field(default_factory=list)
     states_before: list[str] = field(default_factory=list)
     states_after: list[str] = field(default_factory=list)
     variables_before: dict[str, float] = field(default_factory=dict)
     variables_after: dict[str, float] = field(default_factory=dict)
     removed_states: list[str] = field(default_factory=list)
     score: float = 0.0
+
+    def __post_init__(self) -> None:
+        if self.effects:
+            self.effects = sorted(set(self.effects))
+            if not self.effect:
+                self.effect = self.effects[0]
+        elif self.effect:
+            self.effects = [self.effect]
 
 
 @dataclass

@@ -1,4 +1,7 @@
 import unittest
+from pathlib import Path
+from tempfile import TemporaryDirectory
+from unittest.mock import patch
 
 from risa.core.models import (
     ConjunctivePlanGraph,
@@ -7,6 +10,7 @@ from risa.core.models import (
     InterventionSpecification,
     PredictionQuery,
     PlanGraphDependency,
+    ReplaySummary,
     StateVariableSpec,
     StructuralAdaptationCandidate,
     StructuralPrimitive,
@@ -16,6 +20,7 @@ from risa.core.state import RisaState
 from risa.engine.abstractor import rebuild_concepts
 from risa.engine.adaptation import execute_safe_adaptations
 from risa.engine.composer import compose_to_effect, forecast_next_effects
+from risa.engine.candidate_discovery import evaluate_unnamed_candidate
 from risa.engine.event_parser import parse_events
 from risa.engine.evaluator import evaluate_branches
 from risa.engine.predictor import predict_next_effect
@@ -28,7 +33,8 @@ from risa.engine.planner import (
     parse_interventions,
     plan_counterfactuals,
 )
-from risa.engine.replay import replay_structural_memory
+from risa.engine.persistence import load_state, save_state
+from risa.engine.replay import _replay_deployment_trajectory, replay_structural_memory
 from risa.engine.runtime import train_events
 from risa.engine.simulator import (
     simulate_action_sequence_with_diagnostics,
@@ -1077,7 +1083,7 @@ class TrainingAndPredictionTests(unittest.TestCase):
         self.assertIn("fatigue_up", pattern.effects)
         self.assertGreaterEqual(pattern.support, 3)
 
-    def test_prediction_can_fallback_to_structural_pattern_memory(self) -> None:
+    def test_prediction_abstains_when_structural_context_lacks_action_applicability(self) -> None:
         state = RisaState()
         events = parse_events("data/toy_world.json")
         train_events(state, events)
@@ -1093,9 +1099,10 @@ class TrainingAndPredictionTests(unittest.TestCase):
             PredictionQuery(actor="unknown_animal", action="unknown_move", context_tags=["animal", "movement"]),
         )
 
-        self.assertEqual(result.predicted_effects, ["fatigue_up"])
-        self.assertGreater(result.score, 0)
-        self.assertTrue(any(path[0].startswith("structural:") for path in result.supporting_paths))
+        self.assertEqual(result.predicted_effects, [])
+        self.assertEqual(result.score, 0.0)
+        self.assertEqual(result.claim_status, "abstained")
+        self.assertIn("no observed applicability evidence", result.explanation)
 
     def test_structure_delta_is_stored_between_structural_patterns(self) -> None:
         state = RisaState()
@@ -2025,6 +2032,665 @@ class TrainingAndPredictionTests(unittest.TestCase):
 
         blocked = forecast_next_effects(state, action="touch", current_states=["uncharged"])
         self.assertEqual(blocked, [])
+
+    def test_joint_effects_form_one_atomic_outcome(self) -> None:
+        state = RisaState()
+        events = [
+            Event(
+                f"e{index:03d}",
+                index,
+                "robot",
+                "activate",
+                observed_effects=["lit", "warm"],
+                state_variable_deltas={"energy": -1.0},
+            )
+            for index in range(1, 4)
+        ]
+        train_events(state, events)
+
+        self.assertEqual(len(state.structural_primitives), 1)
+        primitive = next(iter(state.structural_primitives.values()))
+        self.assertEqual(primitive.produced_states, {"lit", "warm"})
+        self.assertTrue(primitive.adopted)
+        self.assertTrue(
+            all(state.event_primitive_ids[event.id] == [primitive.id] for event in events)
+        )
+
+        candidates = forecast_next_effects(
+            state,
+            action="activate",
+            current_variables={"energy": 3.0},
+        )
+        self.assertEqual(len(candidates), 1)
+        self.assertEqual(candidates[0].added_states, ["lit", "warm"])
+        self.assertEqual(candidates[0].resulting_variables, {"energy": 2.0})
+
+        branches = simulate_branches(
+            state,
+            start_action="activate",
+            start_variables={"energy": 3.0},
+            max_steps=1,
+        )
+        self.assertEqual(len(branches), 1)
+        self.assertEqual(branches[0].current_states, ["lit", "warm"])
+        self.assertEqual(branches[0].current_variables, {"energy": 2.0})
+        self.assertEqual(branches[0].steps[0].effects, ["lit", "warm"])
+
+    def test_separate_observed_outcomes_remain_separate_primitives(self) -> None:
+        state = RisaState()
+        train_events(
+            state,
+            [
+                Event("left-1", 1, "robot", "route", observed_effects=["left"]),
+                Event("right-1", 2, "robot", "route", observed_effects=["right"]),
+            ],
+        )
+
+        outcomes = {
+            frozenset(primitive.produced_states)
+            for primitive in state.structural_primitives.values()
+        }
+        self.assertEqual(outcomes, {frozenset({"left"}), frozenset({"right"})})
+        self.assertNotEqual(
+            state.event_primitive_ids["left-1"],
+            state.event_primitive_ids["right-1"],
+        )
+
+    def test_joint_outcome_survives_state_round_trip(self) -> None:
+        state = RisaState()
+        train_events(
+            state,
+            [
+                Event(str(index), index, "robot", "activate", observed_effects=["lit", "warm"])
+                for index in range(3)
+            ],
+        )
+
+        restored = RisaState.from_dict(state.to_dict())
+        primitive = next(iter(restored.structural_primitives.values()))
+        self.assertEqual(primitive.produced_states, {"lit", "warm"})
+        self.assertEqual(primitive.to_dict()["output_states"], ["lit", "warm"])
+        self.assertEqual(state.to_dict()["graph"]["format"], "compact-v1")
+
+    def test_deployment_replay_does_not_union_alternative_worlds(self) -> None:
+        state = RisaState()
+        state.structural_primitives = {
+            "left": StructuralPrimitive(
+                id="left",
+                relation_type="transition",
+                role_signature="entity->process->state",
+                input_conditions={"process:route"},
+                output_state="left",
+                state_group_updates={"location": "left"},
+                adopted=True,
+                adoption_score=1.0,
+            ),
+            "right": StructuralPrimitive(
+                id="right",
+                relation_type="transition",
+                role_signature="entity->process->state",
+                input_conditions={"process:route"},
+                output_state="right",
+                state_group_updates={"location": "right"},
+                adopted=True,
+                adoption_score=1.0,
+            ),
+            "join": StructuralPrimitive(
+                id="join",
+                relation_type="transition",
+                role_signature="entity->process->state",
+                input_conditions={"process:join"},
+                input_state_conditions={"state:left", "state:right"},
+                output_state="impossible",
+                adopted=True,
+                adoption_score=1.0,
+            ),
+        }
+        state.exclusive_state_groups["location"] = {"state:left", "state:right"}
+        state.events_by_id = {
+            "route": Event("route", 1, "robot", "route", observed_effects=["left"]),
+            "join": Event("join", 2, "robot", "join", observed_effects=["impossible"]),
+        }
+        state.event_primitive_ids = {"route": ["left"], "join": ["join"]}
+
+        calls: list[tuple[str, tuple[str, ...], tuple[str, ...]]] = []
+
+        def traced_forecast(*args, **kwargs):
+            candidates = forecast_next_effects(*args, **kwargs)
+            calls.append(
+                (
+                    kwargs["action"],
+                    tuple(kwargs["current_states"]),
+                    tuple(
+                        effect
+                        for candidate in candidates
+                        for effect in candidate.added_states
+                    ),
+                )
+            )
+            return candidates
+
+        with patch(
+            "risa.engine.replay.forecast_next_effects",
+            side_effect=traced_forecast,
+        ):
+            summary = ReplaySummary()
+            _replay_deployment_trajectory(state, summary)
+
+        join_calls = [call for call in calls if call[0] == "join"]
+        self.assertTrue(join_calls)
+        self.assertFalse(any(set(call[1]) == {"left", "right"} for call in join_calls))
+        self.assertFalse(any("impossible" in call[2] for call in join_calls))
+        self.assertEqual(summary.deployment_failed_events, 1)
+
+    def test_deployment_replay_resets_world_at_episode_boundary(self) -> None:
+        state = RisaState()
+        state.structural_primitives = {
+            "seed": StructuralPrimitive(
+                id="seed",
+                relation_type="transition",
+                role_signature="entity->process->state",
+                input_conditions={"process:seed"},
+                output_state="ready",
+                adopted=True,
+                adoption_score=1.0,
+            ),
+            "use": StructuralPrimitive(
+                id="use",
+                relation_type="transition",
+                role_signature="entity->process->state",
+                input_conditions={"process:use"},
+                input_state_conditions={"state:ready"},
+                output_state="done",
+                adopted=True,
+                adoption_score=1.0,
+            ),
+        }
+        state.events_by_id = {
+            "seed": Event(
+                "seed", 1, "robot", "seed", observed_effects=["ready"], episode_id="a"
+            ),
+            "use": Event(
+                "use", 2, "robot", "use", observed_effects=["done"], episode_id="b"
+            ),
+        }
+        state.event_primitive_ids = {"seed": ["seed"], "use": ["use"]}
+
+        summary = ReplaySummary()
+        _replay_deployment_trajectory(state, summary)
+
+        self.assertEqual(summary.deployment_successful_events, 1)
+        self.assertEqual(summary.deployment_failed_events, 1)
+
+    def test_reingesting_the_same_event_is_a_no_op(self) -> None:
+        state = RisaState()
+        event = Event("stable-id", 1, "robot", "move", observed_effects=["moved"])
+        train_events(state, [event])
+        before = state.to_dict()
+
+        train_events(state, [event])
+
+        self.assertEqual(state.to_dict(), before)
+
+    def test_reusing_an_event_id_with_different_content_is_rejected(self) -> None:
+        state = RisaState()
+        train_events(
+            state,
+            [Event("conflict", 1, "robot", "move", observed_effects=["left"])],
+        )
+
+        with self.assertRaisesRegex(ValueError, "explicit correction is required"):
+            train_events(
+                state,
+                [Event("conflict", 1, "robot", "move", observed_effects=["right"])],
+            )
+
+    def test_episode_boundaries_prevent_cross_episode_temporal_edges(self) -> None:
+        state = RisaState()
+        train_events(
+            state,
+            [
+                Event(
+                    "a1",
+                    1,
+                    "robot",
+                    "start_a",
+                    observed_effects=["a_ready"],
+                    episode_id="episode-a",
+                    source="sensor-a",
+                ),
+                Event(
+                    "b1",
+                    2,
+                    "robot",
+                    "start_b",
+                    observed_effects=["b_ready"],
+                    episode_id="episode-b",
+                    source="sensor-b",
+                ),
+                Event(
+                    "a2",
+                    3,
+                    "robot",
+                    "finish_a",
+                    observed_effects=["a_done"],
+                    episode_id="episode-a",
+                    source="sensor-a",
+                ),
+            ],
+        )
+
+        self.assertIn(
+            ("event:a1", "event:a2", "event_precedes"),
+            state.graph.edges_by_key,
+        )
+        self.assertNotIn(
+            ("event:a1", "event:b1", "event_precedes"),
+            state.graph.edges_by_key,
+        )
+        self.assertNotIn(
+            ("event:b1", "event:a2", "event_precedes"),
+            state.graph.edges_by_key,
+        )
+        self.assertEqual(
+            state.graph.get_node("event:a1").attributes["source"],
+            "sensor-a",
+        )
+
+    def test_late_event_that_rewrites_episode_order_is_rejected(self) -> None:
+        state = RisaState()
+        train_events(
+            state,
+            [
+                Event(
+                    "later",
+                    2,
+                    "robot",
+                    "finish",
+                    observed_effects=["done"],
+                    episode_id="episode-a",
+                )
+            ],
+        )
+
+        with self.assertRaisesRegex(ValueError, "late-arriving event"):
+            train_events(
+                state,
+                [
+                    Event(
+                        "earlier",
+                        1,
+                        "robot",
+                        "start",
+                        observed_effects=["ready"],
+                        episode_id="episode-a",
+                    )
+                ],
+            )
+
+    def test_prediction_uses_grounded_target_evidence_and_can_abstain(self) -> None:
+        state = RisaState()
+        train_events(
+            state,
+            [
+                Event("heater-1", 1, "robot", "touch", target="heater", observed_effects=["hot"]),
+                Event("ice-1", 2, "robot", "touch", target="ice", observed_effects=["cold"]),
+                Event("heater-2", 3, "robot", "touch", target="heater", observed_effects=["hot"]),
+                Event("ice-2", 4, "robot", "touch", target="ice", observed_effects=["cold"]),
+            ],
+        )
+
+        heater = predict_next_effect(
+            state,
+            PredictionQuery(actor="robot", action="touch", target="heater"),
+        )
+        ice = predict_next_effect(
+            state,
+            PredictionQuery(actor="robot", action="touch", target="ice"),
+        )
+        unknown = predict_next_effect(
+            state,
+            PredictionQuery(actor="robot", action="touch", target="unknown"),
+        )
+
+        self.assertEqual(heater.predicted_effects, ["hot"])
+        self.assertEqual(ice.predicted_effects, ["cold"])
+        self.assertEqual(heater.claim_status, "derived")
+        self.assertEqual(heater.evidence_event_ids, ["heater-1", "heater-2"])
+        self.assertTrue(all("entity:heater" in path for path in heater.supporting_paths if "event:" in " ".join(path)))
+        self.assertEqual(unknown.predicted_effects, [])
+        self.assertEqual(unknown.claim_status, "abstained")
+
+        restored = RisaState.from_dict(state.to_dict())
+        restored_heater = predict_next_effect(
+            restored,
+            PredictionQuery(actor="robot", action="touch", target="heater"),
+        )
+        self.assertEqual(restored_heater.predicted_effects, ["hot"])
+
+    def test_target_grounding_preserves_the_complete_atomic_outcome(self) -> None:
+        state = RisaState()
+        train_events(
+            state,
+            [
+                Event(
+                    "heater-1",
+                    1,
+                    "robot",
+                    "touch",
+                    target="heater",
+                    observed_effects=["changed", "warm"],
+                ),
+                Event(
+                    "ice-1",
+                    2,
+                    "robot",
+                    "touch",
+                    target="ice",
+                    observed_effects=["changed", "cold"],
+                ),
+            ],
+        )
+
+        heater = predict_next_effect(
+            state,
+            PredictionQuery(actor="robot", action="touch", target="heater"),
+        )
+        ice = predict_next_effect(
+            state,
+            PredictionQuery(actor="robot", action="touch", target="ice"),
+        )
+
+        self.assertEqual(set(heater.predicted_effects), {"changed", "warm"})
+        self.assertEqual(set(ice.predicted_effects), {"changed", "cold"})
+
+    def test_unseen_target_can_bind_through_an_observed_role(self) -> None:
+        state = RisaState()
+        train_events(
+            state,
+            [
+                Event(
+                    f"heater-{index}",
+                    index,
+                    "robot",
+                    "inspect",
+                    target="heater",
+                    target_roles=["heating_device"],
+                    observed_effects=["warm"],
+                )
+                for index in range(1, 4)
+            ],
+        )
+
+        result = predict_next_effect(
+            state,
+            PredictionQuery(
+                actor="new_robot",
+                action="inspect",
+                target="radiator",
+                target_roles=["heating_device"],
+            ),
+        )
+
+        self.assertEqual(result.predicted_effects, ["warm"])
+        self.assertEqual(result.claim_status, "derived")
+        self.assertIn("target_role:heating_device", result.applicability_basis)
+        self.assertTrue(any("role:heating_device" in path for path in result.supporting_paths))
+
+        unknown_role = predict_next_effect(
+            state,
+            PredictionQuery(
+                actor="new_robot",
+                action="inspect",
+                target="radiator",
+                target_roles=["unknown_device"],
+            ),
+        )
+        self.assertEqual(unknown_role.claim_status, "abstained")
+        self.assertIn(
+            ("entity:heater", "role:heating_device", "has_role"),
+            state.graph.edges_by_key,
+        )
+
+    def test_three_consistent_recent_outcomes_create_a_reversible_change_hypothesis(self) -> None:
+        state = RisaState()
+        train_events(
+            state,
+            [
+                Event(
+                    f"stable-{index}", index, "robot", "tune", target="device",
+                    observed_effects=["stable"], episode_id=f"initial-{index}",
+                )
+                for index in range(1, 4)
+            ],
+        )
+        for index in range(4, 7):
+            train_events(
+                state,
+                [
+                    Event(
+                        f"unstable-{index}", index, "robot", "tune", target="device",
+                        observed_effects=["unstable"], episode_id=f"change-{index}",
+                    )
+                ],
+            )
+
+        changed = predict_next_effect(
+            state,
+            PredictionQuery(actor="robot", action="tune", target="device"),
+        )
+        hypothesis = state.change_hypotheses["change:tune:device:__no_context__"]
+        self.assertEqual(changed.predicted_effects, ["unstable"])
+        self.assertEqual(hypothesis.previous_outcome, ["stable"])
+        self.assertEqual(hypothesis.current_outcome, ["unstable"])
+
+        for index in range(7, 10):
+            train_events(
+                state,
+                [
+                    Event(
+                        f"restored-{index}", index, "robot", "tune", target="device",
+                        observed_effects=["stable"], episode_id=f"restore-{index}",
+                    )
+                ],
+            )
+        restored = predict_next_effect(
+            state,
+            PredictionQuery(actor="robot", action="tune", target="device"),
+        )
+        restored_hypothesis = state.change_hypotheses[
+            "change:tune:device:__no_context__"
+        ]
+        self.assertEqual(restored.predicted_effects, ["stable"])
+        self.assertEqual(restored_hypothesis.previous_outcome, ["unstable"])
+        self.assertEqual(restored_hypothesis.current_outcome, ["stable"])
+
+        round_tripped = RisaState.from_dict(state.to_dict())
+        self.assertEqual(
+            round_tripped.change_hypotheses[
+                "change:tune:device:__no_context__"
+            ].current_outcome,
+            ["stable"],
+        )
+
+    def test_applicability_is_learned_from_successes_and_failures_then_retracted(self) -> None:
+        state = RisaState()
+        train_events(
+            state,
+            [
+                Event(
+                    "success-1", 1, "robot", "open", observed_states_before=["key"],
+                    before_state_observed=True, observed_effects=["opened"], episode_id="s1",
+                ),
+                Event(
+                    "success-2", 2, "robot", "open", observed_states_before=["key"],
+                    before_state_observed=True, observed_effects=["opened"], episode_id="s2",
+                ),
+                Event(
+                    "failure-1", 3, "robot", "open", observed_states_before=[],
+                    before_state_observed=True, observed_effects=[], transition_succeeded=False,
+                    episode_id="f1",
+                ),
+            ],
+        )
+
+        primitive = next(iter(state.structural_primitives.values()))
+        self.assertEqual(primitive.learned_state_conditions, {"state:key"})
+        self.assertIn(primitive.id, state.applicability_hypotheses)
+        self.assertEqual(forecast_next_effects(state, "open", current_states=[]), [])
+        self.assertEqual(
+            forecast_next_effects(state, "open", current_states=["key"])[0].added_states,
+            ["opened"],
+        )
+
+        train_events(
+            state,
+            [
+                Event(
+                    "counterexample", 4, "robot", "open", observed_states_before=[],
+                    before_state_observed=True, observed_effects=["opened"], episode_id="s3",
+                )
+            ],
+        )
+        self.assertEqual(primitive.learned_state_conditions, set())
+        self.assertNotIn(primitive.id, state.applicability_hypotheses)
+        self.assertTrue(forecast_next_effects(state, "open", current_states=[]))
+
+    def test_unnamed_candidate_requires_diverse_primary_evidence_and_keeps_counterexamples(self) -> None:
+        state = RisaState()
+        events = [
+            Event(
+                "heater", 1, "robot-a", "inspect", target="heater",
+                target_roles=["heating_device"], observed_effects=["warm"],
+                episode_id="episode-a", source="sensor-a",
+            ),
+            Event(
+                "radiator", 2, "robot-b", "inspect", target="radiator",
+                target_roles=["heating_device"], observed_effects=["warm"],
+                episode_id="episode-b", source="sensor-b",
+            ),
+            Event(
+                "boiler-exception", 3, "robot-c", "inspect", target="boiler",
+                target_roles=["heating_device"], observed_effects=["cold"],
+                episode_id="episode-c", source="sensor-c",
+            ),
+        ]
+
+        train_events(state, events)
+
+        self.assertEqual(len(state.unnamed_concept_candidates), 1)
+        candidate = next(iter(state.unnamed_concept_candidates.values()))
+        self.assertEqual(candidate.lifecycle_status, "proposed")
+        self.assertEqual(candidate.target_diversity, 2)
+        self.assertEqual(candidate.source_diversity, 2)
+        self.assertGreater(candidate.description_length_delta, 0)
+        self.assertEqual(candidate.counterexample_event_ids, ["boiler-exception"])
+        self.assertEqual(candidate.derivation_generation, 0)
+        self.assertEqual(set(state.events_by_id), {event.id for event in events})
+
+        restored = RisaState.from_dict(state.to_dict())
+        self.assertEqual(
+            next(iter(restored.unnamed_concept_candidates.values())).supporting_event_ids,
+            ["heater", "radiator"],
+        )
+
+        evaluate_unnamed_candidate(
+            state,
+            candidate.id,
+            partition="development",
+            evaluation_event_ids=["dev-heldout"],
+            prediction_delta=0.08,
+            composition_delta=0.0,
+            prediction_delta_ci_lower=0.02,
+            composition_delta_ci_lower=0.0,
+            false_generalization_delta=0.0,
+        )
+        self.assertEqual(candidate.lifecycle_status, "provisional")
+        with self.assertRaisesRegex(ValueError, "overlaps development/final evidence"):
+            evaluate_unnamed_candidate(
+                state,
+                candidate.id,
+                partition="final",
+                evaluation_event_ids=["dev-heldout"],
+                prediction_delta=0.07,
+                composition_delta=0.0,
+                prediction_delta_ci_lower=0.01,
+                composition_delta_ci_lower=0.0,
+                false_generalization_delta=0.0,
+            )
+        evaluate_unnamed_candidate(
+            state,
+            candidate.id,
+            partition="final",
+            evaluation_event_ids=["final-heldout"],
+            prediction_delta=0.07,
+            composition_delta=0.0,
+            prediction_delta_ci_lower=0.01,
+            composition_delta_ci_lower=0.0,
+            false_generalization_delta=-0.01,
+        )
+        self.assertEqual(candidate.lifecycle_status, "adopted")
+
+        with self.assertRaisesRegex(ValueError, "overlaps supporting evidence"):
+            evaluate_unnamed_candidate(
+                state,
+                candidate.id,
+                partition="development",
+                evaluation_event_ids=["heater"],
+                prediction_delta=0.1,
+                composition_delta=0.0,
+                prediction_delta_ci_lower=0.01,
+                composition_delta_ci_lower=0.0,
+                false_generalization_delta=0.0,
+            )
+
+    def test_legacy_state_migrates_single_output_to_atomic_output_set(self) -> None:
+        legacy = RisaState().to_dict()
+        legacy.pop("schema_version")
+        legacy["structural_primitives"] = {
+            "legacy": {
+                "id": "legacy",
+                "relation_type": "transition",
+                "role_signature": "entity->process->state",
+                "output_state": "ready",
+            }
+        }
+
+        restored = RisaState.from_dict(legacy)
+
+        self.assertEqual(restored.schema_version, 3)
+        self.assertEqual(restored.structural_primitives["legacy"].produced_states, {"ready"})
+
+    def test_future_state_schema_is_rejected(self) -> None:
+        payload = RisaState().to_dict()
+        payload["schema_version"] = 999
+
+        with self.assertRaisesRegex(ValueError, "newer than supported"):
+            RisaState.from_dict(payload)
+
+    def test_atomic_persistence_keeps_verified_backup_for_recovery(self) -> None:
+        with TemporaryDirectory() as directory:
+            state = RisaState()
+            train_events(
+                state,
+                [Event("first", 1, "robot", "start", observed_effects=["ready"])],
+            )
+            save_state(state, directory)
+
+            train_events(
+                state,
+                [Event("second", 2, "robot", "finish", observed_effects=["done"])],
+            )
+            save_state(state, directory)
+            self.assertTrue((Path(directory) / "state.json.bak").exists())
+            self.assertFalse(list(Path(directory).glob("*.tmp")))
+
+            (Path(directory) / "state.json").write_text("{broken", encoding="utf-8")
+            recovered = load_state(directory)
+
+            self.assertIn("first", recovered.events_by_id)
+            self.assertNotIn("second", recovered.events_by_id)
+            self.assertEqual(recovered.schema_version, 3)
 
 
 if __name__ == "__main__":

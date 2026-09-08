@@ -12,8 +12,9 @@ def _validate_event(data: dict) -> Event:
     missing = [key for key in required if key not in data]
     if missing:
         raise ValueError(f"Missing required event fields: {', '.join(missing)}")
-    if not data["observed_effects"]:
-        raise ValueError("observed_effects must contain at least one effect")
+    transition_succeeded = bool(data.get("transition_succeeded", True))
+    if not data["observed_effects"] and transition_succeeded:
+        raise ValueError("successful transitions must contain at least one observed effect")
     group_updates = {
         str(group): str(state) for group, state in data.get("state_group_updates", {}).items()
     }
@@ -58,6 +59,15 @@ def _validate_event(data: dict) -> Event:
         state_variable_specs=state_variable_specs,
         observed_effects=[str(effect) for effect in data.get("observed_effects", [])],
         context_tags=[str(tag) for tag in data.get("context_tags", [])],
+        episode_id=str(data.get("episode_id", "__default__")),
+        source=str(data.get("source", "unknown")),
+        actor_roles=[str(role) for role in data.get("actor_roles", [])],
+        target_roles=[str(role) for role in data.get("target_roles", [])],
+        observed_states_before=[str(state) for state in data.get("observed_states_before", [])],
+        before_state_observed=bool(
+            data.get("before_state_observed", "observed_states_before" in data)
+        ),
+        transition_succeeded=transition_succeeded,
     )
 
 

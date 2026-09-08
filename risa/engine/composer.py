@@ -5,7 +5,7 @@ from collections import deque
 from risa.core.models import CompositionResult, StructuralPrimitive
 from risa.core.state import RisaState
 from risa.engine.graph_builder import normalize_label
-from risa.engine.state_variables import apply_variable_deltas, requirements_satisfied
+from risa.engine.transitions import apply_primitive_transition
 
 
 def forecast_next_effects(
@@ -35,34 +35,34 @@ def forecast_next_effects(
         include_supported_alternatives=include_supported_alternatives,
     ):
         score = _primitive_score(primitive, context)
-        resulting_variables = apply_variable_deltas(
-            state.state_variable_specs,
+        produced_states = sorted(primitive.produced_states)
+        application = apply_primitive_transition(
+            state,
+            primitive,
+            available_states,
             available_variables,
-            primitive.state_variable_deltas,
         )
-        if resulting_variables is None:
+        if application is None:
             continue
         candidates.append(
             CompositionResult(
-                target_effect=primitive.output_state,
-                removed_states=sorted(
-                    state_id.removeprefix("state:")
-                    for state_id in _removed_states_for_primitive(state, primitive)
-                ),
-                variable_deltas=dict(sorted(primitive.state_variable_deltas.items())),
-                resulting_variables=dict(sorted(resulting_variables.items())),
+                target_effect=produced_states[0],
+                added_states=application.added_states,
+                removed_states=application.removed_states,
+                variable_deltas=application.variable_deltas,
+                resulting_variables=application.resulting_variables,
                 primitive_ids=[primitive.id],
                 supporting_paths=[
                     [
                         *sorted(primitive.input_state_conditions),
                         f"process:{normalized_action}",
                         primitive.id,
-                        f"state:{primitive.output_state}",
+                        *[f"state:{state_name}" for state_name in produced_states],
                     ]
                 ],
                 score=round(score, 4),
                 explanation=(
-                    f"Forecast candidate '{primitive.output_state}' from an adopted primitive "
+                    f"Forecast atomic outcome {produced_states} from an adopted primitive "
                     f"applicable to action '{normalized_action}'."
                 ),
             )
@@ -98,29 +98,35 @@ def compose_to_effect(
             state, current_action, context, available_states, available_variables
         ):
             primitive_score = _primitive_score(primitive, context)
+            produced_states = sorted(primitive.produced_states)
             next_ids = [*primitive_ids, primitive.id]
-            next_paths = [*paths, [f"process:{current_action}", primitive.id, f"state:{primitive.output_state}"]]
+            next_paths = [
+                *paths,
+                [
+                    f"process:{current_action}",
+                    primitive.id,
+                    *[f"state:{state_name}" for state_name in produced_states],
+                ],
+            ]
             next_score = score * primitive_score
-            removed_states = _removed_states_for_primitive(state, primitive)
-            next_states = (available_states - removed_states) | {
-                f"state:{primitive.output_state}"
-            }
-            next_variables = apply_variable_deltas(
-                state.state_variable_specs,
+            application = apply_primitive_transition(
+                state,
+                primitive,
+                available_states,
                 available_variables,
-                primitive.state_variable_deltas,
             )
-            if next_variables is None:
+            if application is None:
                 continue
+            next_states = {f"state:{state_name}" for state_name in application.resulting_states}
+            next_variables = application.resulting_variables
 
-            if primitive.output_state == effect:
+            if effect in primitive.produced_states:
                 return CompositionResult(
                     target_effect=effect,
-                    removed_states=sorted(
-                        state_id.removeprefix("state:") for state_id in removed_states
-                    ),
-                    variable_deltas=dict(sorted(primitive.state_variable_deltas.items())),
-                    resulting_variables=dict(sorted(next_variables.items())),
+                    added_states=application.added_states,
+                    removed_states=application.removed_states,
+                    variable_deltas=application.variable_deltas,
+                    resulting_variables=application.resulting_variables,
                     primitive_ids=next_ids,
                     supporting_paths=next_paths,
                     score=round(next_score, 4),
@@ -169,14 +175,12 @@ def _adopted_primitives_for_action(
         for primitive in state.structural_primitives.values()
         if (primitive.adopted or (include_supported_alternatives and _is_supported_alternative(primitive)))
         and input_condition in primitive.input_conditions
-        and primitive.input_state_conditions.issubset(available_states)
-        and requirements_satisfied(primitive, available_variables)
-        and apply_variable_deltas(
-            state.state_variable_specs,
+        and apply_primitive_transition(
+            state,
+            primitive,
+            available_states,
             available_variables,
-            primitive.state_variable_deltas,
-        )
-        is not None
+        ) is not None
         and _context_compatible(primitive.context_tags, context)
     ]
 
@@ -201,20 +205,6 @@ def next_actions(state: RisaState, action: str, context: set[str]) -> list[tuple
 def _primitive_score(primitive: StructuralPrimitive, context: set[str]) -> float:
     context_score = 1.0 if not context else _context_overlap(primitive.context_tags, context)
     return max(0.1, primitive.adoption_score * context_score)
-
-
-def _removed_states_for_primitive(
-    state: RisaState,
-    primitive: StructuralPrimitive,
-) -> set[str]:
-    removed = set(primitive.consumed_states)
-    for group, next_state in primitive.state_group_updates.items():
-        removed.update(
-            state_id
-            for state_id in state.exclusive_state_groups.get(group, set())
-            if state_id != f"state:{next_state}"
-        )
-    return removed
 
 
 def _context_compatible(primitive_context: set[str], query_context: set[str]) -> bool:

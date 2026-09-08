@@ -13,7 +13,11 @@ def _node_id(kind: str, label: str) -> str:
     return f"{kind}:{normalize_label(label)}"
 
 
-def ingest_event(state: RisaState, event: Event) -> None:
+def ingest_event(
+    state: RisaState,
+    event: Event,
+    enable_coactivation: bool = True,
+) -> None:
     state.events_by_id[event.id] = event
 
     actor_id = _node_id("entity", event.actor)
@@ -32,7 +36,12 @@ def ingest_event(state: RisaState, event: Event) -> None:
             id=event_id,
             kind="event",
             label=normalize_label(event.id),
-            attributes={"actor": normalize_label(event.actor), "action": normalize_label(event.action)},
+            attributes={
+                "actor": normalize_label(event.actor),
+                "action": normalize_label(event.action),
+                "episode_id": event.episode_id,
+                "source": event.source,
+            },
             created_at=event.timestamp,
             usage_count=1,
         )
@@ -47,6 +56,40 @@ def ingest_event(state: RisaState, event: Event) -> None:
             last_updated=event.timestamp,
         )
     )
+
+    for observed_state in event.observed_states_before:
+        observed_state_id = _node_id("state", observed_state)
+        coactive_node_ids.append(observed_state_id)
+        state.graph.add_or_update_node(
+            Node(
+                id=observed_state_id,
+                kind="state",
+                label=normalize_label(observed_state),
+                created_at=event.timestamp,
+                usage_count=1,
+            )
+        )
+        state.graph.add_or_update_edge(
+            Edge(
+                source=event_id,
+                target=observed_state_id,
+                relation_type="observed_before",
+                context_tags=tuple(sorted(event.context_tags)),
+                evidence_count=1,
+                last_updated=event.timestamp,
+            )
+        )
+    if not event.transition_succeeded:
+        state.graph.add_or_update_edge(
+            Edge(
+                source=event_id,
+                target=action_id,
+                relation_type="failed_to_instantiate",
+                context_tags=tuple(sorted(event.context_tags)),
+                evidence_count=1,
+                last_updated=event.timestamp,
+            )
+        )
 
     for condition in event.preconditions:
         condition_id = _node_id("state", condition)
@@ -221,6 +264,51 @@ def ingest_event(state: RisaState, event: Event) -> None:
                 last_updated=event.timestamp,
             )
         )
+        for role in sorted({normalize_label(item) for item in event.target_roles}):
+            role_id = _node_id("role", role)
+            state.graph.add_or_update_node(
+                Node(
+                    id=role_id,
+                    kind="role",
+                    label=role,
+                    created_at=event.timestamp,
+                    usage_count=1,
+                )
+            )
+            state.graph.add_or_update_edge(
+                Edge(
+                    source=target_id,
+                    target=role_id,
+                    relation_type="has_role",
+                    context_tags=tuple(sorted(event.context_tags)),
+                    evidence_count=1,
+                    last_updated=event.timestamp,
+                )
+            )
+            coactive_node_ids.append(role_id)
+
+    for role in sorted({normalize_label(item) for item in event.actor_roles}):
+        role_id = _node_id("role", role)
+        state.graph.add_or_update_node(
+            Node(
+                id=role_id,
+                kind="role",
+                label=role,
+                created_at=event.timestamp,
+                usage_count=1,
+            )
+        )
+        state.graph.add_or_update_edge(
+            Edge(
+                source=actor_id,
+                target=role_id,
+                relation_type="has_role",
+                context_tags=tuple(sorted(event.context_tags)),
+                evidence_count=1,
+                last_updated=event.timestamp,
+            )
+        )
+        coactive_node_ids.append(role_id)
 
     activate_nodes(
         state,
@@ -263,4 +351,5 @@ def ingest_event(state: RisaState, event: Event) -> None:
             timestamp=event.timestamp,
         )
 
-    reinforce_coactivation(state, coactive_node_ids, event.timestamp)
+    if enable_coactivation:
+        reinforce_coactivation(state, coactive_node_ids, event.timestamp)

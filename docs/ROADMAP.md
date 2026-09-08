@@ -1,6 +1,6 @@
 # RISA Roadmap / RISA ロードマップ / RISA 路线图
 
-Updated: 2026-09-06. [Design assessment / 設計評価 / 设计评估](RISA-Structural-AI-Assessment-2026-09-05.md)
+Updated: 2026-09-08. [Design assessment / 設計評価 / 设计评估](RISA-Structural-AI-Assessment-2026-09-05.md)
 
 ## Authority and objective / 位置付けと目的 / 定位与目标
 
@@ -20,13 +20,13 @@ unseen objects and compositions, and adapts to change.
 - [Next] high-priority unfinished work / 最優先の未完了作業 / 高优先级未完成工作
 - [Later] planned, but not the closest next step / 依存段階通過後の予定 / 前置阶段通过后的计划
 
-日本語: [Done]は実装の存在を示し、研究仮説の実証とは区別する。直近はG0、次いでG1。
-G2以降は重要でも[Later]とする。指標・閾値は評価前に固定し、結果を見て合格条件を緩めない。
+日本語: [Done]は実装の存在を示し、研究仮説の実証とは区別する。G0、G1とG2.1〜G2.3は完了し、直近はG2.4。
+G3以降は重要でも[Later]とする。指標・閾値は評価前に固定し、結果を見て合格条件を緩めない。
 
-English: [Done] means implemented, not scientifically validated. Execute G0 then G1; G2 onward is [Later].
+English: [Done] means implemented, not scientifically validated. G0, G1 and G2.1–G2.3 are complete; G2.4 is next and G3 onward is [Later].
 Freeze metrics and thresholds before evaluation; do not relax gates after seeing results.
 
-简体中文: [Done]表示已实现，不等于科学验证。先执行G0，再执行G1；G2以后标为[Later]。
+简体中文: [Done]表示已实现，不等于科学验证。G0、G1及G2.1至G2.3已完成，下一步执行G2.4；G3以后标为[Later]。
 评估前固定指标与阈值，不根据结果放宽通过条件。
 
 ## Current baseline / 現在地 / 当前基础
@@ -37,50 +37,49 @@ Freeze metrics and thresholds before evaluation; do not relax gates after seeing
 | [Done] | 学習前予測、誤差履歴、共活性、代謝、Replay、文脈分裂の最小経路 | Minimal pre-update prediction, error history, coactivation, metabolism, replay, context splitting | 最小学前预测、误差历史、共激活、代谢、重放与上下文分裂 |
 | [Done] | 状態消費・排他更新・数値資源・単位と上下限の部品 | Consumption, exclusive replacement, numeric resources, units and bounds | 状态消耗、互斥替换、数值资源、单位与边界 |
 | [Done] | 分岐simulation、goal/constraint評価、what-if、AND/OR、偏序実行、threat検出 | Branch simulation, goal/constraint evaluation, what-if, AND/OR, partial-order execution, threats | 分支模拟、目标与约束评估、假设比较、AND/OR、偏序执行及冲突检测 |
-| [Done] | 既存55テストと今回の6診断。複数effectとReplay整合性に欠陥を確認 | 55 existing tests and six assessment probes; joint-effect and replay defects identified | 现有55项测试与六项诊断；发现多效果与重放一致性缺陷 |
+| [Done] | G0反例、G1/G2評価基盤、G2学習機構を回帰テスト化し、全79テストが通過 | G0 counterexamples, G1/G2 evaluation and G2 learning mechanisms covered; all 79 tests pass | G0反例、G1/G2评估及G2学习机制已纳入回归测试，全部79项测试通过 |
 
-日本語: 「全経路で統一状態遷移が完成」という旧記述は撤回する。単一effectを中心とした部品は動くが、
-同時effectとReplay分岐を含む契約はG0未完了。役割誘導・構造汎化・局所計算量・因果同定の優位性は未測定。
+日本語: G0で意味論を修正し、G1で比較測定した。G2では型付き役割束縛、前提学習、変化適応を実装し、対象課題で改善した。
+明示済み前提のcompositionは具体遷移表と同率で、保存量と時間には大差が残るため、候補概念の実利用と効率をG2.4で改善する。
 
-English: Retract the earlier claim of complete shared transition semantics. Single-effect components work, but
-joint effects and replay branches remain unfinished G0 work. Role induction, structural transfer, computational
-locality, and causal identification advantages have not been measured.
+English: G0 repairs semantic contracts and G1 measures them comparatively. G2 adds typed role binding, learned
+applicability and change adaptation with gains on their targeted tasks. Supplied-precondition composition still ties
+the grounded table, while storage and latency gaps remain; G2.4 now targets useful candidate concepts and efficiency.
 
-简体中文: 撤回此前“所有路径已完成统一转移语义”的表述。单效果部件可运行，但同时效果与重放分支仍属于G0未完成工作。
-角色归纳、结构迁移、计算局部性及因果同定优势尚未测量。
+简体中文: G0已修复语义契约，G1已完成比较测量。G2实现了类型化角色绑定、适用条件学习及变化适应，并在对应任务取得提升。
+已提供前提的composition仍与具体转移表持平，存储量及时延差距仍大；G2.4将改进候选概念的实际使用及效率。
 
 ## G0 — Semantic and evidence integrity / 意味論と証拠の修正 / 语义与证据修正
 
 | Status | 日本語 | English | 简体中文 |
 | --- | --- | --- | --- |
-| [Next] | G0.1 同時effectの束と別outcomeを分離。deltaは一回適用。単一output形式を移行 | Separate joint effects from alternative outcomes; apply deltas once; migrate legacy output | 区分同时效果与备选结果，变化量只应用一次，迁移旧输出格式 |
-| [Next] | G0.2 純粋transition関数を共有し、Replayも状態・資源・根拠をbranch別保持 | Share a pure transition kernel; preserve per-branch replay states, resources, evidence | 共享纯转移函数，重放逐分支保存状态、资源与证据 |
-| [Next] | G0.3 Event ID冪等性、訂正、episode境界、遅着・順序契約を実装 | Implement event idempotency, corrections, episode boundaries, late-arrival ordering | 实现事件幂等、更正、回合边界及迟到事件顺序契约 |
-| [Next] | G0.4 根拠なしactionの棄却、観測/導出/仮説の説明区分、actor/targetの具体照合 | Abstain on unsupported actions; distinguish observed/derived/hypothetical evidence; match actor/target | 对无依据动作弃答，区分观测/推导/假设，匹配actor与target |
-| [Next] | G0.5 schema version、原子的保存、旧state移行と復旧検証 | Version schemas, save atomically, verify migration and recovery | schema版本化、原子保存、迁移与恢复验证 |
+| [Done] | G0.1 同時effectを原子的な集合として保持し、別outcomeと分離。deltaは一回適用し旧単一outputを移行 | Store joint effects as atomic sets, separate alternatives, apply deltas once, and migrate legacy single outputs | 将同时效果保存为原子集合并与备选结果分离；变化量只应用一次，并迁移旧单一输出 |
+| [Done] | G0.2 純粋transition関数を共有し、Replayの状態・資源・根拠をbranch別保持 | Share a pure transition kernel and preserve replay state, resources, and evidence per branch | 共享纯转移函数，重放逐分支保存状态、资源与证据 |
+| [Done] | G0.3 Event IDを冪等化し、衝突を拒否。episode境界と遅着・順序契約を実装 | Make Event IDs idempotent, reject conflicts, and enforce episode and late-arrival ordering | 实现事件ID幂等、冲突拒绝、回合边界及迟到事件顺序契约 |
+| [Done] | G0.4 根拠なしactionを棄却し、導出/仮説/棄却を区分。actor/targetを具体照合 | Abstain on unsupported actions, distinguish derived/hypothetical/abstained claims, and ground actor/target | 对无依据动作弃答，区分推导/假设/弃答，并具体匹配actor与target |
+| [Done] | G0.5 schema v2、原子的保存、旧state移行、backup復旧を実装 | Implement schema v2, atomic saves, legacy migration, and backup recovery | 实现schema v2、原子保存、旧状态迁移及备份恢复 |
 
-日本語: 順序はG0.1→G0.2→G0.3→G0.4→G0.5。各変更で既存テストと反例を回帰テスト化して実行する。
-完了条件は、同時effectと一回のcost、排他outcomeの非混合、重複入力no-op、target区別、
-存在する根拠への説明参照、保存復元後の同一結果をすべて確認すること。完全観測では集合一致を測り、
-部分観測にはmaskを要求する。既存データから同時性を復元できない場合は推測移行せず、要再学習と明示する。
+日本語: G0.1→G0.5を実装し、反例を含む全69テストで同時effectと一回のcost、排他outcomeの非混合、
+重複入力no-op、target区別、根拠参照、保存復元の一致を確認した。完全観測は集合一致で判定する。
+部分観測maskはG1の評価データ契約として実装する。旧単一outputは安全に移行し、復元不能な同時性は推測しない。
 
-English: Implement G0.1–G0.5 in order, turning the counterexamples into regression tests alongside existing tests.
-Pass only when joint effects/cost-once, isolated outcomes, duplicate no-op, target distinction, traceable explanations,
-and persistence round trips hold. Use set equality for complete observations and masks for partial ones.
-Mark ambiguous legacy data for retraining instead of guessing joint effects.
+English: G0.1–G0.5 are implemented. All 69 tests verify joint effects and cost-once behavior, isolated outcomes,
+duplicate no-op, target distinction, traceable evidence, and persistence round trips. Complete observations use set
+equality. Partial-observation masks belong to the G1 evaluation-data contract. Legacy single outputs migrate safely;
+ambiguous joint effects are never guessed.
 
-简体中文: 按G0.1至G0.5实施，将反例转为回归测试并运行现有测试。
-通过条件包括同时效果与单次成本、结果隔离、重复输入无变化、target区分、可追溯解释及保存恢复一致性。
-完整观测使用集合一致，部分观测使用mask；无法恢复同时性的旧数据应标记需重新训练。
+简体中文: G0.1至G0.5已实现。全部69项测试验证同时效果与单次成本、结果隔离、重复输入无变化、target区分、
+可追溯证据及保存恢复一致性。完整观测使用集合一致；部分观测mask将在G1评估数据契约中实现。
+旧单一输出可安全迁移，无法恢复的同时性不会被猜测。
 
 ## G1 — Comparative evaluation / 比較評価基盤 / 比较评估基础
 
 | Status | 日本語 | English | 简体中文 |
 | --- | --- | --- | --- |
-| [Next] | G1.1 独立した人工環境、generator、split manifest、seedと予算を固定 | Freeze independent environment, generator, splits, seeds, budgets | 固定独立环境、生成器、划分、种子与预算 |
-| [Next] | G1.2 頻度、完全事例検索、具体遷移表＋同一plannerのbaseline | Frequency, exact retrieval, grounded transition table with the same planner | 频度、完整案例检索、具体转移表加同一规划器基线 |
-| [Next] | G1.3 構造共有、共活性、Replay、代謝、分裂を個別無効化 | Individually ablate sharing, coactivation, replay, metabolism, splitting | 分别消融结构共享、共激活、重放、代谢与分裂 |
-| [Next] | G1.4 学習前次状態精度、完全goal到達、棄却、忘却、時間とmemoryを記録 | Record pre-update state accuracy, complete goal success, abstention, forgetting, time and memory | 记录学前状态精度、完整目标成功、弃答、遗忘、时间与内存 |
+| [Done] | G1.1 独立した人工環境、generator、split manifest、5 seed、各split 200 episodeを固定 | Fixed independent environment, generator, split manifest, five seeds and 200 episodes per split | 已固定独立环境、生成器、划分manifest、5个seed及每个split 200回合 |
+| [Done] | G1.2 頻度、完全事例検索、具体遷移表、oracleを同一plannerで比較 | Compared frequency, exact retrieval, grounded transition and oracle with the same planner | 已用同一planner比较频度、完整案例检索、具体转移表及oracle |
+| [Done] | G1.3 構造共有、共活性、Replay、代謝、分裂を個別無効化して測定 | Measured individual ablations of sharing, coactivation, replay, metabolism and splitting | 已分别测量结构共享、共激活、Replay、代谢及分裂消融 |
+| [Done] | G1.4 学習前精度、goal到達、棄却、忘却、時間、保存量、失敗例を記録 | Recorded pre-update accuracy, goal success, abstention, forgetting, time, storage and failures | 已记录学前准确率、目标达成、弃答、遗忘、时间、存储量及失败例 |
 
 ### Evaluation contract / 評価契約 / 评估契约
 
@@ -114,32 +113,55 @@ Report coverage and all-query success; do not call uncalibrated scores probabili
 由独立环境执行计划；人工提供前提/delta与从前后观测学习的结果分开报告。真实模型加同一规划器用于分离学习和搜索误差。
 同时报告覆盖率与全部查询成功率；未经校准的分数不称为概率。
 
-日本語: G1完了は、全方式・全splitの再現可能な結果表と失敗例が揃うこと。RISAの勝利は完了条件ではない。
-優位性がなければ、その事実を次の設計入力にする。
+日本語: G1は[比較評価結果](G1-Comparative-Evaluation-2026-09-08.md)として完了した。RISAはcompositionで100%、
+bindingで75%だが具体遷移表と同率であり、優位性は確認できなかった。B期driftは例外context分の33.3%に留まり、未知targetは棄却した。
+この失敗をG2の役割束縛、変化点適応、証拠圧縮の設計入力とする。
 
-English: G1 passes when reproducible comparative tables and failure cases exist. RISA need not win; null results guide design.
+English: G1 is complete in the [comparative report](G1-Comparative-Evaluation-2026-09-08.md). RISA reaches 100% on
+composition and 75% on binding, tying the grounded transition baseline. It reaches only the explicit-context third of
+phase B drift and abstains on unseen targets. G2 uses these failures to redesign bindings, change adaptation, and evidence efficiency.
 
-简体中文: G1完成条件是可复现的完整比较结果与失败案例，不要求RISA获胜；无优势也是设计依据。
+简体中文: G1已完成，详见[比较评估报告](G1-Comparative-Evaluation-2026-09-08.md)。RISA在composition为100%、
+binding为75%，与具体转移表持平；B阶段drift仅解决带显式context的33.3%，并对未见target弃答。
+G2将据此重设角色绑定、变化适应及证据效率。
 
 ## G2 — Learned structural reuse / 学習された構造再利用 / 学习型结构复用
 
-- [Later] 型付き関係と役割束縛 / Typed relations and role bindings / 类型化关系与角色绑定
-- [Later] 前後観測・失敗例から前提候補を比較 / Compare preconditions from before/after and failures / 从前后观测与失败比较前提候选
-- [Later] 観測順序と適用条件を分離し、未観測合成を独立環境で検証 / Separate observed order from applicability and validate novel compositions / 分离观测顺序与适用性，验证新组合
-- [Later] 未説明residualと共有unitから匿名の`UnnamedConceptCandidate`を生成 / Generate anonymous candidates from unexplained residuals and shared units / 从未解释残差与共享单元生成匿名候选
-- [Later] 証拠多様性、記述長、held-out予測、未知束縛、例外costを分解した概念圧を記録 / Record decomposed concept pressure across evidence diversity, description length, holdout prediction, unseen bindings, and exception cost / 分项记录证据多样性、描述长度、留出预测、未知绑定与例外成本形成的概念压力
-- [Later] `latent -> proposed -> provisional -> adopted -> specialized/merged/dormant/rejected`の候補ライフサイクル / Candidate lifecycle with promotion, specialization, merging, dormancy, and rejection / 包含提升、分化、合并、休眠与拒绝的候选生命周期
-- [Later] 共有schema＋束縛＋例外の実測記述長とheld-out予測改善で採用 / Adopt using measured schema/binding/exception length and held-out gain / 按schema、绑定、例外的实测描述长度与留出收益采纳
-- [Later] 採用概念による派生indexを作り、元Eventを変更せず再解釈 / Re-index through adopted concepts without modifying source events / 通过已采纳概念建立派生索引，不修改原始事件
-- [Later] lineageとgenerationを追跡し、候補自身の派生物による循環支持を禁止 / Track lineage and generations; forbid circular self-support from derived records / 跟踪谱系与代次，禁止派生记录形成循环自证
+- [Done] G2.1 型付きtarget役割をEvent、graph、予測根拠へ通し、未知targetを同じ役割の観測から接地 / Ground unseen targets through typed target roles carried by events, graph and evidence / 通过事件、图及证据中的类型化target角色接地未见对象
+- [Done] G2.2 同一contextの直近3件から変化仮説を作り、A→B→Aの可逆適応を比較 / Form change hypotheses from three recent same-context observations and evaluate reversible A→B→A adaptation / 根据同一context最近3项观测形成变化假设并评估A→B→A可逆适应
+- [Done] G2.3 完全な前後観測と失敗例から保守的に前提を学び、反例で撤回 / Conservatively learn applicability from complete before observations and failures, retracting on counterexamples / 从完整前态观测与失败中保守学习适用条件，并在反例出现时撤回
+- [Done] G2.4a action/context/effect/actor/target/roleのevidence index、compact graph保存、直近件数制限Replayを実装 / Implement evidence indices, compact graph persistence and recent-event-bounded replay / 实现证据索引、紧凑图持久化及按最近事件数限制的重放
+- [Done] G2.4b 複数target・source・episodeの共有から`UnnamedConceptCandidate`を生成し、反例と記述長を記録 / Generate unnamed candidates from diverse target/source/episode support and record counterexamples and description length / 从多target、source及episode的共享结构生成无名候选，并记录反例与描述长度
+- [Done] G2.4c development/final非重複証拠で`proposed -> provisional -> adopted/rejected`を判定し、証拠変化時に評価を無効化 / Evaluate proposed, provisional, adopted or rejected states on disjoint development/final evidence and invalidate changed evidence / 用互不重叠的development/final证据评估候选，并在证据变化时使评估失效
+- [Next] 採用候補を予測・計画の派生indexへ接続し、元Eventを変更せず効果をablation / Connect adopted candidates to prediction/planning indices without changing source events and ablate their effect / 将已采纳候选接入预测与规划派生索引，不修改原始事件，并进行消融
+- [Next] `specialized/merged/dormant`、二世代候補、祖先を含む循環支持禁止を完成 / Complete specialization, merging, dormancy, second-generation candidates and ancestor-aware circular-support prevention / 完成分化、合并、休眠、第二代候选及祖先感知的循环自证防止
+- [Next] state全体の圧縮とindex/full-scan計測で保存量・p95走査差を縮小 / Reduce total state size and measure indexed versus full-scan p95 work / 压缩完整状态并测量索引版与全扫描版的p95工作量
 
 詳細設計: [未分知と概念凝縮 / Undivided Knowledge and Concept Condensation / 未分知识与概念凝聚](RISA-Undivided-Knowledge-and-Concept-Condensation.md)
+
+日本語: [G2比較結果](G2-Structural-Reuse-Evaluation-2026-09-08.md)では、final 200 episodeでRISAは観測から前提を学ぶ
+composition 100%（具体遷移表0%）、binding 100%（同75%、役割束縛なし75%）、B期drift 75%（同33.3%、
+変化適応なし33.3%）だった。Control、明示前提composition、A1/A2は100%を維持し、Uncertaintyは94%で同率だった。
+役割型は入力で与えており自動型発見ではない。保存量は静的学習後148,762 bytes対3,458 bytesで、効率の課題は未解決である。
+
+English: The [G2 comparison](G2-Structural-Reuse-Evaluation-2026-09-08.md) reports 100% versus 0% on learned-
+applicability composition, 100% versus 75% on binding, and 75% versus 33.3% in phase B drift over the pooled final
+episodes. Control, supplied-precondition composition and A1/A2 remain at 100%; uncertainty ties at 94%. Target roles
+are supplied rather than induced. Static state remains large at 148,762 bytes versus 3,458 bytes.
+
+简体中文: [G2比较结果](G2-Structural-Reuse-Evaluation-2026-09-08.md)显示：从观测学习适用条件的composition为100%对0%，
+binding为100%对75%，B阶段drift为75%对33.3%。Control、已提供前提的composition及A1/A2保持100%，Uncertainty同为94%。
+target角色由输入提供，尚未自动归纳。静态状态仍为148,762 bytes，而基线为3,458 bytes。
 
 日本語: G0/G1後、構造共有なし・具体遷移表との比較を固定plannerで実施する。最終採用の初期閾値は、
 compositionとbindingの両方で最強の適用可能baselineより成功率が5ポイント以上高く、差の95%区間下限が0超、
 同じ上限予算を守り、既知課題の低下が2ポイント以内であること。閾値は実験前の設計値で、測定結果ではない。
 満たさない場合はfailureを一つ選んで改訂し、2回の事前登録比較でも改善しなければ役割表現・共有単位を再検討する。
 自動schema獲得が勝てなければ、明示schemaを使う説明可能な記憶・計画部品へ用途を絞る。
+
+G2.1〜G2.3は対象別ablationで5ポイントを超える改善を示したが、当初の広いgateは未達である。
+明示前提compositionは具体遷移表と同率で、役割型も外部入力だからである。G2.4では候補概念を実際の推論へ接続し、
+型・schemaの自動獲得と効率を独立held-outで検証する。gateの定義は維持する。
 
 概念凝縮の追加条件として、候補なし方式より実測記述長を減らし、false generalizationを増やさないことを要求する。
 新概念を使う二世代目以降の候補探索は、祖先と重ならない独立held-out episodeで追加改善が確認できた場合だけ「知能複利」と報告する。
@@ -154,6 +176,11 @@ Concept condensation must also reduce measured description length over the no-ca
 false generalization. Report second-generation discovery as intelligence compounding only when it improves independent
 held-out episodes whose evidence does not overlap the candidate lineage.
 
+G2.1–G2.3 exceed five points in their targeted ablations, but the original broad gate is not yet met: supplied-
+precondition composition still ties the grounded table, and target roles are external inputs. G2.4 must connect
+candidates to inference and test automatic type/schema acquisition and efficiency on independent held-out evidence.
+The gate remains unchanged.
+
 简体中文: G0/G1后固定规划器。初始采纳条件：组合与绑定任务均超过最强适用基线至少5个百分点，
 差值95%区间下限大于0，遵守相同预算上限，已知任务下降不超过2个百分点。以上是预设门槛，不是实测结果。
 两轮预注册改订后仍无改善，则重新考虑绑定与共享表示；自动schema归纳无收益时，收敛为使用显式schema的可解释记忆与规划组件。
@@ -161,10 +188,13 @@ held-out episodes whose evidence does not overlap the candidate lineage.
 概念凝聚还必须比无候选版本降低实测描述长度，且不增加错误泛化。只有当第二代及后续发现能改善与候选谱系证据不重叠的
 独立留出回合时，才可称为智能复利。
 
+G2.1至G2.3在各自消融中提升超过5个百分点，但仍未达到原先的广义门槛：已提供前提的composition仍与具体转移表持平，
+target角色也来自外部输入。G2.4必须把候选接入推理，并在独立留出证据上验证类型/schema自动获取及效率；门槛保持不变。
+
 ## G3 — Adaptation and bounded cost / 継続適応と計算予算 / 持续适应与计算预算
 
 - [Later] 文脈分裂・統合・休眠の個別効果をdrift評価 / Measure splitting/merging/dormancy under drift / 在漂移中分别评估分裂、合并与休眠
-- [Later] action/effect/role/evidence索引と予算付きReplay / Action/effect/role/evidence indices and bounded replay / 动作、效果、角色、证据索引与有界重放
+- [Later] 実装済みindexと予算付きReplayを1k〜100k Eventで比較検証 / Validate the implemented indices and bounded replay at 1k–100k events / 在1千至10万Event规模验证已实现的索引及有界重放
 - [Later] 1k→10k→100k Eventの段階測定 / Measure 1k→10k→100k events / 分级测量1k至100k事件
 - [Later] score校正、unknownの区別、状態を含む探索重複判定 / Calibration, unknown states, state-aware search deduplication / 校准、未知状态及考虑状态的搜索去重
 

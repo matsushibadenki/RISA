@@ -91,7 +91,7 @@ def simulate_branches_with_diagnostics(
                 expanded_candidate_count += 1
                 next_states = (
                     set(branch.current_states) - set(candidate.removed_states)
-                ) | {candidate.target_effect}
+                ) | set(candidate.added_states)
                 if forbidden.intersection(next_states):
                     constraint_pruned_count += 1
                     continue
@@ -100,6 +100,7 @@ def simulate_branches_with_diagnostics(
                     action=action,
                     effect=candidate.target_effect,
                     primitive_id=primitive_id,
+                    effects=list(candidate.added_states),
                     states_before=list(branch.current_states),
                     states_after=sorted(next_states),
                     variables_before=dict(branch.current_variables),
@@ -232,7 +233,7 @@ def simulate_action_sequence_with_diagnostics(
                 expanded_candidate_count += 1
                 next_states = (
                     set(branch.current_states) - set(candidate.removed_states)
-                ) | {candidate.target_effect}
+                ) | set(candidate.added_states)
                 if forbidden.intersection(next_states):
                     constraint_pruned_count += 1
                     continue
@@ -241,6 +242,7 @@ def simulate_action_sequence_with_diagnostics(
                     action=action,
                     effect=candidate.target_effect,
                     primitive_id=primitive_id,
+                    effects=list(candidate.added_states),
                     states_before=list(branch.current_states),
                     states_after=sorted(next_states),
                     variables_before=dict(branch.current_variables),
@@ -388,7 +390,7 @@ def simulate_plan_graph_with_diagnostics(
                 expanded_candidate_count += 1
                 next_states = (
                     set(branch.current_states) - set(candidate.removed_states)
-                ) | {candidate.target_effect}
+                ) | set(candidate.added_states)
                 if forbidden.intersection(next_states):
                     constraint_pruned_count += 1
                     continue
@@ -396,6 +398,7 @@ def simulate_plan_graph_with_diagnostics(
                     action=actions[0],
                     effect=candidate.target_effect,
                     primitive_id=primitive_id,
+                    effects=list(candidate.added_states),
                     states_before=list(branch.current_states),
                     states_after=sorted(next_states),
                     variables_before=dict(branch.current_variables),

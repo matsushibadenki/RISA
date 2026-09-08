@@ -78,7 +78,8 @@ def generate_intervention_candidates(
     candidates: list[InterventionSpecification] = []
 
     for primitive in state.structural_primitives.values():
-        if primitive.output_state not in target_states or primitive.output_state in forbidden:
+        matching_goals = primitive.produced_states.intersection(target_states)
+        if not matching_goals or primitive.produced_states.intersection(forbidden):
             continue
         if not _eligible_generation_primitive(primitive):
             continue
@@ -127,8 +128,8 @@ def generate_intervention_candidates(
                 cost=round(action_cost + state_cost + variable_cost, 6),
                 generated=True,
                 generation_reason=(
-                    f"Primitive '{primitive.id}' produces goal state "
-                    f"'{primitive.output_state}' from its observed input conditions."
+                    f"Primitive '{primitive.id}' produces goal states "
+                    f"{sorted(matching_goals)} from its observed input conditions."
                 ),
                 evidence_primitive_ids=[primitive.id],
             )
@@ -167,7 +168,7 @@ def generate_backward_intervention_candidates(
         primitive
         for primitive in state.structural_primitives.values()
         if _eligible_generation_primitive(primitive)
-        and primitive.output_state not in forbidden
+        and not primitive.produced_states.intersection(forbidden)
         and (
             not context
             or not primitive.context_tags
@@ -176,7 +177,8 @@ def generate_backward_intervention_candidates(
     ]
     by_output: dict[str, list[StructuralPrimitive]] = {}
     for primitive in eligible:
-        by_output.setdefault(primitive.output_state, []).append(primitive)
+        for output_state in primitive.produced_states:
+            by_output.setdefault(output_state, []).append(primitive)
     for primitives in by_output.values():
         primitives.sort(key=lambda item: item.id)
 
@@ -205,7 +207,11 @@ def generate_backward_intervention_candidates(
         actions = [_primitive_action(primitive) for primitive in chain]
         if any(action is None for action in actions):
             continue
-        produced_states = {primitive.output_state for primitive in chain}
+        produced_states = {
+            output_state
+            for primitive in chain
+            for output_state in primitive.produced_states
+        }
         required_states = {
             state_id.removeprefix("state:")
             for primitive in chain
@@ -236,7 +242,7 @@ def generate_backward_intervention_candidates(
                 generated=True,
                 generation_reason=(
                     f"Observed primitive chain produces goal state "
-                    f"'{chain[-1].output_state}' through {len(chain)} transitions."
+                    f"{sorted(chain[-1].produced_states)} through {len(chain)} transitions."
                 ),
                 evidence_primitive_ids=list(chain_ids),
                 suggested_action_sequence=[action for action in actions if action],
@@ -274,7 +280,7 @@ def generate_conjunctive_plan_candidates(
         primitive
         for primitive in state.structural_primitives.values()
         if _eligible_generation_primitive(primitive)
-        and primitive.output_state not in forbidden
+        and not primitive.produced_states.intersection(forbidden)
         and (
             not context
             or not primitive.context_tags
@@ -283,7 +289,8 @@ def generate_conjunctive_plan_candidates(
     ]
     by_output: dict[str, list[StructuralPrimitive]] = {}
     for primitive in eligible:
-        by_output.setdefault(primitive.output_state, []).append(primitive)
+        for output_state in primitive.produced_states:
+            by_output.setdefault(output_state, []).append(primitive)
     for primitives in by_output.values():
         primitives.sort(key=lambda item: item.id)
 
@@ -315,7 +322,11 @@ def generate_conjunctive_plan_candidates(
             if any(action is None for action in sequence):
                 continue
             sequence = [action for action in sequence if action]
-            produced_states = {primitive.output_state for primitive in ordered_primitives}
+            produced_states = {
+                output_state
+                for primitive in ordered_primitives
+                for output_state in primitive.produced_states
+            }
             add_states = sorted(unresolved - produced_states - baseline_states)
             if forbidden.intersection(add_states):
                 continue
@@ -395,7 +406,7 @@ def generate_disjunctive_plan_candidates(
         primitive
         for primitive in state.structural_primitives.values()
         if _eligible_generation_primitive(primitive)
-        and primitive.output_state not in forbidden
+        and not primitive.produced_states.intersection(forbidden)
         and (
             not context
             or not primitive.context_tags
@@ -404,7 +415,8 @@ def generate_disjunctive_plan_candidates(
     ]
     by_output: dict[str, list[StructuralPrimitive]] = {}
     for primitive in eligible:
-        by_output.setdefault(primitive.output_state, []).append(primitive)
+        for output_state in primitive.produced_states:
+            by_output.setdefault(output_state, []).append(primitive)
     for primitives in by_output.values():
         primitives.sort(key=lambda item: item.id)
 
@@ -441,7 +453,9 @@ def generate_disjunctive_plan_candidates(
                     continue
                 sequence = [action for action in sequence if action]
                 produced_states = {
-                    primitive.output_state for primitive in ordered_primitives
+                    output_state
+                    for primitive in ordered_primitives
+                    for output_state in primitive.produced_states
                 }
                 add_states = sorted(unresolved - produced_states - baseline_states)
                 if forbidden.intersection(add_states):

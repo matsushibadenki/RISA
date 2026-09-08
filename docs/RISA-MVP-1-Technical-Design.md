@@ -6,6 +6,45 @@
 >
 > 当前评估、优先级与规则以上述链接为准。本文历史规格与假设不证明当前实现完整性或性能。
 
+## 2026-09-08 G0実装追記 / G0 implementation addendum / G0实现补充
+
+- 日本語: Primitiveの出力を原子的なeffect集合として扱い、純粋transition関数をsimulation、planning、Replayで共有する。Replay候補はbranch別に状態・資源・根拠を保持する。
+- English: Primitive outputs are atomic effect sets. Simulation, planning, and replay share a pure transition function, while replay candidates retain independent state, resources, and evidence.
+- 简体中文: 原语输出采用原子效果集合。模拟、规划与重放共享纯转移函数，重放候选逐分支保存独立状态、资源与证据。
+- 日本語: Eventは`episode_id`と`source`を持ち、同一ID・同一内容はno-op、同一ID・異内容とepisode内の遅着は拒否する。
+- English: Events carry `episode_id` and `source`; identical retries are no-ops, while conflicting IDs and late arrivals within an episode are rejected.
+- 简体中文: Event包含`episode_id`与`source`；相同ID和内容的重试不产生变化，同ID异内容及回合内迟到事件会被拒绝。
+- 日本語: 予測はactor/action/targetの観測根拠に接地し、根拠がなければ棄却する。claimは導出・仮説・棄却を区分する。
+- English: Predictions are grounded in observed actor/action/target evidence and abstain when unsupported. Claims distinguish derived, hypothetical, and abstained results.
+- 简体中文: 预测以已观测的actor/action/target证据为基础，无依据时弃答；claim区分推导、假设与弃答。
+- 日本語: state schema v2は旧単一outputを移行し、同一directory内の一時fileと`os.replace`で原子的に保存する。破損時は検証済みbackupへ復旧する。
+- English: State schema v2 migrates legacy single outputs, saves atomically through a same-directory temporary file and `os.replace`, and recovers from a validated backup.
+- 简体中文: state schema v2迁移旧单一输出，通过同目录临时文件与`os.replace`原子保存，并可从已验证备份恢复。
+
+## 2026-09-08 G2実装追記 / G2 implementation addendum / G2实现补充
+
+- 日本語: 現行stateはschema v3である。Eventに`actor_roles`、`target_roles`、`observed_states_before`、`before_state_observed`、`transition_succeeded`を追加し、v2以前を読込時に移行する。
+- English: The current state uses schema v3. Events add `actor_roles`, `target_roles`, `observed_states_before`, `before_state_observed`, and `transition_succeeded`; older states migrate on load.
+- 简体中文: 当前state采用schema v3。Event新增`actor_roles`、`target_roles`、`observed_states_before`、`before_state_observed`及`transition_succeeded`，读取时迁移旧版本。
+- 日本語: target roleは`role:*` nodeと`has_role` edgeへ保存し、action/context/effect/actor/target/roleの派生evidence indexから予測根拠を取得する。indexは永続化せずimmutable Eventから再構築する。
+- English: Target roles are stored as `role:*` nodes and `has_role` edges. Prediction reads a derived action/context/effect/actor/target/role evidence index, rebuilt from immutable events rather than persisted.
+- 简体中文: target角色保存为`role:*`节点及`has_role`边。预测使用action/context/effect/actor/target/role派生证据索引；索引不持久化，而是从不可变Event重建。
+- 日本語: `ChangeHypothesis`は同一action・target・contextの直近3件が旧outcomeと一致しない場合に生成する。予測時のrecency supportは0.5で、A→B→Aの新しい連続観測により再度置き換えられる。
+- English: A `ChangeHypothesis` forms when the latest three observations for an action, target and context agree with each other and differ from the prior outcome. Prediction adds 0.5 recency support and later A observations can replace B again.
+- 简体中文: 当同一action、target及context最近3次观测彼此一致且不同于旧结果时生成`ChangeHypothesis`。预测增加0.5近期支持，后续A观测可再次替换B。
+- 日本語: `ApplicabilityHypothesis`は完全なbefore観測を持つ同一atomic outcomeについて、成功2件以上の全てに存在し、完全観測の失敗例には存在しないstateだけを前提候補にする。成功反例が現れた前提は撤回する。
+- English: An `ApplicabilityHypothesis` keeps only states present in every one of at least two complete successful before observations and absent from complete failures for the same atomic outcome. A successful counterexample retracts the condition.
+- 简体中文: `ApplicabilityHypothesis`仅保留同一原子结果至少2个完整成功前态中全部出现、且完整失败前态中未出现的状态；成功反例会撤回该条件。
+- 日本語: graph保存は配列中心のlossless `compact-v1`形式へ変更し、legacy object形式も読める。Replayは`replay_max_events`で直近Event数を制限できる。
+- English: Graph persistence uses a lossless array-oriented `compact-v1` format while retaining legacy object-format reads. `replay_max_events` bounds replay to recent events.
+- 简体中文: 图持久化改为以数组为主的无损`compact-v1`格式，同时兼容旧object格式；`replay_max_events`可限制重放的最近Event数量。
+- 日本語: `UnnamedConceptCandidate`は異なるtarget、source、episodeにまたがる共有schemaから生成する。derived/replay Eventを一次支持から除外し、developmentとfinalの証拠ID重複を拒否する。候補は`proposed -> provisional -> adopted/rejected`へ進み、支持または反例が変われば評価を無効化する。
+- English: `UnnamedConceptCandidate` is generated from schemas shared across targets, sources and episodes. Derived/replay events cannot provide primary support, development/final evidence overlap is rejected, and changed support invalidates evaluation. The implemented lifecycle is `proposed -> provisional -> adopted/rejected`.
+- 简体中文: `UnnamedConceptCandidate`由跨target、source及episode共享的schema生成。derived/replay Event不能作为主要支持，development与final证据重叠会被拒绝，支持变化会使评估失效；已实现生命周期为`proposed -> provisional -> adopted/rejected`。
+- 日本語: 実測値と未完了条件は[G2構造再利用評価](G2-Structural-Reuse-Evaluation-2026-09-08.md)と[ROADMAP](ROADMAP.md)を正とする。
+- English: The [G2 evaluation](G2-Structural-Reuse-Evaluation-2026-09-08.md) and [ROADMAP](ROADMAP.md) are authoritative for measured results and unfinished gates.
+- 简体中文: 实测结果及未完成门槛以[G2评估](G2-Structural-Reuse-Evaluation-2026-09-08.md)和[ROADMAP](ROADMAP.md)为准。
+
 ## 1. 目的
 
 RISA MVP-1 の目的は、RISA の中核仮説である

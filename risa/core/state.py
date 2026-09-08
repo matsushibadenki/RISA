@@ -4,6 +4,8 @@ from dataclasses import dataclass, field
 
 from risa.core.graph_store import GraphStore
 from risa.core.models import (
+    ApplicabilityHypothesis,
+    ChangeHypothesis,
     Event,
     Pattern,
     StructuralAdaptationCandidate,
@@ -11,11 +13,15 @@ from risa.core.models import (
     StructuralPrimitive,
     StateVariableSpec,
     StructureDelta,
+    UnnamedConceptCandidate,
 )
+
+CURRENT_SCHEMA_VERSION = 3
 
 
 @dataclass
 class RisaState:
+    schema_version: int = CURRENT_SCHEMA_VERSION
     graph: GraphStore = field(default_factory=GraphStore)
     patterns: dict[str, Pattern] = field(default_factory=dict)
     structural_patterns: dict[str, StructuralPattern] = field(default_factory=dict)
@@ -32,14 +38,22 @@ class RisaState:
     action_effect_counts: dict[str, dict[str, int]] = field(default_factory=dict)
     actor_action_context_effect_counts: dict[str, dict[str, dict[str, dict[str, int]]]] = field(default_factory=dict)
     action_context_effect_counts: dict[str, dict[str, dict[str, int]]] = field(default_factory=dict)
+    actor_action_target_context_effect_counts: dict[str, dict[str, int]] = field(default_factory=dict)
+    action_target_context_effect_counts: dict[str, dict[str, int]] = field(default_factory=dict)
+    action_target_role_context_effect_counts: dict[str, dict[str, int]] = field(default_factory=dict)
     prediction_validation_stats: dict[str, dict[str, int]] = field(default_factory=dict)
     prediction_competition_stats: dict[str, dict[str, int]] = field(default_factory=dict)
     concept_members: dict[str, list[str]] = field(default_factory=dict)
     activation_index: dict[str, list[str]] = field(default_factory=dict)
+    change_hypotheses: dict[str, ChangeHypothesis] = field(default_factory=dict)
+    applicability_hypotheses: dict[str, ApplicabilityHypothesis] = field(default_factory=dict)
+    evidence_index: dict[str, list[str]] = field(default_factory=dict)
+    unnamed_concept_candidates: dict[str, UnnamedConceptCandidate] = field(default_factory=dict)
 
     def to_dict(self) -> dict:
         return {
-            "graph": self.graph.to_dict(),
+            "schema_version": CURRENT_SCHEMA_VERSION,
+            "graph": self.graph.to_compact_dict(),
             "patterns": {key: pattern.to_dict() for key, pattern in self.patterns.items()},
             "structural_patterns": {
                 key: pattern.to_dict() for key, pattern in self.structural_patterns.items()
@@ -64,15 +78,36 @@ class RisaState:
             "action_effect_counts": self.action_effect_counts,
             "actor_action_context_effect_counts": self.actor_action_context_effect_counts,
             "action_context_effect_counts": self.action_context_effect_counts,
+            "actor_action_target_context_effect_counts": self.actor_action_target_context_effect_counts,
+            "action_target_context_effect_counts": self.action_target_context_effect_counts,
+            "action_target_role_context_effect_counts": self.action_target_role_context_effect_counts,
             "prediction_validation_stats": self.prediction_validation_stats,
             "prediction_competition_stats": self.prediction_competition_stats,
             "concept_members": self.concept_members,
             "activation_index": self.activation_index,
+            "change_hypotheses": {
+                key: hypothesis.to_dict()
+                for key, hypothesis in self.change_hypotheses.items()
+            },
+            "applicability_hypotheses": {
+                key: hypothesis.to_dict()
+                for key, hypothesis in self.applicability_hypotheses.items()
+            },
+            "unnamed_concept_candidates": {
+                key: candidate.to_dict()
+                for key, candidate in self.unnamed_concept_candidates.items()
+            },
         }
 
     @classmethod
     def from_dict(cls, data: dict) -> "RisaState":
-        state = cls()
+        schema_version = int(data.get("schema_version", 1))
+        if schema_version > CURRENT_SCHEMA_VERSION:
+            raise ValueError(
+                f"state schema version {schema_version} is newer than supported "
+                f"version {CURRENT_SCHEMA_VERSION}"
+            )
+        state = cls(schema_version=CURRENT_SCHEMA_VERSION)
         state.graph = GraphStore.from_dict(data.get("graph", {}))
         for key, pattern_data in data.get("patterns", {}).items():
             state.patterns[key] = Pattern(
@@ -106,6 +141,7 @@ class RisaState:
                 role_signature=primitive_data["role_signature"],
                 input_conditions=set(primitive_data.get("input_conditions", [])),
                 input_state_conditions=set(primitive_data.get("input_state_conditions", [])),
+                learned_state_conditions=set(primitive_data.get("learned_state_conditions", [])),
                 consumed_states=set(primitive_data.get("consumed_states", [])),
                 state_group_updates=dict(primitive_data.get("state_group_updates", {})),
                 numeric_preconditions={
@@ -117,6 +153,10 @@ class RisaState:
                     for key, value in primitive_data.get("state_variable_deltas", {}).items()
                 },
                 output_state=primitive_data.get("output_state", ""),
+                output_states=set(
+                    primitive_data.get("output_states", [])
+                    or ([primitive_data["output_state"]] if primitive_data.get("output_state") else [])
+                ),
                 temporal_constraint=primitive_data.get("temporal_constraint", "event_to_effect"),
                 context_tags=set(primitive_data.get("context_tags", [])),
                 member_pattern_ids=set(primitive_data.get("member_pattern_ids", [])),
@@ -174,6 +214,15 @@ class RisaState:
         state.action_effect_counts = data.get("action_effect_counts", {})
         state.actor_action_context_effect_counts = data.get("actor_action_context_effect_counts", {})
         state.action_context_effect_counts = data.get("action_context_effect_counts", {})
+        state.actor_action_target_context_effect_counts = data.get(
+            "actor_action_target_context_effect_counts", {}
+        )
+        state.action_target_context_effect_counts = data.get(
+            "action_target_context_effect_counts", {}
+        )
+        state.action_target_role_context_effect_counts = data.get(
+            "action_target_role_context_effect_counts", {}
+        )
         state.prediction_validation_stats = data.get("prediction_validation_stats", {})
         state.prediction_competition_stats = data.get("prediction_competition_stats", {})
         state.event_primitive_ids = data.get("event_primitive_ids", {})
@@ -186,4 +235,20 @@ class RisaState:
         }
         state.concept_members = data.get("concept_members", {})
         state.activation_index = data.get("activation_index", {})
+        state.change_hypotheses = {
+            key: ChangeHypothesis(**hypothesis)
+            for key, hypothesis in data.get("change_hypotheses", {}).items()
+        }
+        state.applicability_hypotheses = {
+            key: ApplicabilityHypothesis(**hypothesis)
+            for key, hypothesis in data.get("applicability_hypotheses", {}).items()
+        }
+        state.unnamed_concept_candidates = {
+            key: UnnamedConceptCandidate(**candidate)
+            for key, candidate in data.get("unnamed_concept_candidates", {}).items()
+        }
+        from risa.engine.evidence import index_event_evidence
+
+        for event in state.events_by_id.values():
+            index_event_evidence(state, event)
         return state

@@ -1,0 +1,28 @@
+{
+  "benchmark_version": "g1.0.0",
+  "seeds": [104729, 130363, 155921, 181081, 206369],
+  "held_out_episodes_per_split": 200,
+  "development_fraction": 0.8,
+  "max_plan_steps": 3,
+  "online_replay_budget": 16,
+  "online_replay_interval": 20,
+  "splits": [
+    "control",
+    "composition",
+    "binding",
+    "drift",
+    "uncertainty"
+  ],
+  "methods": [
+    "risa",
+    "frequency",
+    "exact_retrieval",
+    "grounded_transition",
+    "oracle",
+    "risa_no_structural_sharing",
+    "risa_no_coactivation",
+    "risa_no_replay",
+    "risa_no_metabolism",
+    "risa_no_splitting"
+  ]
+}

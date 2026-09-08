@@ -23,22 +23,26 @@ RISA は **Relationally Involving Self-organizing Architecture** の略で、
 という立場です。
 
 
-## 設計評価と現在の優先順位 / Assessment / 设计评估 — 2026-09-06
+## 設計評価と現在の優先順位 / Assessment / 设计评估 — 2026-09-08
 
-**構造ベースのAIとして研究を続ける価値はあります。ただし、汎化の優位性は未実証です。**
-既存55テストは通過していますが、追加診断で同時effectの分離、deployment Replayの候補混合、target照合の欠落、
-同一Event再投入による二重計数を確認しました。状態遷移意味論が全経路で完成したという従来の評価は修正します。
+**構造ベースのAIとして研究を続ける価値があります。ただし、一般的な優位性はまだ未実証です。**
+G2では役割束縛、前提学習、変化適応を実装し、全79テストが通過しています。final評価は、観測から前提を学ぶcompositionで
+100%対具体遷移表0%、未知target bindingで100%対75%、B期driftで75%対33.3%でした。明示前提compositionは同率で、
+役割型は外部入力、保存量は約43倍なので、次は候補概念の実利用、自動schema獲得、効率改善を進めます。
 以下の機能一覧は実装の存在を示し、任意の入力での正しさや研究仮説の証明を意味しません。
 
-English: Structural AI research is worth continuing, but generalization advantages are unproven. All 55 existing tests
-pass; new probes expose joint-effect splitting, replay branch mixing, ignored targets and duplicate counting.
-The earlier claim of fully shared transition semantics is withdrawn. Feature listings indicate implementation, not general correctness.
+English: Structural AI research remains worthwhile, but a general advantage is not established. G2 implements role
+binding, applicability learning and change adaptation; all 79 tests pass. Final success is 100% versus 0% on learned
+composition, 100% versus 75% on binding, and 75% versus 33.3% in phase-B drift. Supplied composition still ties,
+roles are external inputs, and state is about 43× larger, so candidate use, schema induction and efficiency are next.
 
-简体中文: 结构AI研究值得继续，但泛化优势尚未证实。现有55项测试通过；新增诊断发现同时效果拆分、重放分支混合、
-target忽略与重复计数。撤回此前已全面统一转移语义的评价；功能列表只说明实现存在，不代表普遍正确。
+简体中文: 结构AI研究仍值得继续，但尚未证明普遍优势。G2已实现角色绑定、适用条件学习及变化适应，全部79项测试通过。
+最终成功率在观测学习composition为100%对0%，binding为100%对75%，B阶段drift为75%对33.3%。已提供前提的
+composition仍持平，角色来自外部输入，状态约大43倍，因此下一步是候选概念应用、schema自动归纳及效率改进。
 
 - [設計評価・再現結果 / Assessment / 评估](docs/RISA-Structural-AI-Assessment-2026-09-05.md)
 - [現行ロードマップ / Current roadmap / 当前路线图](docs/ROADMAP.md)
+- [G2構造再利用評価 / G2 structural reuse evaluation / G2结构复用评估](docs/G2-Structural-Reuse-Evaluation-2026-09-08.md)
 - [現行ポリシー / Current policy / 当前方针](docs/policy.md)
 - [未分知と概念凝縮 / Undivided Knowledge and Concept Condensation / 未分知识与概念凝聚](docs/RISA-Undivided-Knowledge-and-Concept-Condensation.md)
 
@@ -201,6 +205,11 @@ MVP-1 では、
 - `Pattern` / `StructuralPattern` の `validation_score` を使った安定性補正
 - 競合履歴による `competition_inhibits` 経路の説明と `co_activates_with` 可塑性補正
 - `affects` edge の再現性に応じた reliability / plasticity 更新と説明経路への反映
+- 型付きtarget roleによる未知対象の束縛と根拠経路
+- before-state成功・失敗観測からの保守的な適用前提学習と反例撤回
+- 同一contextの直近outcomeによる変化仮説とA→B→A適応
+- evidence index、compact graph保存、件数上限付きReplay
+- 多様なsource・episode・targetからの匿名概念候補と非重複held-out昇格判定
 
 ## 最初の評価タスク
 
@@ -341,10 +350,12 @@ English: Static threats remain explainable hypotheses and are validated by parti
 
 ## 次の重点課題 / Next priorities / 下一步重点
 
-- [Next] G0: 同時effect・Replay・証拠・対象照合・保存契約を修正 / Repair joint effects, replay, evidence, target matching and persistence / 修正同时效果、重放、证据、对象匹配与保存契约
-- [Next] G1: 独立環境・baseline・held-out・ablationで中核を測定 / Evaluate with independent environments, baselines, holdouts and ablations / 使用独立环境、基线、留出集与消融评估核心
-- [Later] G2–G3: 役割束縛と未知合成、継続適応、計算予算 / Role bindings, unseen composition, adaptation and bounded cost / 角色绑定、未见组合、持续适应与有界成本
-- [Later] G2: 未命名構造候補を、証拠多様性・圧縮・held-out予測・反例で検証して概念へ昇格 / Validate unnamed structural candidates through evidence diversity, compression, holdout prediction, and counterexamples / 通过证据多样性、压缩、留出预测与反例验证无名结构候选并提升为概念
+- [Done] G0: 同時effect・Replay・証拠・対象照合・保存契約を修正 / Repaired joint effects, replay, evidence, target matching and persistence / 已修复同时效果、重放、证据、对象匹配与保存契约
+- [Done] G1: 5 seed・各split 200 held-out episodeでbaseline・ablation・oracle比較を実施 / Compared baselines, ablations and oracle over five seeds and 200 held-out episodes per split / 已用5个seed及每个split 200个留出回合比较基线、消融与oracle
+- [Done] G2.1–G2.3: 未知targetの役割束縛、変化点適応、前提学習 / Role binding, change adaptation and applicability learning / 角色绑定、变化适应及适用条件学习
+- [Done] G2.4基盤: evidence index、compact graph、予算付きReplay、匿名候補の段階評価 / Evidence index, compact graph, bounded replay and staged unnamed-candidate evaluation / 证据索引、紧凑图、有界重放及无名候选分阶段评估
+- [Next] G2.4: 採用候補を推論へ接続し、自動schema獲得と保存量・p95効率を比較 / Use adopted candidates in inference and evaluate automatic schema acquisition, storage and p95 work / 将已采纳候选接入推理，并评估schema自动获取、存储量及p95效率
+- [Later] G3: 継続適応と計算予算の大規模検証 / Large-scale validation of continual adaptation and bounded cost / 大规模验证持续适应与计算预算
 - [Later] G4: 用途検証と追加研究。Canopy・SNN・階層creditは比較結果から再判断 / Validate applications; gate canopy, SNN and hierarchical credit on evidence / 验证应用，根据证据决定Canopy、SNN与层级信用研究
 
 完了条件と仮説の見直し条件は[ROADMAP](docs/ROADMAP.md)に集約しています。
@@ -353,6 +364,8 @@ The roadmap defines completion and revision gates. 路线图统一规定完成�
 ## ドキュメント
 
 - [RISA Roadmap](docs/ROADMAP.md)
+- [G1 Comparative Evaluation](docs/G1-Comparative-Evaluation-2026-09-08.md)
+- [G2 Structural Reuse Evaluation](docs/G2-Structural-Reuse-Evaluation-2026-09-08.md)
 - [RISA MVP-1 Technical Design](docs/RISA-MVP-1-Technical-Design.md)
 - [RISA Design Policy](docs/policy.md)
 - [RISA Undivided Knowledge and Concept Condensation](docs/RISA-Undivided-Knowledge-and-Concept-Condensation.md)

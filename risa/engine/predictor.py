@@ -3,27 +3,92 @@ from __future__ import annotations
 from risa.core.models import PredictionQuery, PredictionResult
 from risa.core.state import RisaState
 from risa.engine.graph_builder import normalize_label
+from risa.engine.evidence import matching_evidence_event_ids
 from risa.engine.validator import competition_penalty, validation_support
 
 
 def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionResult:
     actor = normalize_label(query.actor)
     action = normalize_label(query.action)
+    target = normalize_label(query.target) if query.target else ""
+    target_roles = sorted({normalize_label(role) for role in query.target_roles})
     actor_id = f"entity:{actor}"
     action_id = f"process:{action}"
     actor_scores = state.actor_action_effect_counts.get(actor, {}).get(action, {})
     action_scores = state.action_effect_counts.get(action, {})
+    action_has_structural_evidence = any(
+        f"process:{action}" in primitive.input_conditions
+        for primitive in state.structural_primitives.values()
+    )
+    if not action_scores and not action_has_structural_evidence:
+        return PredictionResult(
+            predicted_effects=[],
+            score=0.0,
+            explanation=f"Abstained because action '{action}' has no observed applicability evidence.",
+            claim_status="abstained",
+        )
     context_key = "|".join(sorted(normalize_label(tag) for tag in query.context_tags)) or "__no_context__"
     actor_context_scores = (
         state.actor_action_context_effect_counts.get(actor, {}).get(action, {}).get(context_key, {})
     )
     action_context_scores = state.action_context_effect_counts.get(action, {}).get(context_key, {})
+    actor_target_scores = (
+        state.actor_action_target_context_effect_counts.get(
+            _target_evidence_key(actor, action, target, context_key), {}
+        )
+        if target
+        else {}
+    )
+    target_scores = (
+        state.action_target_context_effect_counts.get(
+            _target_evidence_key("*", action, target, context_key), {}
+        )
+        if target
+        else {}
+    )
+    target_role_scores: dict[str, int] = {}
+    for role in target_roles:
+        role_scores = state.action_target_role_context_effect_counts.get(
+            _target_evidence_key("role", action, role, context_key), {}
+        )
+        for effect, count in role_scores.items():
+            target_role_scores[effect] = target_role_scores.get(effect, 0) + count
+    if target and not actor_target_scores and not target_scores and not target_role_scores:
+        return PredictionResult(
+            predicted_effects=[],
+            score=0.0,
+            explanation=(
+                f"Abstained because target '{target}' has no observed applicability "
+                f"evidence for action '{action}'."
+            ),
+            claim_status="abstained",
+        )
     structural_pattern = _matching_structural_pattern(state, context_key)
     validation_score = validation_support(state, actor, action, context_key)
+    recent_grounded_outcome = (
+        _recent_grounded_outcome(
+            state,
+            action=action,
+            target=target,
+            target_roles=target_roles,
+            context_key=context_key,
+        )
+        if query.enable_change_adaptation
+        else []
+    )
 
     candidate_effects = _collect_local_candidates(state, actor, action, context_key)
+    if target:
+        candidate_effects = sorted(
+            set(actor_target_scores) | set(target_scores) | set(target_role_scores)
+        )
     if not candidate_effects:
-        return PredictionResult(predicted_effects=[], score=0.0, explanation="No matching pattern found.")
+        return PredictionResult(
+            predicted_effects=[],
+            score=0.0,
+            explanation="No matching pattern found.",
+            claim_status="abstained",
+        )
 
     best_effect = ""
     best_score = -1.0
@@ -32,10 +97,21 @@ def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionR
         action_total = sum(action_scores.values())
         actor_context_total = sum(actor_context_scores.values())
         action_context_total = sum(action_context_scores.values())
+        actor_target_total = sum(actor_target_scores.values())
+        target_total = sum(target_scores.values())
+        target_role_total = sum(target_role_scores.values())
         direct_match_score = (actor_scores.get(effect, 0) / direct_total) if direct_total else 0.0
         action_pattern_score = (action_scores.get(effect, 0) / action_total) if action_total else 0.0
         actor_context_score = (actor_context_scores.get(effect, 0) / actor_context_total) if actor_context_total else 0.0
         action_context_score = (action_context_scores.get(effect, 0) / action_context_total) if action_context_total else 0.0
+        actor_target_score = (actor_target_scores.get(effect, 0) / actor_target_total) if actor_target_total else 0.0
+        target_score = (target_scores.get(effect, 0) / target_total) if target_total else 0.0
+        target_role_score = (
+            target_role_scores.get(effect, 0) / target_role_total
+            if target_role_total
+            else 0.0
+        )
+        recent_change_support = 1.0 if effect in recent_grounded_outcome else 0.0
 
         concept_support = 0.0
         concept_id = f"concept:shared_{action}_{effect}"
@@ -74,6 +150,10 @@ def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionR
             + (0.06 * reproducibility_support)
             + (0.05 * primitive_support)
             + (0.05 * validation_score)
+            + (0.20 * actor_target_score)
+            + (0.15 * target_score)
+            + (0.20 * target_role_score)
+            + (0.50 * recent_change_support)
             - (0.10 * inhibition_penalty)
         )
         if score > best_score:
@@ -81,7 +161,34 @@ def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionR
             best_effect = effect
 
     best_effect_id = f"state:{best_effect}"
-    supporting_paths = [[actor_id, action_id, best_effect_id]]
+    target_grounded_outcome = _target_grounded_outcome(
+        state,
+        actor=actor,
+        action=action,
+        target=target,
+        target_roles=target_roles,
+        context_key=context_key,
+        selected_effect=best_effect,
+    )
+    matching_outcomes = _matching_primitives(state, action, best_effect)
+    best_outcome = max(
+        matching_outcomes,
+        key=lambda primitive: (primitive.adoption_score, primitive.support, primitive.id),
+        default=None,
+    )
+    if recent_grounded_outcome and best_effect in recent_grounded_outcome:
+        predicted_effects = recent_grounded_outcome
+    elif target_grounded_outcome:
+        predicted_effects = target_grounded_outcome
+    elif best_outcome is not None:
+        predicted_effects = sorted(best_outcome.produced_states)
+    else:
+        predicted_effects = [best_effect]
+    supporting_paths: list[list[str]] = []
+    if _find_edge(state, actor_id, action_id, "participates_in") is not None:
+        supporting_paths.append(
+            [actor_id, "participates_in", action_id, "derived_prediction", best_effect_id]
+        )
     concept_id = f"concept:shared_{action}_{best_effect}"
     if concept_id in state.concept_members:
         supporting_paths.append([actor_id, concept_id, best_effect_id])
@@ -104,28 +211,51 @@ def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionR
         alternative_penalty = competition_penalty(state, action, context_key, effect)
         if alternative_penalty > 0.0:
             supporting_paths.append([f"context:{context_key}", "competition_inhibits", f"state:{effect}"])
-    supporting_paths.extend(_event_supporting_paths(state, actor, action, best_effect, context_key))
-
-    evidence_event_ids = [
-        event.id
-        for event in state.events_by_id.values()
-        if normalize_label(event.action) == action
-        and best_effect in [normalize_label(effect) for effect in event.observed_effects]
-        and (
-            context_key == "__no_context__"
-            or context_key == "|".join(sorted(normalize_label(tag) for tag in event.context_tags))
+    supporting_paths.extend(
+        _event_supporting_paths(
+            state,
+            actor,
+            action,
+            best_effect,
+            context_key,
+            target,
+            target_roles,
         )
-    ]
+    )
+
+    evidence_event_ids = matching_evidence_event_ids(
+        state,
+        action=action,
+        context_key=context_key,
+        effect=best_effect,
+        target=target,
+        target_roles=target_roles,
+    )
     explanation = (
-        f"Predicted {best_effect} from action '{action}' using locally activated action, context, structural primitives, concept, co-activation, reproducibility plasticity, prediction-validation history, and competition inhibition."
+        f"Derived {predicted_effects} from action '{action}' using observed evidence, locally activated "
+        "action, context, structural primitives, concept, co-activation, reproducibility plasticity, "
+        "prediction-validation history, and competition inhibition."
     )
 
     return PredictionResult(
-        predicted_effects=[best_effect],
+        predicted_effects=predicted_effects,
         score=round(best_score, 4),
         supporting_paths=supporting_paths,
         evidence_event_ids=sorted(evidence_event_ids),
         explanation=explanation,
+        claim_status="derived" if evidence_event_ids else "hypothetical",
+        applicability_basis=(
+            [
+                f"actor:{actor}",
+                f"action:{action}",
+                f"target:{target}",
+                *[f"target_role:{role}" for role in target_roles],
+                *(["recent_change_run:3"] if recent_grounded_outcome else []),
+                f"context:{context_key}",
+            ]
+            if target
+            else [f"action:{action}", f"context:{context_key}"]
+        ),
     )
 
 
@@ -153,7 +283,9 @@ def _collect_local_candidates(state: RisaState, actor: str, action: str, context
     if structural_pattern is not None:
         values.update(structural_pattern.effects)
     values.update(
-        primitive.output_state for primitive in _matching_primitives(state, action, adopted_only=True)
+        effect
+        for primitive in _matching_primitives(state, action, adopted_only=True)
+        for effect in primitive.produced_states
     )
 
     return sorted(effect for effect in values if _effect_is_not_dormant(state, effect))
@@ -165,21 +297,56 @@ def _event_supporting_paths(
     action: str,
     effect: str,
     context_key: str,
+    target: str,
+    target_roles: list[str],
 ) -> list[list[str]]:
     paths: list[list[str]] = []
-    for event in state.events_by_id.values():
+    event_ids = matching_evidence_event_ids(
+        state,
+        action=action,
+        context_key=context_key,
+        effect=effect,
+        target=target,
+        target_roles=target_roles,
+    )
+    for event_id_value in event_ids:
+        event = state.events_by_id[event_id_value]
         if normalize_label(event.actor) != actor and normalize_label(event.action) != action:
             continue
         if effect not in [normalize_label(item) for item in event.observed_effects]:
+            continue
+        event_roles = {normalize_label(role) for role in event.target_roles}
+        target_matches = normalize_label(event.target or "") == target
+        role_matches = bool(set(target_roles).intersection(event_roles))
+        if target and not target_matches and not role_matches:
             continue
         event_context = "|".join(sorted(normalize_label(tag) for tag in event.context_tags)) or "__no_context__"
         if context_key != "__no_context__" and event_context != context_key:
             continue
         event_id = f"event:{normalize_label(event.id)}"
-        paths.append([f"entity:{normalize_label(event.actor)}", event_id, f"state:{effect}"])
-        for edge in state.graph.edges_by_key.values():
-            if edge.target == event_id and edge.relation_type == "event_precedes":
-                paths.append([edge.source, "event_precedes", event_id, f"state:{effect}"])
+        path = [f"entity:{normalize_label(event.actor)}"]
+        if target and not target_matches and role_matches:
+            matched_role = sorted(set(target_roles).intersection(event_roles))[0]
+            path.extend(
+                [
+                    f"entity:{target}",
+                    f"role:{matched_role}",
+                    "binds_as",
+                    f"entity:{normalize_label(event.target or '')}",
+                ]
+            )
+        path.append(event_id)
+        if event.target:
+            path.append(f"entity:{normalize_label(event.target)}")
+        path.append(f"state:{effect}")
+        paths.append(path)
+        for edge in state.graph.incoming(event_id):
+            if edge.relation_type == "event_precedes":
+                temporal_path = [edge.source, "event_precedes", event_id]
+                if event.target:
+                    temporal_path.append(f"entity:{normalize_label(event.target)}")
+                temporal_path.append(f"state:{effect}")
+                paths.append(temporal_path)
     return paths[:3]
 
 
@@ -241,7 +408,7 @@ def _matching_primitives(
         primitive
         for primitive in state.structural_primitives.values()
         if input_condition in primitive.input_conditions
-        and (effect is None or primitive.output_state == effect)
+        and (effect is None or effect in primitive.produced_states)
         and (not adopted_only or primitive.adopted)
     ]
 
@@ -305,6 +472,108 @@ def _coactivation_radius(state: RisaState, actor_id: str, action_id: str) -> int
 def _matching_structural_pattern(state: RisaState, context_key: str):
     role_signature = "entity->process->state"
     return state.structural_patterns.get(f"structural:{role_signature}:{context_key}")
+
+
+def _target_evidence_key(actor: str, action: str, target: str, context_key: str) -> str:
+    return "\x1f".join((actor, action, target, context_key))
+
+
+def _target_grounded_outcome(
+    state: RisaState,
+    actor: str,
+    action: str,
+    target: str,
+    target_roles: list[str],
+    context_key: str,
+    selected_effect: str,
+) -> list[str]:
+    """Choose a complete observed outcome without crossing target boundaries."""
+    if not target:
+        return []
+
+    matching_events = []
+    event_ids = matching_evidence_event_ids(
+        state,
+        action=action,
+        context_key=context_key,
+        effect=selected_effect,
+        target=target,
+        target_roles=target_roles,
+        exact_context=True,
+    )
+    for event_id in event_ids:
+        event = state.events_by_id[event_id]
+        event_effects = sorted({normalize_label(effect) for effect in event.observed_effects})
+        event_context = (
+            "|".join(sorted(normalize_label(tag) for tag in event.context_tags))
+            or "__no_context__"
+        )
+        if (
+            normalize_label(event.action) == action
+            and (
+                normalize_label(event.target or "") == target
+                or bool(set(target_roles).intersection(
+                    normalize_label(role) for role in event.target_roles
+                ))
+            )
+            and selected_effect in event_effects
+            and event_context == context_key
+        ):
+            matching_events.append((normalize_label(event.actor), tuple(event_effects)))
+
+    actor_events = [outcome for event_actor, outcome in matching_events if event_actor == actor]
+    outcomes = actor_events or [outcome for _, outcome in matching_events]
+    if not outcomes:
+        return []
+
+    counts: dict[tuple[str, ...], int] = {}
+    for outcome in outcomes:
+        counts[outcome] = counts.get(outcome, 0) + 1
+    selected = sorted(counts, key=lambda outcome: (-counts[outcome], outcome))[0]
+    return list(selected)
+
+
+def _recent_grounded_outcome(
+    state: RisaState,
+    action: str,
+    target: str,
+    target_roles: list[str],
+    context_key: str,
+    minimum_run: int = 3,
+) -> list[str]:
+    if not target:
+        return []
+    exact: list[tuple[str, ...]] = []
+    role_bound: list[tuple[str, ...]] = []
+    query_roles = set(target_roles)
+    event_ids = matching_evidence_event_ids(
+        state,
+        action=action,
+        context_key=context_key,
+        target=target,
+        target_roles=target_roles,
+        exact_context=True,
+    )
+    for event in sorted(
+        (state.events_by_id[event_id] for event_id in event_ids),
+        key=lambda item: (item.timestamp, item.id),
+    ):
+        event_context = (
+            "|".join(sorted(normalize_label(tag) for tag in event.context_tags))
+            or "__no_context__"
+        )
+        if normalize_label(event.action) != action or event_context != context_key:
+            continue
+        outcome = tuple(sorted({normalize_label(effect) for effect in event.observed_effects}))
+        if normalize_label(event.target or "") == target:
+            exact.append(outcome)
+        elif query_roles.intersection(normalize_label(role) for role in event.target_roles):
+            role_bound.append(outcome)
+    outcomes = exact or role_bound
+    if len(outcomes) < minimum_run:
+        return []
+    recent = outcomes[-minimum_run:]
+    return list(recent[0]) if len(set(recent)) == 1 else []
 
 
 def _find_edge(

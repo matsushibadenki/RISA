@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from risa.core.models import (
+    Event,
     PredictionQuery,
     ReplaySummary,
     StructuralAdaptationCandidate,
@@ -11,14 +12,23 @@ from risa.engine.composer import forecast_next_effects
 from risa.engine.graph_builder import normalize_label
 from risa.engine.learner import refresh_primitive_adoption
 from risa.engine.predictor import predict_next_effect
-from risa.engine.state_variables import apply_variable_deltas
 
 
-def replay_structural_memory(state: RisaState) -> ReplaySummary:
+def replay_structural_memory(
+    state: RisaState,
+    max_events: int | None = None,
+) -> ReplaySummary:
     """Re-evaluate stored evidence using the current induced world model."""
     summary = ReplaySummary()
+    ordered_events = sorted(
+        state.events_by_id.values(), key=lambda item: (item.timestamp, item.id)
+    )
+    if max_events is not None:
+        if max_events < 0:
+            raise ValueError("max_events must be non-negative or None")
+        ordered_events = ordered_events[-max_events:] if max_events else []
 
-    for event in sorted(state.events_by_id.values(), key=lambda item: (item.timestamp, item.id)):
+    for event in ordered_events:
         primitive_ids = state.event_primitive_ids.get(event.id, [])
         if not primitive_ids or not event.observed_effects:
             continue
@@ -30,11 +40,13 @@ def replay_structural_memory(state: RisaState) -> ReplaySummary:
                 action=event.action,
                 target=event.target,
                 context_tags=event.context_tags,
+                actor_roles=event.actor_roles,
+                target_roles=event.target_roles,
             ),
         )
         predicted = {normalize_label(effect) for effect in prediction.predicted_effects}
         observed = {normalize_label(effect) for effect in event.observed_effects}
-        success = bool(predicted & observed)
+        success = predicted == observed
 
         summary.replayed_events += 1
         if success:
@@ -52,49 +64,78 @@ def replay_structural_memory(state: RisaState) -> ReplaySummary:
             primitive.replay_score = primitive.replay_success_count / primitive.replay_count
             refresh_primitive_adoption(primitive)
 
-    _replay_deployment_trajectory(state, summary)
+    _replay_deployment_trajectory(state, summary, events=ordered_events)
     _refresh_adaptation_candidates(state)
     return summary
 
 
-def _replay_deployment_trajectory(state: RisaState, summary: ReplaySummary) -> None:
+def _replay_deployment_trajectory(
+    state: RisaState,
+    summary: ReplaySummary,
+    events: list[Event] | None = None,
+) -> None:
     """Roll forward from model-generated states instead of restoring observed states."""
-    active_states_by_actor: dict[str, set[str]] = {}
-    active_variables_by_actor: dict[str, dict[str, float]] = {}
+    trajectories_by_actor_episode: dict[
+        tuple[str, str], list[tuple[set[str], dict[str, float]]]
+    ] = {}
 
-    for event in sorted(state.events_by_id.values(), key=lambda item: (item.timestamp, item.id)):
+    ordered_events = (
+        events
+        if events is not None
+        else sorted(state.events_by_id.values(), key=lambda item: (item.timestamp, item.id))
+    )
+    for event in ordered_events:
         primitive_ids = state.event_primitive_ids.get(event.id, [])
         if not primitive_ids or not event.observed_effects:
             continue
 
         actor = normalize_label(event.actor)
-        active_states = active_states_by_actor.setdefault(actor, set())
-        active_variables = active_variables_by_actor.setdefault(actor, {})
-        candidates = forecast_next_effects(
-            state,
-            action=event.action,
-            current_states=sorted(active_states),
-            current_variables=active_variables,
-            context_tags=event.context_tags,
-        )
-        predicted = {normalize_label(candidate.target_effect) for candidate in candidates}
-        observed = {normalize_label(effect) for effect in event.observed_effects}
-        success = bool(predicted & observed)
-
-        perturbation_success: bool | None = None
-        if active_states:
-            perturbed_states = _drop_deterministic_state(active_states, event.id)
-            perturbed_candidates = forecast_next_effects(
+        actor_episode = (event.episode_id or "__default__", actor)
+        trajectories = trajectories_by_actor_episode.setdefault(actor_episode, [(set(), {})])
+        candidate_branches: list[tuple[set[str], dict[str, float], set[str]]] = []
+        perturbation_outcomes: list[set[str]] = []
+        had_perturbable_state = False
+        for active_states, active_variables in trajectories:
+            candidates = forecast_next_effects(
                 state,
                 action=event.action,
-                current_states=sorted(perturbed_states),
+                current_states=sorted(active_states),
                 current_variables=active_variables,
                 context_tags=event.context_tags,
             )
-            perturbed_predicted = {
-                normalize_label(candidate.target_effect) for candidate in perturbed_candidates
-            }
-            perturbation_success = bool(perturbed_predicted & observed)
+            for candidate in candidates:
+                next_states = (
+                    active_states - set(candidate.removed_states)
+                ) | set(candidate.added_states)
+                candidate_branches.append(
+                    (
+                        next_states,
+                        dict(candidate.resulting_variables),
+                        {normalize_label(effect) for effect in candidate.added_states},
+                    )
+                )
+
+            if active_states:
+                had_perturbable_state = True
+                perturbed_states = _drop_deterministic_state(active_states, event.id)
+                perturbed_candidates = forecast_next_effects(
+                    state,
+                    action=event.action,
+                    current_states=sorted(perturbed_states),
+                    current_variables=active_variables,
+                    context_tags=event.context_tags,
+                )
+                perturbation_outcomes.extend(
+                    {normalize_label(effect) for effect in candidate.added_states}
+                    for candidate in perturbed_candidates
+                )
+
+        observed = {normalize_label(effect) for effect in event.observed_effects}
+        success = any(outcome == observed for _, _, outcome in candidate_branches)
+
+        perturbation_success: bool | None = None
+        if had_perturbable_state:
+            perturbation_success = observed in perturbation_outcomes
             summary.perturbed_events += 1
             if perturbation_success:
                 summary.perturbation_survived_events += 1
@@ -107,22 +148,15 @@ def _replay_deployment_trajectory(state: RisaState, summary: ReplaySummary) -> N
         else:
             summary.deployment_failed_events += 1
 
-        # Only model-generated transitions advance the rollout state.
-        consumed = {
-            normalize_label(state_name)
-            for candidate in candidates
-            for state_name in candidate.removed_states
-        }
-        active_states.difference_update(consumed)
-        active_states.update(predicted)
-        if candidates:
-            updated_variables = apply_variable_deltas(
-                state.state_variable_specs,
-                active_variables,
-                candidates[0].variable_deltas,
-            )
-            if updated_variables is not None:
-                active_variables_by_actor[actor] = updated_variables
+        # Alternative outcomes remain independent possible worlds.
+        if candidate_branches:
+            unique: dict[tuple[tuple[str, ...], tuple[tuple[str, float], ...]], tuple[set[str], dict[str, float]]] = {}
+            for next_states, next_variables, _ in candidate_branches:
+                key = (tuple(sorted(next_states)), tuple(sorted(next_variables.items())))
+                unique[key] = (next_states, next_variables)
+            trajectories_by_actor_episode[actor_episode] = [
+                unique[key] for key in sorted(unique)[:8]
+            ]
 
         for primitive_id in primitive_ids:
             primitive = state.structural_primitives.get(primitive_id)

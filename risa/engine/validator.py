@@ -14,6 +14,8 @@ def validate_event_prediction(state: RisaState, event: Event) -> None:
         action=event.action,
         target=event.target,
         context_tags=event.context_tags,
+        actor_roles=event.actor_roles,
+        target_roles=event.target_roles,
     )
     result = predict_next_effect(state, query)
     if not result.predicted_effects:
