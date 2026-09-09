@@ -45,6 +45,42 @@ def _validate_event(data: dict) -> Event:
         if spec.minimum is not None and spec.maximum is not None and spec.minimum > spec.maximum:
             raise ValueError("state variable minimum must not exceed maximum")
         state_variable_specs[str(name)] = spec
+    entity_bindings = {
+        str(variable): str(identity)
+        for variable, identity in data.get("entity_bindings", {}).items()
+    }
+    if any(not variable or not identity for variable, identity in entity_bindings.items()):
+        raise ValueError("entity_bindings names and identities must be non-empty")
+    entity_role_bindings = {
+        str(variable): [str(role) for role in roles]
+        for variable, roles in data.get("entity_role_bindings", {}).items()
+    }
+    unknown_role_variables = sorted(
+        set(entity_role_bindings).difference(entity_bindings)
+    )
+    if unknown_role_variables:
+        raise ValueError(
+            "entity_role_bindings reference unknown variables: "
+            + ", ".join(unknown_role_variables)
+        )
+    entity_relations: list[dict[str, str]] = []
+    for raw_relation in data.get("entity_relations", []):
+        relation = {
+            "source": str(raw_relation.get("source", "")),
+            "relation": str(raw_relation.get("relation", "")),
+            "target": str(raw_relation.get("target", "")),
+        }
+        if not all(relation.values()):
+            raise ValueError("entity_relations require source, relation and target")
+        unknown_variables = sorted(
+            {relation["source"], relation["target"]}.difference(entity_bindings)
+        )
+        if unknown_variables:
+            raise ValueError(
+                "entity_relations reference unknown variables: "
+                + ", ".join(unknown_variables)
+            )
+        entity_relations.append(relation)
     return Event(
         id=str(data["id"]),
         timestamp=int(data["timestamp"]),
@@ -63,6 +99,12 @@ def _validate_event(data: dict) -> Event:
         source=str(data.get("source", "unknown")),
         actor_roles=[str(role) for role in data.get("actor_roles", [])],
         target_roles=[str(role) for role in data.get("target_roles", [])],
+        entity_bindings=entity_bindings,
+        entity_role_bindings=entity_role_bindings,
+        entity_relations=entity_relations,
+        entity_relations_observed=bool(
+            data.get("entity_relations_observed", "entity_relations" in data)
+        ),
         observed_states_before=[str(state) for state in data.get("observed_states_before", [])],
         before_state_observed=bool(
             data.get("before_state_observed", "observed_states_before" in data)

@@ -1,6 +1,6 @@
 # G2 Candidate Transfer Evaluation / G2候補転移評価 / G2候选迁移评估
 
-Date: 2026-09-08. Benchmark: `g2-c1-candidate.0.0`. Canonical manifest SHA-256: `a1bd3b99e70340b66ff4a7b58529c0bde8f3664ac30e540cba4bebab07806ab4`.
+Date: 2026-09-10. Benchmark: `g2-c1-candidate.1.0`. Canonical manifest SHA-256: `c572d2e49d12ceae19728e8511ad63b8bad7115d1dd2d862f12dd23daebc2db9`.
 
 ## Question / 問い / 问题
 
@@ -30,25 +30,30 @@ All five candidates were rejected at the development gate. Leakage audit: suppor
 overlap `0`, development/final overlap `0`.
 
 日本語: 現候補は既存role集計と同じ答えを再表現しており、予測能力を追加しない。構造AIの追加価値として採用できない。
-ただし回帰queryの出力一致を確認してからrole集計を除去する圧縮では、対象readoutが平均81 bytesから2 bytesになり、
-候補あり100%、なし25%だった。これは候補が新しい汎化器ではなく、既存readoutを損失なく置き換える圧縮単位になり得る
-ことを示す診断であり、通常比較の成功率とは分けて扱う。
+回帰queryの出力一致を確認してからrole集計を除去すると対象readoutは平均81 bytesから2 bytesとなり、候補あり100%、
+なし25%だった。一方、final 200 queryの広い集合で保存State全体は平均26,399 bytesから26,487 bytesへ88 bytes増加した。
+再読込用directiveを保存する一方、除去したreadoutは元からschema v3の保存対象外であるためである。p95は今回
+0.061675 msから0.056066 msだったが微小時間の単発診断であり、総memory増加を覆す根拠にはしない。
 
 English: The current candidate restates the same answer as the typed-role counts and adds no predictive capability, so
-it fails the structural-value gate. After regression-query equivalence checks, candidate-backed compaction reduces the
-target role readout from 81 to 2 bytes on average; candidate success is 100% versus 25% when candidate use is disabled.
-This supports candidate-backed compression, not a new generalization claim.
+it fails the structural-value gate. Equivalence-checked compaction reduces the target readout from 81 to 2 bytes and
+keeps candidate-backed success at 100% versus 25% when candidates are disabled. Across the broader 200-query final
+corpus, however, total persisted state grows by 88 bytes, from 26,399 to 26,487. The reload directive is persisted while
+the removed schema-v3 readout was already rebuild-only. Observed p95 changes from 0.061675 ms to 0.056066 ms, but this
+small-duration diagnostic does not offset the total-memory failure.
 
-简体中文: 当前候选只是重新表达类型化角色频度表的相同答案，没有增加预测能力，因此未通过结构价值门槛。在另一个移除
-角色频度readout前先检查回归query输出一致，目标readout平均由81 bytes降至2 bytes；有候选为100%，关闭候选后为25%。
-这支持候选用于压缩，不能作为新泛化能力的证据。
+简体中文: 当前候选只是重新表达类型化角色频度表的相同答案，没有增加预测能力，因此未通过结构价值门槛。等价性检查后的
+压缩把目标readout由81 bytes降至2 bytes，有候选时成功率保持100%，关闭候选后为25%。但在更广的final 200 query集合上，
+持久化State总量由26,399 bytes增至26,487 bytes，增加88 bytes；原因是重载directive需要保存，而被删除的schema v3 readout
+原本就只在运行时重建。此次p95由0.061675 ms降至0.056066 ms，但微小时延诊断不足以抵消总memory失败。
 
 ## Redesign / 再設計 / 重新设计
 
 - [Done] 単一遷移候補を能力向上として自動採用しない。
-- [Next] 既存readoutでは表現できない複数relation、時間列、適用前提、変数束縛を候補schemaへ追加する。
+- [Done] 既存readoutでは表現できない複数relation、時間列、適用前提、変数束縛を候補schemaへ追加した。
 - [Done] candidate-backed compactionは回帰query一致時だけ適用し、不一致ならrollbackする。元Eventを保持し、新規Event学習前にreadoutを復元する。
-- [Next] 対象readout以外を含む総memory、p95時間、広いquery corpusで圧縮gateを評価する。
+- [Done] 総保存State、p95時間、200 final queryで診断し、保存量が88 bytes増える現方式を総memory圧縮として棄却した。
+- [Next] 保存directiveではなくEvent・候補schema・支持IDの重複を直接圧縮し、同じ回帰契約で再評価する。
 - [Later] 二世代候補は祖先と支持・評価IDが重ならず、独立held-outで追加改善する場合だけ有効とみなす。
 
 ## Artifacts / 成果物 / 产物

@@ -68,6 +68,10 @@ class Event:
     source: str = "unknown"
     actor_roles: list[str] = field(default_factory=list)
     target_roles: list[str] = field(default_factory=list)
+    entity_bindings: dict[str, str] = field(default_factory=dict)
+    entity_role_bindings: dict[str, list[str]] = field(default_factory=dict)
+    entity_relations: list[dict[str, str]] = field(default_factory=list)
+    entity_relations_observed: bool = False
     observed_states_before: list[str] = field(default_factory=list)
     before_state_observed: bool = False
     transition_succeeded: bool = True

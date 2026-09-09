@@ -26,21 +26,21 @@ RISA は **Relationally Involving Self-organizing Architecture** の略で、
 ## 設計評価と現在の優先順位 / Assessment / 设计评估 — 2026-09-08
 
 **構造ベースのAIとして研究を続ける価値があります。ただし、一般的な優位性はまだ未実証です。**
-G2では役割束縛、前提学習、変化適応を実装し、全85テストが通過しています。final評価は、観測から前提を学ぶcompositionで
+G2では役割束縛、前提学習、変化適応を実装し、全91テストが通過しています。final評価は、観測から前提を学ぶcompositionで
 100%対具体遷移表0%、未知target bindingで100%対75%、B期driftで75%対33.3%でした。明示前提compositionは同率で、
-役割型は外部入力、保存量は約40倍です。型付き2段階時間列候補は既存経路比+25ポイント、actor/target二変数とidentity制約の候補は+60ポイントとなり、現在は任意entity関係と効率評価へ進んでいます。
+役割型は外部入力、保存量は約40倍です。任意3-entity関係候補は既存経路比+80ポイントとなり、relation観測noiseへの耐性と成功反例による前提撤回を実装しました。readout圧縮は総保存量を88 bytes増やしたため棄却し、Event・候補schemaの重複圧縮へ進みます。
 以下の機能一覧は実装の存在を示し、任意の入力での正しさや研究仮説の証明を意味しません。
 
 English: Structural AI research remains worthwhile, but a general advantage is not established. G2 implements role
-binding, applicability learning and change adaptation; all 85 tests pass. Final success is 100% versus 0% on learned
+binding, applicability learning and change adaptation; all 91 tests pass. Final success is 100% versus 0% on learned
 composition, 100% versus 75% on binding, and 75% versus 33.3% in phase-B drift. Supplied composition still ties,
 roles are external inputs, and state is about 40× larger. Single-transition candidates were redundant, while a typed
-two-step temporal candidate gains 25 points over the existing path, and an actor/target candidate with identity constraints
-gains 60 points. Arbitrary entity relations and efficiency are next.
+two-step temporal and actor/target candidates add value, and a generic three-entity relation candidate gains 80 points.
+Relation observation noise tolerance and premise retraction from successful counterexamples are implemented. Readout compaction increased total persisted state by 88 bytes, so the next target is duplication in events and candidate schemas.
 
-简体中文: 结构AI研究仍值得继续，但尚未证明普遍优势。G2已实现角色绑定、适用条件学习及变化适应，全部85项测试通过。
+简体中文: 结构AI研究仍值得继续，但尚未证明普遍优势。G2已实现角色绑定、适用条件学习及变化适应，全部91项测试通过。
 最终成功率在观测学习composition为100%对0%，binding为100%对75%，B阶段drift为75%对33.3%。已提供前提的
-composition仍持平，角色来自外部输入，状态约大40倍。类型化两步时间候选比现有路径高25个百分点，含identity约束的actor/target双变量候选高60个百分点；下一门槛是任意entity关系及效率评估。
+composition仍持平，角色来自外部输入，状态约大40倍。任意三entity关系候选比现有路径高80个百分点；已实现relation观测噪声耐受及成功反例触发的前提撤回。readout压缩使持久化总量增加88 bytes，因此下一步直接压缩Event及候选schema重复。
 
 - [設計評価・再現結果 / Assessment / 评估](docs/RISA-Structural-AI-Assessment-2026-09-05.md)
 - [現行ロードマップ / Current roadmap / 当前路线图](docs/ROADMAP.md)
@@ -48,6 +48,7 @@ composition仍持平，角色来自外部输入，状态约大40倍。类型化�
 - [G2候補転移評価 / G2 candidate transfer evaluation / G2候选迁移评估](docs/G2-Candidate-Transfer-Evaluation-2026-09-08.md)
 - [G2時間列候補評価 / G2 temporal candidate evaluation / G2时间序列候选评估](docs/G2-Temporal-Candidate-Evaluation-2026-09-09.md)
 - [G2関係候補評価 / G2 relational candidate evaluation / G2关系候选评估](docs/G2-Relational-Candidate-Evaluation-2026-09-09.md)
+- [G2任意関係評価 / G2 generic relation evaluation / G2任意关系评估](docs/G2-Generic-Relation-Evaluation-2026-09-09.md)
 - [現行ポリシー / Current policy / 当前方针](docs/policy.md)
 - [未分知と概念凝縮 / Undivided Knowledge and Concept Condensation / 未分知识与概念凝聚](docs/RISA-Undivided-Knowledge-and-Concept-Condensation.md)
 
@@ -366,9 +367,12 @@ English: Static threats remain explainable hypotheses and are validated by parti
 - [Done] G2.4時間列評価: 5 seed・final 200件で候補100%対既存75%、差+25ポイント、false generalization 0%対33.3%として採用 / Adopt the temporal candidate at 100% versus 75%, a 25-point gain, and 0% versus 33.3% false generalization over five seeds and 200 final cases / 5个种子及200个final案例中候选100%对现有路径75%、提升25个百分点、错误泛化0%对33.3%，因此采纳
 - [Done] G2.4関係候補: actor/target二変数を束縛し、5 seed・final 200件で100%対40%、差+60ポイント、false generalization 0%対75% / Bind actor and target variables; reach 100% versus 40%, +60 points, and 0% versus 75% false generalization over five seeds and 200 final cases / 绑定actor与target变量；5个种子及200个final案例达到100%对40%、提升60个百分点、错误泛化0%对75%
 - [Done] G2.4 identity制約: 支持Eventからactor/targetの`equal`/`not_equal`を帰納し、具体queryで検査 / Infer actor/target equality or inequality from supporting events and enforce it on concrete queries / 从支持Event归纳actor/target的同一或差异，并在具体query中检查
-- [Next] G2.4再設計: 任意entity relation、総memory・p95・広い回帰集合の圧縮評価 / Arbitrary entity relations and compression evaluation over total memory, p95 and broad regressions / 任意entity关系，以及总内存、p95与广泛回归上的压缩评估
+- [Done] G2.4任意関係: 3つ以上のentity変数・role・relationを発見・再束縛し、final 200件で100%対20%、false generalization 0%対100% / Discover and rebind three or more entity variables, roles and relations; reach 100% versus 20% and 0% versus 100% false generalization over 200 final cases / 发现并重新绑定三个以上entity变量、角色及relation；200个final案例达到100%对20%、错误泛化0%对100%
+- [Done] G2.4 relation前提: 完全観測flagを導入し、成功列の共通relationから前提を作成。余分な観測noiseを無視し、前提欠落の失敗と真の反例を分離し、成功反例で前提を撤回 / Add a complete-observation flag, infer requirements from successful intersections, ignore extra relation noise, separate missing-premise failures from true counterexamples, and retract premises after a successful counterexample / 添加完整观测标记，从成功序列交集归纳前提，忽略额外relation噪声，区分缺少前提的失败与真正反例，并在成功反例后撤回前提
+- [Done] G2.4効率評価: final 200 queryでreadout 81→2 bytesとp95非悪化を確認したが、総保存Stateが26,399→26,487 bytesへ増えたため現方式を棄却 / Over 200 final queries the readout falls from 81 to 2 bytes without a p95 regression, but total persisted state grows from 26,399 to 26,487 bytes, so reject this approach / 200个final query中readout由81降至2 bytes且p95未恶化，但持久化State总量由26,399增至26,487 bytes，因此否决当前方案
+- [Next] G2.4構造圧縮: Event・候補schema・支持IDの重複を直接圧縮し、総memoryと回帰一致を再評価 / Directly compress duplication in events, candidate schemas and support IDs, then reevaluate total memory and regression equivalence / 直接压缩Event、候选schema及支持ID重复，再评估总内存与回归等价性
 - [Later] G3: 継続適応と計算予算の大規模検証 / Large-scale validation of continual adaptation and bounded cost / 大规模验证持续适应与计算预算
-- [Later] G4: 用途検証と追加研究。Canopy・SNN・階層creditは比較結果から再判断 / Validate applications; gate canopy, SNN and hierarchical credit on evidence / 验证应用，根据证据决定Canopy、SNN与层级信用研究
+- [Later] G4: 用途検証と追加研究。Canopy・SNN・階層credit・微分可能logic gate・BitNet/SNN/Logic交点の三値Event回路は比較結果から再判断 / Validate applications; gate canopy, SNN, hierarchical credit, differentiable logic gates and ternary event circuits at the BitNet/SNN/Logic intersection on evidence / 验证应用，根据比较证据决定Canopy、SNN、层级信用、可微逻辑门及BitNet/SNN/Logic交点的三值Event电路
 
 完了条件と仮説の見直し条件は[ROADMAP](docs/ROADMAP.md)に集約しています。
 The roadmap defines completion and revision gates. 路线图统一规定完成与修订条件。
@@ -400,6 +404,7 @@ The roadmap defines completion and revision gates. 路线图统一规定完成�
 - [RISA Open Source Landscape and Differentiation](docs/RISA-Open-Source-Landscape-and-Differentiation.md)
 - [RISA vs ANN and SNN Assessment](docs/RISA-vs-ANN-and-SNN-Assessment.md)
 - [RISA RAG and SNN Cache Analogy Notes](docs/RISA-RAG-and-SNN-Cache-Analogy-Notes.md)
+- [RISA Differentiable Logic-Gate Research](docs/RISA-Differentiable-Logic-Gate-Research-Notes.md)
 
 ## 実行例
 

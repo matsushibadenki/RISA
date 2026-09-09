@@ -5,6 +5,9 @@ from pathlib import Path
 import unittest
 
 from experiments.candidate_transfer_evaluation import run_candidate_transfer
+from experiments.generic_relation_candidate_evaluation import (
+    run_generic_relation_evaluation,
+)
 from experiments.temporal_candidate_evaluation import (
     run_temporal_candidate_evaluation,
 )
@@ -124,6 +127,10 @@ class ComparativeEvaluationTests(unittest.TestCase):
         self.assertEqual(
             result["decision"], "rejected_redundant_single_transition_candidate"
         )
+        self.assertEqual(
+            result["compaction_decision"],
+            "rejected_persisted_total_state_growth",
+        )
         self.assertEqual(result["leakage_audit"]["development_final_overlap"], 0)
         final = next(
             row for row in result["aggregate"] if row["partition"] == "final"
@@ -132,6 +139,11 @@ class ComparativeEvaluationTests(unittest.TestCase):
         self.assertEqual(final["false_generalization_delta"], 0.0)
         self.assertEqual(final["compressed_readout_candidate_success_rate"], 1.0)
         self.assertLess(final["compressed_readout_no_candidate_success_rate"], 1.0)
+        self.assertEqual(final["regression_queries_checked"], 4)
+        self.assertGreater(final["mean_total_state_bytes_before"], 0)
+        self.assertGreater(final["mean_total_state_bytes_after"], 0)
+        self.assertGreater(final["mean_prediction_p95_ms_before"], 0.0)
+        self.assertGreater(final["mean_prediction_p95_ms_after"], 0.0)
 
     def test_role_scoped_temporal_candidate_is_adopted_on_disjoint_evidence(self) -> None:
         result = run_temporal_candidate_evaluation(
@@ -181,6 +193,28 @@ class ComparativeEvaluationTests(unittest.TestCase):
         self.assertEqual(final["candidate_success_rate"], 1.0)
         self.assertEqual(final["existing_path_success_rate"], 0.4)
         self.assertEqual(final["paired_delta"], 0.6)
+        self.assertEqual(final["candidate_false_generalization_rate"], 0.0)
+
+    def test_generic_entity_relation_candidate_is_adopted(self) -> None:
+        result = run_generic_relation_evaluation(
+            {
+                "benchmark_version": "test-generic-relation",
+                "seeds": [31],
+                "development_episodes_per_seed": 20,
+                "final_episodes_per_seed": 40,
+                "minimum_gain": 0.05,
+                "bootstrap_samples": 100,
+            }
+        )
+
+        self.assertEqual(result["decision"], "adopted_generic_relation_candidate")
+        self.assertTrue(all(value == 0 for value in result["leakage_audit"].values()))
+        final = next(
+            row for row in result["aggregate"] if row["partition"] == "final"
+        )
+        self.assertEqual(final["candidate_success_rate"], 1.0)
+        self.assertEqual(final["existing_path_success_rate"], 0.2)
+        self.assertEqual(final["paired_delta"], 0.8)
         self.assertEqual(final["candidate_false_generalization_rate"], 0.0)
 
 

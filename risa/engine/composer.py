@@ -97,6 +97,9 @@ def compose_to_effect(
     actor_roles: list[str] | None = None,
     actor: str | None = None,
     target: str | None = None,
+    entity_bindings: dict[str, str] | None = None,
+    entity_role_bindings: dict[str, list[str]] | None = None,
+    entity_relations: list[dict[str, str]] | None = None,
     enable_candidate_concepts: bool = True,
 ) -> CompositionResult:
     """Find a local sequence of adopted transition primitives toward an effect."""
@@ -109,24 +112,42 @@ def compose_to_effect(
     }
     if enable_candidate_concepts:
         role_matching_plans = matching_adopted_plan_candidates(
-            state, action, effect, target_roles or [], actor_roles or []
+            state,
+            action,
+            effect,
+            target_roles or [],
+            actor_roles or [],
+            entity_role_bindings or {},
         )
-        identity_matching_plans = [
+        query_entity_bindings = {
+            normalize_label(variable): normalize_label(identity)
+            for variable, identity in (entity_bindings or {}).items()
+        }
+        if actor is not None:
+            query_entity_bindings.setdefault("actor", normalize_label(actor))
+        if target is not None:
+            query_entity_bindings.setdefault("target", normalize_label(target))
+        constraint_matching_plans = [
             candidate
             for candidate in role_matching_plans
-            if _candidate_identity_constraints_match(candidate, actor, target)
+            if _candidate_identity_constraints_match(
+                candidate, query_entity_bindings
+            )
+            and _candidate_relation_constraints_match(
+                candidate, entity_relations or []
+            )
         ]
-        if role_matching_plans and not identity_matching_plans:
+        if role_matching_plans and not constraint_matching_plans:
             return CompositionResult(
                 target_effect=effect,
                 explanation=(
-                    f"Abstained because concrete actor/target identities violate "
+                    f"Abstained because concrete entity identities or relations violate "
                     f"an adopted typed plan for action '{action}' and effect '{effect}'."
                 ),
             )
         candidate_result = _compose_adopted_candidate_plan(
             state,
-            identity_matching_plans,
+            constraint_matching_plans,
             action,
             effect,
             initial_states,
@@ -140,7 +161,7 @@ def compose_to_effect(
             and has_adopted_plan_candidate_for_goal(state, action, effect)
         ):
             normalized_roles = sorted(
-                {normalize_label(role) for role in target_roles}
+                {normalize_label(role) for role in target_roles or []}
             )
             return CompositionResult(
                 target_effect=effect,
@@ -264,9 +285,14 @@ def _compose_adopted_candidate_plan(
                 id=primitive_id,
                 relation_type="candidate_temporal_step",
                 role_signature=(
-                    f"actor:{candidate.typed_role_variables.get('actor', '')}:"
-                    f"target:{candidate.typed_role_variables.get('target', '')}:"
-                    "binding:same_actor,same_target"
+                    "variables:"
+                    + ",".join(
+                        f"{variable}={role}"
+                        for variable, role in sorted(
+                            candidate.typed_role_variables.items()
+                        )
+                    )
+                    + ":binding:same_by_variable"
                 ),
                 input_conditions={f"process:{step_action}"},
                 input_state_conditions={
@@ -315,12 +341,22 @@ def _compose_adopted_candidate_plan(
             paths.append(
                 [
                     candidate.id,
-                    *(
-                        ["bind:actor=same_actor"]
-                        if candidate.typed_role_variables.get("actor")
-                        else []
-                    ),
-                    "bind:target=same_target",
+                    *[
+                        f"bind:{variable}=same_{variable}"
+                        for variable in sorted(candidate.typed_role_variables)
+                    ],
+                    *[
+                        "relation:"
+                        + ":".join(
+                            (
+                                str(relation.get("source", "")),
+                                str(relation.get("relation", "")),
+                                str(relation.get("target", "")),
+                            )
+                        )
+                        for relation in raw_step.get("entity_relations", [])
+                        if isinstance(relation, dict)
+                    ],
                     f"process:{step_action}",
                     primitive_id,
                     *[f"state:{value}" for value in sorted(effects)],
@@ -372,23 +408,16 @@ def _compose_adopted_candidate_plan(
 
 def _candidate_identity_constraints_match(
     candidate: UnnamedConceptCandidate,
-    actor: str | None,
-    target: str | None,
+    bindings: dict[str, str],
 ) -> bool:
-    if actor is None or target is None:
-        return True
-    bindings = {
-        "actor": normalize_label(actor),
-        "target": normalize_label(target),
-    }
     constraints = candidate.structural_schema.get("variable_constraints", [])
     if not isinstance(constraints, list):
         return True
     for constraint in constraints:
         if not isinstance(constraint, dict):
             continue
-        left = bindings.get(str(constraint.get("left", "")))
-        right = bindings.get(str(constraint.get("right", "")))
+        left = bindings.get(normalize_label(str(constraint.get("left", ""))))
+        right = bindings.get(normalize_label(str(constraint.get("right", ""))))
         relation = str(constraint.get("relation", ""))
         if left is None or right is None:
             continue
@@ -397,6 +426,39 @@ def _candidate_identity_constraints_match(
         if relation == "not_equal" and left == right:
             return False
     return True
+
+
+def _candidate_relation_constraints_match(
+    candidate: UnnamedConceptCandidate,
+    query_relations: list[dict[str, str]],
+) -> bool:
+    required: set[tuple[str, str, str]] = set()
+    raw_steps = candidate.structural_schema.get("steps", [])
+    if not isinstance(raw_steps, list):
+        return True
+    for step in raw_steps:
+        if not isinstance(step, dict):
+            continue
+        for relation in step.get("entity_relations", []):
+            if isinstance(relation, dict):
+                required.add(
+                    (
+                        normalize_label(str(relation.get("source", ""))),
+                        normalize_label(str(relation.get("relation", ""))),
+                        normalize_label(str(relation.get("target", ""))),
+                    )
+                )
+    if not required:
+        return True
+    available = {
+        (
+            normalize_label(str(relation.get("source", ""))),
+            normalize_label(str(relation.get("relation", ""))),
+            normalize_label(str(relation.get("target", ""))),
+        )
+        for relation in query_relations
+    }
+    return required.issubset(available)
 
 
 def _adopted_primitives_for_action(

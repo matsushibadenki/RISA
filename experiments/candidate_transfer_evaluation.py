@@ -7,6 +7,7 @@ import hashlib
 import json
 from pathlib import Path
 import random
+import time
 from typing import Any
 
 from risa.core.models import Event, PredictionQuery
@@ -103,24 +104,41 @@ def run_candidate_transfer(manifest: dict[str, Any]) -> dict[str, Any]:
                     "compaction_applied": metrics["compaction_applied"],
                     "role_readout_bytes_before": metrics["role_readout_bytes_before"],
                     "role_readout_bytes_after": metrics["role_readout_bytes_after"],
+                    "total_state_bytes_before": metrics["total_state_bytes_before"],
+                    "total_state_bytes_after": metrics["total_state_bytes_after"],
+                    "prediction_p95_ms_before": metrics["prediction_p95_ms_before"],
+                    "prediction_p95_ms_after": metrics["prediction_p95_ms_after"],
+                    "regression_queries_checked": metrics[
+                        "regression_queries_checked"
+                    ],
                 }
             )
 
     manifest_digest = hashlib.sha256(
         json.dumps(manifest, sort_keys=True).encode("utf-8")
     ).hexdigest()
+    aggregate = _aggregate(rows)
+    final_efficiency = next(
+        row for row in aggregate if row["partition"] == "final"
+    )
     return {
         "benchmark_version": manifest["benchmark_version"],
         "manifest_sha256": manifest_digest,
         "manifest": manifest,
         "leakage_audit": _audit(lifecycle_rows),
         "rows": rows,
-        "aggregate": _aggregate(rows),
+        "aggregate": aggregate,
         "lifecycle": lifecycle_rows,
         "decision": (
             "rejected_redundant_single_transition_candidate"
             if all(row["after_development"] == "rejected" for row in lifecycle_rows)
             else "candidate_gate_requires_review"
+        ),
+        "compaction_decision": (
+            "rejected_persisted_total_state_growth"
+            if final_efficiency["mean_total_state_bytes_after"]
+            >= final_efficiency["mean_total_state_bytes_before"]
+            else "retained_for_further_efficiency_validation"
         ),
     }
 
@@ -219,7 +237,11 @@ def _compare_candidate(
         )
         for _, target, roles in cases
     ]
+    total_bytes_before = _serialized_state_bytes(compressed)
+    p95_ms_before = _prediction_p95_ms(compressed, compaction_queries)
     compaction = compact_adopted_candidate_readouts(compressed, compaction_queries)
+    total_bytes_after = _serialized_state_bytes(compressed)
+    p95_ms_after = _prediction_p95_ms(compressed, compaction_queries)
     compressed_candidate = []
     compressed_no_candidate = []
     for _, target, roles in cases:
@@ -243,6 +265,11 @@ def _compare_candidate(
         "compaction_applied": compaction.applied,
         "role_readout_bytes_before": compaction.readout_bytes_before,
         "role_readout_bytes_after": compaction.readout_bytes_after,
+        "total_state_bytes_before": total_bytes_before,
+        "total_state_bytes_after": total_bytes_after,
+        "prediction_p95_ms_before": p95_ms_before,
+        "prediction_p95_ms_after": p95_ms_after,
+        "regression_queries_checked": compaction.checked_queries,
     }
 
 
@@ -345,6 +372,27 @@ def _aggregate(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
                     sum(row["role_readout_bytes_after"] for row in selected)
                     / len(selected)
                 ),
+                "mean_total_state_bytes_before": round(
+                    sum(row["total_state_bytes_before"] for row in selected)
+                    / len(selected)
+                ),
+                "mean_total_state_bytes_after": round(
+                    sum(row["total_state_bytes_after"] for row in selected)
+                    / len(selected)
+                ),
+                "mean_prediction_p95_ms_before": round(
+                    sum(row["prediction_p95_ms_before"] for row in selected)
+                    / len(selected),
+                    6,
+                ),
+                "mean_prediction_p95_ms_after": round(
+                    sum(row["prediction_p95_ms_after"] for row in selected)
+                    / len(selected),
+                    6,
+                ),
+                "regression_queries_checked": sum(
+                    row["regression_queries_checked"] for row in selected
+                ),
             }
         )
     return aggregate
@@ -352,6 +400,33 @@ def _aggregate(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
 
 def _mean(values: list[int]) -> float:
     return round(sum(values) / len(values), 6) if values else 0.0
+
+
+def _serialized_state_bytes(state: RisaState) -> int:
+    return len(
+        json.dumps(
+            state.to_dict(), sort_keys=True, separators=(",", ":")
+        ).encode("utf-8")
+    )
+
+
+def _prediction_p95_ms(
+    state: RisaState,
+    queries: list[PredictionQuery],
+    repetitions: int = 5,
+) -> float:
+    if not queries:
+        return 0.0
+    predict_next_effect(state, queries[0])
+    samples: list[float] = []
+    for _ in range(repetitions):
+        for query in queries:
+            started = time.perf_counter_ns()
+            predict_next_effect(state, query)
+            samples.append((time.perf_counter_ns() - started) / 1_000_000)
+    samples.sort()
+    index = max(0, int(0.95 * len(samples) + 0.999999) - 1)
+    return round(samples[index], 6)
 
 
 def main() -> None:

@@ -52,6 +52,56 @@ class EventParserTests(unittest.TestCase):
         self.assertFalse(events[0].transition_succeeded)
         self.assertTrue(events[0].before_state_observed)
 
+    def test_parse_arbitrary_typed_entities_and_relations(self) -> None:
+        with TemporaryDirectory() as directory:
+            path = Path(directory) / "events.json"
+            path.write_text(
+                '[{"id":"rel","timestamp":1,"actor":"robot","action":"unlock",'
+                '"observed_effects":["open"],'
+                '"entity_bindings":{"operator":"robot","door":"door-a","key":"key-a"},'
+                '"entity_role_bindings":{"operator":["controller"],"door":["lockable"],'
+                '"key":["credential"]},'
+                '"entity_relations":[{"source":"operator","relation":"holds",'
+                '"target":"key"},{"source":"key","relation":"opens","target":"door"}]}]',
+                encoding="utf-8",
+            )
+            event = parse_events(path)[0]
+
+        self.assertEqual(event.entity_bindings["key"], "key-a")
+        self.assertEqual(event.entity_role_bindings["door"], ["lockable"])
+        self.assertEqual(event.entity_relations[1]["relation"], "opens")
+        self.assertTrue(event.entity_relations_observed)
+
+    def test_explicit_empty_entity_relation_observation_is_preserved(self) -> None:
+        with TemporaryDirectory() as directory:
+            path = Path(directory) / "events.json"
+            path.write_text(
+                '[{"id":"no-rel","timestamp":1,"actor":"robot","action":"wait",'
+                '"observed_effects":[],"transition_succeeded":false,'
+                '"entity_bindings":{"operator":"robot","door":"door-a"},'
+                '"entity_role_bindings":{"operator":["controller"],'
+                '"door":["lockable"]},"entity_relations":[]}]',
+                encoding="utf-8",
+            )
+            event = parse_events(path)[0]
+
+        self.assertEqual(event.entity_relations, [])
+        self.assertTrue(event.entity_relations_observed)
+
+    def test_entity_relation_rejects_an_unknown_variable(self) -> None:
+        with TemporaryDirectory() as directory:
+            path = Path(directory) / "events.json"
+            path.write_text(
+                '[{"id":"bad-rel","timestamp":1,"actor":"robot","action":"unlock",'
+                '"observed_effects":["open"],"entity_bindings":{"door":"door-a"},'
+                '"entity_relations":[{"source":"missing","relation":"opens",'
+                '"target":"door"}]}]',
+                encoding="utf-8",
+            )
+
+            with self.assertRaisesRegex(ValueError, "unknown variables: missing"):
+                parse_events(path)
+
 
 if __name__ == "__main__":
     unittest.main()

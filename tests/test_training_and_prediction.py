@@ -70,6 +70,12 @@ class TrainingAndPredictionTests(unittest.TestCase):
                 "robot-a",
                 "--target",
                 "battery-a",
+                "--entity",
+                "credential=key-a",
+                "--entity-role",
+                "credential=access_key",
+                "--entity-relation",
+                "credential:opens:target",
                 "--target-role",
                 "battery",
             ]
@@ -123,6 +129,12 @@ class TrainingAndPredictionTests(unittest.TestCase):
         self.assertEqual(compose_args.actor_role, ["operator"])
         self.assertEqual(compose_args.actor, "robot-a")
         self.assertEqual(compose_args.target, "battery-a")
+        self.assertEqual(dict(compose_args.entity), {"credential": "key-a"})
+        self.assertEqual(compose_args.entity_role, [("credential", "access_key")])
+        self.assertEqual(
+            compose_args.entity_relation,
+            [{"source": "credential", "relation": "opens", "target": "target"}],
+        )
         self.assertEqual(compose_args.target_role, ["battery"])
         self.assertEqual(dict(simulate_args.start_variable), {"energy": 5.0})
         self.assertEqual(simulate_args.max_branches, 4)
@@ -2986,6 +2998,252 @@ class TrainingAndPredictionTests(unittest.TestCase):
         self.assertEqual(restored.compacted_role_readouts, {})
         self.assertTrue(restored.action_target_role_context_effect_counts)
 
+    def test_arbitrary_entity_relation_candidate_is_discovered_and_enforced(self) -> None:
+        state = RisaState()
+        events: list[Event] = []
+        timestamp = 1
+        for suffix, source in (("a", "sensor-a"), ("b", "sensor-b")):
+            episode = f"access-{suffix}"
+            bindings = {
+                "operator": f"robot-{suffix}",
+                "credential": f"key-{suffix}",
+                "resource": f"door-{suffix}",
+            }
+            roles = {
+                "operator": ["controller"],
+                "credential": ["access_key"],
+                "resource": ["lockable"],
+            }
+            relations = [
+                {"source": "operator", "relation": "holds", "target": "credential"},
+                {"source": "credential", "relation": "opens", "target": "resource"},
+            ]
+            events.extend(
+                [
+                    Event(
+                        f"present-{suffix}", timestamp, f"robot-{suffix}", "present",
+                        observed_effects=["authenticated"], episode_id=episode,
+                        source=source, entity_bindings=dict(bindings),
+                        entity_role_bindings={key: list(value) for key, value in roles.items()},
+                        entity_relations=[dict(relation) for relation in relations],
+                    ),
+                    Event(
+                        f"unlock-{suffix}", timestamp + 1, f"robot-{suffix}", "unlock",
+                        preconditions=["authenticated"], observed_states_before=["authenticated"],
+                        before_state_observed=True, observed_effects=["opened"],
+                        episode_id=episode, source=source, entity_bindings=dict(bindings),
+                        entity_role_bindings={key: list(value) for key, value in roles.items()},
+                        entity_relations=[dict(relation) for relation in relations],
+                    ),
+                ]
+            )
+            timestamp += 2
+        train_events(state, events)
+        candidate = next(
+            item
+            for item in state.unnamed_concept_candidates.values()
+            if item.structural_schema.get("kind") == "relational_sequence"
+        )
+
+        self.assertEqual(
+            candidate.typed_role_variables,
+            {
+                "credential": "access_key",
+                "operator": "controller",
+                "resource": "lockable",
+            },
+        )
+        self.assertEqual(candidate.target_diversity, 2)
+        self.assertGreater(candidate.description_length_delta, 0)
+        evaluate_unnamed_candidate(
+            state, candidate.id, partition="development",
+            evaluation_event_ids=["relation-dev"], prediction_delta=0.0,
+            composition_delta=0.2, prediction_delta_ci_lower=0.0,
+            composition_delta_ci_lower=0.05, false_generalization_delta=-0.1,
+        )
+        evaluate_unnamed_candidate(
+            state, candidate.id, partition="final",
+            evaluation_event_ids=["relation-final"], prediction_delta=0.0,
+            composition_delta=0.2, prediction_delta_ci_lower=0.0,
+            composition_delta_ci_lower=0.05, false_generalization_delta=-0.1,
+        )
+        query_roles = {
+            "operator": ["controller"],
+            "credential": ["access_key"],
+            "resource": ["lockable"],
+        }
+        query_bindings = {
+            "operator": "robot-new",
+            "credential": "key-new",
+            "resource": "door-new",
+        }
+        query_relations = [
+            {"source": "operator", "relation": "holds", "target": "credential"},
+            {"source": "credential", "relation": "opens", "target": "resource"},
+        ]
+        valid = compose_to_effect(
+            state, "present", "opened", max_steps=2,
+            entity_bindings=query_bindings,
+            entity_role_bindings=query_roles,
+            entity_relations=query_relations,
+        )
+        missing_relation = compose_to_effect(
+            state, "present", "opened", max_steps=2,
+            entity_bindings=query_bindings,
+            entity_role_bindings=query_roles,
+            entity_relations=query_relations[:1],
+        )
+        identity_violation = compose_to_effect(
+            state, "present", "opened", max_steps=2,
+            entity_bindings={**query_bindings, "resource": "key-new"},
+            entity_role_bindings=query_roles,
+            entity_relations=query_relations,
+        )
+
+        self.assertEqual(len(valid.primitive_ids), 2)
+        self.assertTrue(
+            any("bind:credential=same_credential" in path for path in valid.supporting_paths)
+        )
+        self.assertTrue(
+            any("relation:credential:opens:resource" in path for path in valid.supporting_paths)
+        )
+        self.assertEqual(missing_relation.primitive_ids, [])
+        self.assertEqual(identity_violation.primitive_ids, [])
+        self.assertIn("identities or relations violate", missing_relation.explanation)
+
+        restored = RisaState.from_dict(state.to_dict())
+        restored_result = compose_to_effect(
+            restored, "present", "opened", max_steps=2,
+            entity_bindings=query_bindings,
+            entity_role_bindings=query_roles,
+            entity_relations=query_relations,
+        )
+        self.assertEqual(restored_result.primitive_ids, valid.primitive_ids)
+
+    def test_relational_candidate_ignores_noise_and_retracts_a_premise(self) -> None:
+        state = RisaState()
+        roles = {
+            "operator": ["controller"],
+            "credential": ["access_key"],
+            "resource": ["lockable"],
+        }
+        core_relations = [
+            {"source": "operator", "relation": "holds", "target": "credential"},
+            {"source": "credential", "relation": "opens", "target": "resource"},
+        ]
+
+        def pair(
+            suffix: str,
+            timestamp: int,
+            source: str,
+            relations: list[dict[str, str]],
+            *,
+            succeeded: bool = True,
+        ) -> list[Event]:
+            bindings = {
+                "operator": f"robot-{suffix}",
+                "credential": f"key-{suffix}",
+                "resource": f"door-{suffix}",
+            }
+            common = {
+                "episode_id": f"relation-noise-{suffix}",
+                "source": source,
+                "entity_bindings": bindings,
+                "entity_role_bindings": roles,
+                "entity_relations": relations,
+                "entity_relations_observed": True,
+            }
+            return [
+                Event(
+                    f"present-{suffix}", timestamp, f"robot-{suffix}", "present",
+                    observed_effects=["authenticated"], **common,
+                ),
+                Event(
+                    f"unlock-{suffix}", timestamp + 1, f"robot-{suffix}", "unlock",
+                    preconditions=["authenticated"],
+                    observed_states_before=["authenticated"],
+                    before_state_observed=True,
+                    observed_effects=["opened"] if succeeded else [],
+                    transition_succeeded=succeeded,
+                    **common,
+                ),
+            ]
+
+        noisy_relations = core_relations + [
+            {"source": "operator", "relation": "near", "target": "resource"}
+        ]
+        missing_opens = core_relations[:1]
+        train_events(
+            state,
+            pair("a", 1, "sensor-a", core_relations)
+            + pair("b", 3, "sensor-b", noisy_relations)
+            + pair("missing", 5, "sensor-c", missing_opens, succeeded=False)
+            + pair("counter", 7, "sensor-d", core_relations, succeeded=False),
+        )
+        relational = [
+            item
+            for item in state.unnamed_concept_candidates.values()
+            if item.structural_schema.get("kind") == "relational_sequence"
+        ]
+        self.assertEqual(len(relational), 1)
+        candidate = relational[0]
+        candidate_id = candidate.id
+        required = [
+            {
+                (relation["source"], relation["relation"], relation["target"])
+                for relation in step["entity_relations"]
+            }
+            for step in candidate.structural_schema["steps"]
+        ]
+        expected = {
+            ("operator", "holds", "credential"),
+            ("credential", "opens", "resource"),
+        }
+        self.assertEqual(required, [expected, expected])
+        self.assertNotIn(("operator", "near", "resource"), required[0])
+        self.assertEqual(
+            candidate.structural_schema["relation_negative_event_ids"],
+            ["present-missing", "unlock-missing"],
+        )
+        self.assertEqual(
+            candidate.counterexample_event_ids,
+            ["present-counter", "unlock-counter"],
+        )
+        self.assertEqual(candidate.exception_cost, 1)
+        self.assertAlmostEqual(candidate.reconstruction_gain, 2 / 3, places=6)
+
+        evaluate_unnamed_candidate(
+            state, candidate.id, partition="development",
+            evaluation_event_ids=["noise-dev"], prediction_delta=0.0,
+            composition_delta=0.2, prediction_delta_ci_lower=0.0,
+            composition_delta_ci_lower=0.05, false_generalization_delta=-0.1,
+        )
+        evaluate_unnamed_candidate(
+            state, candidate.id, partition="final",
+            evaluation_event_ids=["noise-final"], prediction_delta=0.0,
+            composition_delta=0.2, prediction_delta_ci_lower=0.0,
+            composition_delta_ci_lower=0.05, false_generalization_delta=-0.1,
+        )
+        self.assertEqual(candidate.lifecycle_status, "adopted")
+
+        only_opens = core_relations[1:]
+        train_events(state, pair("retract", 9, "sensor-e", only_opens))
+        revised = state.unnamed_concept_candidates[candidate_id]
+        revised_required = [
+            {
+                (relation["source"], relation["relation"], relation["target"])
+                for relation in step["entity_relations"]
+            }
+            for step in revised.structural_schema["steps"]
+        ]
+        self.assertEqual(
+            revised_required,
+            [{("credential", "opens", "resource")}] * 2,
+        )
+        self.assertEqual(revised.lifecycle_status, "proposed")
+        self.assertEqual(revised.development_evaluation_event_ids, [])
+        self.assertEqual(revised.final_evaluation_event_ids, [])
+
     def test_temporal_candidate_binds_actor_and_target_role_variables(self) -> None:
         state = RisaState()
         events: list[Event] = []
@@ -3091,7 +3349,7 @@ class TrainingAndPredictionTests(unittest.TestCase):
         self.assertTrue(untyped_baseline.primitive_ids)
         self.assertEqual(same_identity.primitive_ids, [])
         self.assertTrue(same_identity_baseline.primitive_ids)
-        self.assertIn("identities violate", same_identity.explanation)
+        self.assertIn("identities or relations violate", same_identity.explanation)
         self.assertIn("do not match query role bindings", wrong_actor.explanation)
 
     def test_legacy_state_migrates_single_output_to_atomic_output_set(self) -> None:

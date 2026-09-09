@@ -79,6 +79,7 @@ def discover_unnamed_candidates(state: RisaState) -> dict[str, UnnamedConceptCan
         candidates[candidate_id] = candidate
 
     candidates.update(_discover_temporal_sequence_candidates(state, previous_candidates))
+    candidates.update(_discover_relational_sequence_candidates(state, previous_candidates))
     state.unnamed_concept_candidates = candidates
     rebuild_candidate_inference_index(state)
     return candidates
@@ -91,7 +92,7 @@ def rebuild_candidate_inference_index(state: RisaState) -> None:
         if candidate.lifecycle_status != "adopted":
             continue
         kind = str(candidate.structural_schema.get("kind", "single_transition"))
-        if kind == "temporal_sequence":
+        if kind in {"temporal_sequence", "relational_sequence"}:
             steps = candidate.structural_schema.get("steps", [])
             goal_effects = candidate.structural_schema.get("goal_effects", [])
             role = normalize_label(
@@ -100,7 +101,7 @@ def rebuild_candidate_inference_index(state: RisaState) -> None:
             actor_role = normalize_label(
                 str(candidate.structural_schema.get("actor_role", ""))
             )
-            if not isinstance(steps, list) or not steps or not role:
+            if not isinstance(steps, list) or not steps:
                 continue
             first_step = steps[0]
             if not isinstance(first_step, dict):
@@ -109,7 +110,7 @@ def rebuild_candidate_inference_index(state: RisaState) -> None:
             indexed_goal_effects = goal_effects if isinstance(goal_effects, list) else []
             for goal_effect in indexed_goal_effects:
                 goal = normalize_label(str(goal_effect))
-                if start_action and goal:
+                if start_action and goal and role:
                     role_key = (
                         f"plan_start:{start_action}:goal:{goal}:target_role:{role}"
                     )
@@ -120,6 +121,12 @@ def rebuild_candidate_inference_index(state: RisaState) -> None:
                         role_key,
                         candidate.id,
                     )
+                    _add_candidate_index(
+                        state,
+                        f"plan_start:{start_action}:goal:{goal}",
+                        candidate.id,
+                    )
+                elif start_action and goal:
                     _add_candidate_index(
                         state,
                         f"plan_start:{start_action}:goal:{goal}",
@@ -158,27 +165,33 @@ def matching_adopted_plan_candidates(
     target_effect: str,
     target_roles: list[str] | set[str] | tuple[str, ...],
     actor_roles: list[str] | set[str] | tuple[str, ...] = (),
+    entity_role_bindings: dict[str, list[str]] | None = None,
 ) -> list[UnnamedConceptCandidate]:
     """Return adopted temporal schemas matching a role-bound plan query."""
-    candidate_ids: set[str] = set()
     normalized_action = normalize_label(start_action)
     normalized_effect = normalize_label(target_effect)
-    for role in target_roles:
-        target_key = (
-            f"plan_start:{normalized_action}:goal:{normalized_effect}:"
-            f"target_role:{normalize_label(role)}"
-        )
-        candidate_ids.update(state.candidate_inference_index.get(target_key, []))
-        for actor_role in actor_roles:
-            key = f"{target_key}:actor_role:{normalize_label(actor_role)}"
-            candidate_ids.update(state.candidate_inference_index.get(key, []))
+    generic_key = f"plan_start:{normalized_action}:goal:{normalized_effect}"
+    candidate_ids = set(state.candidate_inference_index.get(generic_key, []))
+    query_roles = {
+        variable: {normalize_label(role) for role in roles}
+        for variable, roles in (entity_role_bindings or {}).items()
+    }
+    query_roles.setdefault("target", set()).update(
+        normalize_label(role) for role in target_roles
+    )
+    query_roles.setdefault("actor", set()).update(
+        normalize_label(role) for role in actor_roles
+    )
     return [
         state.unnamed_concept_candidates[candidate_id]
         for candidate_id in sorted(candidate_ids)
         if candidate_id in state.unnamed_concept_candidates
         and state.unnamed_concept_candidates[candidate_id].lifecycle_status == "adopted"
         and state.unnamed_concept_candidates[candidate_id].structural_schema.get("kind")
-        == "temporal_sequence"
+        in {"temporal_sequence", "relational_sequence"}
+        and _candidate_roles_match(
+            state.unnamed_concept_candidates[candidate_id], query_roles
+        )
     ]
 
 
@@ -368,6 +381,259 @@ def _discover_temporal_sequence_candidates(
         _restore_unchanged_evaluation(candidate, previous_candidates.get(candidate_id))
         candidates[candidate_id] = candidate
     return candidates
+
+
+def _discover_relational_sequence_candidates(
+    state: RisaState,
+    previous_candidates: dict[str, UnnamedConceptCandidate],
+) -> dict[str, UnnamedConceptCandidate]:
+    """Discover two-step schemas over an arbitrary set of named entity variables."""
+    by_episode: dict[str, list[Event]] = defaultdict(list)
+    for event in state.events_by_id.values():
+        if event.entity_bindings and not event.source.startswith(("derived:", "replay:")):
+            by_episode[event.episode_id or "__default__"].append(event)
+
+    groups: dict[tuple[object, ...], list[tuple[Event, Event]]] = defaultdict(list)
+    failures_by_base: dict[tuple[object, ...], list[tuple[Event, Event]]] = defaultdict(list)
+    for episode_events in by_episode.values():
+        ordered = sorted(episode_events, key=lambda item: (item.timestamp, item.id))
+        for first, second in zip(ordered, ordered[1:]):
+            variables = sorted(set(first.entity_bindings).intersection(second.entity_bindings))
+            if len(variables) < 2 or any(
+                normalize_label(first.entity_bindings[variable])
+                != normalize_label(second.entity_bindings[variable])
+                for variable in variables
+            ):
+                continue
+            role_items: list[tuple[str, str]] = []
+            for variable in variables:
+                shared_roles = {
+                    normalize_label(role)
+                    for role in first.entity_role_bindings.get(variable, [])
+                }.intersection(
+                    normalize_label(role)
+                    for role in second.entity_role_bindings.get(variable, [])
+                )
+                if not shared_roles:
+                    break
+                role_items.append((normalize_label(variable), sorted(shared_roles)[0]))
+            if len(role_items) != len(variables):
+                continue
+            if not (
+                _entity_relations_are_observed(first)
+                and _entity_relations_are_observed(second)
+            ):
+                continue
+            constraints = _entity_identity_constraints(first, variables)
+            base_signature = (
+                tuple(role_items),
+                constraints,
+                normalize_label(first.action),
+                normalize_label(second.action),
+            )
+            if (
+                not first.transition_succeeded
+                or not second.transition_succeeded
+                or not first.observed_effects
+                or not second.observed_effects
+                or not set(_normalized_tuple(first.observed_effects)).intersection(
+                    _event_state_requirements(second)
+                )
+            ):
+                if not first.transition_succeeded or not second.transition_succeeded:
+                    failures_by_base[base_signature].append((first, second))
+                continue
+            signature = (
+                tuple(role_items),
+                constraints,
+                _event_step_signature(first),
+                _event_step_signature(second),
+            )
+            groups[signature].append((first, second))
+
+    candidates: dict[str, UnnamedConceptCandidate] = {}
+    for signature, records in sorted(groups.items(), key=lambda item: repr(item[0])):
+        role_items, constraints, first_step, second_step = signature
+        binding_instances = {
+            tuple(
+                (variable, normalize_label(first.entity_bindings[variable]))
+                for variable, _ in role_items
+            )
+            for first, _ in records
+        }
+        sources = {event.source for pair in records for event in pair}
+        episodes = {first.episode_id for first, _ in records}
+        if len(binding_instances) < 2 or len(sources) < 2 or len(episodes) < 2:
+            continue
+        relation_observations = [
+            (
+                set(_normalized_entity_relations(first.entity_relations)),
+                set(_normalized_entity_relations(second.entity_relations)),
+            )
+            for first, second in records
+        ]
+        relation_steps = tuple(
+            tuple(sorted(set.intersection(*(observation[index] for observation in relation_observations))))
+            for index in range(2)
+        )
+        base_signature = (
+            role_items,
+            constraints,
+            normalize_label(str(first_step[0])),
+            normalize_label(str(second_step[0])),
+        )
+        matched_failures = failures_by_base.get(base_signature, [])
+        counterexample_pairs: list[tuple[Event, Event]] = []
+        relation_negative_pairs: list[tuple[Event, Event]] = []
+        for failed_pair in matched_failures:
+            failed_relations = (
+                set(_normalized_entity_relations(failed_pair[0].entity_relations)),
+                set(_normalized_entity_relations(failed_pair[1].entity_relations)),
+            )
+            if all(
+                set(required).issubset(observed)
+                for required, observed in zip(relation_steps, failed_relations)
+            ):
+                counterexample_pairs.append(failed_pair)
+            else:
+                relation_negative_pairs.append(failed_pair)
+        signature_text = repr(("relational_sequence", signature))
+        candidate_id = (
+            "candidate:relational:"
+            + hashlib.sha256(signature_text.encode()).hexdigest()[:16]
+        )
+        steps = [_step_schema(first_step), _step_schema(second_step)]
+        for step, relations in zip(steps, relation_steps):
+            step["entity_relations"] = [
+                {"source": source, "relation": relation, "target": target}
+                for source, relation, target in relations
+            ]
+        supporting_ids = sorted({event.id for pair in records for event in pair})
+        counterexample_ids = sorted(
+            {event.id for pair in counterexample_pairs for event in pair}
+        )
+        relation_negative_ids = sorted(
+            {event.id for pair in relation_negative_pairs for event in pair}
+        )
+        relation_requirement_evidence = []
+        for step_index, required_relations in enumerate(relation_steps):
+            relation_requirement_evidence.append(
+                [
+                    {
+                        "source": source,
+                        "relation": relation,
+                        "target": target,
+                        "success_support": len(records),
+                        "failure_absence_support": sum(
+                            (source, relation, target)
+                            not in set(
+                                _normalized_entity_relations(
+                                    pair[step_index].entity_relations
+                                )
+                            )
+                            for pair in matched_failures
+                        ),
+                    }
+                    for source, relation, target in required_relations
+                ]
+            )
+        concrete_length = sum(
+            len(repr(first.entity_bindings))
+            + len(repr(first.entity_relations))
+            + len(repr(second.entity_relations))
+            + len(repr(_event_step_signature(first)))
+            + len(repr(_event_step_signature(second)))
+            for first, second in records
+        )
+        schema_length = len(repr(signature))
+        role_variables = dict(role_items)
+        candidate = UnnamedConceptCandidate(
+            id=candidate_id,
+            structural_schema={
+                "kind": "relational_sequence",
+                "entity_binding": "same_by_variable",
+                "entity_role_bindings": role_variables,
+                "variable_constraints": [
+                    {"left": left, "relation": relation, "right": right}
+                    for left, relation, right in constraints
+                ],
+                "steps": steps,
+                "goal_effects": list(steps[-1]["effects"]),
+                "relation_requirement_evidence": relation_requirement_evidence,
+                "relation_negative_event_ids": relation_negative_ids,
+            },
+            typed_role_variables=role_variables,
+            supporting_event_ids=supporting_ids,
+            counterexample_event_ids=counterexample_ids,
+            source_diversity=len(sources),
+            episode_diversity=len(episodes),
+            actor_diversity=len(
+                {normalize_label(event.actor) for pair in records for event in pair}
+            ),
+            target_diversity=len(binding_instances),
+            context_diversity=len(
+                {
+                    tuple(sorted(normalize_label(tag) for tag in event.context_tags))
+                    for pair in records
+                    for event in pair
+                }
+            ),
+            description_length_delta=concrete_length - schema_length,
+            reconstruction_gain=round(
+                len(records) / (len(records) + len(counterexample_pairs)), 6
+            ),
+            exception_cost=len(counterexample_pairs),
+        )
+        _restore_unchanged_evaluation(candidate, previous_candidates.get(candidate_id))
+        candidates[candidate_id] = candidate
+    return candidates
+
+
+def _normalized_entity_relations(
+    relations: list[dict[str, str]],
+) -> tuple[tuple[str, str, str], ...]:
+    return tuple(
+        sorted(
+            (
+                normalize_label(relation.get("source", "")),
+                normalize_label(relation.get("relation", "")),
+                normalize_label(relation.get("target", "")),
+            )
+            for relation in relations
+        )
+    )
+
+
+def _entity_relations_are_observed(event: Event) -> bool:
+    """Treat legacy non-empty relation lists as complete observations."""
+    return event.entity_relations_observed or bool(event.entity_relations)
+
+
+def _entity_identity_constraints(
+    event: Event,
+    variables: list[str],
+) -> tuple[tuple[str, str, str], ...]:
+    constraints = []
+    for index, left in enumerate(variables):
+        for right in variables[index + 1 :]:
+            relation = (
+                "equal"
+                if normalize_label(event.entity_bindings[left])
+                == normalize_label(event.entity_bindings[right])
+                else "not_equal"
+            )
+            constraints.append((normalize_label(left), relation, normalize_label(right)))
+    return tuple(constraints)
+
+
+def _candidate_roles_match(
+    candidate: UnnamedConceptCandidate,
+    query_roles: dict[str, set[str]],
+) -> bool:
+    return all(
+        normalize_label(role) in query_roles.get(normalize_label(variable), set())
+        for variable, role in candidate.typed_role_variables.items()
+    )
 
 
 def _normalized_tuple(values: list[str]) -> tuple[str, ...]:

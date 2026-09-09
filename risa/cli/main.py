@@ -36,6 +36,33 @@ def _parse_variable_assignment(value: str) -> tuple[str, float]:
         raise argparse.ArgumentTypeError("state variable VALUE must be a finite number") from error
 
 
+def _parse_text_assignment(value: str) -> tuple[str, str]:
+    name, separator, assigned = value.partition("=")
+    if not separator or not name.strip() or not assigned.strip():
+        raise argparse.ArgumentTypeError("entity binding must use NAME=VALUE")
+    return name.strip(), assigned.strip()
+
+
+def _parse_entity_relation(value: str) -> dict[str, str]:
+    parts = [part.strip() for part in value.split(":")]
+    if len(parts) != 3 or not all(parts):
+        raise argparse.ArgumentTypeError(
+            "entity relation must use SOURCE:RELATION:TARGET"
+        )
+    return {"source": parts[0], "relation": parts[1], "target": parts[2]}
+
+
+def _group_role_assignments(
+    assignments: list[tuple[str, str]],
+) -> dict[str, list[str]]:
+    grouped: dict[str, list[str]] = {}
+    for variable, role in assignments:
+        roles = grouped.setdefault(variable, [])
+        if role not in roles:
+            roles.append(role)
+    return grouped
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="risa")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -63,6 +90,15 @@ def build_parser() -> argparse.ArgumentParser:
     compose_parser.add_argument("--actor-role", action="append", default=[])
     compose_parser.add_argument("--actor")
     compose_parser.add_argument("--target")
+    compose_parser.add_argument(
+        "--entity", action="append", type=_parse_text_assignment, default=[]
+    )
+    compose_parser.add_argument(
+        "--entity-role", action="append", type=_parse_text_assignment, default=[]
+    )
+    compose_parser.add_argument(
+        "--entity-relation", action="append", type=_parse_entity_relation, default=[]
+    )
     compose_parser.add_argument("--start-state", action="append", default=[])
     compose_parser.add_argument(
         "--start-variable", action="append", type=_parse_variable_assignment, default=[]
@@ -222,6 +258,9 @@ def main() -> None:
             actor_roles=args.actor_role,
             actor=args.actor,
             target=args.target,
+            entity_bindings=dict(args.entity),
+            entity_role_bindings=_group_role_assignments(args.entity_role),
+            entity_relations=args.entity_relation,
         )
         print(json.dumps(result.to_dict(), indent=2))
         return

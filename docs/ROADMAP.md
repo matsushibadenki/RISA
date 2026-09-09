@@ -1,6 +1,6 @@
 # RISA Roadmap / RISA ロードマップ / RISA 路线图
 
-Updated: 2026-09-08. [Design assessment / 設計評価 / 设计评估](RISA-Structural-AI-Assessment-2026-09-05.md)
+Updated: 2026-09-10. [Design assessment / 設計評価 / 设计评估](RISA-Structural-AI-Assessment-2026-09-05.md)
 
 ## Authority and objective / 位置付けと目的 / 定位与目标
 
@@ -20,13 +20,13 @@ unseen objects and compositions, and adapts to change.
 - [Next] high-priority unfinished work / 最優先の未完了作業 / 高优先级未完成工作
 - [Later] planned, but not the closest next step / 依存段階通過後の予定 / 前置阶段通过后的计划
 
-日本語: [Done]は実装の存在を示し、研究仮説の実証とは区別する。G0、G1とG2.1〜G2.3は完了し、直近はG2.4。
+日本語: [Done]は実装の存在を示し、研究仮説の実証とは区別する。G0、G1、G2.1〜G2.3とG2.4の関係前提再設計まで完了し、直近はG2.4の総効率評価。
 G3以降は重要でも[Later]とする。指標・閾値は評価前に固定し、結果を見て合格条件を緩めない。
 
-English: [Done] means implemented, not scientifically validated. G0, G1 and G2.1–G2.3 are complete; G2.4 is next and G3 onward is [Later].
+English: [Done] means implemented, not scientifically validated. G0, G1, G2.1–G2.3 and the G2.4 relation-premise redesign are complete; total-efficiency evaluation in G2.4 is next and G3 onward is [Later].
 Freeze metrics and thresholds before evaluation; do not relax gates after seeing results.
 
-简体中文: [Done]表示已实现，不等于科学验证。G0、G1及G2.1至G2.3已完成，下一步执行G2.4；G3以后标为[Later]。
+简体中文: [Done]表示已实现，不等于科学验证。G0、G1、G2.1至G2.3及G2.4的relation前提重设已完成，下一步是G2.4总效率评估；G3以后标为[Later]。
 评估前固定指标与阈值，不根据结果放宽通过条件。
 
 ## Current baseline / 現在地 / 当前基础
@@ -37,7 +37,7 @@ Freeze metrics and thresholds before evaluation; do not relax gates after seeing
 | [Done] | 学習前予測、誤差履歴、共活性、代謝、Replay、文脈分裂の最小経路 | Minimal pre-update prediction, error history, coactivation, metabolism, replay, context splitting | 最小学前预测、误差历史、共激活、代谢、重放与上下文分裂 |
 | [Done] | 状態消費・排他更新・数値資源・単位と上下限の部品 | Consumption, exclusive replacement, numeric resources, units and bounds | 状态消耗、互斥替换、数值资源、单位与边界 |
 | [Done] | 分岐simulation、goal/constraint評価、what-if、AND/OR、偏序実行、threat検出 | Branch simulation, goal/constraint evaluation, what-if, AND/OR, partial-order execution, threats | 分支模拟、目标与约束评估、假设比较、AND/OR、偏序执行及冲突检测 |
-| [Done] | G0反例、G1/G2評価基盤、G2学習機構を回帰テスト化し、全85テストが通過 | G0 counterexamples, G1/G2 evaluation and G2 learning mechanisms covered; all 85 tests pass | G0反例、G1/G2评估及G2学习机制已纳入回归测试，全部85项测试通过 |
+| [Done] | G0反例、G1/G2評価基盤、G2学習機構を回帰テスト化し、全91テストが通過 | G0 counterexamples, G1/G2 evaluation and G2 learning mechanisms covered; all 91 tests pass | G0反例、G1/G2评估及G2学习机制已纳入回归测试，全部91项测试通过 |
 
 日本語: G0で意味論を修正し、G1で比較測定した。G2では型付き役割束縛、前提学習、変化適応を実装し、対象課題で改善した。
 明示済み前提のcompositionは具体遷移表と同率で、保存量と時間には大差が残るため、候補概念の実利用と効率をG2.4で改善する。
@@ -141,12 +141,15 @@ G2将据此重设角色绑定、变化适应及证据效率。
 - [Done] actor/target二つの型付きrole変数を時間schema・派生index・Composition query・CLIへ通し、role不一致と欠落時にabstain / Carry typed actor and target variables through temporal schemas, derived indices, composition queries and CLI, abstaining on mismatched or missing roles / 将actor与target两个类型化角色变量贯穿时间schema、派生索引、Composition query及CLI，并在角色不匹配或缺失时弃答
 - [Done] 関係候補を5 seed・development 800・final 200件で比較し、100%対40%・差+60ポイント・false generalization 0%対75%で採用 / Compare relational candidates over five seeds, 800 development and 200 final cases; adopt at 100% versus 40%, +60 points and 0% versus 75% false generalization / 以5个seed、800个development及200个final案例比较关系候选；候选100%对40%、提升60个百分点、错误泛化0%对75%，因此采纳
 - [Done] 具体actor/target identityをComposition query・CLIへ通し、支持Eventから一貫して帰納できる`equal`/`not_equal`制約を実行時検査 / Pass concrete actor and target identities into composition queries and CLI, enforcing consistently induced equality or inequality constraints at runtime / 将具体actor及target identity传入Composition query与CLI，并在运行时检查从支持Event一致归纳的同一或差异约束
-- [Next] actor/target固定二変数を任意entity集合とrelation edgeへ一般化し、独立transferで評価 / Generalize the fixed actor/target pair to arbitrary entity sets and relation edges and evaluate on independent transfer / 将固定actor/target双变量推广至任意entity集合及relation边，并在独立迁移中评估
+- [Done] Eventへ任意`entity_bindings`・`entity_role_bindings`・`entity_relations`を追加し、候補発見・role/identity/relation照合・再読込へ通す / Add arbitrary entity, role and relation bindings to events and carry them through discovery, role/identity/relation matching and reload / 为Event添加任意entity、角色及relation绑定，并贯穿候选发现、role/identity/relation匹配及重载
+- [Done] 任意3-entity関係候補を5 seed・development 800・final 200件で比較し、100%対20%・差+80ポイント・false generalization 0%対100%で採用 / Compare generic three-entity candidates over five seeds, 800 development and 200 final cases; adopt at 100% versus 20%, +80 points and 0% versus 100% false generalization / 以5个seed、800个development及200个final案例比较任意三entity候选；候选100%对20%、提升80个百分点、错误泛化0%对100%，因此采纳
+- [Done] `entity_relations_observed`で完全観測を区別し、成功列のrelation共通部分だけを前提化して余分なnoiseによるschema分割を防止 / Distinguish complete observations with `entity_relations_observed` and infer only successful relation intersections to prevent noisy schema fragmentation / 用`entity_relations_observed`区分完整观测，仅将成功序列的relation交集作为前提，避免噪声导致schema分裂
+- [Done] 前提relationを欠く失敗列を負例、全前提を満たす失敗列を反例として分離し、新しい成功例が前提を欠けば同一候補IDで前提を撤回して再評価待ちへ戻す / Separate failures missing required relations from true counterexamples, and retract a premise under the same candidate ID when a new success lacks it, resetting evaluation / 区分缺少必要relation的负例与满足全部前提的真正反例；新成功例缺少前提时在同一候选ID下撤回前提并重置评估
 - [Done] candidate-backed role readout圧縮を回帰一致時だけ適用し、不一致rollback、保存再構築、新規学習時復元を実装 / Apply candidate-backed role compaction only after regression equivalence, with rollback, reload reconstruction and restoration before learning / 仅在回归一致时应用候选支持的角色readout压缩，并实现不一致回滚、重载重建及学习前恢复
 - [Done] 5 seed診断で対象role readoutを平均81 bytesから2 bytesへ削減し、候補経由の成功率100%を維持 / Reduce the targeted role readout from 81 to 2 bytes on average over five seeds while preserving 100% candidate-backed success / 5个seed中目标角色readout平均由81 bytes降至2 bytes，并保持候选路径100%成功率
-- [Next] 総memory・p95時間・広い回帰query corpusでcandidate-backed compactionを評価 / Evaluate candidate-backed compaction on total memory, p95 latency and a broader regression-query corpus / 在总内存、p95时延及更广回归query语料上评估候选支持的压缩
+- [Done] final 200 queryでcandidate-backed compactionを診断し、readout 81→2 bytes・p95非悪化でも総保存Stateが26,399→26,487 bytesへ増えたため総memory方式として棄却 / Diagnose candidate-backed compaction on 200 final queries; despite an 81-to-2-byte readout and no observed p95 regression, reject it because total persisted state grows from 26,399 to 26,487 bytes / 在200个final query上诊断候选压缩；尽管readout由81降至2 bytes且p95未见恶化，但持久化State总量由26,399增至26,487 bytes，因此作为总内存方案予以否决
 - [Next] `specialized/merged/dormant`、二世代候補、祖先を含む循環支持禁止を完成 / Complete specialization, merging, dormancy, second-generation candidates and ancestor-aware circular-support prevention / 完成分化、合并、休眠、第二代候选及祖先感知的循环自证防止
-- [Next] 残るstate重複を圧縮し、index/full-scanの品質・保存量・p95走査差を測定 / Compress remaining state duplication and measure indexed/full-scan quality, storage and p95 work / 压缩剩余状态重复，并测量索引版与全扫描版的质量、存储量及p95工作量
+- [Next] Event・候補schema・支持IDに残る重複を圧縮し、同じ広い回帰queryで総保存量とp95を再測定 / Compress duplication in events, candidate schemas and support IDs, then remeasure total persistence and p95 on the same broad query corpus / 压缩Event、候选schema及支持ID中的重复，并在同一广泛回归query上重新测量持久化总量及p95
 
 詳細設計: [未分知と概念凝縮 / Undivided Knowledge and Concept Condensation / 未分知识与概念凝聚](RISA-Undivided-Knowledge-and-Concept-Condensation.md)
 
@@ -155,6 +158,8 @@ G2将据此重设角色绑定、变化适应及证据效率。
 時間列候補の追加価値検証: [G2時間列候補評価 / Temporal candidate evaluation / 时间序列候选评估](G2-Temporal-Candidate-Evaluation-2026-09-09.md)
 
 関係候補の追加価値検証: [G2関係候補評価 / Relational candidate evaluation / 关系候选评估](G2-Relational-Candidate-Evaluation-2026-09-09.md)
+
+任意関係候補の追加価値検証: [G2任意関係評価 / Generic relation evaluation / 任意关系评估](G2-Generic-Relation-Evaluation-2026-09-09.md)
 
 日本語: [G2比較結果](G2-Structural-Reuse-Evaluation-2026-09-08.md)では、final 200 episodeでRISAは観測から前提を学ぶ
 composition 100%（具体遷移表0%）、binding 100%（同75%、役割束縛なし75%）、B期drift 75%（同33.3%、
@@ -232,6 +237,12 @@ most 1 point quality loss. Stop and report the limit if a scale exceeds budget.
 - [Later] Threat-Aware Ordering Repair。G1で探索失敗が主要因の場合に前倒し再判断 / Ordering repair, reconsider earlier only if G1 isolates search as the bottleneck / 若G1确认搜索为瓶颈再考虑提前顺序修复
 - [Later] Canopy、階層credit、SNN、スペクトル診断 / Canopy, hierarchical credit, SNN, spectral probes / Canopy、层级信用、SNN与谱诊断
 - [Later] Neural adapter、多言語知覚、multimodal、SARA接続 / Neural adapters, multilingual perception, multimodal and SARA integration / 神经适配器、多语言感知、多模态与SARA集成
+- [Later] 微分可能論理ゲート: soft候補発見、hard gate離散化、時間・関係macroのBoolean/LUT compile / Differentiable logic gates for soft candidate discovery, hard-gate discretization and Boolean/LUT compilation of temporal and relational macros / 可微逻辑门：soft候选发现、hard gate离散化，以及时间与关系宏的Boolean/LUT编译
+- [Later] RDDLGN型の時間候補generatorと、連続知覚adapter・離散構造実行のhybrid比較 / Compare an RDDLGN-style temporal candidate generator and a hybrid continuous-perception/discrete-structure executor / 比较RDDLGN式时间候选生成器及连续感知adapter与离散结构执行的hybrid
+- [Later] BitNetを論理gateと同一視せず、`{-1,0,+1}`を促進・非接続・抑制relationへ写す三値符号付きEvent回路を比較 / Without equating BitNet with logic gates, compare a ternary signed-event circuit mapping `{-1,0,+1}` to excitatory, absent and inhibitory relations / 不将BitNet等同于逻辑门，比较把`{-1,0,+1}`映射为促进、无连接及抑制relation的三值有符号Event电路
+- [Later] dense三値行列、sparse signed graph、変化部分だけを伝播するevent-driven graph、Boolean/LUT、現行graphを同条件比較 / Compare dense ternary matrices, sparse signed graphs, change-only event-driven graphs, Boolean/LUT and the current graph under matched conditions / 同条件比较dense三值矩阵、sparse signed graph、仅传播变化部分的event-driven graph、Boolean/LUT及当前graph
+- [Later] `0`の非接続化では`absent/dormant/pruned`を区別し、可塑性、再配線cost、忘却を評価 / Distinguish absent, dormant and pruned zero-connections and evaluate plasticity, rewiring cost and forgetting / 将零连接区分为absent、dormant及pruned，并评估可塑性、重新连接成本及遗忘
+- [Later] CPU bitset/LUTで完全な意味一致と2倍以上のp95または走査量改善を確認した場合だけFPGA評価 / Evaluate FPGA only after a CPU bitset/LUT prototype achieves exact semantics and at least 2× p95 or scanned-work improvement / 仅当CPU bitset/LUT原型实现完全语义一致且p95或扫描量至少改善2倍后评估FPGA
 
 日本語: 外部入力境界は出典・confidence・episode・観測maskを持つEvent候補にする。英語・日本語・简体中文の
 ラベルは表示と知覚adapterで扱い、内部IDと役割意味を翻訳依存にしない。新moduleはG1と同じ評価に接続し、
@@ -243,3 +254,5 @@ translation. Adopt modules only after controlled gains. Current scale does not j
 
 简体中文: 外部事件候选携带来源、置信度、回合与观测mask。显示与感知边界支持英语、日语与简体中文，内部ID与角色语义不依赖翻译。
 新模块只有在受控比较取得收益后采纳。当前规模不需要新增云、VPS或数据库基础设施。
+
+詳細: [RISA微分可能論理ゲート研究 / Differentiable logic-gate research / RISA可微逻辑门研究](RISA-Differentiable-Logic-Gate-Research-Notes.md)
