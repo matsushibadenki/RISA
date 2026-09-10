@@ -1,0 +1,108 @@
+{
+  "aggregate": {
+    "composition_matches": 5,
+    "events": 275,
+    "mean_load_p95_ms": 2.030841,
+    "mean_schema_v4_bytes": 102287,
+    "mean_verbose_equivalent_bytes": 134478,
+    "planning_mismatches": 0,
+    "planning_queries": 2250,
+    "prediction_mismatches": 0,
+    "prediction_queries": 5000,
+    "saved_fraction": 0.239377,
+    "seeds": 5,
+    "simulation_matches": 5
+  },
+  "benchmark_version": "g2-persistence.0.0",
+  "decision": "accepted_schema_v4_persistence",
+  "manifest": {
+    "benchmark_version": "g2-persistence.0.0",
+    "load_repetitions": 15,
+    "seeds": [
+      104729,
+      130363,
+      155921,
+      181081,
+      206369
+    ],
+    "source_manifest": "experiments/g2_manifest.json"
+  },
+  "manifest_sha256": "e0336e7dd2d5172f1b0edf92ee769176b25cefb8e7c0bad15d90821eeda0ebf0",
+  "rows": [
+    {
+      "composition_match": true,
+      "events": 55,
+      "load_p95_ms": 1.972166,
+      "planning_mismatches": 0,
+      "planning_queries": 450,
+      "prediction_mismatches": 0,
+      "prediction_queries": 1000,
+      "saved_bytes": 32191,
+      "saved_fraction": 0.239377,
+      "schema_v4_bytes": 102287,
+      "seed": 104729,
+      "simulation_match": true,
+      "verbose_equivalent_bytes": 134478
+    },
+    {
+      "composition_match": true,
+      "events": 55,
+      "load_p95_ms": 1.619542,
+      "planning_mismatches": 0,
+      "planning_queries": 450,
+      "prediction_mismatches": 0,
+      "prediction_queries": 1000,
+      "saved_bytes": 32191,
+      "saved_fraction": 0.239377,
+      "schema_v4_bytes": 102287,
+      "seed": 130363,
+      "simulation_match": true,
+      "verbose_equivalent_bytes": 134478
+    },
+    {
+      "composition_match": true,
+      "events": 55,
+      "load_p95_ms": 2.102083,
+      "planning_mismatches": 0,
+      "planning_queries": 450,
+      "prediction_mismatches": 0,
+      "prediction_queries": 1000,
+      "saved_bytes": 32191,
+      "saved_fraction": 0.239377,
+      "schema_v4_bytes": 102287,
+      "seed": 155921,
+      "simulation_match": true,
+      "verbose_equivalent_bytes": 134478
+    },
+    {
+      "composition_match": true,
+      "events": 55,
+      "load_p95_ms": 1.85925,
+      "planning_mismatches": 0,
+      "planning_queries": 450,
+      "prediction_mismatches": 0,
+      "prediction_queries": 1000,
+      "saved_bytes": 32191,
+      "saved_fraction": 0.239377,
+      "schema_v4_bytes": 102287,
+      "seed": 181081,
+      "simulation_match": true,
+      "verbose_equivalent_bytes": 134478
+    },
+    {
+      "composition_match": true,
+      "events": 55,
+      "load_p95_ms": 2.601166,
+      "planning_mismatches": 0,
+      "planning_queries": 450,
+      "prediction_mismatches": 0,
+      "prediction_queries": 1000,
+      "saved_bytes": 32191,
+      "saved_fraction": 0.239377,
+      "schema_v4_bytes": 102287,
+      "seed": 206369,
+      "simulation_match": true,
+      "verbose_equivalent_bytes": 134478
+    }
+  ]
+}

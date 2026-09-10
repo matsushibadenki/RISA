@@ -8,6 +8,7 @@ from experiments.candidate_transfer_evaluation import run_candidate_transfer
 from experiments.generic_relation_candidate_evaluation import (
     run_generic_relation_evaluation,
 )
+from experiments.g2_persistence_evaluation import run_persistence_evaluation
 from experiments.temporal_candidate_evaluation import (
     run_temporal_candidate_evaluation,
 )
@@ -18,6 +19,28 @@ MANIFEST_PATH = Path(__file__).parents[1] / "experiments" / "g1_manifest.json"
 
 
 class ComparativeEvaluationTests(unittest.TestCase):
+    def test_schema_v4_persistence_is_smaller_and_behaviorally_equivalent(self) -> None:
+        result = run_persistence_evaluation(
+            {
+                "benchmark_version": "test-persistence",
+                "source_manifest": str(
+                    Path(__file__).parents[1] / "experiments" / "g2_manifest.json"
+                ),
+                "seeds": [31],
+                "load_repetitions": 2,
+            }
+        )
+        aggregate = result["aggregate"]
+        self.assertEqual(result["decision"], "accepted_schema_v4_persistence")
+        self.assertLess(
+            aggregate["mean_schema_v4_bytes"],
+            aggregate["mean_verbose_equivalent_bytes"],
+        )
+        self.assertEqual(aggregate["prediction_mismatches"], 0)
+        self.assertEqual(aggregate["planning_mismatches"], 0)
+        self.assertEqual(aggregate["composition_matches"], 1)
+        self.assertEqual(aggregate["simulation_matches"], 1)
+
     def test_generator_is_reproducible_and_keeps_evaluation_ids_held_out(self) -> None:
         manifest = replace(
             load_manifest(MANIFEST_PATH),
@@ -142,6 +165,22 @@ class ComparativeEvaluationTests(unittest.TestCase):
         self.assertEqual(final["regression_queries_checked"], 4)
         self.assertGreater(final["mean_total_state_bytes_before"], 0)
         self.assertGreater(final["mean_total_state_bytes_after"], 0)
+        self.assertLess(
+            final["mean_reconstructed_candidate_state_bytes"],
+            final["mean_full_candidate_state_bytes"],
+        )
+        self.assertLess(
+            final["mean_compact_event_state_bytes"],
+            final["mean_verbose_event_state_bytes"],
+        )
+        self.assertLess(
+            final["mean_compact_event_state_bytes"],
+            final["mean_uncompressed_reconstructable_state_bytes"],
+        )
+        self.assertLess(
+            final["mean_compact_derived_state_bytes"],
+            final["mean_verbose_derived_state_bytes"],
+        )
         self.assertGreater(final["mean_prediction_p95_ms_before"], 0.0)
         self.assertGreater(final["mean_prediction_p95_ms_after"], 0.0)
 

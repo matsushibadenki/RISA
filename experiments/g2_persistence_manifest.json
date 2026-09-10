@@ -1,0 +1,6 @@
+{
+  "benchmark_version": "g2-persistence.0.0",
+  "source_manifest": "experiments/g2_manifest.json",
+  "seeds": [104729, 130363, 155921, 181081, 206369],
+  "load_repetitions": 15
+}

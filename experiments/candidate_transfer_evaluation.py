@@ -106,6 +106,27 @@ def run_candidate_transfer(manifest: dict[str, Any]) -> dict[str, Any]:
                     "role_readout_bytes_after": metrics["role_readout_bytes_after"],
                     "total_state_bytes_before": metrics["total_state_bytes_before"],
                     "total_state_bytes_after": metrics["total_state_bytes_after"],
+                    "full_candidate_state_bytes": metrics[
+                        "full_candidate_state_bytes"
+                    ],
+                    "reconstructed_candidate_state_bytes": metrics[
+                        "reconstructed_candidate_state_bytes"
+                    ],
+                    "verbose_event_state_bytes": metrics[
+                        "verbose_event_state_bytes"
+                    ],
+                    "compact_event_state_bytes": metrics[
+                        "compact_event_state_bytes"
+                    ],
+                    "uncompressed_reconstructable_state_bytes": metrics[
+                        "uncompressed_reconstructable_state_bytes"
+                    ],
+                    "verbose_derived_state_bytes": metrics[
+                        "verbose_derived_state_bytes"
+                    ],
+                    "compact_derived_state_bytes": metrics[
+                        "compact_derived_state_bytes"
+                    ],
                     "prediction_p95_ms_before": metrics["prediction_p95_ms_before"],
                     "prediction_p95_ms_after": metrics["prediction_p95_ms_after"],
                     "regression_queries_checked": metrics[
@@ -237,7 +258,11 @@ def _compare_candidate(
         )
         for _, target, roles in cases
     ]
+    full_candidate_state_bytes = _full_candidate_state_bytes(compressed)
     total_bytes_before = _serialized_state_bytes(compressed)
+    verbose_event_state_bytes = _verbose_event_state_bytes(compressed)
+    uncompressed_state_bytes = _uncompressed_reconstructable_state_bytes(compressed)
+    verbose_derived_state_bytes = _verbose_derived_state_bytes(compressed)
     p95_ms_before = _prediction_p95_ms(compressed, compaction_queries)
     compaction = compact_adopted_candidate_readouts(compressed, compaction_queries)
     total_bytes_after = _serialized_state_bytes(compressed)
@@ -267,6 +292,13 @@ def _compare_candidate(
         "role_readout_bytes_after": compaction.readout_bytes_after,
         "total_state_bytes_before": total_bytes_before,
         "total_state_bytes_after": total_bytes_after,
+        "full_candidate_state_bytes": full_candidate_state_bytes,
+        "reconstructed_candidate_state_bytes": total_bytes_before,
+        "verbose_event_state_bytes": verbose_event_state_bytes,
+        "compact_event_state_bytes": total_bytes_before,
+        "uncompressed_reconstructable_state_bytes": uncompressed_state_bytes,
+        "verbose_derived_state_bytes": verbose_derived_state_bytes,
+        "compact_derived_state_bytes": total_bytes_before,
         "prediction_p95_ms_before": p95_ms_before,
         "prediction_p95_ms_after": p95_ms_after,
         "regression_queries_checked": compaction.checked_queries,
@@ -380,6 +412,40 @@ def _aggregate(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
                     sum(row["total_state_bytes_after"] for row in selected)
                     / len(selected)
                 ),
+                "mean_full_candidate_state_bytes": round(
+                    sum(row["full_candidate_state_bytes"] for row in selected)
+                    / len(selected)
+                ),
+                "mean_reconstructed_candidate_state_bytes": round(
+                    sum(
+                        row["reconstructed_candidate_state_bytes"]
+                        for row in selected
+                    )
+                    / len(selected)
+                ),
+                "mean_verbose_event_state_bytes": round(
+                    sum(row["verbose_event_state_bytes"] for row in selected)
+                    / len(selected)
+                ),
+                "mean_compact_event_state_bytes": round(
+                    sum(row["compact_event_state_bytes"] for row in selected)
+                    / len(selected)
+                ),
+                "mean_uncompressed_reconstructable_state_bytes": round(
+                    sum(
+                        row["uncompressed_reconstructable_state_bytes"]
+                        for row in selected
+                    )
+                    / len(selected)
+                ),
+                "mean_verbose_derived_state_bytes": round(
+                    sum(row["verbose_derived_state_bytes"] for row in selected)
+                    / len(selected)
+                ),
+                "mean_compact_derived_state_bytes": round(
+                    sum(row["compact_derived_state_bytes"] for row in selected)
+                    / len(selected)
+                ),
                 "mean_prediction_p95_ms_before": round(
                     sum(row["prediction_p95_ms_before"] for row in selected)
                     / len(selected),
@@ -408,6 +474,69 @@ def _serialized_state_bytes(state: RisaState) -> int:
             state.to_dict(), sort_keys=True, separators=(",", ":")
         ).encode("utf-8")
     )
+
+
+def _full_candidate_state_bytes(state: RisaState) -> int:
+    payload = state.to_dict()
+    payload.pop("candidate_evaluations", None)
+    payload["unnamed_concept_candidates"] = {
+        key: candidate.to_dict()
+        for key, candidate in state.unnamed_concept_candidates.items()
+    }
+    return len(
+        json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    )
+
+
+def _verbose_event_state_bytes(state: RisaState) -> int:
+    payload = state.to_dict()
+    payload["events"] = {
+        key: event.to_dict() for key, event in state.events_by_id.items()
+    }
+    return len(
+        json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    )
+
+
+def _uncompressed_reconstructable_state_bytes(state: RisaState) -> int:
+    payload = state.to_dict()
+    payload.pop("candidate_evaluations", None)
+    payload["events"] = {
+        key: event.to_dict() for key, event in state.events_by_id.items()
+    }
+    payload["unnamed_concept_candidates"] = {
+        key: candidate.to_dict()
+        for key, candidate in state.unnamed_concept_candidates.items()
+    }
+    _restore_verbose_derived_records(payload, state)
+    return len(
+        json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    )
+
+
+def _verbose_derived_state_bytes(state: RisaState) -> int:
+    payload = state.to_dict()
+    _restore_verbose_derived_records(payload, state)
+    return len(
+        json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    )
+
+
+def _restore_verbose_derived_records(
+    payload: dict[str, Any],
+    state: RisaState,
+) -> None:
+    payload["patterns"] = {
+        key: pattern.to_dict() for key, pattern in state.patterns.items()
+    }
+    payload["structural_patterns"] = {
+        key: pattern.to_dict()
+        for key, pattern in state.structural_patterns.items()
+    }
+    payload["structural_primitives"] = {
+        key: primitive.to_dict()
+        for key, primitive in state.structural_primitives.items()
+    }
 
 
 def _prediction_p95_ms(

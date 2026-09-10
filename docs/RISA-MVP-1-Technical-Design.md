@@ -23,9 +23,9 @@
 
 ## 2026-09-08 G2実装追記 / G2 implementation addendum / G2实现补充
 
-- 日本語: 現行stateはschema v3である。Eventに`actor_roles`、`target_roles`、`observed_states_before`、`before_state_observed`、`transition_succeeded`を追加し、v2以前を読込時に移行する。
-- English: The current state uses schema v3. Events add `actor_roles`, `target_roles`, `observed_states_before`, `before_state_observed`, and `transition_succeeded`; older states migrate on load.
-- 简体中文: 当前state采用schema v3。Event新增`actor_roles`、`target_roles`、`observed_states_before`、`before_state_observed`及`transition_succeeded`，读取时迁移旧版本。
+- 日本語: 現行stateはschema v4である。v3でEventに追加した`actor_roles`、`target_roles`、`observed_states_before`、`before_state_observed`、`transition_succeeded`を保持し、v3以前を読込時に移行する。
+- English: The current state uses schema v4. It retains the event role, before-observation and transition-success fields introduced in v3 and migrates states from v3 and earlier on load.
+- 简体中文: 当前state采用schema v4，保留v3引入的Event角色、前态观测及转移成功字段，并在读取时迁移v3及更早版本。
 - 日本語: target roleは`role:*` nodeと`has_role` edgeへ保存し、action/context/effect/actor/target/roleの派生evidence indexから予測根拠を取得する。indexは永続化せずimmutable Eventから再構築する。
 - English: Target roles are stored as `role:*` nodes and `has_role` edges. Prediction reads a derived action/context/effect/actor/target/role evidence index, rebuilt from immutable events rather than persisted.
 - 简体中文: target角色保存为`role:*`节点及`has_role`边。预测使用action/context/effect/actor/target/role派生证据索引；索引不持久化，而是从不可变Event重建。
@@ -68,6 +68,21 @@
 - 日本語: Eventから決定的に再構築できる頻度表とactivation indexはschema v3の保存payloadから除外し、読込時に再構築する。Eventを持たないlegacy payloadだけは旧indexをfallbackで読む。
 - English: Count tables and the activation index are omitted from schema-v3 persistence and deterministically rebuilt from events. Legacy payloads without events retain a fallback to their stored indices.
 - 简体中文: schema v3不再持久化可从Event确定性重建的频度表及activation索引，读取时重新生成；没有Event的旧payload仍回退读取旧索引。
+- 日本語: schema v4は`UnnamedConceptCandidate`の構造schema、型変数、支持IDと反例IDを保存せず、採否・held-out評価値・構造と証拠のfingerprintだけを`candidate_evaluations`へ保存する。読込時にEventから候補を再発見し、fingerprintが一致する候補だけ評価状態を復元する。旧`unnamed_concept_candidates` payloadは引き続き読める。
+- English: Schema v4 omits reconstructable candidate schemas, typed variables, support IDs and counterexample IDs. It stores only lifecycle state, held-out metrics and a structural-evidence fingerprint in `candidate_evaluations`. Loading rediscovers candidates from events and restores evaluation only when the fingerprint matches. Legacy full-candidate payloads remain readable.
+- 简体中文: schema v4不再保存可重建的候选schema、类型变量、支持ID及反例ID，只在`candidate_evaluations`中保存生命周期、留出评估值及结构证据fingerprint。读取时从Event重新发现候选，仅在fingerprint一致时恢复评估状态；旧完整候选payload仍可读取。
+- 日本語: schema v4のEvent payloadは辞書keyと重複する内部`id`、空list・空dict・`None`・既定の真偽値・既定episode/sourceを省略する。読込時は辞書keyとEvent dataclassの既定値から完全なEventを復元する。非既定値と観測内容は省略しない。
+- English: Schema v4 event records omit the internal ID duplicated by the map key, empty collections, `None`, default booleans and default episode/source values. Loading restores complete events from the map key and Event dataclass defaults; observed and non-default values are retained.
+- 简体中文: schema v4的Event记录省略与字典key重复的内部ID、空集合、`None`、默认布尔值及默认episode/source。读取时由字典key和Event dataclass默认值恢复完整Event；观测值及非默认值不会省略。
+- 日本語: pattern・structural pattern・primitiveは辞書keyと重複するIDおよび既定値だけを省略するlossless recordを使う。PrimitiveのReplay統計・採用状態・適用前提、graphのenergy・dormancy・edge reliabilityは学習履歴なので保持し、Eventから推測再構築しない。
+- English: Pattern, structural-pattern and primitive records losslessly omit only IDs duplicated by map keys and default values. Primitive replay metrics, adoption and applicability state plus graph energy, dormancy and edge reliability remain persisted as learning history rather than being guessed from events.
+- 简体中文: pattern、structural pattern及primitive记录仅无损省略与字典key重复的ID及默认值。Primitive的Replay指标、采纳与适用状态，以及graph的energy、dormancy和edge reliability均作为学习历史保留，不从Event推测重建。
+- 日本語: 派生候補は`derivation_type`、`parent_candidate_ids`、`parent_evidence_digests`、`derivation_generation`を持つ。specializationは親supportの非空部分集合だけを使い、mergeは同じschema kindと型roleを持つ二候補以上を要求する。共通祖先を持つDAGは許可し、循環または存在しない親は拒否する。
+- English: Derived candidates carry a derivation type, parent IDs, parent-evidence digests and generation. Specialization uses only a non-empty subset of parent support; merging requires at least two candidates with compatible schema kinds and typed roles. DAGs with shared ancestors are valid, while cycles and missing parents are rejected.
+- 简体中文: 派生候选包含`derivation_type`、父候选ID、父证据digest及派生代数。specialization只能使用父支持的非空子集；merge要求至少两个schema kind及类型角色兼容的候选。允许含共同祖先的DAG，拒绝循环及缺失父节点。
+- 日本語: 派生候補のdevelopment/final評価は、自身のsupportに加えて全祖先のsupportとevaluation IDとの重複を拒否する。親fingerprintが変化した派生候補は次の発見・読込で復元しない。`dormant`は評価statusと分離し、採用知識を削除せず推論indexからだけ外す。
+- English: Development and final evaluation for a derived candidate reject overlap with its own support and every ancestor's support and evaluation IDs. Derived candidates with changed parent fingerprints are not restored during later discovery or loading. Dormancy is separate from evaluation status and removes adopted knowledge only from inference indices.
+- 简体中文: 派生候选的development/final评估拒绝与自身支持及所有祖先的支持和评估ID重叠。父fingerprint变化的派生候选不会在后续发现或读取时恢复。`dormant`与评估状态分离，只将已采纳知识移出推理索引而不删除。
 - 日本語: candidate-backed compactionは指定回帰queryの`predicted_effects`が圧縮前後で一致する場合だけrole readoutを削除し、不一致なら原子的にrollbackする。directiveを保存して再読込時に再適用し、新規Event学習前には全readoutをEventから復元してdirectiveを破棄する。
 - English: Candidate-backed compaction removes a role readout only when regression-query outputs match before and after, rolling back atomically on mismatch. Persisted directives reapply after reload; new learning restores all readouts from events and discards the stale directives.
 - 简体中文: 候选支持的压缩仅在指定回归query的`predicted_effects`压缩前后一致时删除角色readout，不一致则原子回滚。directive会持久化并在重载后重新应用；新Event学习前从Event恢复全部readout并丢弃旧directive。

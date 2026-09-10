@@ -20,7 +20,16 @@ from risa.core.state import RisaState
 from risa.engine.abstractor import rebuild_concepts
 from risa.engine.adaptation import execute_safe_adaptations
 from risa.engine.composer import compose_to_effect, forecast_next_effects
-from risa.engine.candidate_discovery import evaluate_unnamed_candidate
+from risa.engine.candidate_discovery import (
+    evaluate_unnamed_candidate,
+    matching_adopted_candidates,
+)
+from risa.engine.candidate_lifecycle import (
+    merge_candidates,
+    set_candidate_dormant,
+    specialize_candidate,
+    validate_candidate_ancestry,
+)
 from risa.engine.event_parser import parse_events
 from risa.engine.evaluator import evaluate_branches
 from risa.engine.predictor import predict_next_effect
@@ -2717,7 +2726,22 @@ class TrainingAndPredictionTests(unittest.TestCase):
         self.assertNotIn("activation_index", compact_payload)
         self.assertNotIn("action_effect_counts", compact_payload)
         self.assertNotIn("candidate_inference_index", compact_payload)
+        self.assertNotIn("unnamed_concept_candidates", compact_payload)
+        self.assertNotIn("id", compact_payload["events"]["heater"])
+        self.assertNotIn("preconditions", compact_payload["events"]["heater"])
+        self.assertNotIn(
+            "transition_succeeded", compact_payload["events"]["heater"]
+        )
+        self.assertIn(candidate.id, compact_payload["candidate_evaluations"])
+        self.assertNotIn(
+            "supporting_event_ids",
+            compact_payload["candidate_evaluations"][candidate.id],
+        )
         adopted_restored = RisaState.from_dict(compact_payload)
+        self.assertEqual(
+            adopted_restored.unnamed_concept_candidates[candidate.id].lifecycle_status,
+            "adopted",
+        )
         self.assertEqual(
             adopted_restored.candidate_inference_index[
                 "action:inspect:target_role:heating_device"
@@ -2725,7 +2749,7 @@ class TrainingAndPredictionTests(unittest.TestCase):
             [candidate.id],
         )
 
-        with self.assertRaisesRegex(ValueError, "overlaps supporting evidence"):
+        with self.assertRaisesRegex(ValueError, "candidate or ancestor evidence"):
             evaluate_unnamed_candidate(
                 state,
                 candidate.id,
@@ -2737,6 +2761,91 @@ class TrainingAndPredictionTests(unittest.TestCase):
                 composition_delta_ci_lower=0.0,
                 false_generalization_delta=0.0,
             )
+
+    def test_candidate_derivation_blocks_ancestor_reuse_and_persists_dormancy(self) -> None:
+        state = RisaState()
+        train_events(state, [
+            Event("lineage-heater", 1, "robot-a", "inspect", target="heater",
+                  target_roles=["heating_device"], observed_effects=["warm"],
+                  episode_id="lineage-a", source="sensor-a"),
+            Event("lineage-radiator", 2, "robot-b", "inspect", target="radiator",
+                  target_roles=["heating_device"], observed_effects=["warm"],
+                  episode_id="lineage-b", source="sensor-b"),
+        ])
+        parent = next(iter(state.unnamed_concept_candidates.values()))
+        for partition, evidence in (("development", "parent-dev"), ("final", "parent-final")):
+            evaluate_unnamed_candidate(
+                state, parent.id, partition=partition,
+                evaluation_event_ids=[evidence], prediction_delta=0.1,
+                composition_delta=0.0, prediction_delta_ci_lower=0.01,
+                composition_delta_ci_lower=0.0, false_generalization_delta=0.0,
+            )
+        left = specialize_candidate(
+            state, parent.id, supporting_event_ids=["lineage-heater"],
+            schema_updates={"specialization": "indoor"},
+        )
+        right = specialize_candidate(
+            state, parent.id, supporting_event_ids=["lineage-radiator"],
+            schema_updates={"specialization": "outdoor"},
+        )
+        merged = merge_candidates(state, [left.id, right.id])
+        second_generation = specialize_candidate(
+            state, left.id, supporting_event_ids=["lineage-heater"],
+            schema_updates={"specialization_level": 2},
+        )
+        self.assertEqual(left.derivation_type, "specialized")
+        self.assertEqual(merged.derivation_type, "merged")
+        self.assertEqual(second_generation.derivation_generation, 2)
+        validate_candidate_ancestry(state, merged.id)
+        for candidate_id, evidence in (
+            (second_generation.id, "parent-dev"),
+            (merged.id, "lineage-heater"),
+        ):
+            with self.assertRaisesRegex(ValueError, "ancestor evidence"):
+                evaluate_unnamed_candidate(
+                    state, candidate_id, partition="development",
+                    evaluation_event_ids=[evidence], prediction_delta=0.1,
+                    composition_delta=0.0, prediction_delta_ci_lower=0.01,
+                    composition_delta_ci_lower=0.0, false_generalization_delta=0.0,
+                )
+        for partition, evidence in (("development", "child-dev"), ("final", "child-final")):
+            evaluate_unnamed_candidate(
+                state, left.id, partition=partition,
+                evaluation_event_ids=[evidence], prediction_delta=0.1,
+                composition_delta=0.0, prediction_delta_ci_lower=0.01,
+                composition_delta_ci_lower=0.0, false_generalization_delta=0.0,
+            )
+        self.assertIn(left.id, {
+            item.id for item in matching_adopted_candidates(
+                state, "inspect", ["heating_device"]
+            )
+        })
+        set_candidate_dormant(state, left.id)
+        self.assertNotIn(left.id, {
+            item.id for item in matching_adopted_candidates(
+                state, "inspect", ["heating_device"]
+            )
+        })
+        restored = RisaState.from_dict(state.to_dict())
+        self.assertTrue(restored.unnamed_concept_candidates[left.id].dormant)
+        self.assertEqual(
+            restored.unnamed_concept_candidates[merged.id].parent_candidate_ids,
+            sorted([left.id, right.id]),
+        )
+        changed = RisaState.from_dict(state.to_dict())
+        train_events(changed, [
+            Event(
+                "lineage-boiler", 3, "robot-c", "inspect", target="boiler",
+                target_roles=["heating_device"], observed_effects=["warm"],
+                episode_id="lineage-c", source="sensor-c",
+            )
+        ])
+        self.assertNotIn(left.id, changed.unnamed_concept_candidates)
+        self.assertNotIn(merged.id, changed.unnamed_concept_candidates)
+
+        restored.unnamed_concept_candidates[parent.id].parent_candidate_ids = [left.id]
+        with self.assertRaisesRegex(ValueError, "cycle"):
+            validate_candidate_ancestry(restored, left.id)
 
     def test_temporal_candidate_reuses_a_same_target_plan_without_stored_primitives(self) -> None:
         state = RisaState()
@@ -3366,8 +3475,55 @@ class TrainingAndPredictionTests(unittest.TestCase):
 
         restored = RisaState.from_dict(legacy)
 
-        self.assertEqual(restored.schema_version, 3)
+        self.assertEqual(restored.schema_version, 4)
         self.assertEqual(restored.structural_primitives["legacy"].produced_states, {"ready"})
+
+    def test_schema_v4_compacts_derived_records_losslessly(self) -> None:
+        state = RisaState()
+        train_events(
+            state,
+            [
+                Event("compact-derived-a", 1, "robot-a", "inspect", observed_effects=["ready"]),
+                Event("compact-derived-b", 2, "robot-b", "inspect", observed_effects=["ready"]),
+            ],
+        )
+        payload = state.to_dict()
+        pattern_record = next(iter(payload["patterns"].values()))
+        structural_record = next(iter(payload["structural_patterns"].values()))
+        primitive_record = next(iter(payload["structural_primitives"].values()))
+        self.assertNotIn("id", pattern_record)
+        self.assertNotIn("id", structural_record)
+        self.assertNotIn("id", primitive_record)
+        self.assertNotIn("consumed_states", primitive_record)
+
+        restored = RisaState.from_dict(payload)
+        self.assertEqual(
+            {
+                key: value.to_dict()
+                for key, value in restored.patterns.items()
+            },
+            {key: value.to_dict() for key, value in state.patterns.items()},
+        )
+        self.assertEqual(
+            {
+                key: value.to_dict()
+                for key, value in restored.structural_patterns.items()
+            },
+            {
+                key: value.to_dict()
+                for key, value in state.structural_patterns.items()
+            },
+        )
+        self.assertEqual(
+            {
+                key: value.to_dict()
+                for key, value in restored.structural_primitives.items()
+            },
+            {
+                key: value.to_dict()
+                for key, value in state.structural_primitives.items()
+            },
+        )
 
     def test_future_state_schema_is_rejected(self) -> None:
         payload = RisaState().to_dict()
@@ -3398,7 +3554,7 @@ class TrainingAndPredictionTests(unittest.TestCase):
 
             self.assertIn("first", recovered.events_by_id)
             self.assertNotIn("second", recovered.events_by_id)
-            self.assertEqual(recovered.schema_version, 3)
+            self.assertEqual(recovered.schema_version, 4)
 
 
 if __name__ == "__main__":

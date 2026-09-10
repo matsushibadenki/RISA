@@ -80,6 +80,21 @@ def discover_unnamed_candidates(state: RisaState) -> dict[str, UnnamedConceptCan
 
     candidates.update(_discover_temporal_sequence_candidates(state, previous_candidates))
     candidates.update(_discover_relational_sequence_candidates(state, previous_candidates))
+    for candidate in sorted(
+        (
+            item
+            for item in previous_candidates.values()
+            if item.derivation_generation > 0
+        ),
+        key=lambda item: (item.derivation_generation, item.id),
+    ):
+        if all(
+            parent_id in candidates
+            and candidate.parent_evidence_digests.get(parent_id)
+            == _candidate_lineage_fingerprint(candidates[parent_id])
+            for parent_id in candidate.parent_candidate_ids
+        ):
+            candidates[candidate.id] = candidate
     state.unnamed_concept_candidates = candidates
     rebuild_candidate_inference_index(state)
     return candidates
@@ -89,7 +104,7 @@ def rebuild_candidate_inference_index(state: RisaState) -> None:
     """Rebuild the derived index; source Events and persisted graph stay unchanged."""
     state.candidate_inference_index.clear()
     for candidate in state.unnamed_concept_candidates.values():
-        if candidate.lifecycle_status != "adopted":
+        if candidate.lifecycle_status != "adopted" or candidate.dormant:
             continue
         kind = str(candidate.structural_schema.get("kind", "single_transition"))
         if kind in {"temporal_sequence", "relational_sequence"}:
@@ -156,6 +171,7 @@ def matching_adopted_candidates(
         for candidate_id in sorted(candidate_ids)
         if candidate_id in state.unnamed_concept_candidates
         and state.unnamed_concept_candidates[candidate_id].lifecycle_status == "adopted"
+        and not state.unnamed_concept_candidates[candidate_id].dormant
     ]
 
 
@@ -187,6 +203,7 @@ def matching_adopted_plan_candidates(
         for candidate_id in sorted(candidate_ids)
         if candidate_id in state.unnamed_concept_candidates
         and state.unnamed_concept_candidates[candidate_id].lifecycle_status == "adopted"
+        and not state.unnamed_concept_candidates[candidate_id].dormant
         and state.unnamed_concept_candidates[candidate_id].structural_schema.get("kind")
         in {"temporal_sequence", "relational_sequence"}
         and _candidate_roles_match(
@@ -208,6 +225,7 @@ def has_adopted_plan_candidate_for_goal(
     return any(
         candidate_id in state.unnamed_concept_candidates
         and state.unnamed_concept_candidates[candidate_id].lifecycle_status == "adopted"
+        and not state.unnamed_concept_candidates[candidate_id].dormant
         for candidate_id in state.candidate_inference_index.get(key, [])
     )
 
@@ -714,10 +732,12 @@ def evaluate_unnamed_candidate(
     minimum_gain: float = 0.05,
 ) -> UnnamedConceptCandidate:
     candidate = state.unnamed_concept_candidates[candidate_id]
-    overlap = set(candidate.supporting_event_ids).intersection(evaluation_event_ids)
+    protected_evidence = _candidate_protected_evidence(state, candidate_id)
+    overlap = protected_evidence.intersection(evaluation_event_ids)
     if overlap:
         raise ValueError(
-            f"candidate evaluation overlaps supporting evidence: {sorted(overlap)}"
+            "candidate evaluation overlaps candidate or ancestor evidence: "
+            f"{sorted(overlap)}"
         )
     if partition not in {"development", "final"}:
         raise ValueError("partition must be 'development' or 'final'")
@@ -770,3 +790,37 @@ def evaluate_unnamed_candidate(
         candidate.lifecycle_status = "adopted" if passes else "rejected"
     rebuild_candidate_inference_index(state)
     return candidate
+
+
+def _candidate_protected_evidence(state: RisaState, candidate_id: str) -> set[str]:
+    from risa.engine.candidate_lifecycle import validate_candidate_ancestry
+
+    validate_candidate_ancestry(state, candidate_id)
+    candidate = state.unnamed_concept_candidates[candidate_id]
+    protected: set[str] = set(candidate.supporting_event_ids)
+    pending = list(candidate.parent_candidate_ids)
+    visited: set[str] = set()
+    while pending:
+        current_id = pending.pop()
+        if current_id in visited:
+            continue
+        visited.add(current_id)
+        current = state.unnamed_concept_candidates.get(current_id)
+        if current is None:
+            raise ValueError(f"candidate ancestry references missing parent '{current_id}'")
+        protected.update(current.supporting_event_ids)
+        protected.update(current.evaluation_event_ids)
+        pending.extend(current.parent_candidate_ids)
+    return protected
+
+
+def _candidate_lineage_fingerprint(candidate: UnnamedConceptCandidate) -> str:
+    payload = repr(
+        (
+            candidate.structural_schema,
+            candidate.typed_role_variables,
+            candidate.supporting_event_ids,
+            candidate.counterexample_event_ids,
+        )
+    )
+    return hashlib.sha256(payload.encode()).hexdigest()[:20]

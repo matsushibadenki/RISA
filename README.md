@@ -26,21 +26,21 @@ RISA は **Relationally Involving Self-organizing Architecture** の略で、
 ## 設計評価と現在の優先順位 / Assessment / 设计评估 — 2026-09-08
 
 **構造ベースのAIとして研究を続ける価値があります。ただし、一般的な優位性はまだ未実証です。**
-G2では役割束縛、前提学習、変化適応を実装し、全91テストが通過しています。final評価は、観測から前提を学ぶcompositionで
+G2では役割束縛、前提学習、変化適応を実装し、全94テストが通過しています。final評価は、観測から前提を学ぶcompositionで
 100%対具体遷移表0%、未知target bindingで100%対75%、B期driftで75%対33.3%でした。明示前提compositionは同率で、
-役割型は外部入力、保存量は約40倍です。任意3-entity関係候補は既存経路比+80ポイントとなり、relation観測noiseへの耐性と成功反例による前提撤回を実装しました。readout圧縮は総保存量を88 bytes増やしたため棄却し、Event・候補schemaの重複圧縮へ進みます。
+役割型は外部入力です。任意3-entity関係候補は既存経路比+80ポイントとなり、relation観測noiseへの耐性と成功反例による前提撤回を実装しました。schema v4はG2全Stateで平均134,478→102,287 bytes、23.94%削減し、5,000予測・2,250計画・Composition・simulationの再読込差分は0でした。baselineとの保存量差は残っています。
 以下の機能一覧は実装の存在を示し、任意の入力での正しさや研究仮説の証明を意味しません。
 
 English: Structural AI research remains worthwhile, but a general advantage is not established. G2 implements role
-binding, applicability learning and change adaptation; all 91 tests pass. Final success is 100% versus 0% on learned
+binding, applicability learning and change adaptation; all 94 tests pass. Final success is 100% versus 0% on learned
 composition, 100% versus 75% on binding, and 75% versus 33.3% in phase-B drift. Supplied composition still ties,
 roles are external inputs, and state is about 40× larger. Single-transition candidates were redundant, while a typed
 two-step temporal and actor/target candidates add value, and a generic three-entity relation candidate gains 80 points.
-Relation observation noise tolerance and premise retraction from successful counterexamples are implemented. Readout compaction increased total persisted state by 88 bytes, so the next target is duplication in events and candidate schemas.
+Relation observation noise tolerance and premise retraction from successful counterexamples are implemented. Across full G2 states, schema v4 reduces mean persistence from 134,478 to 102,287 bytes, or 23.94%, with zero reload mismatches over 5,000 predictions, 2,250 plans, composition and simulation. The baseline storage gap remains.
 
-简体中文: 结构AI研究仍值得继续，但尚未证明普遍优势。G2已实现角色绑定、适用条件学习及变化适应，全部91项测试通过。
+简体中文: 结构AI研究仍值得继续，但尚未证明普遍优势。G2已实现角色绑定、适用条件学习及变化适应，全部94项测试通过。
 最终成功率在观测学习composition为100%对0%，binding为100%对75%，B阶段drift为75%对33.3%。已提供前提的
-composition仍持平，角色来自外部输入，状态约大40倍。任意三entity关系候选比现有路径高80个百分点；已实现relation观测噪声耐受及成功反例触发的前提撤回。readout压缩使持久化总量增加88 bytes，因此下一步直接压缩Event及候选schema重复。
+composition仍持平，角色来自外部输入。任意三entity关系候选比现有路径高80个百分点；已实现relation观测噪声耐受及成功反例触发的前提撤回。schema v4在完整G2 State上使平均持久化量由134,478降至102,287 bytes，减少23.94%；5,000次预测、2,250次规划、Composition及simulation重载差异均为0，但与baseline的存储差距仍存在。
 
 - [設計評価・再現結果 / Assessment / 评估](docs/RISA-Structural-AI-Assessment-2026-09-05.md)
 - [現行ロードマップ / Current roadmap / 当前路线图](docs/ROADMAP.md)
@@ -49,6 +49,7 @@ composition仍持平，角色来自外部输入，状态约大40倍。任意三e
 - [G2時間列候補評価 / G2 temporal candidate evaluation / G2时间序列候选评估](docs/G2-Temporal-Candidate-Evaluation-2026-09-09.md)
 - [G2関係候補評価 / G2 relational candidate evaluation / G2关系候选评估](docs/G2-Relational-Candidate-Evaluation-2026-09-09.md)
 - [G2任意関係評価 / G2 generic relation evaluation / G2任意关系评估](docs/G2-Generic-Relation-Evaluation-2026-09-09.md)
+- [G2永続化評価 / G2 persistence evaluation / G2持久化评估](docs/G2-Persistence-Evaluation-2026-09-10.md)
 - [現行ポリシー / Current policy / 当前方针](docs/policy.md)
 - [未分知と概念凝縮 / Undivided Knowledge and Concept Condensation / 未分知识与概念凝聚](docs/RISA-Undivided-Knowledge-and-Concept-Condensation.md)
 
@@ -369,8 +370,13 @@ English: Static threats remain explainable hypotheses and are validated by parti
 - [Done] G2.4 identity制約: 支持Eventからactor/targetの`equal`/`not_equal`を帰納し、具体queryで検査 / Infer actor/target equality or inequality from supporting events and enforce it on concrete queries / 从支持Event归纳actor/target的同一或差异，并在具体query中检查
 - [Done] G2.4任意関係: 3つ以上のentity変数・role・relationを発見・再束縛し、final 200件で100%対20%、false generalization 0%対100% / Discover and rebind three or more entity variables, roles and relations; reach 100% versus 20% and 0% versus 100% false generalization over 200 final cases / 发现并重新绑定三个以上entity变量、角色及relation；200个final案例达到100%对20%、错误泛化0%对100%
 - [Done] G2.4 relation前提: 完全観測flagを導入し、成功列の共通relationから前提を作成。余分な観測noiseを無視し、前提欠落の失敗と真の反例を分離し、成功反例で前提を撤回 / Add a complete-observation flag, infer requirements from successful intersections, ignore extra relation noise, separate missing-premise failures from true counterexamples, and retract premises after a successful counterexample / 添加完整观测标记，从成功序列交集归纳前提，忽略额外relation噪声，区分缺少前提的失败与真正反例，并在成功反例后撤回前提
-- [Done] G2.4効率評価: final 200 queryでreadout 81→2 bytesとp95非悪化を確認したが、総保存Stateが26,399→26,487 bytesへ増えたため現方式を棄却 / Over 200 final queries the readout falls from 81 to 2 bytes without a p95 regression, but total persisted state grows from 26,399 to 26,487 bytes, so reject this approach / 200个final query中readout由81降至2 bytes且p95未恶化，但持久化State总量由26,399增至26,487 bytes，因此否决当前方案
-- [Next] G2.4構造圧縮: Event・候補schema・支持IDの重複を直接圧縮し、総memoryと回帰一致を再評価 / Directly compress duplication in events, candidate schemas and support IDs, then reevaluate total memory and regression equivalence / 直接压缩Event、候选schema及支持ID重复，再评估总内存与回归等价性
+- [Done] G2.4効率評価: final 200 queryでreadout 81→2 bytesとp95非悪化を確認したが、総保存Stateが21,161→21,249 bytesへ増えたため現方式を棄却 / Over 200 final queries the readout falls from 81 to 2 bytes without a p95 regression, but total persisted state grows from 21,161 to 21,249 bytes, so reject this approach / 200个final query中readout由81降至2 bytes且p95未恶化，但持久化State总量由21,161增至21,249 bytes，因此否决当前方案
+- [Done] G2.4候補永続化: schema v4で候補schema・型変数・支持/反例IDをEventから再構築し、評価状態だけをfingerprint付きで保存。旧候補payload相当26,399→25,756 bytes / In schema v4, rebuild candidate schemas, typed variables, support and counterexample IDs from events and persist only fingerprinted evaluations; 26,399 to 25,756 bytes / schema v4从Event重建候选schema、类型变量、支持及反例ID，只保存带fingerprint的评估；26,399降至25,756 bytes
+- [Done] G2.4 Event圧縮: Eventの重複IDと既定値を省略 / Omit duplicated event IDs and default values / 省略Event重复ID及默认值
+- [Done] G2.4導出構造圧縮: graphの履歴値を保持し、pattern・structural pattern・primitiveをlossless圧縮。候補・Eventと合わせて26,399→21,137 bytes、19.93%削減 / Preserve graph history and losslessly compact pattern and primitive records; together reduce 26,399 to 21,137 bytes, or 19.93% / 保留graph历史值并无损压缩pattern及primitive记录；合计使26,399降至21,137 bytes，减少19.93%
+- [Done] G2.4広域圧縮評価: 5 seedのG2全Stateで134,478→102,287 bytes、23.94%削減。5,000予測・2,250計画・Composition・simulationの差分0 / Across five full G2 states reduce 134,478 to 102,287 bytes, or 23.94%, with zero differences over 5,000 predictions, 2,250 plans, composition and simulation / 5个完整G2 State由134,478降至102,287 bytes，减少23.94%；5,000次预测、2,250次规划、Composition及simulation差异为0
+- [Done] G2.4候補生命周期基盤: specialization・merge・dormancy、二世代候補、親証拠fingerprint、祖先を含む循環支持禁止を実装 / Implement specialization, merge, dormancy, second-generation candidates, parent-evidence fingerprints and ancestor-aware circular-support prevention / 实现候选分化、合并、休眠、第二代候选、父证据fingerprint及祖先感知的循环支持防止
+- [Next] G2.4派生候補評価: specialization・mergeの自動提案条件と、親を超える独立held-out改善を比較 / Define automatic specialization and merge proposals and compare independent held-out gains beyond parents / 定义自动分化与合并提案条件，并比较其相对父候选的独立留出提升
 - [Later] G3: 継続適応と計算予算の大規模検証 / Large-scale validation of continual adaptation and bounded cost / 大规模验证持续适应与计算预算
 - [Later] G4: 用途検証と追加研究。Canopy・SNN・階層credit・微分可能logic gate・BitNet/SNN/Logic交点の三値Event回路は比較結果から再判断 / Validate applications; gate canopy, SNN, hierarchical credit, differentiable logic gates and ternary event circuits at the BitNet/SNN/Logic intersection on evidence / 验证应用，根据比较证据决定Canopy、SNN、层级信用、可微逻辑门及BitNet/SNN/Logic交点的三值Event电路
 

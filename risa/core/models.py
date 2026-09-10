@@ -310,7 +310,10 @@ class UnnamedConceptCandidate:
     reconstruction_gain: float = 0.0
     exception_cost: int = 0
     parent_candidate_ids: list[str] = field(default_factory=list)
+    parent_evidence_digests: dict[str, str] = field(default_factory=dict)
     derivation_generation: int = 0
+    derivation_type: str = "base"
+    dormant: bool = False
     lifecycle_status: str = "proposed"
     evaluation_event_ids: list[str] = field(default_factory=list)
     development_evaluation_event_ids: list[str] = field(default_factory=list)

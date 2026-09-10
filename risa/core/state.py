@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+import hashlib
+import json
 
 from risa.core.graph_store import GraphStore
 from risa.core.models import (
@@ -16,7 +18,7 @@ from risa.core.models import (
     UnnamedConceptCandidate,
 )
 
-CURRENT_SCHEMA_VERSION = 3
+CURRENT_SCHEMA_VERSION = 4
 
 
 @dataclass
@@ -56,12 +58,17 @@ class RisaState:
         return {
             "schema_version": CURRENT_SCHEMA_VERSION,
             "graph": self.graph.to_compact_dict(),
-            "patterns": {key: pattern.to_dict() for key, pattern in self.patterns.items()},
+            "patterns": {
+                key: _pattern_persistence_record(key, pattern)
+                for key, pattern in self.patterns.items()
+            },
             "structural_patterns": {
-                key: pattern.to_dict() for key, pattern in self.structural_patterns.items()
+                key: _structural_pattern_persistence_record(key, pattern)
+                for key, pattern in self.structural_patterns.items()
             },
             "structural_primitives": {
-                key: primitive.to_dict() for key, primitive in self.structural_primitives.items()
+                key: _primitive_persistence_record(primitive)
+                for key, primitive in self.structural_primitives.items()
             },
             "structure_deltas": {key: delta.to_dict() for key, delta in self.structure_deltas.items()},
             "structural_adaptation_candidates": {
@@ -75,7 +82,10 @@ class RisaState:
             "state_variable_specs": {
                 key: spec.to_dict() for key, spec in self.state_variable_specs.items()
             },
-            "events": {key: event.to_dict() for key, event in self.events_by_id.items()},
+            "events": {
+                key: _event_persistence_record(event)
+                for key, event in self.events_by_id.items()
+            },
             "prediction_validation_stats": self.prediction_validation_stats,
             "prediction_competition_stats": self.prediction_competition_stats,
             "concept_members": self.concept_members,
@@ -87,9 +97,15 @@ class RisaState:
                 key: hypothesis.to_dict()
                 for key, hypothesis in self.applicability_hypotheses.items()
             },
-            "unnamed_concept_candidates": {
+            "candidate_evaluations": {
+                key: _candidate_evaluation_record(candidate)
+                for key, candidate in self.unnamed_concept_candidates.items()
+                if _candidate_has_persisted_evaluation(candidate)
+            },
+            "derived_candidates": {
                 key: candidate.to_dict()
                 for key, candidate in self.unnamed_concept_candidates.items()
+                if candidate.derivation_generation > 0
             },
             "compacted_role_readouts": dict(sorted(self.compacted_role_readouts.items())),
         }
@@ -106,8 +122,10 @@ class RisaState:
         state.graph = GraphStore.from_dict(data.get("graph", {}))
         for key, pattern_data in data.get("patterns", {}).items():
             state.patterns[key] = Pattern(
-                id=pattern_data["id"],
-                signature=pattern_data["signature"],
+                id=pattern_data.get("id", key),
+                signature=pattern_data.get(
+                    "signature", key.removeprefix("pattern:")
+                ),
                 event_count=pattern_data.get("event_count", 0),
                 actors=set(pattern_data.get("actors", [])),
                 actions=set(pattern_data.get("actions", [])),
@@ -118,8 +136,8 @@ class RisaState:
             )
         for key, pattern_data in data.get("structural_patterns", {}).items():
             state.structural_patterns[key] = StructuralPattern(
-                id=pattern_data["id"],
-                signature=pattern_data["signature"],
+                id=pattern_data.get("id", key),
+                signature=pattern_data.get("signature", key),
                 role_signature=pattern_data["role_signature"],
                 support=pattern_data.get("support", 0),
                 actions=set(pattern_data.get("actions", [])),
@@ -131,7 +149,7 @@ class RisaState:
             )
         for key, primitive_data in data.get("structural_primitives", {}).items():
             state.structural_primitives[key] = StructuralPrimitive(
-                id=primitive_data["id"],
+                id=primitive_data.get("id", key),
                 relation_type=primitive_data["relation_type"],
                 role_signature=primitive_data["role_signature"],
                 input_conditions=set(primitive_data.get("input_conditions", [])),
@@ -200,6 +218,7 @@ class RisaState:
             )
         for key, event_data in data.get("events", {}).items():
             event_data = dict(event_data)
+            event_data.setdefault("id", key)
             event_data["state_variable_specs"] = {
                 name: StateVariableSpec(**spec)
                 for name, spec in event_data.get("state_variable_specs", {}).items()
@@ -224,10 +243,16 @@ class RisaState:
             key: ApplicabilityHypothesis(**hypothesis)
             for key, hypothesis in data.get("applicability_hypotheses", {}).items()
         }
-        state.unnamed_concept_candidates = {
+        legacy_candidates = {
             key: UnnamedConceptCandidate(**candidate)
             for key, candidate in data.get("unnamed_concept_candidates", {}).items()
         }
+        candidate_evaluations = data.get("candidate_evaluations")
+        derived_candidates = {
+            key: UnnamedConceptCandidate(**candidate)
+            for key, candidate in data.get("derived_candidates", {}).items()
+        }
+        state.unnamed_concept_candidates = legacy_candidates
         state.compacted_role_readouts = dict(data.get("compacted_role_readouts", {}))
         from risa.engine.evidence import index_event_evidence
 
@@ -237,6 +262,31 @@ class RisaState:
             from risa.engine.prediction_indexes import rebuild_prediction_indexes
 
             rebuild_prediction_indexes(state)
+            if isinstance(candidate_evaluations, dict):
+                from risa.engine.candidate_discovery import (
+                    _candidate_lineage_fingerprint,
+                    discover_unnamed_candidates,
+                )
+
+                state.unnamed_concept_candidates = {}
+                discover_unnamed_candidates(state)
+                for candidate_id, candidate in sorted(
+                    derived_candidates.items(),
+                    key=lambda item: (item[1].derivation_generation, item[0]),
+                ):
+                    if all(
+                        parent_id in state.unnamed_concept_candidates
+                        and candidate.parent_evidence_digests.get(parent_id)
+                        == _candidate_lineage_fingerprint(
+                            state.unnamed_concept_candidates[parent_id]
+                        )
+                        for parent_id in candidate.parent_candidate_ids
+                    ):
+                        state.unnamed_concept_candidates[candidate_id] = candidate
+                for candidate_id, evaluation in candidate_evaluations.items():
+                    candidate = state.unnamed_concept_candidates.get(candidate_id)
+                    if candidate is not None and isinstance(evaluation, dict):
+                        _restore_candidate_evaluation(candidate, evaluation)
             from risa.engine.readout_compaction import apply_persisted_readout_compaction
 
             apply_persisted_readout_compaction(state)
@@ -263,3 +313,191 @@ class RisaState:
 
         rebuild_candidate_inference_index(state)
         return state
+
+
+_CANDIDATE_EVALUATION_FIELDS = (
+    "lifecycle_status",
+    "dormant",
+    "evaluation_event_ids",
+    "development_evaluation_event_ids",
+    "final_evaluation_event_ids",
+    "heldout_prediction_delta",
+    "heldout_composition_delta",
+    "prediction_delta_ci_lower",
+    "composition_delta_ci_lower",
+    "false_generalization_delta",
+)
+
+
+def _candidate_evidence_digest(candidate: UnnamedConceptCandidate) -> str:
+    evidence = [
+        candidate.structural_schema,
+        candidate.typed_role_variables,
+        candidate.supporting_event_ids,
+        candidate.counterexample_event_ids,
+    ]
+    encoded = json.dumps(evidence, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(encoded.encode("utf-8")).hexdigest()[:20]
+
+
+_EVENT_PERSISTENCE_DEFAULTS: dict[str, object] = {
+    "target": None,
+    "preconditions": [],
+    "consumed_states": [],
+    "state_group_updates": {},
+    "numeric_preconditions": {},
+    "state_variable_deltas": {},
+    "state_variable_specs": {},
+    "observed_effects": [],
+    "context_tags": [],
+    "episode_id": "__default__",
+    "source": "unknown",
+    "actor_roles": [],
+    "target_roles": [],
+    "entity_bindings": {},
+    "entity_role_bindings": {},
+    "entity_relations": [],
+    "entity_relations_observed": False,
+    "observed_states_before": [],
+    "before_state_observed": False,
+    "transition_succeeded": True,
+}
+
+_PATTERN_PERSISTENCE_DEFAULTS: dict[str, object] = {
+    "event_count": 0,
+    "actors": [],
+    "actions": [],
+    "effects": [],
+    "support": 0,
+    "context_tags": [],
+    "validation_score": 0.5,
+}
+
+_STRUCTURAL_PATTERN_PERSISTENCE_DEFAULTS: dict[str, object] = {
+    "support": 0,
+    "actions": [],
+    "effects": [],
+    "actors": [],
+    "context_tags": [],
+    "member_pattern_ids": [],
+    "validation_score": 0.5,
+}
+
+_PRIMITIVE_PERSISTENCE_DEFAULTS: dict[str, object] = {
+    "input_conditions": [],
+    "input_state_conditions": [],
+    "learned_state_conditions": [],
+    "consumed_states": [],
+    "state_group_updates": {},
+    "numeric_preconditions": {},
+    "state_variable_deltas": {},
+    "output_state": "",
+    "output_states": [],
+    "temporal_constraint": "event_to_effect",
+    "context_tags": [],
+    "member_pattern_ids": [],
+    "evidence_event_ids": [],
+    "support": 0,
+    "validation_score": 0.5,
+    "reuse_score": 0.0,
+    "compression_proxy": 0.0,
+    "replay_count": 0,
+    "replay_success_count": 0,
+    "replay_score": 0.5,
+    "deployment_replay_count": 0,
+    "deployment_replay_success_count": 0,
+    "deployment_replay_score": 0.5,
+    "perturbation_replay_count": 0,
+    "perturbation_replay_success_count": 0,
+    "perturbation_replay_score": 0.5,
+    "superseded_by": [],
+    "adoption_score": 0.0,
+    "adopted": False,
+}
+
+
+def _event_persistence_record(event: Event) -> dict[str, object]:
+    record = event.to_dict()
+    record.pop("id", None)
+    return {
+        key: value
+        for key, value in record.items()
+        if key not in _EVENT_PERSISTENCE_DEFAULTS
+        or value != _EVENT_PERSISTENCE_DEFAULTS[key]
+    }
+
+
+def _pattern_persistence_record(key: str, pattern: Pattern) -> dict[str, object]:
+    record = pattern.to_dict()
+    record.pop("id", None)
+    if record.get("signature") == key.removeprefix("pattern:"):
+        record.pop("signature")
+    return _without_default_values(record, _PATTERN_PERSISTENCE_DEFAULTS)
+
+
+def _structural_pattern_persistence_record(
+    key: str,
+    pattern: StructuralPattern,
+) -> dict[str, object]:
+    record = pattern.to_dict()
+    record.pop("id", None)
+    if record.get("signature") == key:
+        record.pop("signature")
+    return _without_default_values(record, _STRUCTURAL_PATTERN_PERSISTENCE_DEFAULTS)
+
+
+def _primitive_persistence_record(
+    primitive: StructuralPrimitive,
+) -> dict[str, object]:
+    record = primitive.to_dict()
+    record.pop("id", None)
+    return _without_default_values(record, _PRIMITIVE_PERSISTENCE_DEFAULTS)
+
+
+def _without_default_values(
+    record: dict[str, object],
+    defaults: dict[str, object],
+) -> dict[str, object]:
+    return {
+        key: value
+        for key, value in record.items()
+        if key not in defaults or value != defaults[key]
+    }
+
+
+def _candidate_has_persisted_evaluation(
+    candidate: UnnamedConceptCandidate,
+) -> bool:
+    return candidate.lifecycle_status != "proposed" or bool(
+        candidate.evaluation_event_ids
+        or candidate.development_evaluation_event_ids
+        or candidate.final_evaluation_event_ids
+    )
+
+
+def _candidate_evaluation_record(
+    candidate: UnnamedConceptCandidate,
+) -> dict[str, object]:
+    record = {
+        field_name: getattr(candidate, field_name)
+        for field_name in _CANDIDATE_EVALUATION_FIELDS
+    }
+    if not candidate.dormant:
+        record.pop("dormant", None)
+    record["evidence_digest"] = _candidate_evidence_digest(candidate)
+    return record
+
+
+def _restore_candidate_evaluation(
+    candidate: UnnamedConceptCandidate,
+    evaluation: dict[str, object],
+) -> None:
+    if evaluation.get("evidence_digest") != _candidate_evidence_digest(candidate):
+        return
+    for field_name in _CANDIDATE_EVALUATION_FIELDS:
+        if field_name not in evaluation:
+            continue
+        value = evaluation[field_name]
+        if field_name.endswith("event_ids"):
+            value = list(value) if isinstance(value, list) else []
+        setattr(candidate, field_name, value)
