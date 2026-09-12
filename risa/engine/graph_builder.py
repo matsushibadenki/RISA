@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from risa.core.models import Edge, Event, Node
 from risa.core.state import RisaState
+from risa.engine.event_order import index_event_order
 from risa.engine.metabolism import activate_nodes, reinforce_coactivation, reinforce_reproducible_relation
 from risa.engine.role_induction import effective_event_target_roles
 
@@ -20,6 +21,7 @@ def ingest_event(
     enable_coactivation: bool = True,
 ) -> None:
     state.events_by_id[event.id] = event
+    index_event_order(state, event)
 
     actor_id = _node_id("entity", event.actor)
     action_id = _node_id("process", event.action)

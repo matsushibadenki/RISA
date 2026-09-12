@@ -68,6 +68,9 @@
 - 日本語: Eventから決定的に再構築できる頻度表とactivation indexはschema v3の保存payloadから除外し、読込時に再構築する。Eventを持たないlegacy payloadだけは旧indexをfallbackで読む。
 - English: Count tables and the activation index are omitted from schema-v3 persistence and deterministically rebuilt from events. Legacy payloads without events retain a fallback to their stored indices.
 - 简体中文: schema v3不再持久化可从Event确定性重建的频度表及activation索引，读取时重新生成；没有Event的旧payload仍回退读取旧索引。
+- 日本語: Replay用の時系列Event indexもEventから再構築するderived stateとし、schema payloadには保存しない。通常の末尾追加は一つのIDだけを更新し、予算付きReplayはindex末尾の最大N件だけを読む。indexが欠落した内部fixtureでは全Eventから安全に再構築する。
+- English: The chronological Event index used by Replay is also derived from Events and omitted from the schema payload. Normal tail insertion updates one ID, and bounded Replay reads only the last N indexed Events. Internal fixtures with a missing index safely rebuild it from all Events.
+- 简体中文: Replay使用的时序Event索引同样从Event派生，不写入schema payload。正常末尾追加只更新一个ID，有预算的Replay只读取索引末尾最多N个Event；内部fixture缺少索引时会从全部Event安全重建。
 - 日本語: schema v4は`UnnamedConceptCandidate`の構造schema、型変数、支持IDと反例IDを保存せず、採否・held-out評価値・構造と証拠のfingerprintだけを`candidate_evaluations`へ保存する。読込時にEventから候補を再発見し、fingerprintが一致する候補だけ評価状態を復元する。旧`unnamed_concept_candidates` payloadは引き続き読める。
 - English: Schema v4 omits reconstructable candidate schemas, typed variables, support IDs and counterexample IDs. It stores only lifecycle state, held-out metrics and a structural-evidence fingerprint in `candidate_evaluations`. Loading rediscovers candidates from events and restores evaluation only when the fingerprint matches. Legacy full-candidate payloads remain readable.
 - 简体中文: schema v4不再保存可重建的候选schema、类型变量、支持ID及反例ID，只在`candidate_evaluations`中保存生命周期、留出评估值及结构证据fingerprint。读取时从Event重新发现候选，仅在fingerprint一致时恢复评估状态；旧完整候选payload仍可读取。

@@ -1,0 +1,14 @@
+{
+  "benchmark_version": "g3-scale-v1",
+  "seeds": [17, 37, 73],
+  "event_scales": [1000, 10000, 100000],
+  "queries_per_scale": 12,
+  "warmup_queries": 2,
+  "action_count": 64,
+  "actor_count": 256,
+  "context_count": 4,
+  "replay_budget": 128,
+  "scale_time_budget_seconds": 60,
+  "quality_loss_tolerance": 0.01,
+  "minimum_work_reduction": 2.0
+}

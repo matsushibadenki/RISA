@@ -19,10 +19,10 @@
 
 ## Scope / 適用範囲 / 适用范围
 
-The benchmark breaks proxy correlation in development and final using synthetic context tags. It validates bounded pairwise schema selection and evidence separation. It does not prove causal discovery, higher-order conjunctions, robustness to missing context observations or automatic role induction. The next milestone is structural role induction without supplied role labels.
+The benchmark breaks proxy correlation in development and final using synthetic context tags. It validates bounded pairwise schema selection and evidence separation. It does not prove causal discovery, higher-order conjunctions or robustness to missing context observations. Its then-next milestone, structural role induction without supplied role labels, is now complete for one-hop target positions; multi-hop disambiguation remains G2.6.
 
-このbenchmarkは合成context tagを用い、developmentとfinalでproxy相関を崩している。有限な2連言schema選択と証拠分離は検証したが、因果発見、3項以上の連言、context観測欠落への耐性、roleの自動誘導は未証明である。次の節目は外部role labelなしの構造role誘導とする。
+このbenchmarkは合成context tagを用い、developmentとfinalでproxy相関を崩している。有限な2連言schema選択と証拠分離は検証したが、因果発見、3項以上の連言、context観測欠落への耐性は未証明である。当時の次の節目だった外部role labelなしの構造role誘導は一hop target位置について完了し、multi-hop曖昧性解消をG2.6に残す。
 
-该benchmark使用合成context tag，并在development及final中打破proxy相关性。结果验证了有界二元合取schema选择及证据隔离，但未证明因果发现、三项以上合取、context观测缺失稳健性或自动role归纳。下一阶段目标是不依赖外部role标签的结构role归纳。
+该benchmark使用合成context tag，并在development及final中打破proxy相关性。结果验证了有界二元合取schema选择及证据隔离，但未证明因果发现、三项以上合取或context观测缺失稳健性。当时的下一阶段目标——不依赖外部role标签的结构role归纳——现已完成一hop target位置部分，multi-hop歧义消解留到G2.6。
 
 Reproducible inputs and full rows are in `experiments/g2_context_conjunction_manifest.json` and `docs/g2-context-conjunction-results.json`. Manifest SHA-256: `354578dea0189708c1b87300423f06a6afc7d22f333950a0ed3ba124dd4146fa`.

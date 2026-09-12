@@ -65,17 +65,29 @@ def run_structural_role_evaluation(manifest: dict[str, Any]) -> dict[str, Any]:
                 supplied_candidates,
                 cases,
             )
-            prediction_interval = _paired_bootstrap_interval(
+            induced_prediction_interval = _paired_bootstrap_interval(
                 metrics["induced_prediction_successes"],
                 metrics["no_role_prediction_successes"],
                 int(manifest["bootstrap_samples"]),
                 seed + partition_index,
             )
-            composition_interval = _paired_bootstrap_interval(
+            supplied_prediction_interval = _paired_bootstrap_interval(
+                metrics["supplied_prediction_successes"],
+                metrics["no_role_prediction_successes"],
+                int(manifest["bootstrap_samples"]),
+                seed + 10 + partition_index,
+            )
+            induced_composition_interval = _paired_bootstrap_interval(
                 metrics["induced_composition_successes"],
                 metrics["no_role_composition_successes"],
                 int(manifest["bootstrap_samples"]),
                 seed + 100 + partition_index,
+            )
+            supplied_composition_interval = _paired_bootstrap_interval(
+                metrics["supplied_composition_successes"],
+                metrics["no_role_composition_successes"],
+                int(manifest["bootstrap_samples"]),
+                seed + 110 + partition_index,
             )
             for candidate in induced_candidates:
                 evaluate_unnamed_candidate(
@@ -85,8 +97,8 @@ def run_structural_role_evaluation(manifest: dict[str, Any]) -> dict[str, Any]:
                     evaluation_event_ids=[str(case["id"]) for case in cases],
                     prediction_delta=metrics["prediction_delta"],
                     composition_delta=metrics["composition_delta"],
-                    prediction_delta_ci_lower=prediction_interval[0],
-                    composition_delta_ci_lower=composition_interval[0],
+                    prediction_delta_ci_lower=induced_prediction_interval[0],
+                    composition_delta_ci_lower=induced_composition_interval[0],
                     false_generalization_delta=metrics[
                         "false_generalization_delta"
                     ],
@@ -100,10 +112,10 @@ def run_structural_role_evaluation(manifest: dict[str, Any]) -> dict[str, Any]:
                     evaluation_event_ids=[
                         f"supplied:{case['id']}" for case in cases
                     ],
-                    prediction_delta=metrics["prediction_delta"],
-                    composition_delta=metrics["composition_delta"],
-                    prediction_delta_ci_lower=prediction_interval[0],
-                    composition_delta_ci_lower=composition_interval[0],
+                    prediction_delta=metrics["supplied_prediction_delta"],
+                    composition_delta=metrics["supplied_composition_delta"],
+                    prediction_delta_ci_lower=supplied_prediction_interval[0],
+                    composition_delta_ci_lower=supplied_composition_interval[0],
                     false_generalization_delta=metrics[
                         "false_generalization_delta"
                     ],
@@ -133,9 +145,21 @@ def run_structural_role_evaluation(manifest: dict[str, Any]) -> dict[str, Any]:
                         metrics["no_role_composition_successes"]
                     ),
                     "prediction_delta_vs_no_role": metrics["prediction_delta"],
-                    "prediction_delta_95ci": list(prediction_interval),
+                    "prediction_delta_95ci": list(induced_prediction_interval),
+                    "supplied_prediction_delta_vs_no_role": metrics[
+                        "supplied_prediction_delta"
+                    ],
+                    "supplied_prediction_delta_95ci": list(
+                        supplied_prediction_interval
+                    ),
                     "composition_delta_vs_no_role": metrics["composition_delta"],
-                    "composition_delta_95ci": list(composition_interval),
+                    "composition_delta_95ci": list(induced_composition_interval),
+                    "supplied_composition_delta_vs_no_role": metrics[
+                        "supplied_composition_delta"
+                    ],
+                    "supplied_composition_delta_95ci": list(
+                        supplied_composition_interval
+                    ),
                     "induced_mistyping_rate": metrics["induced_mistyping_rate"],
                     "supplied_mistyping_rate": metrics["supplied_mistyping_rate"],
                 }
@@ -318,6 +342,14 @@ def _compare(
             - _mean(results["no_role_prediction_successes"]),
             "composition_delta": _mean(results["induced_composition_successes"])
             - _mean(results["no_role_composition_successes"]),
+            "supplied_prediction_delta": _mean(
+                results["supplied_prediction_successes"]
+            )
+            - _mean(results["no_role_prediction_successes"]),
+            "supplied_composition_delta": _mean(
+                results["supplied_composition_successes"]
+            )
+            - _mean(results["no_role_composition_successes"]),
             "induced_mistyping_rate": induced_false / negatives,
             "supplied_mistyping_rate": supplied_false / negatives,
             "false_generalization_delta": (induced_false - no_role_false) / negatives,
@@ -420,7 +452,9 @@ def _aggregate(
             "supplied_composition_success_rate",
             "no_role_composition_success_rate",
             "prediction_delta_vs_no_role",
+            "supplied_prediction_delta_vs_no_role",
             "composition_delta_vs_no_role",
+            "supplied_composition_delta_vs_no_role",
             "induced_mistyping_rate",
             "supplied_mistyping_rate",
         )

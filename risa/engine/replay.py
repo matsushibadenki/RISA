@@ -9,6 +9,7 @@ from risa.core.models import (
 )
 from risa.core.state import RisaState
 from risa.engine.composer import forecast_next_effects
+from risa.engine.event_order import replay_event_window
 from risa.engine.graph_builder import normalize_label
 from risa.engine.learner import refresh_primitive_adoption
 from risa.engine.predictor import predict_next_effect
@@ -20,13 +21,8 @@ def replay_structural_memory(
 ) -> ReplaySummary:
     """Re-evaluate stored evidence using the current induced world model."""
     summary = ReplaySummary()
-    ordered_events = sorted(
-        state.events_by_id.values(), key=lambda item: (item.timestamp, item.id)
-    )
-    if max_events is not None:
-        if max_events < 0:
-            raise ValueError("max_events must be non-negative or None")
-        ordered_events = ordered_events[-max_events:] if max_events else []
+    ordered_events, selection_work = replay_event_window(state, max_events)
+    summary.selection_events_examined = selection_work
 
     for event in ordered_events:
         primitive_ids = state.event_primitive_ids.get(event.id, [])

@@ -13,6 +13,10 @@ from experiments.generic_relation_candidate_evaluation import (
     run_generic_relation_evaluation,
 )
 from experiments.g2_persistence_evaluation import run_persistence_evaluation
+from experiments.role_disambiguation_evaluation import (
+    run_role_disambiguation_evaluation,
+)
+from experiments.scale_evaluation import run_scale_evaluation
 from experiments.structural_role_evaluation import run_structural_role_evaluation
 from experiments.temporal_candidate_evaluation import (
     run_temporal_candidate_evaluation,
@@ -24,6 +28,74 @@ MANIFEST_PATH = Path(__file__).parents[1] / "experiments" / "g1_manifest.json"
 
 
 class ComparativeEvaluationTests(unittest.TestCase):
+    def test_indexed_access_and_replay_stay_bounded_at_small_scales(self) -> None:
+        result = run_scale_evaluation(
+            {
+                "benchmark_version": "test-g3-scale",
+                "seeds": [11],
+                "event_scales": [100, 1000],
+                "queries_per_scale": 4,
+                "warmup_queries": 1,
+                "action_count": 10,
+                "actor_count": 20,
+                "context_count": 2,
+                "replay_budget": 16,
+                "scale_time_budget_seconds": 30,
+                "quality_loss_tolerance": 0.01,
+                "minimum_work_reduction": 2.0,
+            }
+        )
+
+        self.assertEqual(
+            result["decision"], "adopt_indexed_event_access_and_bounded_replay"
+        )
+        self.assertEqual(result["aggregate"]["prediction_mismatches"], 0)
+        self.assertEqual(result["aggregate"]["maximum_completed_event_scale"], 1000)
+        self.assertGreaterEqual(
+            result["aggregate"]["minimum_event_work_reduction"], 2.0
+        )
+        self.assertLessEqual(
+            result["aggregate"]["maximum_replay_selection_events_examined"], 16
+        )
+        self.assertEqual(result["aggregate"]["replay_window_mismatches"], 0)
+
+    def test_bounded_role_disambiguation_transfers_without_external_types(self) -> None:
+        result = run_role_disambiguation_evaluation(
+            {
+                "benchmark_version": "test-role-disambiguation",
+                "seeds": [41],
+                "development_episodes_per_seed": 40,
+                "final_episodes_per_seed": 40,
+                "bootstrap_samples": 100,
+                "minimum_gain": 0.05,
+                "max_role_hops": 2,
+                "max_role_refinements_per_base": 8,
+            }
+        )
+
+        self.assertEqual(result["decision"], "adopt_bounded_role_disambiguation")
+        self.assertTrue(all(value == 0 for value in result["leakage_audit"].values()))
+        aggregate = result["aggregate"]
+        self.assertEqual(aggregate["induced_prediction_success_rate"], 1.0)
+        self.assertEqual(aggregate["supplied_prediction_success_rate"], 1.0)
+        self.assertEqual(
+            aggregate["bounded_one_hop_prediction_success_rate"], 0.5
+        )
+        self.assertEqual(aggregate["induced_composition_success_rate"], 1.0)
+        self.assertEqual(aggregate["supplied_composition_success_rate"], 1.0)
+        self.assertEqual(
+            aggregate["bounded_one_hop_composition_success_rate"], 0.5
+        )
+        self.assertEqual(aggregate["induced_collision_mistyping_rate"], 0.0)
+        self.assertEqual(aggregate["induced_plan_success_rate"], 1.0)
+        self.assertEqual(aggregate["supplied_plan_success_rate"], 1.0)
+        self.assertEqual(aggregate["disabled_plan_success_rate"], 0.5)
+        self.assertEqual(aggregate["mean_collision_candidate_count"], 2.0)
+        self.assertEqual(aggregate["mean_plan_candidate_count"], 2.0)
+        lifecycle = result["lifecycle"][0]
+        self.assertEqual(lifecycle["role_depths"], [2, 2])
+        self.assertEqual(lifecycle["unresolved_beyond_budget_candidate_count"], 0)
+
     def test_structure_induced_roles_match_supplied_roles_on_heldout_targets(self) -> None:
         result = run_structural_role_evaluation(
             {
@@ -45,6 +117,10 @@ class ComparativeEvaluationTests(unittest.TestCase):
         self.assertEqual(aggregate["induced_composition_success_rate"], 1.0)
         self.assertEqual(aggregate["supplied_composition_success_rate"], 1.0)
         self.assertEqual(aggregate["no_role_composition_success_rate"], 0.5)
+        self.assertEqual(aggregate["prediction_delta_vs_no_role"], 0.5)
+        self.assertEqual(aggregate["supplied_prediction_delta_vs_no_role"], 0.5)
+        self.assertEqual(aggregate["composition_delta_vs_no_role"], 0.5)
+        self.assertEqual(aggregate["supplied_composition_delta_vs_no_role"], 0.5)
         self.assertEqual(aggregate["induced_mistyping_rate"], 0.0)
         self.assertEqual(aggregate["supplied_mistyping_rate"], 0.0)
         self.assertLess(

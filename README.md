@@ -23,24 +23,25 @@ RISA は **Relationally Involving Self-organizing Architecture** の略で、
 という立場です。
 
 
-## 設計評価と現在の優先順位 / Assessment / 设计评估 — 2026-09-08
+## 設計評価と現在の優先順位 / Assessment / 设计评估 — 2026-09-13
 
 **構造ベースのAIとして研究を続ける価値があります。ただし、一般的な優位性はまだ未実証です。**
-G2では役割束縛、前提学習、変化適応を実装し、全99テストが通過しています。final評価は、観測から前提を学ぶcompositionで
+G2では役割束縛、前提学習、変化適応を実装し、全110テストが通過しています。final評価は、観測から前提を学ぶcompositionで
 100%対具体遷移表0%、未知target bindingで100%対75%、B期driftで75%対33.3%でした。明示前提compositionは同率で、
-役割型は外部入力です。任意3-entity関係候補は既存経路比+80ポイントとなり、relation観測noiseへの耐性と成功反例による前提撤回を実装しました。相関proxyを含む36条件から7候補を生成する連言評価では、developmentで安定条件を選び、finalで100%対親50%となりました。schema v4はG2全Stateで平均134,478→102,287 bytes、23.94%削減し、5,000予測・2,250計画・Composition・simulationの再読込差分は0でした。baselineとの保存量差は残っています。
+従来の役割型は外部入力でしたが、G2.5では一hopのrelation位置から内部roleを誘導し、外部role版と同じ予測・composition 100%、roleなし50%、未知・逆向きrelationの誤型付け0%を得ました。G2.6ではoutcome衝突時だけ最大二hop・base roleごとに最大8候補へ分化し、予測・compositionとも100%対一hop版50%、actor・任意entity変数planも100%対誘導無効50%でした。任意3-entity関係候補は既存経路比+80ポイントとなり、relation観測noiseへの耐性と成功反例による前提撤回を実装しました。相関proxyを含む36条件から7候補を生成する連言評価では、developmentで安定条件を選び、finalで100%対親50%となりました。schema v4はG2全Stateで平均134,478→102,287 bytes、23.94%削減し、5,000予測・2,250計画・Composition・simulationの再読込差分は0でした。baselineとの保存量差は残っています。
+G3.1では1k・10k・100k Eventの9条件でindex版と全走査参照版の予測payloadが完全一致し、Event参照作業量は最小63.49倍、p95は最小20.37倍改善しました。Replay選択は全sort参照と一致したまま128件に収まりました。これは予測read modelとReplay選択の合成scale評価であり、学習・graph構築・候補発見・planner全体の100k性能は未評価です。
 以下の機能一覧は実装の存在を示し、任意の入力での正しさや研究仮説の証明を意味しません。
 
 English: Structural AI research remains worthwhile, but a general advantage is not established. G2 implements role
-binding, applicability learning and change adaptation; all 99 tests pass. Final success is 100% versus 0% on learned
+binding, applicability learning and change adaptation; all 110 tests pass. Final success is 100% versus 0% on learned
 composition, 100% versus 75% on binding, and 75% versus 33.3% in phase-B drift. Supplied composition still ties,
-roles are external inputs, and state is about 40× larger. Single-transition candidates were redundant, while a typed
+roles were external inputs in that benchmark, and state is about 40× larger. G2.5 induces one-hop positional roles and matches supplied roles at 100% prediction and composition versus 50% with roles disabled, with 0% mistyping on unknown or reversed relations. G2.6 refines only collided roles with at most two hops and eight refinements per base; prediction and composition reach 100% versus 50% for one-hop, while actor/arbitrary-variable plans reach 100% versus 50% with induction disabled. Single-transition candidates were redundant, while a typed
 two-step temporal and actor/target candidates add value, and a generic three-entity relation candidate gains 80 points.
-Relation observation noise tolerance and premise retraction from successful counterexamples are implemented. In a conjunction benchmark with correlated proxies, development selects the stable condition from seven candidates generated across 36 conditions; final accuracy is 100% versus the parent's 50%. Across full G2 states, schema v4 reduces mean persistence from 134,478 to 102,287 bytes, or 23.94%, with zero reload mismatches over 5,000 predictions, 2,250 plans, composition and simulation. The baseline storage gap remains.
+Relation observation noise tolerance and premise retraction from successful counterexamples are implemented. In a conjunction benchmark with correlated proxies, development selects the stable condition from seven candidates generated across 36 conditions; final accuracy is 100% versus the parent's 50%. Across full G2 states, schema v4 reduces mean persistence from 134,478 to 102,287 bytes, or 23.94%, with zero reload mismatches over 5,000 predictions, 2,250 plans, composition and simulation. G3.1 reaches 100k Events with identical indexed and full-scan prediction payloads in all nine scale rows; indexed Event work improves by at least 63.49× and p95 by at least 20.37×, while Replay selection stays at 128 Events. This synthetic fixture does not measure end-to-end learning, graph construction, candidate discovery or planning at 100k. The baseline storage gap remains.
 
-简体中文: 结构AI研究仍值得继续，但尚未证明普遍优势。G2已实现角色绑定、适用条件学习及变化适应，全部99项测试通过。
+简体中文: 结构AI研究仍值得继续，但尚未证明普遍优势。G2已实现角色绑定、适用条件学习及变化适应，全部110项测试通过。
 最终成功率在观测学习composition为100%对0%，binding为100%对75%，B阶段drift为75%对33.3%。已提供前提的
-composition仍持平，角色来自外部输入。任意三entity关系候选比现有路径高80个百分点；已实现relation观测噪声耐受及成功反例触发的前提撤回。在含相关proxy的合取评估中，系统从36个条件生成7个候选，在development选择稳定条件，final达到100%，父候选为50%。schema v4在完整G2 State上使平均持久化量由134,478降至102,287 bytes，减少23.94%；5,000次预测、2,250次规划、Composition及simulation重载差异均为0，但与baseline的存储差距仍存在。
+composition仍持平，该评估中的角色来自外部输入。G2.5现可从一hop relation位置归纳内部role，预测及composition与外部role版同为100%，禁用role时为50%，未知或反向relation的错误类型率为0%。G2.6仅在outcome冲突时细分，最多二hop且每个base role最多8个候选；预测及composition为100%对一hop版50%，actor及任意entity变量plan为100%对禁用归纳50%。任意三entity关系候选比现有路径高80个百分点；已实现relation观测噪声耐受及成功反例触发的前提撤回。在含相关proxy的合取评估中，系统从36个条件生成7个候选，在development选择稳定条件，final达到100%，父候选为50%。schema v4在完整G2 State上使平均持久化量由134,478降至102,287 bytes，减少23.94%；5,000次预测、2,250次规划、Composition及simulation重载差异均为0。G3.1的9个规模条件均达到10万Event，索引版与全扫描版预测payload完全一致；Event工作量最少改善63.49倍，p95最少改善20.37倍，Replay选择保持128件。该合成fixture尚未测量10万规模的端到端学习、graph构建、候选发现及规划；与baseline的存储差距仍存在。
 
 - [設計評価・再現結果 / Assessment / 评估](docs/RISA-Structural-AI-Assessment-2026-09-05.md)
 - [現行ロードマップ / Current roadmap / 当前路线图](docs/ROADMAP.md)
@@ -50,6 +51,8 @@ composition仍持平，角色来自外部输入。任意三entity关系候选比
 - [G2関係候補評価 / G2 relational candidate evaluation / G2关系候选评估](docs/G2-Relational-Candidate-Evaluation-2026-09-09.md)
 - [G2任意関係評価 / G2 generic relation evaluation / G2任意关系评估](docs/G2-Generic-Relation-Evaluation-2026-09-09.md)
 - [G2永続化評価 / G2 persistence evaluation / G2持久化评估](docs/G2-Persistence-Evaluation-2026-09-10.md)
+- [G2構造role評価 / G2 structural role evaluation / G2结构role评估](docs/G2-Structural-Role-Evaluation-2026-09-12.md)
+- [G2 role曖昧性解消評価 / G2 role disambiguation evaluation / G2 role消歧评估](docs/G2-Role-Disambiguation-Evaluation-2026-09-13.md)
 - [現行ポリシー / Current policy / 当前方针](docs/policy.md)
 - [未分知と概念凝縮 / Undivided Knowledge and Concept Condensation / 未分知识与概念凝聚](docs/RISA-Undivided-Knowledge-and-Concept-Condensation.md)
 
@@ -380,8 +383,10 @@ English: Static threats remain explainable hypotheses and are validated by parti
 - [Done] G2.4候補数予算: 親ごとのspecializationをprecision改善・support順で上位8件に制限 / Limit specializations per parent to the top eight by precision gain and support / 按precision提升及support将每个父候选的分化限制为前8项
 - [Done] G2.4複合context探索: 最大24 tag・2連言・親ごと8候補に探索を制限し、developmentで1候補だけをfinalへ選択。6個の相関proxyを含む36条件・7候補から5 seedすべてで安定条件を選び、final 100%対親50% / Bound search to 24 tags, pairwise conjunctions and eight candidates per parent, selecting one development winner for final; across 36 conditions and seven candidates with six correlated proxies, all five seeds select the stable condition and reach 100% versus the parent's 50% / 将搜索限制为24个tag、二元合取及每个父候选8项，并在development仅选择1项进入final；在含6个相关proxy的36个条件及7个候选中，5个seed均选中稳定条件，final达到100%，父候选为50%
 - [Done] G2.4節目: context schemaの発見・選択・独立採否・推論置換・保存再構築を一巡させた / Complete the G2.4 context-schema loop across discovery, selection, independent adoption, inference replacement and persistence reconstruction / 完成G2.4 context schema从发现、选择、独立采纳、推理替换到持久化重建的闭环
-- [Next] G2.5自動role誘導: 外部role labelなしでentityの構造的位置から候補型を誘導し、既存の外部role入力版と独立比較 / Induce candidate roles from entity structure without external role labels and compare independently with the current supplied-role path / 不依赖外部role标签，从entity结构位置归纳候选类型，并与当前外部role输入路径独立比较
-- [Later] G3: 継続適応と計算予算の大規模検証 / Large-scale validation of continual adaptation and bounded cost / 大规模验证持续适应与计算预算
+- [Done] G2.5一hop構造role誘導: 外部roleなしでrelation位置から内部roleを作り、5 seed・final 200件で予測・compositionとも100%、外部role版100%、roleなし50%、誤型付け0% / Derive one-hop internal roles from relation position without external labels; over five seeds and 200 final cases, prediction and composition reach 100%, supplied roles 100%, no roles 50%, and mistyping 0% / 不依赖外部role标签，从relation位置生成一hop内部role；5个seed及200个final案例中预测与composition均为100%，外部role版100%，无role版50%，错误类型率0%
+- [Done] G2.6 role衝突解消: outcome衝突時だけ最大二hop・base roleごとに最大8 refinementへ分化し、actor・任意entity変数へ拡張。5 seedで予測・composition・plan 100%、制限版50%、誤型付け0% / Refine only collided roles with at most two hops and eight refinements per base, extending roles to actors and arbitrary variables; over five seeds prediction, composition and plans reach 100% versus 50% restricted baselines with 0% mistyping / 仅在role冲突时细分，最多二hop且每个base最多8个refinement，并扩展到actor及任意变量；5个seed中预测、composition及plan均为100%，限制版为50%，错误类型率0%
+- [Done] G3.1 Event access: 1k・10k・100kの全9条件でindex版と全走査版の予測差分0、作業量63.49倍以上、p95 20.37倍以上、Replay選択128件 / Across all nine 1k, 10k and 100k rows, indexed and full-scan predictions match exactly, with at least 63.49× lower Event work, 20.37× better p95 and Replay selection bounded to 128 / 在1千、1万及10万Event的全部9个条件中，索引与全扫描预测完全一致，Event工作量至少改善63.49倍，p95至少改善20.37倍，Replay选择限制为128件
+- [Next] G3.2 drift: context split・merge・dormancyを分離し、回復遅延・旧知識保持・適応件数・Replay量を評価 / Isolate context splitting, merging and dormancy under drift; measure recovery delay, retained prior knowledge, adaptation count and Replay work / 在漂移中分别评估context分裂、合并及休眠，并测量恢复延迟、旧知识保持、适应次数及Replay工作量
 - [Later] G4: 用途検証と追加研究。Canopy・SNN・階層credit・微分可能logic gate・BitNet/SNN/Logic交点の三値Event回路は比較結果から再判断 / Validate applications; gate canopy, SNN, hierarchical credit, differentiable logic gates and ternary event circuits at the BitNet/SNN/Logic intersection on evidence / 验证应用，根据比较证据决定Canopy、SNN、层级信用、可微逻辑门及BitNet/SNN/Logic交点的三值Event电路
 
 完了条件と仮説の見直し条件は[ROADMAP](docs/ROADMAP.md)に集約しています。
@@ -394,6 +399,9 @@ The roadmap defines completion and revision gates. 路线图统一规定完成�
 - [G2 Structural Reuse Evaluation](docs/G2-Structural-Reuse-Evaluation-2026-09-08.md)
 - [G2 Derived Candidate Evaluation](docs/G2-Derived-Candidate-Evaluation-2026-09-11.md)
 - [G2 Context Conjunction Evaluation](docs/G2-Context-Conjunction-Evaluation-2026-09-12.md)
+- [G2 Structural Role Evaluation](docs/G2-Structural-Role-Evaluation-2026-09-12.md)
+- [G2 Role Disambiguation Evaluation](docs/G2-Role-Disambiguation-Evaluation-2026-09-13.md)
+- [G3 Scale Evaluation](docs/G3-Scale-Evaluation-2026-09-13.md)
 - [G2 Candidate Transfer Evaluation](docs/G2-Candidate-Transfer-Evaluation-2026-09-08.md)
 - [RISA MVP-1 Technical Design](docs/RISA-MVP-1-Technical-Design.md)
 - [RISA Design Policy](docs/policy.md)

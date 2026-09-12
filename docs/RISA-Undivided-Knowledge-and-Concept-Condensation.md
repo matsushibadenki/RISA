@@ -151,6 +151,26 @@ Naming starts only at `provisional`. Ease of naming and human appeal are not ado
 
 仅在`provisional`之后命名，名称是否好听或易懂不得进入采纳分数。
 
+### 5.1 構造roleの誘導 / Structural role induction / 结构role归纳
+
+G2.5では、外部`target_roles`がないEventについて、具体target identityがentity relationのどの位置にあるかを内部型として使う。targetに束縛された変数から見た直接relationを`out:<relation>`、`in:<relation>`、`self:<relation>`へ正規化し、整列した署名のhashを`struct_role:<id>`にする。entity identityや変数名が異なっても位置とrelation型が同じなら同じroleとなる。可読署名は候補schemaに残し、hashだけを意味説明として扱わない。
+
+For Events without supplied `target_roles`, G2.5 uses the concrete target's position in entity relations as an internal type. Direct relations seen from variables bound to the target become normalized `out:<relation>`, `in:<relation>` or `self:<relation>` descriptors. A hash of the sorted signature forms `struct_role:<id>`. Different entity identities and variable names map to the same role when relation type and position match. The readable signature remains in the candidate schema; the hash itself is not treated as an explanation.
+
+G2.5对未提供`target_roles`的Event，将具体target identity在entity relation中的位置用作内部类型。从绑定到target的变量观察直接relation，并规范为`out:<relation>`、`in:<relation>`或`self:<relation>`；排序签名的hash形成`struct_role:<id>`。只要relation类型与位置相同，不同entity identity及变量名会映射到同一role。可读签名保留在候选schema中，hash本身不作为意义解释。
+
+外部roleがある場合はそれを優先し、既存contractと比較対照を保つ。role誘導の有効・無効はqueryごとに切り替えられる。Event学習、候補発見、証拠index、予測、composition、Replay、validation、CLI、保存再構築が同じresolverを使わなければ、同じ構造が学習時と利用時で別roleになるため、この一貫性を永続化contractに含める。
+
+Supplied roles take precedence to preserve the existing contract and comparison arm. Induction can be enabled or disabled per query. Event learning, candidate discovery, evidence indexing, prediction, composition, replay, validation, CLI and persistence reconstruction must use the same resolver; otherwise the same structure could receive different roles during learning and use. This consistency is part of the persistence contract.
+
+外部role存在时优先使用，以保持既有contract及比较路径。每个query可单独启用或禁用role归纳。Event学习、候选发现、证据索引、预测、composition、重放、验证、CLI及持久化重建必须使用同一resolver，否则相同结构在学习与使用时可能得到不同role；这一一致性属于持久化contract。
+
+この段階は意味型発見ではない。relation label自体は観測入力で、target identityをbindingから特定できる必要がある。同じ一hop署名の中に複数の結果機構がある場合は衝突する。G2.6ではこの衝突が観測された場合だけ最大二hopへspecializeし、base roleごとの候補をsupport順上位8件に制限した。二hopでもoutcomeが混ざる場合は候補化しない。同じresolverをactorと任意entity変数へ広げ、relation欠落は誤った空roleとして共有せずunknownとしてabstainする。
+
+This stage is not semantic type discovery. Relation labels remain observed inputs, target identity must be recoverable from bindings, and different mechanisms collide when they share one one-hop signature. G2.6 specializes only observed collisions to at most two hops and retains at most eight refinements per base role by support. It creates no candidate when outcomes remain mixed at depth two. The same resolver now covers actors and arbitrary entity variables; missing relations remain unknown and cause abstention rather than forming a shared empty role.
+
+该阶段不等于语义类型发现。relation标签仍来自观测输入，target identity必须能从binding中确定；不同机制若共享同一一hop签名就会冲突。G2.6仅对已观测冲突细分至最多二hop，并按support为每个base role最多保留8个refinement；二hop仍混合多个outcome时不生成候选。同一resolver现已覆盖actor及任意entity变量，relation缺失保持unknown并弃答，不形成共享空role。
+
 ## 6. 再解釈ループの安全条件 / Safe reinterpretation / 安全再解释
 
 新概念で既存記憶を読み直すことは有望だが、候補自身が作った派生記録を自分の支持証拠として再利用すると、根拠のない自己増幅が起こる。

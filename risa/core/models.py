@@ -401,6 +401,7 @@ class TransitionApplication:
 
 @dataclass
 class ReplaySummary:
+    selection_events_examined: int = 0
     replayed_events: int = 0
     successful_events: int = 0
     failed_events: int = 0

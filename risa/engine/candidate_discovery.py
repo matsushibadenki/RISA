@@ -7,9 +7,12 @@ from risa.core.models import Event, UnnamedConceptCandidate
 from risa.core.state import RisaState
 from risa.engine.graph_builder import normalize_label
 from risa.engine.role_induction import (
+    effective_event_actor_roles,
+    effective_event_entity_role_bindings,
     effective_event_target_roles,
+    induced_target_role_hierarchy,
     is_induced_role,
-    target_relation_position_signature,
+    MAX_ROLE_REFINEMENTS_PER_BASE,
 )
 
 
@@ -18,17 +21,21 @@ def discover_unnamed_candidates(state: RisaState) -> dict[str, UnnamedConceptCan
     previous_candidates = state.unnamed_concept_candidates
     groups: dict[tuple[str, str, tuple[str, ...]], list[Event]] = defaultdict(list)
     all_by_action_role: dict[tuple[str, str], list[Event]] = defaultdict(list)
-    for event in state.events_by_id.values():
-        if (
-            not event.transition_succeeded
-            or not event.target
-            or not event.observed_effects
-            or event.source.startswith(("derived:", "replay:"))
-        ):
-            continue
+    eligible_events = [
+        event
+        for event in state.events_by_id.values()
+        if event.transition_succeeded
+        and event.target
+        and event.observed_effects
+        and not event.source.startswith(("derived:", "replay:"))
+    ]
+    event_roles, induced_role_metadata = _single_transition_role_assignments(
+        eligible_events
+    )
+    for event in eligible_events:
         action = normalize_label(event.action)
         outcome = tuple(sorted({normalize_label(item) for item in event.observed_effects}))
-        for role in effective_event_target_roles(event):
+        for role in event_roles.get(event.id, []):
             groups[(action, role, outcome)].append(event)
             all_by_action_role[(action, role)].append(event)
 
@@ -65,12 +72,14 @@ def discover_unnamed_candidates(state: RisaState) -> dict[str, UnnamedConceptCan
             "effects": list(outcome),
         }
         if is_induced_role(role):
-            structural_schema["target_role_origin"] = "induced_structure"
-            structural_schema["target_role_signature"] = list(
-                target_relation_position_signature(
-                    target=events[0].target,
-                    entity_bindings=events[0].entity_bindings,
-                    entity_relations=events[0].entity_relations,
+            structural_schema.update(
+                induced_role_metadata.get(
+                    role,
+                    {
+                        "target_role_origin": "induced_structure",
+                        "target_role_signature": [],
+                        "target_role_depth": 1,
+                    },
                 )
             )
         candidate = UnnamedConceptCandidate(
@@ -120,6 +129,103 @@ def discover_unnamed_candidates(state: RisaState) -> dict[str, UnnamedConceptCan
     state.unnamed_concept_candidates = candidates
     rebuild_candidate_inference_index(state)
     return candidates
+
+
+def _single_transition_role_assignments(
+    events: list[Event],
+) -> tuple[dict[str, list[str]], dict[str, dict[str, object]]]:
+    """Refine induced target roles only where one-hop outcomes collide."""
+    records: dict[
+        str,
+        tuple[
+            str,
+            tuple[str, ...],
+            list[str],
+            list[tuple[str, tuple[str, ...]]],
+        ],
+    ] = {}
+    base_outcomes: dict[tuple[str, str], set[tuple[str, ...]]] = defaultdict(set)
+    for event in events:
+        action = normalize_label(event.action)
+        outcome = _normalized_tuple(event.observed_effects)
+        supplied = sorted(
+            {normalize_label(role) for role in event.target_roles if normalize_label(role)}
+        )
+        hierarchy = [] if supplied else induced_target_role_hierarchy(event)
+        records[event.id] = (action, outcome, supplied, hierarchy)
+        if hierarchy:
+            base_outcomes[(action, hierarchy[0][0])].add(outcome)
+
+    collided = {
+        key: sorted(outcomes)
+        for key, outcomes in base_outcomes.items()
+        if len(outcomes) > 1
+    }
+    refined_outcomes: dict[tuple[str, str], set[tuple[str, ...]]] = defaultdict(set)
+    refined_support: dict[tuple[str, str, str], int] = defaultdict(int)
+    for action, outcome, supplied, hierarchy in records.values():
+        if supplied or len(hierarchy) < 2:
+            continue
+        base_role = hierarchy[0][0]
+        if (action, base_role) in collided:
+            refined_outcomes[(action, hierarchy[1][0])].add(outcome)
+            refined_support[(action, base_role, hierarchy[1][0])] += 1
+
+    allowed_refinements: set[tuple[str, str, str]] = set()
+    for action, base_role in collided:
+        ranked = sorted(
+            (
+                (support, refined_role)
+                for (candidate_action, candidate_base, refined_role), support
+                in refined_support.items()
+                if candidate_action == action
+                and candidate_base == base_role
+                and len(refined_outcomes[(action, refined_role)]) == 1
+            ),
+            key=lambda item: (-item[0], item[1]),
+        )
+        allowed_refinements.update(
+            (action, base_role, refined_role)
+            for _, refined_role in ranked[:MAX_ROLE_REFINEMENTS_PER_BASE]
+        )
+
+    assignments: dict[str, list[str]] = {}
+    metadata: dict[str, dict[str, object]] = {}
+    for event_id, (action, outcome, supplied, hierarchy) in records.items():
+        if supplied:
+            assignments[event_id] = supplied
+            continue
+        if not hierarchy:
+            assignments[event_id] = []
+            continue
+        base_role, base_signature = hierarchy[0]
+        collision_outcomes = collided.get((action, base_role))
+        if not collision_outcomes:
+            assignments[event_id] = [base_role]
+            metadata[base_role] = {
+                "target_role_origin": "induced_structure",
+                "target_role_signature": list(base_signature),
+                "target_role_depth": 1,
+            }
+            continue
+        if len(hierarchy) < 2:
+            assignments[event_id] = []
+            continue
+        refined_role, refined_signature = hierarchy[1]
+        if (action, base_role, refined_role) not in allowed_refinements:
+            assignments[event_id] = []
+            continue
+        assignments[event_id] = [refined_role]
+        metadata[refined_role] = {
+            "target_role_origin": "induced_structure",
+            "target_role_signature": list(refined_signature),
+            "target_role_depth": 2,
+            "target_role_parent": base_role,
+            "target_role_collision_outcomes": [
+                list(colliding_outcome) for colliding_outcome in collision_outcomes
+            ],
+        }
+    return assignments, metadata
 
 
 def rebuild_candidate_inference_index(state: RisaState) -> None:
@@ -307,9 +413,9 @@ def _discover_temporal_sequence_candidates(
             )
             shared_actor_roles: set[str] = set()
             if normalize_label(first.actor) == normalize_label(second.actor):
-                shared_actor_roles = {
-                    normalize_label(role) for role in first.actor_roles
-                }.intersection(normalize_label(role) for role in second.actor_roles)
+                shared_actor_roles = set(
+                    effective_event_actor_roles(first)
+                ).intersection(effective_event_actor_roles(second))
             actor_role_options = sorted(shared_actor_roles) or [""]
             for role in sorted(shared_roles):
                 for actor_role in actor_role_options:
@@ -472,13 +578,15 @@ def _discover_relational_sequence_candidates(
             ):
                 continue
             role_items: list[tuple[str, str]] = []
+            first_roles = effective_event_entity_role_bindings(first)
+            second_roles = effective_event_entity_role_bindings(second)
             for variable in variables:
                 shared_roles = {
                     normalize_label(role)
-                    for role in first.entity_role_bindings.get(variable, [])
+                    for role in first_roles.get(normalize_label(variable), [])
                 }.intersection(
                     normalize_label(role)
-                    for role in second.entity_role_bindings.get(variable, [])
+                    for role in second_roles.get(normalize_label(variable), [])
                 )
                 if not shared_roles:
                     break

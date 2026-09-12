@@ -36,6 +36,7 @@ class RisaState:
     exclusive_state_groups: dict[str, set[str]] = field(default_factory=dict)
     state_variable_specs: dict[str, StateVariableSpec] = field(default_factory=dict)
     events_by_id: dict[str, Event] = field(default_factory=dict)
+    event_order: list[str] = field(default_factory=list)
     actor_action_effect_counts: dict[str, dict[str, dict[str, int]]] = field(default_factory=dict)
     action_effect_counts: dict[str, dict[str, int]] = field(default_factory=dict)
     actor_action_context_effect_counts: dict[str, dict[str, dict[str, dict[str, int]]]] = field(default_factory=dict)
@@ -224,6 +225,9 @@ class RisaState:
                 for name, spec in event_data.get("state_variable_specs", {}).items()
             }
             state.events_by_id[key] = Event(**event_data)
+        from risa.engine.event_order import rebuild_event_order
+
+        rebuild_event_order(state)
         state.prediction_validation_stats = data.get("prediction_validation_stats", {})
         state.prediction_competition_stats = data.get("prediction_competition_stats", {})
         state.event_primitive_ids = data.get("event_primitive_ids", {})

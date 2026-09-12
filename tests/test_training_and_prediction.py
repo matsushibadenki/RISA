@@ -47,8 +47,9 @@ from risa.engine.planner import (
 )
 from risa.engine.persistence import load_state, save_state
 from risa.engine.replay import _replay_deployment_trajectory, replay_structural_memory
+from risa.engine.prediction_access import predict_next_effect_with_access
 from risa.engine.readout_compaction import compact_adopted_candidate_readouts
-from risa.engine.runtime import train_events
+from risa.engine.runtime import TrainingOptions, train_events
 from risa.engine.simulator import (
     simulate_action_sequence_with_diagnostics,
     simulate_branches,
@@ -59,12 +60,108 @@ from risa.engine.state_variables import apply_variable_deltas
 
 
 class TrainingAndPredictionTests(unittest.TestCase):
+    def test_indexed_prediction_matches_full_event_scan_reference(self) -> None:
+        state = RisaState()
+        train_events(
+            state,
+            [
+                Event("access-1", 1, "robot-a", "inspect", observed_effects=["safe"]),
+                Event("access-2", 2, "robot-b", "inspect", observed_effects=["safe"]),
+                Event("access-3", 3, "robot-c", "open", observed_effects=["open"]),
+                Event("access-4", 4, "robot-d", "close", observed_effects=["closed"]),
+            ],
+            options=TrainingOptions(enable_replay=False, enable_adaptation=False),
+        )
+        query = PredictionQuery(actor="robot-a", action="inspect")
+
+        indexed, indexed_stats = predict_next_effect_with_access(
+            state, query, mode="indexed"
+        )
+        scanned, scan_stats = predict_next_effect_with_access(
+            state, query, mode="full_scan"
+        )
+
+        self.assertEqual(indexed.to_dict(), scanned.to_dict())
+        self.assertEqual(indexed_stats.events_examined, 2)
+        self.assertEqual(indexed_stats.candidate_events_loaded, 2)
+        self.assertEqual(scan_stats.events_examined, 4)
+        self.assertEqual(scan_stats.candidate_events_loaded, 2)
+
+    def test_replay_event_selection_uses_bounded_chronological_index(self) -> None:
+        state = RisaState()
+        train_events(
+            state,
+            [
+                Event(f"bounded-{index}", index, "robot", "move", observed_effects=["moved"])
+                for index in range(1, 6)
+            ],
+            options=TrainingOptions(enable_replay=False, enable_adaptation=False),
+        )
+        primitive = state.structural_primitives[
+            "primitive:transition:entity->process->state:move->moved"
+        ]
+
+        summary = replay_structural_memory(state, max_events=2)
+
+        self.assertEqual(summary.selection_events_examined, 2)
+        self.assertEqual(summary.replayed_events, 2)
+        self.assertEqual(primitive.replay_count, 2)
+        restored = RisaState.from_dict(state.to_dict())
+        self.assertEqual(
+            restored.event_order,
+            [f"bounded-{index}" for index in range(1, 6)],
+        )
+        restored_summary = replay_structural_memory(restored, max_events=1)
+        self.assertEqual(restored_summary.selection_events_examined, 1)
+        self.assertEqual(restored_summary.replayed_events, 1)
+
+    def test_event_order_inserts_cross_episode_history_chronologically(self) -> None:
+        state = RisaState()
+        options = TrainingOptions(enable_replay=False, enable_adaptation=False)
+        train_events(
+            state,
+            [
+                Event(
+                    "later-a",
+                    10,
+                    "robot-a",
+                    "move",
+                    observed_effects=["moved"],
+                    episode_id="episode-a",
+                )
+            ],
+            options=options,
+        )
+        train_events(
+            state,
+            [
+                Event(
+                    "earlier-b",
+                    5,
+                    "robot-b",
+                    "move",
+                    observed_effects=["moved"],
+                    episode_id="episode-b",
+                )
+            ],
+            options=options,
+        )
+
+        self.assertEqual(state.event_order, ["earlier-b", "later-a"])
+        summary = replay_structural_memory(state, max_events=1)
+        self.assertEqual(summary.selection_events_examined, 1)
+        self.assertEqual(summary.replayed_events, 1)
+
     def test_cli_parses_numeric_state_variables(self) -> None:
         parser = build_parser()
         forecast_args = parser.parse_args(
             [
                 "forecast", "--action", "spend", "--variable", "energy=5",
                 "--target-role", "battery",
+                "--target", "battery-a",
+                "--entity", "item=battery-a",
+                "--entity", "source=grid-a",
+                "--entity-relation", "item:powered_by:source",
             ]
         )
         compose_args = parser.parse_args(
@@ -137,6 +234,15 @@ class TrainingAndPredictionTests(unittest.TestCase):
 
         self.assertEqual(dict(forecast_args.variable), {"energy": 5.0})
         self.assertEqual(forecast_args.target_role, ["battery"])
+        self.assertEqual(forecast_args.target, "battery-a")
+        self.assertEqual(
+            dict(forecast_args.entity),
+            {"item": "battery-a", "source": "grid-a"},
+        )
+        self.assertEqual(
+            forecast_args.entity_relation,
+            [{"source": "item", "relation": "powered_by", "target": "source"}],
+        )
         self.assertEqual(dict(compose_args.start_variable), {"energy": 10.0})
         self.assertEqual(compose_args.actor_role, ["operator"])
         self.assertEqual(compose_args.actor, "robot-a")
@@ -2901,6 +3007,440 @@ class TrainingAndPredictionTests(unittest.TestCase):
             ),
         )
         self.assertEqual(restored_result.predicted_effects, ["warm"])
+
+    def test_colliding_one_hop_roles_specialize_with_two_hop_signatures(self) -> None:
+        state = RisaState()
+        events: list[Event] = []
+        for index, (effect, source_relation) in enumerate(
+            (
+                ("warm", "uses_solar"),
+                ("warm", "uses_solar"),
+                ("cold", "uses_nuclear"),
+                ("cold", "uses_nuclear"),
+            ),
+            1,
+        ):
+            target = f"collision-device-{index}"
+            events.append(
+                Event(
+                    id=f"collision-{index}",
+                    timestamp=index,
+                    actor=f"collision-robot-{index}",
+                    action="inspect",
+                    target=target,
+                    observed_effects=[effect],
+                    episode_id=f"collision-episode-{index}",
+                    source=f"collision-sensor-{index}",
+                    entity_bindings={
+                        "object": target,
+                        "supply": f"collision-supply-{index}",
+                        "resource": f"collision-resource-{index}",
+                    },
+                    entity_relations=[
+                        {
+                            "source": "object",
+                            "relation": "powered_by",
+                            "target": "supply",
+                        },
+                        {
+                            "source": "supply",
+                            "relation": source_relation,
+                            "target": "resource",
+                        },
+                    ],
+                    entity_relations_observed=True,
+                )
+            )
+        train_events(state, events)
+        candidates = [
+            candidate
+            for candidate in state.unnamed_concept_candidates.values()
+            if candidate.structural_schema.get("kind", "single_transition")
+            == "single_transition"
+        ]
+
+        self.assertEqual(len(candidates), 2)
+        self.assertEqual(
+            {candidate.structural_schema["target_role_depth"] for candidate in candidates},
+            {2},
+        )
+        self.assertEqual(
+            {
+                tuple(
+                    tuple(outcome)
+                    for outcome in candidate.structural_schema[
+                        "target_role_collision_outcomes"
+                    ]
+                )
+                for candidate in candidates
+            },
+            {(('cold',), ('warm',))},
+        )
+        self.assertTrue(
+            all(
+                "out:powered_by" in candidate.structural_schema["target_role_signature"]
+                for candidate in candidates
+            )
+        )
+        self.assertTrue(
+            all(
+                any(
+                    str(descriptor).startswith("2:out:powered_by|")
+                    for descriptor in candidate.structural_schema[
+                        "target_role_signature"
+                    ]
+                )
+                for candidate in candidates
+            )
+        )
+        for candidate_index, candidate in enumerate(candidates):
+            for partition in ("development", "final"):
+                evaluate_unnamed_candidate(
+                    state,
+                    candidate.id,
+                    partition=partition,
+                    evaluation_event_ids=[
+                        f"collision-{partition}-{candidate_index}"
+                    ],
+                    prediction_delta=0.5,
+                    composition_delta=0.5,
+                    prediction_delta_ci_lower=0.2,
+                    composition_delta_ci_lower=0.2,
+                    false_generalization_delta=0.0,
+                )
+        state.action_target_role_context_effect_counts.clear()
+        state.structural_primitives.clear()
+
+        def query(source_relation: str | None) -> PredictionQuery:
+            relations = [
+                {"source": "item", "relation": "powered_by", "target": "grid"}
+            ]
+            bindings = {"item": "heldout-device", "grid": "heldout-grid"}
+            if source_relation is not None:
+                bindings["fuel"] = "heldout-fuel"
+                relations.append(
+                    {
+                        "source": "grid",
+                        "relation": source_relation,
+                        "target": "fuel",
+                    }
+                )
+            return PredictionQuery(
+                actor="heldout-robot",
+                action="inspect",
+                target="heldout-device",
+                entity_bindings=bindings,
+                entity_relations=relations,
+            )
+
+        self.assertEqual(
+            predict_next_effect(state, query("uses_solar")).predicted_effects,
+            ["warm"],
+        )
+        self.assertEqual(
+            predict_next_effect(state, query("uses_nuclear")).predicted_effects,
+            ["cold"],
+        )
+        self.assertEqual(
+            predict_next_effect(state, query(None)).claim_status,
+            "abstained",
+        )
+        self.assertEqual(
+            predict_next_effect(state, query("uses_wind")).claim_status,
+            "abstained",
+        )
+
+        restored = RisaState.from_dict(state.to_dict())
+        restored.action_target_role_context_effect_counts.clear()
+        restored.structural_primitives.clear()
+        self.assertEqual(
+            predict_next_effect(restored, query("uses_solar")).predicted_effects,
+            ["warm"],
+        )
+
+    def test_collision_beyond_two_hop_budget_remains_unresolved(self) -> None:
+        state = RisaState()
+        events = []
+        for index, (effect, third_hop_relation) in enumerate(
+            (
+                ("warm", "classified_solar"),
+                ("warm", "classified_solar"),
+                ("cold", "classified_nuclear"),
+                ("cold", "classified_nuclear"),
+            ),
+            1,
+        ):
+            target = f"bounded-device-{index}"
+            events.append(
+                Event(
+                    id=f"bounded-collision-{index}",
+                    timestamp=index,
+                    actor=f"bounded-robot-{index}",
+                    action="inspect",
+                    target=target,
+                    observed_effects=[effect],
+                    episode_id=f"bounded-episode-{index}",
+                    source=f"bounded-sensor-{index}",
+                    entity_bindings={
+                        "object": target,
+                        "supply": f"bounded-supply-{index}",
+                        "fuel": f"bounded-fuel-{index}",
+                        "class": f"bounded-class-{index}",
+                    },
+                    entity_relations=[
+                        {
+                            "source": "object",
+                            "relation": "powered_by",
+                            "target": "supply",
+                        },
+                        {
+                            "source": "supply",
+                            "relation": "uses_fuel",
+                            "target": "fuel",
+                        },
+                        {
+                            "source": "fuel",
+                            "relation": third_hop_relation,
+                            "target": "class",
+                        },
+                    ],
+                    entity_relations_observed=True,
+                )
+            )
+        train_events(state, events)
+
+        self.assertFalse(
+            any(
+                candidate.structural_schema.get("kind", "single_transition")
+                == "single_transition"
+                for candidate in state.unnamed_concept_candidates.values()
+            )
+        )
+        state.action_target_role_context_effect_counts.clear()
+        state.structural_primitives.clear()
+        unresolved = predict_next_effect(
+            state,
+            PredictionQuery(
+                actor="bounded-heldout-robot",
+                action="inspect",
+                target="bounded-heldout-device",
+                entity_bindings={
+                    "item": "bounded-heldout-device",
+                    "grid": "bounded-heldout-grid",
+                    "fuel": "bounded-heldout-fuel",
+                    "class": "bounded-heldout-class",
+                },
+                entity_relations=[
+                    {"source": "item", "relation": "powered_by", "target": "grid"},
+                    {"source": "grid", "relation": "uses_fuel", "target": "fuel"},
+                    {"source": "fuel", "relation": "classified_nuclear", "target": "class"},
+                ],
+            ),
+        )
+        self.assertEqual(unresolved.claim_status, "abstained")
+
+    def test_role_collision_refinements_are_bounded_per_base_role(self) -> None:
+        state = RisaState()
+        events = []
+        timestamp = 1
+        for variant in range(10):
+            for repetition in range(2):
+                target = f"budget-device-{variant}-{repetition}"
+                events.append(
+                    Event(
+                        id=f"role-budget-{variant}-{repetition}",
+                        timestamp=timestamp,
+                        actor=f"budget-robot-{variant}-{repetition}",
+                        action="inspect",
+                        target=target,
+                        observed_effects=[f"effect-{variant}"],
+                        episode_id=f"role-budget-{variant}-{repetition}",
+                        source=f"budget-sensor-{variant}-{repetition}",
+                        entity_bindings={
+                            "object": target,
+                            "neighbor": f"neighbor-{variant}-{repetition}",
+                            "detail": f"detail-{variant}-{repetition}",
+                        },
+                        entity_relations=[
+                            {
+                                "source": "object",
+                                "relation": "connected_to",
+                                "target": "neighbor",
+                            },
+                            {
+                                "source": "neighbor",
+                                "relation": f"variant_{variant}",
+                                "target": "detail",
+                            },
+                        ],
+                        entity_relations_observed=True,
+                    )
+                )
+                timestamp += 1
+        train_events(state, events)
+        candidates = [
+            candidate
+            for candidate in state.unnamed_concept_candidates.values()
+            if candidate.structural_schema.get("kind", "single_transition")
+            == "single_transition"
+        ]
+
+        self.assertEqual(len(candidates), 8)
+        self.assertTrue(
+            all(candidate.structural_schema["target_role_depth"] == 2 for candidate in candidates)
+        )
+
+    def test_structure_induction_types_actor_and_arbitrary_plan_variables(self) -> None:
+        state = RisaState()
+        events: list[Event] = []
+        timestamp = 1
+        for index in range(2):
+            actor = f"controller-{index}"
+            target = f"device-{index}"
+            episode = f"structural-plan-{index}"
+            bindings = {
+                "operator": actor,
+                "machine": target,
+                "supply": f"grid-{index}",
+            }
+            relations = [
+                {
+                    "source": "operator",
+                    "relation": "controls",
+                    "target": "machine",
+                },
+                {
+                    "source": "machine",
+                    "relation": "powered_by",
+                    "target": "supply",
+                },
+            ]
+            events.extend(
+                [
+                    Event(
+                        id=f"{episode}-prepare",
+                        timestamp=timestamp,
+                        actor=actor,
+                        action="prepare",
+                        target=target,
+                        observed_effects=["ready"],
+                        episode_id=episode,
+                        source=f"plan-sensor-{index}-a",
+                        entity_bindings=bindings,
+                        entity_relations=relations,
+                        entity_relations_observed=True,
+                    ),
+                    Event(
+                        id=f"{episode}-start",
+                        timestamp=timestamp + 1,
+                        actor=actor,
+                        action="start",
+                        target=target,
+                        preconditions=["ready"],
+                        observed_states_before=["ready"],
+                        before_state_observed=True,
+                        observed_effects=["running"],
+                        episode_id=episode,
+                        source=f"plan-sensor-{index}-b",
+                        entity_bindings=bindings,
+                        entity_relations=relations,
+                        entity_relations_observed=True,
+                    ),
+                ]
+            )
+            timestamp += 2
+        train_events(state, events)
+        plan_candidates = [
+            candidate
+            for candidate in state.unnamed_concept_candidates.values()
+            if candidate.structural_schema.get("kind")
+            in {"temporal_sequence", "relational_sequence"}
+        ]
+        temporal = next(
+            candidate
+            for candidate in plan_candidates
+            if candidate.structural_schema.get("kind") == "temporal_sequence"
+            and "actor" in candidate.typed_role_variables
+        )
+        relational = next(
+            candidate
+            for candidate in plan_candidates
+            if candidate.structural_schema.get("kind") == "relational_sequence"
+        )
+        self.assertTrue(temporal.typed_role_variables["actor"].startswith("struct_role:"))
+        self.assertEqual(
+            set(relational.typed_role_variables),
+            {"operator", "machine", "supply"},
+        )
+        self.assertTrue(
+            all(
+                role.startswith("struct_role:")
+                for role in relational.typed_role_variables.values()
+            )
+        )
+        for candidate_index, candidate in enumerate((temporal, relational)):
+            for partition in ("development", "final"):
+                evaluate_unnamed_candidate(
+                    state,
+                    candidate.id,
+                    partition=partition,
+                    evaluation_event_ids=[
+                        f"structural-plan-{partition}-{candidate_index}"
+                    ],
+                    prediction_delta=0.0,
+                    composition_delta=0.5,
+                    prediction_delta_ci_lower=0.0,
+                    composition_delta_ci_lower=0.2,
+                    false_generalization_delta=0.0,
+                )
+        state.structural_primitives.clear()
+        query_bindings = {
+            "operator": "new-controller",
+            "machine": "new-device",
+            "supply": "new-grid",
+        }
+        query_relations = [
+            {"source": "operator", "relation": "controls", "target": "machine"},
+            {"source": "machine", "relation": "powered_by", "target": "supply"},
+        ]
+        composed = compose_to_effect(
+            state,
+            "prepare",
+            "running",
+            actor="new-controller",
+            target="new-device",
+            entity_bindings=query_bindings,
+            entity_relations=query_relations,
+            max_steps=2,
+        )
+        disabled = compose_to_effect(
+            state,
+            "prepare",
+            "running",
+            actor="new-controller",
+            target="new-device",
+            entity_bindings=query_bindings,
+            entity_relations=query_relations,
+            enable_role_induction=False,
+            max_steps=2,
+        )
+        missing_relations = compose_to_effect(
+            state,
+            "prepare",
+            "running",
+            actor="new-controller",
+            target="new-device",
+            entity_bindings=query_bindings,
+            entity_relations=[],
+            max_steps=2,
+        )
+
+        self.assertEqual(len(composed.primitive_ids), 2)
+        self.assertTrue(
+            all(primitive_id.startswith(f"derived:{relational.id}") for primitive_id in composed.primitive_ids)
+        )
+        self.assertEqual(disabled.primitive_ids, [])
+        self.assertEqual(missing_relations.primitive_ids, [])
 
     def test_candidate_derivation_blocks_ancestor_reuse_and_persists_dormancy(self) -> None:
         state = RisaState()

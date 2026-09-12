@@ -36,9 +36,19 @@
         0.4675,
         0.53625
       ],
+      "supplied_prediction_delta_vs_no_role": 0.5,
+      "supplied_prediction_delta_95ci": [
+        0.465,
+        0.535
+      ],
       "composition_delta_vs_no_role": 0.5,
       "composition_delta_95ci": [
         0.46625,
+        0.535
+      ],
+      "supplied_composition_delta_vs_no_role": 0.5,
+      "supplied_composition_delta_95ci": [
+        0.465,
         0.535
       ],
       "induced_mistyping_rate": 0.0,
@@ -59,10 +69,20 @@
         0.43,
         0.57
       ],
+      "supplied_prediction_delta_vs_no_role": 0.5,
+      "supplied_prediction_delta_95ci": [
+        0.43,
+        0.575
+      ],
       "composition_delta_vs_no_role": 0.5,
       "composition_delta_95ci": [
         0.43,
         0.57
+      ],
+      "supplied_composition_delta_vs_no_role": 0.5,
+      "supplied_composition_delta_95ci": [
+        0.435,
+        0.565
       ],
       "induced_mistyping_rate": 0.0,
       "supplied_mistyping_rate": 0.0
@@ -82,9 +102,19 @@
         0.46625,
         0.53375
       ],
+      "supplied_prediction_delta_vs_no_role": 0.5,
+      "supplied_prediction_delta_95ci": [
+        0.4675,
+        0.53625
+      ],
       "composition_delta_vs_no_role": 0.5,
       "composition_delta_95ci": [
         0.46625,
+        0.535
+      ],
+      "supplied_composition_delta_vs_no_role": 0.5,
+      "supplied_composition_delta_95ci": [
+        0.465,
         0.535
       ],
       "induced_mistyping_rate": 0.0,
@@ -105,10 +135,20 @@
         0.43,
         0.57
       ],
+      "supplied_prediction_delta_vs_no_role": 0.5,
+      "supplied_prediction_delta_95ci": [
+        0.435,
+        0.57
+      ],
       "composition_delta_vs_no_role": 0.5,
       "composition_delta_95ci": [
         0.43,
         0.57
+      ],
+      "supplied_composition_delta_vs_no_role": 0.5,
+      "supplied_composition_delta_95ci": [
+        0.435,
+        0.565
       ],
       "induced_mistyping_rate": 0.0,
       "supplied_mistyping_rate": 0.0
@@ -128,8 +168,18 @@
         0.46625,
         0.53625
       ],
+      "supplied_prediction_delta_vs_no_role": 0.5,
+      "supplied_prediction_delta_95ci": [
+        0.465,
+        0.53375
+      ],
       "composition_delta_vs_no_role": 0.5,
       "composition_delta_95ci": [
+        0.46625,
+        0.535
+      ],
+      "supplied_composition_delta_vs_no_role": 0.5,
+      "supplied_composition_delta_95ci": [
         0.46625,
         0.535
       ],
@@ -151,8 +201,18 @@
         0.43,
         0.57
       ],
+      "supplied_prediction_delta_vs_no_role": 0.5,
+      "supplied_prediction_delta_95ci": [
+        0.43,
+        0.57
+      ],
       "composition_delta_vs_no_role": 0.5,
       "composition_delta_95ci": [
+        0.43,
+        0.57
+      ],
+      "supplied_composition_delta_vs_no_role": 0.5,
+      "supplied_composition_delta_95ci": [
         0.43,
         0.57
       ],
@@ -174,8 +234,18 @@
         0.465,
         0.53375
       ],
+      "supplied_prediction_delta_vs_no_role": 0.5,
+      "supplied_prediction_delta_95ci": [
+        0.4675,
+        0.535
+      ],
       "composition_delta_vs_no_role": 0.5,
       "composition_delta_95ci": [
+        0.465,
+        0.535
+      ],
+      "supplied_composition_delta_vs_no_role": 0.5,
+      "supplied_composition_delta_95ci": [
         0.465,
         0.535
       ],
@@ -197,10 +267,20 @@
         0.43,
         0.57
       ],
+      "supplied_prediction_delta_vs_no_role": 0.5,
+      "supplied_prediction_delta_95ci": [
+        0.43,
+        0.57
+      ],
       "composition_delta_vs_no_role": 0.5,
       "composition_delta_95ci": [
         0.435,
         0.57
+      ],
+      "supplied_composition_delta_vs_no_role": 0.5,
+      "supplied_composition_delta_95ci": [
+        0.43,
+        0.575
       ],
       "induced_mistyping_rate": 0.0,
       "supplied_mistyping_rate": 0.0
@@ -220,10 +300,20 @@
         0.46625,
         0.53625
       ],
+      "supplied_prediction_delta_vs_no_role": 0.5,
+      "supplied_prediction_delta_95ci": [
+        0.46625,
+        0.53625
+      ],
       "composition_delta_vs_no_role": 0.5,
       "composition_delta_95ci": [
         0.465,
         0.53625
+      ],
+      "supplied_composition_delta_vs_no_role": 0.5,
+      "supplied_composition_delta_95ci": [
+        0.46625,
+        0.5325
       ],
       "induced_mistyping_rate": 0.0,
       "supplied_mistyping_rate": 0.0
@@ -243,9 +333,19 @@
         0.43,
         0.57
       ],
+      "supplied_prediction_delta_vs_no_role": 0.5,
+      "supplied_prediction_delta_95ci": [
+        0.43,
+        0.565
+      ],
       "composition_delta_vs_no_role": 0.5,
       "composition_delta_95ci": [
         0.435,
+        0.57
+      ],
+      "supplied_composition_delta_vs_no_role": 0.5,
+      "supplied_composition_delta_95ci": [
+        0.43,
         0.57
       ],
       "induced_mistyping_rate": 0.0,
@@ -260,11 +360,13 @@
     "supplied_composition_success_rate": 1.0,
     "no_role_composition_success_rate": 0.5,
     "prediction_delta_vs_no_role": 0.5,
+    "supplied_prediction_delta_vs_no_role": 0.5,
     "composition_delta_vs_no_role": 0.5,
+    "supplied_composition_delta_vs_no_role": 0.5,
     "induced_mistyping_rate": 0.0,
     "supplied_mistyping_rate": 0.0,
     "mean_induced_state_bytes": 106565.8,
-    "mean_supplied_state_bytes": 142811.8
+    "mean_supplied_state_bytes": 142812.2
   },
   "lifecycle": [
     {
@@ -1304,7 +1406,7 @@
         "adopted"
       ],
       "induced_state_bytes": 106565,
-      "supplied_state_bytes": 142811
+      "supplied_state_bytes": 142813
     },
     {
       "seed": 31,
@@ -2343,7 +2445,7 @@
         "adopted"
       ],
       "induced_state_bytes": 106565,
-      "supplied_state_bytes": 142811
+      "supplied_state_bytes": 142815
     },
     {
       "seed": 47,
@@ -4421,7 +4523,7 @@
         "adopted"
       ],
       "induced_state_bytes": 106567,
-      "supplied_state_bytes": 142813
+      "supplied_state_bytes": 142811
     },
     {
       "seed": 83,
@@ -5460,7 +5562,7 @@
         "adopted"
       ],
       "induced_state_bytes": 106567,
-      "supplied_state_bytes": 142813
+      "supplied_state_bytes": 142811
     }
   ],
   "decision": "adopt_structural_role_induction"

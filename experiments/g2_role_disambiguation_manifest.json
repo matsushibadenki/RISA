@@ -1,0 +1,10 @@
+{
+  "benchmark_version": "g2-role-disambiguation-v1",
+  "seeds": [19, 37, 53, 71, 89],
+  "development_episodes_per_seed": 800,
+  "final_episodes_per_seed": 200,
+  "bootstrap_samples": 2000,
+  "minimum_gain": 0.05,
+  "max_role_hops": 2,
+  "max_role_refinements_per_base": 8
+}

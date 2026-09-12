@@ -1,6 +1,6 @@
 # RISA Roadmap / RISA ロードマップ / RISA 路线图
 
-Updated: 2026-09-10. [Design assessment / 設計評価 / 设计评估](RISA-Structural-AI-Assessment-2026-09-05.md)
+Updated: 2026-09-13. [Design assessment / 設計評価 / 设计评估](RISA-Structural-AI-Assessment-2026-09-05.md)
 
 ## Authority and objective / 位置付けと目的 / 定位与目标
 
@@ -20,13 +20,13 @@ unseen objects and compositions, and adapts to change.
 - [Next] high-priority unfinished work / 最優先の未完了作業 / 高优先级未完成工作
 - [Later] planned, but not the closest next step / 依存段階通過後の予定 / 前置阶段通过后的计划
 
-日本語: [Done]は実装の存在を示し、研究仮説の実証とは区別する。G0、G1、G2.1〜G2.4のcontext schema閉ループまで完了し、直近はG2.5の構造role誘導。
-G3以降は重要でも[Later]とする。指標・閾値は評価前に固定し、結果を見て合格条件を緩めない。
+日本語: [Done]は実装の存在を示し、研究仮説の実証とは区別する。G0、G1、G2.1〜G2.6とG3.1のEvent access scale検証まで完了し、直近はG3.2のdrift評価。
+G4以降は重要でも[Later]とする。指標・閾値は評価前に固定し、結果を見て合格条件を緩めない。
 
-English: [Done] means implemented, not scientifically validated. G0, G1 and the G2.1–G2.4 context-schema loop are complete; G2.5 structural role induction is next and G3 onward is [Later].
+English: [Done] means implemented, not scientifically validated. G0, G1, G2.1–G2.6 and G3.1 Event-access scale validation are complete; G3.2 drift evaluation is next and G4 onward is [Later].
 Freeze metrics and thresholds before evaluation; do not relax gates after seeing results.
 
-简体中文: [Done]表示已实现，不等于科学验证。G0、G1及G2.1至G2.4的context schema闭环已完成，下一步是G2.5结构role归纳；G3以后标为[Later]。
+简体中文: [Done]表示已实现，不等于科学验证。G0、G1、G2.1至G2.6及G3.1 Event访问规模验证已完成，下一步是G3.2漂移评估；G4以后标为[Later]。
 评估前固定指标与阈值，不根据结果放宽通过条件。
 
 ## Current baseline / 現在地 / 当前基础
@@ -155,7 +155,13 @@ G2将据此重设角色绑定、变化适应及证据效率。
 - [Done] 親ごとの自動specializationをprecision改善・support順の上位8件に制限し、候補爆発を局所的に抑制 / Limit automatic specializations per parent to the top eight by precision gain and support, locally bounding candidate growth / 按precision提升及support将每个父候选的自动分化限制为前8项，局部抑制候选爆炸
 - [Done] 最大24 tagから単一・2連言の36条件を有限探索し、親ごと上位8候補、development winner 1候補だけをfinalへ進める選択契約を実装。学習時に完全相関する6 proxyを含む7候補から5 seedすべてで安定条件を選び、final 200件で100%対親50%、95% CI下限+43ポイント、false generalization 0%対100% / Search a bounded set of singleton and pairwise conjunctions from at most 24 tags, retain eight candidates per parent and allow one development winner into final; from seven candidates including six perfectly correlated training proxies, all five seeds select the stable condition and reach 100% versus the parent's 50%, a +43-point lower 95% bound and 0% versus 100% false generalization over 200 final cases / 从最多24个tag有限搜索单项及二元合取，每个父候选保留8项且仅允许1个development优胜者进入final；在含6个训练时完全相关proxy的7个候选中，5个seed均选中稳定条件，200个final案例达到100%对父候选50%，95%区间下限+43个百分点，错误泛化0%对100%
 - [Done] G2.4のcontext schemaについて、発見・候補予算・相関解消・独立採否・推論置換・保存再構築を完了 / Complete discovery, candidate budgeting, correlation resolution, independent adoption, inference replacement and persistence reconstruction for G2.4 context schemas / 完成G2.4 context schema的发现、候选预算、相关性消解、独立采纳、推理替换及持久化重建
-- [Next] 外部role labelに依存しない構造role誘導を実装し、供給role版とのbinding・composition差、誤型付け、保存量を独立development/finalで比較 / Implement structural role induction without external role labels and compare binding, composition, mistyping and storage against supplied roles on independent development and final data / 实现不依赖外部role标签的结构role归纳，并在独立development/final数据上比较其与外部提供role版本的binding、composition、错误类型及存储量
+- [Done] 外部roleがないEvent/queryからtargetの一hoprelation位置署名を作り、安定した内部role IDへ変換。学習・候補発見・予測・composition・Replay・validation・CLI・保存再構築を同じresolverへ接続 / Build a one-hop relation-position signature for targets without supplied roles, convert it to a stable internal ID, and use one resolver across learning, discovery, prediction, composition, replay, validation, CLI and persistence reconstruction / 从未提供role的Event及query生成target一hop relation位置签名并转换为稳定内部ID，在学习、发现、预测、composition、重放、验证、CLI及持久化重建中使用同一resolver
+- [Done] 5 seed・各800 development・200 finalで構造roleと外部roleは予測・compositionとも100%、roleなし50%、差のfinal 95% CI下限+43ポイント、未知・逆向きrelationの誤型付け0%。構造role Stateは外部role版より25.38%小さい / Across five seeds with 800 development and 200 final cases each, induced and supplied roles reach 100% prediction and composition versus 50% without roles; the final 95% lower bound is +43 points, mistyping is 0%, and induced-role State is 25.38% smaller / 5个seed中每个使用800个development及200个final案例；结构role与外部role的预测及composition均为100%，无role为50%，final 95%区间下限+43个百分点，错误类型率0%，结构role State小25.38%
+- [Done] G2.5節目: 外部target roleを必要としない一hop位置型について、発見・独立採否・未知target転移・誤型付け拒否・保存再構築を完了 / Complete discovery, independent adoption, unseen-target transfer, mistyping rejection and persistence reconstruction for one-hop positional target roles without supplied labels / 完成无需外部target role的一hop位置类型发现、独立采纳、未见target迁移、错误类型拒绝及持久化重建
+- [Done] G2.6 role衝突解消: 同じaction・一hop roleのoutcome分岐だけを最大二hopへ分化し、二hopでも曖昧なら候補化しない。base roleごとのrefinementはsupport順上位8件に制限 / Refine only outcome collisions within one action and one-hop role to depth two, suppress candidates still ambiguous at depth two, and retain at most eight refinements per base by support / 仅将同一action及一hop role内的outcome冲突细分至二hop；二hop仍有歧义时不生成候选，每个base按support最多保留8个refinement
+- [Done] actor・target・任意entity変数を同じ構造role resolverへ接続し、relation欠落時は空型を共有せずunknownとしてabstain / Use one structural-role resolver for actors, targets and arbitrary entity variables; treat missing relations as unknown and abstain rather than sharing an empty type / 将actor、target及任意entity变量接入同一结构role resolver；relation缺失时作为unknown弃答，不共享空类型
+- [Done] 5 seed・各800 development・200 finalで二hop予測・compositionは100%対一hop50%、planは構造role・外部roleとも100%対誘導無効50%、誤型付け0%、final 95% CI下限は最低+42.5ポイント / Across five seeds with 800 development and 200 final cases each, two-hop prediction and composition reach 100% versus 50% one-hop; induced and supplied-role plans reach 100% versus 50% with induction disabled, mistyping is 0%, and the final 95% lower bound is at least +42.5 points / 5个seed中每个使用800个development及200个final案例；二hop预测及composition为100%对一hop 50%，结构role及外部role plan均为100%对禁用归纳50%，错误类型率0%，final 95%区间下限最低+42.5个百分点
+- [Done] G2構造獲得節目: context schemaと有界構造roleについて、発見・衝突解消・独立採否・未知identity転移・保存再構築を閉ループ化 / Close the structured-world G2 loop for context schemas and bounded roles across discovery, disambiguation, independent adoption, unseen-identity transfer and persistence reconstruction / 完成结构世界G2闭环：context schema及有界结构role的发现、消歧、独立采纳、未见identity迁移与持久化重建
 - [Done] schema v4でEventの重複ID・空collection・既定値を省略 / In schema v4 omit duplicated event IDs, empty collections and defaults / schema v4省略Event重复ID、空集合及默认值
 - [Done] graphのenergy・reliability等は履歴として保持し、pattern・structural pattern・primitiveの重複IDと既定値をlosslessに省略。候補・Event圧縮と合わせて26,399→21,137 bytes、19.93%削減 / Preserve graph energy and reliability history while losslessly omitting duplicated IDs and defaults from pattern and primitive records; combined reduction is 26,399 to 21,137 bytes, or 19.93% / 保留graph的energy及reliability历史，无损省略pattern及primitive记录中的重复ID与默认值；合计由26,399降至21,137 bytes，减少19.93%
 - [Done] 5 seedのG2全Stateでschema v4を評価し、平均134,478→102,287 bytes・23.94%削減、5,000予測・2,250計画・Composition・simulation差分0 / Evaluate schema v4 over five full G2 states: 134,478 to 102,287 mean bytes, 23.94% reduction and zero differences over 5,000 predictions, 2,250 plans, composition and simulation / 在5个完整G2 State上评估schema v4：平均134,478降至102,287 bytes，减少23.94%，5,000次预测、2,250次规划、Composition及simulation差异为0
@@ -174,19 +180,23 @@ G2将据此重设角色绑定、变化适应及证据效率。
 
 相関contextの連言選択検証: [G2 context連言評価 / Context conjunction evaluation / Context合取评估](G2-Context-Conjunction-Evaluation-2026-09-12.md)
 
+構造roleの独立比較: [G2構造role評価 / Structural role evaluation / 结构role评估](G2-Structural-Role-Evaluation-2026-09-12.md)
+
+構造role衝突の独立比較: [G2 role曖昧性解消評価 / Role disambiguation evaluation / Role消歧评估](G2-Role-Disambiguation-Evaluation-2026-09-13.md)
+
 日本語: [G2比較結果](G2-Structural-Reuse-Evaluation-2026-09-08.md)では、final 200 episodeでRISAは観測から前提を学ぶ
 composition 100%（具体遷移表0%）、binding 100%（同75%、役割束縛なし75%）、B期drift 75%（同33.3%、
 変化適応なし33.3%）だった。Control、明示前提composition、A1/A2は100%を維持し、Uncertaintyは94%で同率だった。
-役割型は入力で与えており自動型発見ではない。保存量は静的学習後138,918 bytes対3,458 bytesで、効率の課題は未解決である。
+この旧評価では役割型を入力で与えていた。G2.5では一hopの位置roleに限って外部labelを除去したが、意味型の自動発見ではない。保存量は静的学習後138,918 bytes対3,458 bytesで、効率の課題は未解決である。
 
 English: The [G2 comparison](G2-Structural-Reuse-Evaluation-2026-09-08.md) reports 100% versus 0% on learned-
 applicability composition, 100% versus 75% on binding, and 75% versus 33.3% in phase B drift over the pooled final
 episodes. Control, supplied-precondition composition and A1/A2 remain at 100%; uncertainty ties at 94%. Target roles
-are supplied rather than induced. Static state remains large at 138,918 bytes versus 3,458 bytes.
+were supplied in that benchmark. G2.5 removes them for one-hop positional roles, but does not establish semantic type discovery. Static state remains large at 138,918 bytes versus 3,458 bytes.
 
 简体中文: [G2比较结果](G2-Structural-Reuse-Evaluation-2026-09-08.md)显示：从观测学习适用条件的composition为100%对0%，
 binding为100%对75%，B阶段drift为75%对33.3%。Control、已提供前提的composition及A1/A2保持100%，Uncertainty同为94%。
-target角色由输入提供，尚未自动归纳。静态状态仍为138,918 bytes，而基线为3,458 bytes。
+该旧评估中的target角色由输入提供。G2.5已在一hop位置role范围内移除外部标签，但尚未证明语义类型自动发现。静态状态仍为138,918 bytes，而基线为3,458 bytes。
 
 日本語: G0/G1後、構造共有なし・具体遷移表との比較を固定plannerで実施する。最終採用の初期閾値は、
 compositionとbindingの両方で最強の適用可能baselineより成功率が5ポイント以上高く、差の95%区間下限が0超、
@@ -195,8 +205,8 @@ compositionとbindingの両方で最強の適用可能baselineより成功率が
 自動schema獲得が勝てなければ、明示schemaを使う説明可能な記憶・計画部品へ用途を絞る。
 
 G2.1〜G2.3は対象別ablationで5ポイントを超える改善を示したが、当初の広いgateは未達である。
-明示前提compositionは具体遷移表と同率で、役割型も外部入力だからである。G2.4ではcontext schemaの発見から
-独立採否・推論置換・保存再構築までを完了した。G2.5では外部role labelを外して構造role誘導を測る。gateの定義は維持する。
+明示前提compositionが具体遷移表と同率だからである。G2.4ではcontext schemaの閉ループを完了し、G2.5では
+一hop構造roleが外部roleと同率、roleなしより+50ポイントとなった。G2.6では二hop衝突解消も+50ポイントとなり、構造世界でのG2実装順序を閉じた。意味型発見とは扱わず、広いgate未達の主因であるoracle相当の明示前提baselineとの同率は残す。機能追加を重ねずG3でscaleとcostを測る。
 
 概念凝縮の追加条件として、候補なし方式より実測記述長を減らし、false generalizationを増やさないことを要求する。
 新概念を使う二世代目以降の候補探索は、祖先と重ならない独立held-out episodeで追加改善が確認できた場合だけ「知能複利」と報告する。
@@ -211,10 +221,12 @@ Concept condensation must also reduce measured description length over the no-ca
 false generalization. Report second-generation discovery as intelligence compounding only when it improves independent
 held-out episodes whose evidence does not overlap the candidate lineage.
 
-G2.1–G2.3 exceed five points in their targeted ablations, but the original broad gate is not yet met: supplied-
-precondition composition still ties the grounded table, and target roles are external inputs. G2.4 now completes the
-context-schema loop and its persistence evaluation on independent held-out evidence. G2.5 must remove supplied role
-labels and measure automatic structural role induction. The gate remains unchanged.
+G2.1–G2.3 exceed five points in their targeted ablations, but the original broad gate is not yet met because supplied-
+precondition composition still ties the grounded table. G2.4 completes the context-schema loop. In G2.5, one-hop
+structural roles tie supplied roles and gain 50 points over no roles. G2.6 also gains 50 points by resolving two-hop
+collisions, closing the G2 implementation sequence in the structured world. This is not semantic type discovery, and
+the tie with an oracle-like supplied-precondition baseline remains the reason the broad gate is not met. Move to G3
+scale and cost measurement instead of adding another feature layer.
 
 简体中文: G0/G1后固定规划器。初始采纳条件：组合与绑定任务均超过最强适用基线至少5个百分点，
 差值95%区间下限大于0，遵守相同预算上限，已知任务下降不超过2个百分点。以上是预设门槛，不是实测结果。
@@ -223,26 +235,22 @@ labels and measure automatic structural role induction. The gate remains unchang
 概念凝聚还必须比无候选版本降低实测描述长度，且不增加错误泛化。只有当第二代及后续发现能改善与候选谱系证据不重叠的
 独立留出回合时，才可称为智能复利。
 
-G2.1至G2.3在各自消融中提升超过5个百分点，但仍未达到原先的广义门槛：已提供前提的composition仍与具体转移表持平，
-target角色也来自外部输入。G2.4现已完成context schema闭环及独立留出持久化评估；G2.5必须去除外部role标签并测量自动结构role归纳。门槛保持不变。
+G2.1至G2.3在各自消融中提升超过5个百分点，但仍未达到原先的广义门槛，因为已提供前提的composition仍与具体转移表持平。
+G2.4已完成context schema闭环；G2.5的一hop结构role与外部role持平，并比无role版本高50个百分点。G2.6的二hop冲突消解同样提升50个百分点，从而完成结构世界中的G2实现顺序。这不等于语义类型发现；与近似oracle的已提供前提baseline仍持平，因此广义门槛尚未通过。停止叠加功能，进入G3规模与成本测量。
 
 ## G3 — Adaptation and bounded cost / 継続適応と計算予算 / 持续适应与计算预算
 
-- [Later] 文脈分裂・統合・休眠の個別効果をdrift評価 / Measure splitting/merging/dormancy under drift / 在漂移中分别评估分裂、合并与休眠
-- [Later] 実装済みindexと予算付きReplayを1k〜100k Eventで比較検証 / Validate the implemented indices and bounded replay at 1k–100k events / 在1千至10万Event规模验证已实现的索引及有界重放
-- [Later] 1k→10k→100k Eventの段階測定 / Measure 1k→10k→100k events / 分级测量1k至100k事件
+- [Done] G3.1: 3 seed・1k→10k→100k Eventの全9条件でindex版と全走査参照版の全予測field差分0。Event作業量を最小63.49倍、p95を最小20.37倍改善し、Replay windowは全sort参照と一致したまま128件に制限 / Across all nine rows over three seeds and 1k→10k→100k Events, every prediction field matches the full-scan reference; Event work improves by at least 63.49×, p95 by at least 20.37×, and the 128-Event Replay window matches a full sort / 在3个seed及1千→1万→10万Event的全部9个条件中，所有预测字段与全扫描参考一致；Event工作量至少改善63.49倍，p95至少改善20.37倍，128件Replay窗口与全排序一致
+- [Next] G3.2: 文脈分裂・統合・休眠を個別ablationし、drift回復遅延・旧知識保持・適応件数・Replay量を評価 / Ablate splitting, merging and dormancy separately under drift; measure recovery delay, retained prior knowledge, adaptation count and Replay work / 分别消融context分裂、合并及休眠，评估漂移恢复延迟、旧知识保持、适应次数及Replay工作量
 - [Later] score校正、unknownの区別、状態を含む探索重複判定 / Calibration, unknown states, state-aware search deduplication / 校准、未知状态及考虑状态的搜索去重
 
-日本語: G2後に実行。更新範囲、Replay件数、走査edge、p50/p95時間、保存bytes、回復速度と忘却を計測する。
-局所索引版は全走査版との候補・結果比較を行い、品質低下1ポイント以内でp95時間または走査量を2倍以上改善することを
-初期採用条件とする。最大規模が予算を超えたらそこで止め、上限を結果として報告する。
+日本語: G3.1の予測read modelとReplay選択は採用条件を通過した。合成fixtureは完全な学習・graph構築・候補発見・planner探索を含まないため、それらの100k性能は未評価として残す。G3.2で更新範囲、Replay件数、回復速度と忘却をdrift下で測る。
 
-English: After G2, measure update scope, replay count, scanned edges, p50/p95 latency, stored bytes, recovery and forgetting.
-Compare indexed and full-scan candidates/results. Initial gate: at least 2× better p95 latency or scan count with at
-most 1 point quality loss. Stop and report the limit if a scale exceeds budget.
+English: G3.1 prediction read models and Replay selection passed the adoption gate. Full learning, graph construction, candidate discovery and planner search were excluded from the synthetic fixture, so their 100k performance remains unmeasured. G3.2 measures update scope, Replay work, recovery and forgetting under drift.
 
-简体中文: G2后测更新范围、重放量、扫描边、p50/p95时延、存储量、恢复与遗忘。比较索引版与全扫描版候选和结果。
-初始门槛为质量下降不超过1个百分点，p95时延或扫描量改善至少2倍；超预算即停止并报告上限。
+简体中文: G3.1的预测read model及Replay选择已通过采纳门槛。合成fixture不含完整学习、graph构建、候选发现及planner搜索，因此这些路径的10万规模性能仍未测量。G3.2将在漂移下测量更新范围、Replay工作量、恢复及遗忘。
+
+詳細: [G3.1 Event access scale評価 / Event-access scale evaluation / Event访问规模评估](G3-Scale-Evaluation-2026-09-13.md)
 
 ## G4 — Application and optional research / 用途と追加研究 / 应用与可选研究
 

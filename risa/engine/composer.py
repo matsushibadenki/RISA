@@ -14,7 +14,11 @@ from risa.engine.candidate_discovery import (
     matching_adopted_plan_candidates,
 )
 from risa.engine.graph_builder import normalize_label
-from risa.engine.role_induction import effective_query_target_roles
+from risa.engine.role_induction import (
+    effective_query_actor_roles,
+    effective_query_entity_role_bindings,
+    effective_query_target_roles,
+)
 from risa.engine.transitions import apply_primitive_transition
 
 
@@ -126,6 +130,19 @@ def compose_to_effect(
     target_roles = effective_query_target_roles(
         target=target,
         supplied_roles=target_roles or [],
+        entity_bindings=entity_bindings or {},
+        entity_relations=entity_relations or [],
+        enable_role_induction=enable_role_induction,
+    )
+    actor_roles = effective_query_actor_roles(
+        actor=actor,
+        supplied_roles=actor_roles or [],
+        entity_bindings=entity_bindings or {},
+        entity_relations=entity_relations or [],
+        enable_role_induction=enable_role_induction,
+    )
+    entity_role_bindings = effective_query_entity_role_bindings(
+        supplied_bindings=entity_role_bindings or {},
         entity_bindings=entity_bindings or {},
         entity_relations=entity_relations or [],
         enable_role_induction=enable_role_induction,
