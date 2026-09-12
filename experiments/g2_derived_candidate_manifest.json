@@ -1,0 +1,8 @@
+{
+  "benchmark_version": "g2-derived-context-v1",
+  "seeds": [11, 23, 37, 53, 71],
+  "development_episodes_per_seed": 800,
+  "final_episodes_per_seed": 200,
+  "bootstrap_samples": 2000,
+  "minimum_gain": 0.05
+}

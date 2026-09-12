@@ -487,7 +487,9 @@ def _adopted_primitives_for_action(
     ]
     if enable_candidate_concepts:
         primitives.extend(
-            _candidate_primitives_for_action(state, action, target_roles or [])
+            _candidate_primitives_for_action(
+                state, action, target_roles or [], context
+            )
         )
     return primitives
 
@@ -496,9 +498,12 @@ def _candidate_primitives_for_action(
     state: RisaState,
     action: str,
     target_roles: list[str],
+    context: set[str],
 ) -> list[StructuralPrimitive]:
     derived: list[StructuralPrimitive] = []
-    for candidate in matching_adopted_candidates(state, action, target_roles):
+    for candidate in matching_adopted_candidates(
+        state, action, target_roles, context
+    ):
         effects = {
             normalize_label(str(effect))
             for effect in candidate.structural_schema.get("effects", [])

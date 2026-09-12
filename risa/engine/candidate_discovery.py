@@ -80,6 +80,10 @@ def discover_unnamed_candidates(state: RisaState) -> dict[str, UnnamedConceptCan
 
     candidates.update(_discover_temporal_sequence_candidates(state, previous_candidates))
     candidates.update(_discover_relational_sequence_candidates(state, previous_candidates))
+    state.unnamed_concept_candidates = candidates
+    from risa.engine.candidate_lifecycle import propose_context_derivations
+
+    propose_context_derivations(state)
     for candidate in sorted(
         (
             item
@@ -88,6 +92,9 @@ def discover_unnamed_candidates(state: RisaState) -> dict[str, UnnamedConceptCan
         ),
         key=lambda item: (item.derivation_generation, item.id),
     ):
+        if candidate.id in candidates:
+            _restore_unchanged_evaluation(candidates[candidate.id], candidate)
+            continue
         if all(
             parent_id in candidates
             and candidate.parent_evidence_digests.get(parent_id)
@@ -160,6 +167,7 @@ def matching_adopted_candidates(
     state: RisaState,
     action: str,
     target_roles: list[str] | set[str] | tuple[str, ...],
+    context_tags: list[str] | set[str] | tuple[str, ...] = (),
 ) -> list[UnnamedConceptCandidate]:
     candidate_ids: set[str] = set()
     normalized_action = normalize_label(action)
@@ -172,7 +180,32 @@ def matching_adopted_candidates(
         if candidate_id in state.unnamed_concept_candidates
         and state.unnamed_concept_candidates[candidate_id].lifecycle_status == "adopted"
         and not state.unnamed_concept_candidates[candidate_id].dormant
+        and _candidate_context_matches(
+            state.unnamed_concept_candidates[candidate_id], context_tags
+        )
     ]
+
+
+def _candidate_context_matches(
+    candidate: UnnamedConceptCandidate,
+    context_tags: list[str] | set[str] | tuple[str, ...],
+) -> bool:
+    available = {normalize_label(tag) for tag in context_tags}
+    required = candidate.structural_schema.get("required_context_tags", [])
+    if isinstance(required, list) and not {
+        normalize_label(str(tag)) for tag in required
+    }.issubset(available):
+        return False
+    alternatives = candidate.structural_schema.get(
+        "required_context_alternatives", []
+    )
+    if isinstance(alternatives, list) and alternatives:
+        return any(
+            isinstance(item, list)
+            and {normalize_label(str(tag)) for tag in item}.issubset(available)
+            for item in alternatives
+        )
+    return True
 
 
 def matching_adopted_plan_candidates(
@@ -710,6 +743,11 @@ def _restore_unchanged_evaluation(
     candidate.prediction_delta_ci_lower = previous.prediction_delta_ci_lower
     candidate.composition_delta_ci_lower = previous.composition_delta_ci_lower
     candidate.false_generalization_delta = previous.false_generalization_delta
+    candidate.parent_heldout_prediction_delta = previous.parent_heldout_prediction_delta
+    candidate.parent_heldout_composition_delta = previous.parent_heldout_composition_delta
+    candidate.parent_prediction_delta_ci_lower = previous.parent_prediction_delta_ci_lower
+    candidate.parent_composition_delta_ci_lower = previous.parent_composition_delta_ci_lower
+    candidate.dormant = previous.dormant
 
 
 def _add_candidate_index(state: RisaState, key: str, candidate_id: str) -> None:
@@ -790,6 +828,84 @@ def evaluate_unnamed_candidate(
         candidate.lifecycle_status = "adopted" if passes else "rejected"
     rebuild_candidate_inference_index(state)
     return candidate
+
+
+def evaluate_derived_candidate(
+    state: RisaState,
+    candidate_id: str,
+    *,
+    partition: str,
+    evaluation_event_ids: list[str],
+    prediction_delta: float,
+    composition_delta: float,
+    prediction_delta_ci_lower: float,
+    composition_delta_ci_lower: float,
+    false_generalization_delta: float,
+    parent_prediction_delta: float,
+    parent_composition_delta: float,
+    parent_prediction_delta_ci_lower: float,
+    parent_composition_delta_ci_lower: float,
+    minimum_gain: float = 0.05,
+) -> UnnamedConceptCandidate:
+    """Evaluate a derived candidate against a baseline and its strongest parent."""
+    candidate = state.unnamed_concept_candidates[candidate_id]
+    if candidate.derivation_generation <= 0 or not candidate.parent_candidate_ids:
+        raise ValueError("derived evaluation requires a candidate with parents")
+    parent_has_supported_gain = (
+        parent_prediction_delta >= minimum_gain
+        and parent_prediction_delta_ci_lower > 0.0
+    ) or (
+        parent_composition_delta >= minimum_gain
+        and parent_composition_delta_ci_lower > 0.0
+    )
+    evaluated = evaluate_unnamed_candidate(
+        state,
+        candidate_id,
+        partition=partition,
+        evaluation_event_ids=evaluation_event_ids,
+        prediction_delta=prediction_delta,
+        composition_delta=composition_delta,
+        prediction_delta_ci_lower=prediction_delta_ci_lower,
+        composition_delta_ci_lower=composition_delta_ci_lower,
+        false_generalization_delta=false_generalization_delta,
+        minimum_gain=minimum_gain,
+    )
+    evaluated.parent_heldout_prediction_delta = parent_prediction_delta
+    evaluated.parent_heldout_composition_delta = parent_composition_delta
+    evaluated.parent_prediction_delta_ci_lower = parent_prediction_delta_ci_lower
+    evaluated.parent_composition_delta_ci_lower = parent_composition_delta_ci_lower
+    if not parent_has_supported_gain:
+        evaluated.lifecycle_status = "rejected"
+        rebuild_candidate_inference_index(state)
+    elif evaluated.lifecycle_status == "adopted":
+        _dormant_replaced_ancestors(state, evaluated)
+        rebuild_candidate_inference_index(state)
+    return evaluated
+
+
+def _dormant_replaced_ancestors(
+    state: RisaState, candidate: UnnamedConceptCandidate
+) -> None:
+    """Deactivate adopted ancestors whose broader transition is replaced by a child."""
+    transition_keys = ("action", "target_role", "effects")
+    expected = tuple(candidate.structural_schema.get(key) for key in transition_keys)
+    pending = list(candidate.parent_candidate_ids)
+    visited: set[str] = set()
+    while pending:
+        ancestor_id = pending.pop()
+        if ancestor_id in visited:
+            continue
+        visited.add(ancestor_id)
+        ancestor = state.unnamed_concept_candidates.get(ancestor_id)
+        if ancestor is None:
+            continue
+        if (
+            ancestor.lifecycle_status == "adopted"
+            and tuple(ancestor.structural_schema.get(key) for key in transition_keys)
+            == expected
+        ):
+            ancestor.dormant = True
+        pending.extend(ancestor.parent_candidate_ids)
 
 
 def _candidate_protected_evidence(state: RisaState, candidate_id: str) -> set[str]:

@@ -26,19 +26,19 @@ RISA は **Relationally Involving Self-organizing Architecture** の略で、
 ## 設計評価と現在の優先順位 / Assessment / 设计评估 — 2026-09-08
 
 **構造ベースのAIとして研究を続ける価値があります。ただし、一般的な優位性はまだ未実証です。**
-G2では役割束縛、前提学習、変化適応を実装し、全94テストが通過しています。final評価は、観測から前提を学ぶcompositionで
+G2では役割束縛、前提学習、変化適応を実装し、全97テストが通過しています。final評価は、観測から前提を学ぶcompositionで
 100%対具体遷移表0%、未知target bindingで100%対75%、B期driftで75%対33.3%でした。明示前提compositionは同率で、
 役割型は外部入力です。任意3-entity関係候補は既存経路比+80ポイントとなり、relation観測noiseへの耐性と成功反例による前提撤回を実装しました。schema v4はG2全Stateで平均134,478→102,287 bytes、23.94%削減し、5,000予測・2,250計画・Composition・simulationの再読込差分は0でした。baselineとの保存量差は残っています。
 以下の機能一覧は実装の存在を示し、任意の入力での正しさや研究仮説の証明を意味しません。
 
 English: Structural AI research remains worthwhile, but a general advantage is not established. G2 implements role
-binding, applicability learning and change adaptation; all 94 tests pass. Final success is 100% versus 0% on learned
+binding, applicability learning and change adaptation; all 97 tests pass. Final success is 100% versus 0% on learned
 composition, 100% versus 75% on binding, and 75% versus 33.3% in phase-B drift. Supplied composition still ties,
 roles are external inputs, and state is about 40× larger. Single-transition candidates were redundant, while a typed
 two-step temporal and actor/target candidates add value, and a generic three-entity relation candidate gains 80 points.
 Relation observation noise tolerance and premise retraction from successful counterexamples are implemented. Across full G2 states, schema v4 reduces mean persistence from 134,478 to 102,287 bytes, or 23.94%, with zero reload mismatches over 5,000 predictions, 2,250 plans, composition and simulation. The baseline storage gap remains.
 
-简体中文: 结构AI研究仍值得继续，但尚未证明普遍优势。G2已实现角色绑定、适用条件学习及变化适应，全部94项测试通过。
+简体中文: 结构AI研究仍值得继续，但尚未证明普遍优势。G2已实现角色绑定、适用条件学习及变化适应，全部97项测试通过。
 最终成功率在观测学习composition为100%对0%，binding为100%对75%，B阶段drift为75%对33.3%。已提供前提的
 composition仍持平，角色来自外部输入。任意三entity关系候选比现有路径高80个百分点；已实现relation观测噪声耐受及成功反例触发的前提撤回。schema v4在完整G2 State上使平均持久化量由134,478降至102,287 bytes，减少23.94%；5,000次预测、2,250次规划、Composition及simulation重载差异均为0，但与baseline的存储差距仍存在。
 
@@ -376,7 +376,9 @@ English: Static threats remain explainable hypotheses and are validated by parti
 - [Done] G2.4導出構造圧縮: graphの履歴値を保持し、pattern・structural pattern・primitiveをlossless圧縮。候補・Eventと合わせて26,399→21,137 bytes、19.93%削減 / Preserve graph history and losslessly compact pattern and primitive records; together reduce 26,399 to 21,137 bytes, or 19.93% / 保留graph历史值并无损压缩pattern及primitive记录；合计使26,399降至21,137 bytes，减少19.93%
 - [Done] G2.4広域圧縮評価: 5 seedのG2全Stateで134,478→102,287 bytes、23.94%削減。5,000予測・2,250計画・Composition・simulationの差分0 / Across five full G2 states reduce 134,478 to 102,287 bytes, or 23.94%, with zero differences over 5,000 predictions, 2,250 plans, composition and simulation / 5个完整G2 State由134,478降至102,287 bytes，减少23.94%；5,000次预测、2,250次规划、Composition及simulation差异为0
 - [Done] G2.4候補生命周期基盤: specialization・merge・dormancy、二世代候補、親証拠fingerprint、祖先を含む循環支持禁止を実装 / Implement specialization, merge, dormancy, second-generation candidates, parent-evidence fingerprints and ancestor-aware circular-support prevention / 实现候选分化、合并、休眠、第二代候选、父证据fingerprint及祖先感知的循环支持防止
-- [Next] G2.4派生候補評価: specialization・mergeの自動提案条件と、親を超える独立held-out改善を比較 / Define automatic specialization and merge proposals and compare independent held-out gains beyond parents / 定义自动分化与合并提案条件，并比较其相对父候选的独立留出提升
+- [Done] G2.4派生候補評価: 再現性とprecision改善でcontext specializationを自動提案し、互換な兄弟を条件の論理和を保ったままmerge。5 seed・final 200件でmerge 100%対最良の直接親75%、広い祖先は50%・false generalization 100% / Propose context specializations from reproducibility and precision gain and merge compatible siblings while preserving context disjunctions; over five seeds and 200 final cases, merge reaches 100% versus the strongest direct parent's 75%, while the broad ancestor reaches 50% with 100% false generalization / 按可复现性及precision提升自动提出context分化，在保留context析取条件下合并兼容兄弟；5个seed及200个final案例中merge达到100%，最强直接父候选为75%，宽泛祖先为50%且错误泛化100%
+- [Done] G2.4候補数予算: 親ごとのspecializationをprecision改善・support順で上位8件に制限 / Limit specializations per parent to the top eight by precision gain and support / 按precision提升及support将每个父候选的分化限制为前8项
+- [Next] G2.4複合context探索: noisy・相関tag下で連言条件を探索し、多重候補選択による過適合を独立held-outで抑制 / Search conjunctive conditions under noisy correlated tags and control overfitting from multiple candidate selection on independent held-out data / 在含噪且相关的tag下搜索合取条件，并用独立留出数据控制多候选选择造成的过拟合
 - [Later] G3: 継続適応と計算予算の大規模検証 / Large-scale validation of continual adaptation and bounded cost / 大规模验证持续适应与计算预算
 - [Later] G4: 用途検証と追加研究。Canopy・SNN・階層credit・微分可能logic gate・BitNet/SNN/Logic交点の三値Event回路は比較結果から再判断 / Validate applications; gate canopy, SNN, hierarchical credit, differentiable logic gates and ternary event circuits at the BitNet/SNN/Logic intersection on evidence / 验证应用，根据比较证据决定Canopy、SNN、层级信用、可微逻辑门及BitNet/SNN/Logic交点的三值Event电路
 
@@ -388,6 +390,7 @@ The roadmap defines completion and revision gates. 路线图统一规定完成�
 - [RISA Roadmap](docs/ROADMAP.md)
 - [G1 Comparative Evaluation](docs/G1-Comparative-Evaluation-2026-09-08.md)
 - [G2 Structural Reuse Evaluation](docs/G2-Structural-Reuse-Evaluation-2026-09-08.md)
+- [G2 Derived Candidate Evaluation](docs/G2-Derived-Candidate-Evaluation-2026-09-11.md)
 - [G2 Candidate Transfer Evaluation](docs/G2-Candidate-Transfer-Evaluation-2026-09-08.md)
 - [RISA MVP-1 Technical Design](docs/RISA-MVP-1-Technical-Design.md)
 - [RISA Design Policy](docs/policy.md)

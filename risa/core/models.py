@@ -323,6 +323,10 @@ class UnnamedConceptCandidate:
     prediction_delta_ci_lower: float = 0.0
     composition_delta_ci_lower: float = 0.0
     false_generalization_delta: float = 0.0
+    parent_heldout_prediction_delta: float = 0.0
+    parent_heldout_composition_delta: float = 0.0
+    parent_prediction_delta_ci_lower: float = 0.0
+    parent_composition_delta_ci_lower: float = 0.0
 
     def to_dict(self) -> dict:
         return asdict(self)

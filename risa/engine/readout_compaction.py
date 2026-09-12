@@ -39,7 +39,9 @@ def compact_adopted_candidate_readouts(
     for query in regression_queries:
         action = normalize_label(query.action)
         roles = sorted({normalize_label(role) for role in query.target_roles})
-        for candidate in matching_adopted_candidates(state, action, roles):
+        for candidate in matching_adopted_candidates(
+            state, action, roles, query.context_tags
+        ):
             role = normalize_label(
                 str(candidate.structural_schema.get("target_role", ""))
             )
@@ -118,4 +120,3 @@ def _role_readout_bytes(state: RisaState) -> int:
 
 def _target_key(actor: str, action: str, target: str, context: str) -> str:
     return "\x1f".join((actor, action, target, context))
-

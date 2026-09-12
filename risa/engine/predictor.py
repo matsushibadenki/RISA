@@ -14,7 +14,9 @@ def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionR
     target = normalize_label(query.target) if query.target else ""
     target_roles = sorted({normalize_label(role) for role in query.target_roles})
     adopted_candidates = (
-        matching_adopted_candidates(state, action, target_roles)
+        matching_adopted_candidates(
+            state, action, target_roles, query.context_tags
+        )
         if query.enable_candidate_concepts
         else []
     )

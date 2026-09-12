@@ -5,6 +5,7 @@ from pathlib import Path
 import unittest
 
 from experiments.candidate_transfer_evaluation import run_candidate_transfer
+from experiments.derived_candidate_evaluation import run_derived_candidate_evaluation
 from experiments.generic_relation_candidate_evaluation import (
     run_generic_relation_evaluation,
 )
@@ -19,6 +20,33 @@ MANIFEST_PATH = Path(__file__).parents[1] / "experiments" / "g1_manifest.json"
 
 
 class ComparativeEvaluationTests(unittest.TestCase):
+    def test_automatic_context_merge_beats_its_parent_on_heldout_cases(self) -> None:
+        result = run_derived_candidate_evaluation(
+            {
+                "benchmark_version": "test-derived-context",
+                "seeds": [17],
+                "development_episodes_per_seed": 40,
+                "final_episodes_per_seed": 40,
+                "minimum_gain": 0.05,
+                "bootstrap_samples": 100,
+            }
+        )
+        self.assertEqual(result["decision"], "adopt")
+        self.assertTrue(result["lifecycle"][0]["broad_ancestor_dormant_after_final"])
+        self.assertEqual(result["aggregate"]["derived_success_rate"], 1.0)
+        self.assertEqual(result["aggregate"]["parent_success_rate"], 0.75)
+        self.assertEqual(result["aggregate"]["derived_vs_parent_delta"], 0.25)
+        self.assertEqual(result["aggregate"]["broad_ancestor_success_rate"], 0.5)
+        self.assertEqual(
+            result["aggregate"]["derived_false_generalization_rate"], 0.0
+        )
+        self.assertEqual(
+            result["aggregate"]["parent_false_generalization_rate"], 0.0
+        )
+        self.assertEqual(
+            result["aggregate"]["broad_ancestor_false_generalization_rate"], 1.0
+        )
+
     def test_schema_v4_persistence_is_smaller_and_behaviorally_equivalent(self) -> None:
         result = run_persistence_evaluation(
             {

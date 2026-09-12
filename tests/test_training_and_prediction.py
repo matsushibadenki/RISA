@@ -21,11 +21,13 @@ from risa.engine.abstractor import rebuild_concepts
 from risa.engine.adaptation import execute_safe_adaptations
 from risa.engine.composer import compose_to_effect, forecast_next_effects
 from risa.engine.candidate_discovery import (
+    evaluate_derived_candidate,
     evaluate_unnamed_candidate,
     matching_adopted_candidates,
 )
 from risa.engine.candidate_lifecycle import (
     merge_candidates,
+    propose_context_derivations,
     set_candidate_dormant,
     specialize_candidate,
     validate_candidate_ancestry,
@@ -2846,6 +2848,209 @@ class TrainingAndPredictionTests(unittest.TestCase):
         restored.unnamed_concept_candidates[parent.id].parent_candidate_ids = [left.id]
         with self.assertRaisesRegex(ValueError, "cycle"):
             validate_candidate_ancestry(restored, left.id)
+
+    def test_context_specialization_and_merge_are_proposed_and_parent_gated(self) -> None:
+        state = RisaState()
+        observations = (
+            ("indoor-a", "heater-a", "indoor", "warm"),
+            ("indoor-b", "heater-b", "indoor", "warm"),
+            ("sheltered-a", "heater-c", "sheltered", "warm"),
+            ("sheltered-b", "heater-d", "sheltered", "warm"),
+            ("outdoor-a", "heater-e", "outdoor", "cold"),
+            ("outdoor-b", "heater-f", "outdoor", "cold"),
+        )
+        train_events(
+            state,
+            [
+                Event(
+                    event_id,
+                    index,
+                    f"robot-{index}",
+                    "inspect",
+                    target=target,
+                    target_roles=["heating_device"],
+                    context_tags=[context],
+                    observed_effects=[effect],
+                    episode_id=f"episode-{index}",
+                    source=f"sensor-{index}",
+                )
+                for index, (event_id, target, context, effect) in enumerate(
+                    observations, 1
+                )
+            ],
+        )
+        warm_parent = next(
+            item
+            for item in state.unnamed_concept_candidates.values()
+            if item.derivation_generation == 0
+            and item.structural_schema.get("effects") == ["warm"]
+        )
+        warm_specializations = [
+            item
+            for item in state.unnamed_concept_candidates.values()
+            if item.parent_candidate_ids == [warm_parent.id]
+        ]
+        self.assertEqual(
+            {
+                tuple(item.structural_schema["required_context_tags"])
+                for item in warm_specializations
+            },
+            {("indoor",), ("sheltered",)},
+        )
+        merged = next(
+            item
+            for item in state.unnamed_concept_candidates.values()
+            if item.derivation_type == "merged"
+            and set(item.parent_candidate_ids)
+            == {item.id for item in warm_specializations}
+        )
+        self.assertEqual(
+            merged.structural_schema["required_context_alternatives"],
+            [["indoor"], ["sheltered"]],
+        )
+
+        for partition, event_id in (
+            ("development", "parent-context-development"),
+            ("final", "parent-context-final"),
+        ):
+            evaluate_unnamed_candidate(
+                state,
+                warm_parent.id,
+                partition=partition,
+                evaluation_event_ids=[event_id],
+                prediction_delta=0.1,
+                composition_delta=0.0,
+                prediction_delta_ci_lower=0.05,
+                composition_delta_ci_lower=0.0,
+                false_generalization_delta=0.0,
+            )
+        self.assertEqual(warm_parent.lifecycle_status, "adopted")
+
+        for partition, event_id in (
+            ("development", "context-development"),
+            ("final", "context-final"),
+        ):
+            evaluate_derived_candidate(
+                state,
+                merged.id,
+                partition=partition,
+                evaluation_event_ids=[event_id],
+                prediction_delta=0.25,
+                composition_delta=0.0,
+                prediction_delta_ci_lower=0.1,
+                composition_delta_ci_lower=0.0,
+                false_generalization_delta=-0.25,
+                parent_prediction_delta=0.25,
+                parent_composition_delta=0.0,
+                parent_prediction_delta_ci_lower=0.1,
+                parent_composition_delta_ci_lower=0.0,
+            )
+        self.assertEqual(merged.lifecycle_status, "adopted")
+        self.assertTrue(warm_parent.dormant)
+        self.assertIn(
+            merged.id,
+            {
+                item.id
+                for item in matching_adopted_candidates(
+                    state, "inspect", ["heating_device"], ["indoor"]
+                )
+            },
+        )
+        self.assertNotIn(
+            merged.id,
+            {
+                item.id
+                for item in matching_adopted_candidates(
+                    state, "inspect", ["heating_device"], ["outdoor"]
+                )
+            },
+        )
+        restored = RisaState.from_dict(state.to_dict())
+        self.assertEqual(
+            restored.unnamed_concept_candidates[merged.id].lifecycle_status,
+            "adopted",
+        )
+
+        no_parent_gain = warm_specializations[0]
+        evaluate_derived_candidate(
+            state,
+            no_parent_gain.id,
+            partition="development",
+            evaluation_event_ids=["no-parent-gain-development"],
+            prediction_delta=0.2,
+            composition_delta=0.0,
+            prediction_delta_ci_lower=0.1,
+            composition_delta_ci_lower=0.0,
+            false_generalization_delta=0.0,
+            parent_prediction_delta=0.0,
+            parent_composition_delta=0.0,
+            parent_prediction_delta_ci_lower=0.0,
+            parent_composition_delta_ci_lower=0.0,
+        )
+        self.assertEqual(no_parent_gain.lifecycle_status, "rejected")
+
+    def test_context_specialization_budget_keeps_highest_support(self) -> None:
+        state = RisaState()
+        events = []
+        timestamp = 1
+        for tag_index in range(4):
+            for repetition in range(tag_index + 2):
+                events.append(
+                    Event(
+                        f"budget-warm-{tag_index}-{repetition}",
+                        timestamp,
+                        f"robot-{tag_index}-{repetition}",
+                        "inspect",
+                        target=f"device-{tag_index}-{repetition}",
+                        target_roles=["device"],
+                        context_tags=[f"context-{tag_index}"],
+                        observed_effects=["warm"],
+                        episode_id=f"episode-{tag_index}-{repetition}",
+                        source=f"sensor-{tag_index}-{repetition}",
+                    )
+                )
+                timestamp += 1
+        for repetition in range(2):
+            events.append(
+                Event(
+                    f"budget-cold-{repetition}",
+                    timestamp,
+                    f"cold-robot-{repetition}",
+                    "inspect",
+                    target=f"cold-device-{repetition}",
+                    target_roles=["device"],
+                    context_tags=["outdoor"],
+                    observed_effects=["cold"],
+                    episode_id=f"cold-episode-{repetition}",
+                    source=f"cold-sensor-{repetition}",
+                )
+            )
+            timestamp += 1
+        train_events(state, events)
+        state.unnamed_concept_candidates = {
+            candidate_id: candidate
+            for candidate_id, candidate in state.unnamed_concept_candidates.items()
+            if candidate.derivation_generation == 0
+        }
+        proposed = propose_context_derivations(
+            state,
+            minimum_precision_gain=0.05,
+            max_specializations_per_parent=2,
+        )
+        warm_specializations = [
+            candidate
+            for candidate in proposed
+            if candidate.derivation_type == "specialized"
+            and candidate.structural_schema.get("effects") == ["warm"]
+        ]
+        self.assertEqual(len(warm_specializations), 2)
+        self.assertEqual(
+            {
+                tuple(candidate.structural_schema["required_context_tags"])
+                for candidate in warm_specializations
+            },
+            {("context-2",), ("context-3",)},
+        )
 
     def test_temporal_candidate_reuses_a_same_target_plan_without_stored_primitives(self) -> None:
         state = RisaState()

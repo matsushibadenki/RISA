@@ -326,6 +326,10 @@ _CANDIDATE_EVALUATION_FIELDS = (
     "prediction_delta_ci_lower",
     "composition_delta_ci_lower",
     "false_generalization_delta",
+    "parent_heldout_prediction_delta",
+    "parent_heldout_composition_delta",
+    "parent_prediction_delta_ci_lower",
+    "parent_composition_delta_ci_lower",
 )
 
 
