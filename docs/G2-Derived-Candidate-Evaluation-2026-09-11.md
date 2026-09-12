@@ -15,6 +15,7 @@
 - Each parent keeps at most eight proposals, ranked by precision gain and support.
 - Compatible siblings preserve their scopes as `required_context_alternatives`; merge never erases these conditions.
 - Promotion requires positive held-out gains over the baseline and strongest parent. Support, ancestor support, ancestor evaluation, development and final IDs cannot overlap.
+- After development, an explicit selection step grants final-evidence access to the bounded winner set.
 - Adoption makes broader adopted ancestors for the same action, role and effects dormant so their overgeneralization cannot remain active.
 
 ## Scope / 適用範囲 / 适用范围

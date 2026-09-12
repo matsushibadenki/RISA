@@ -3,6 +3,7 @@ from __future__ import annotations
 from risa.core.models import Event
 from risa.core.state import RisaState
 from risa.engine.graph_builder import normalize_label
+from risa.engine.role_induction import effective_event_target_roles
 
 
 def index_event_evidence(state: RisaState, event: Event) -> None:
@@ -14,7 +15,7 @@ def index_event_evidence(state: RisaState, event: Event) -> None:
     _append(state, f"actor:{actor}:action:{action}:context:{context}", event.id)
     if target:
         _append(state, f"target:{target}:action:{action}:context:{context}", event.id)
-    for role in sorted({normalize_label(item) for item in event.target_roles}):
+    for role in effective_event_target_roles(event):
         _append(state, f"target_role:{role}:action:{action}:context:{context}", event.id)
     for effect in sorted({normalize_label(item) for item in event.observed_effects}):
         _append(state, f"action:{action}:effect:{effect}:context:{context}", event.id)

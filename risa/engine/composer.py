@@ -14,6 +14,7 @@ from risa.engine.candidate_discovery import (
     matching_adopted_plan_candidates,
 )
 from risa.engine.graph_builder import normalize_label
+from risa.engine.role_induction import effective_query_target_roles
 from risa.engine.transitions import apply_primitive_transition
 
 
@@ -27,6 +28,10 @@ def forecast_next_effects(
     include_supported_alternatives: bool = False,
     target_roles: list[str] | None = None,
     enable_candidate_concepts: bool = True,
+    target: str | None = None,
+    entity_bindings: dict[str, str] | None = None,
+    entity_relations: list[dict[str, str]] | None = None,
+    enable_role_induction: bool = True,
 ) -> list[CompositionResult]:
     """Return locally applicable next-state candidates without collapsing uncertainty."""
     normalized_action = normalize_label(action)
@@ -35,6 +40,13 @@ def forecast_next_effects(
     available_variables = {
         normalize_label(name): float(value) for name, value in (current_variables or {}).items()
     }
+    target_roles = effective_query_target_roles(
+        target=target,
+        supplied_roles=target_roles or [],
+        entity_bindings=entity_bindings or {},
+        entity_relations=entity_relations or [],
+        enable_role_induction=enable_role_induction,
+    )
     candidates: list[CompositionResult] = []
 
     for primitive in _adopted_primitives_for_action(
@@ -101,6 +113,7 @@ def compose_to_effect(
     entity_role_bindings: dict[str, list[str]] | None = None,
     entity_relations: list[dict[str, str]] | None = None,
     enable_candidate_concepts: bool = True,
+    enable_role_induction: bool = True,
 ) -> CompositionResult:
     """Find a local sequence of adopted transition primitives toward an effect."""
     action = normalize_label(start_action)
@@ -110,6 +123,13 @@ def compose_to_effect(
     initial_variables = {
         normalize_label(name): float(value) for name, value in (start_variables or {}).items()
     }
+    target_roles = effective_query_target_roles(
+        target=target,
+        supplied_roles=target_roles or [],
+        entity_bindings=entity_bindings or {},
+        entity_relations=entity_relations or [],
+        enable_role_induction=enable_role_induction,
+    )
     if enable_candidate_concepts:
         role_matching_plans = matching_adopted_plan_candidates(
             state,

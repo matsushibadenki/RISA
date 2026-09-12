@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from risa.core.state import RisaState
 from risa.engine.graph_builder import normalize_label
+from risa.engine.role_induction import effective_event_target_roles
 
 
 def rebuild_prediction_indexes(state: RisaState) -> None:
@@ -50,7 +51,7 @@ def rebuild_prediction_indexes(state: RisaState) -> None:
                     (_target_key("*", action, target, context),),
                     effect,
                 )
-            for role in sorted({normalize_label(item) for item in event.target_roles}):
+            for role in effective_event_target_roles(event):
                 _increment_nested(
                     state.action_target_role_context_effect_counts,
                     (_target_key("role", action, role, context),),
@@ -80,4 +81,3 @@ def _increment_nested(
 
 def _target_key(actor: str, action: str, target: str, context: str) -> str:
     return "\x1f".join((actor, action, target, context))
-

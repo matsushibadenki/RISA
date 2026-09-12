@@ -169,11 +169,11 @@ Re-reading memory through a new concept is promising, but using candidate-derive
 - 新概念を無効化すると派生結果も無効化できるようにする。
 - 一世代あたりの候補数、探索edge、Replay件数を制限する。
 
-実装済みの第一段階では、単一遷移の成功例をcontext tag別に分け、各部分集合が二つ以上のtarget・source・episodeで再現し、親よりprecisionが0.2以上高い場合だけspecializationを提案する。親ごとにprecision改善とsupportが高い上位8件だけを残す。互換な兄弟はcontext条件を消さず、論理和としてmergeする。派生候補のdevelopment/final評価にはbaselineとの差に加えて最良の親との差と信頼区間下限を要求し、採用後は同じ遷移を表す広い祖先をdormantにする。
+実装済みの第一段階では、単一遷移の成功例を最大24個のcontext tagから単一条件と2連言へ分け、各部分集合が二つ以上のtarget・source・episodeで再現し、親よりprecisionが0.2以上高い場合だけspecializationを提案する。親ごとにprecision改善とsupportが高い上位8件だけを残す。supportが互いに重ならない互換な兄弟だけをcontext論理和としてmergeし、重なる連言候補は個別に評価する。複数候補をdevelopmentで比較した後、上位1候補だけにfinal評価を許可する。派生候補の採否にはbaselineとの差に加えて最良の親との差と信頼区間下限を要求し、採用後は同じ遷移を表す広い祖先をdormantにする。
 
-The implemented first stage partitions successful single-transition evidence by context tag. It proposes a specialization only when the subset repeats across at least two targets, sources and episodes and improves precision over its parent by at least 0.2. Each parent retains at most the top eight proposals by precision gain and support. Compatible siblings merge as a context disjunction. Development and final promotion require gains and positive confidence lower bounds against both the baseline and strongest parent; adoption makes broader ancestors for the same transition dormant.
+The implemented first stage searches singleton and pairwise conjunctions from at most 24 context tags. It proposes a specialization only when the subset repeats across at least two targets, sources and episodes and improves precision over its parent by at least 0.2. Each parent retains at most the top eight proposals by precision gain and support. Compatible siblings merge as a context disjunction only when their support is disjoint; overlapping conjunctions remain separate. After development comparison, only the top candidate may use final evidence. Adoption requires gains and positive confidence lower bounds against both the baseline and strongest parent and makes broader ancestors for the same transition dormant.
 
-已实现的第一阶段按context tag划分单一转移的成功证据。仅当子集至少跨两个target、source及episode复现，并比父候选的precision高0.2以上时提出分化。每个父候选只保留按precision提升及support排序的前8项。兼容兄弟以context析取形式合并。development及final晋级同时要求优于baseline与最强父候选且置信区间下限为正；采纳后将表示同一转移的宽泛祖先设为休眠。
+已实现的第一阶段从最多24个context tag搜索单项及二元合取。仅当子集至少跨两个target、source及episode复现，并比父候选的precision高0.2以上时提出分化。每个父候选只保留按precision提升及support排序的前8项。仅在support互不重叠时把兼容兄弟合并为context析取；重叠合取保持独立。development比较后，仅排名第一的候选可以使用final证据。采纳同时要求优于baseline与最强父候选且置信区间下限为正，并将表示同一转移的宽泛祖先设为休眠。
 
 `知能複利`は、新しい独立episodeでprediction、composition、compressionのいずれかが世代ごとに改善し、false generalizationとcostが許容範囲内の場合だけ報告する。
 

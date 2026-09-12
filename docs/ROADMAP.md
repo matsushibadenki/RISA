@@ -20,13 +20,13 @@ unseen objects and compositions, and adapts to change.
 - [Next] high-priority unfinished work / 最優先の未完了作業 / 高优先级未完成工作
 - [Later] planned, but not the closest next step / 依存段階通過後の予定 / 前置阶段通过后的计划
 
-日本語: [Done]は実装の存在を示し、研究仮説の実証とは区別する。G0、G1、G2.1〜G2.3とG2.4の関係前提再設計まで完了し、直近はG2.4の総効率評価。
+日本語: [Done]は実装の存在を示し、研究仮説の実証とは区別する。G0、G1、G2.1〜G2.4のcontext schema閉ループまで完了し、直近はG2.5の構造role誘導。
 G3以降は重要でも[Later]とする。指標・閾値は評価前に固定し、結果を見て合格条件を緩めない。
 
-English: [Done] means implemented, not scientifically validated. G0, G1, G2.1–G2.3 and the G2.4 relation-premise redesign are complete; total-efficiency evaluation in G2.4 is next and G3 onward is [Later].
+English: [Done] means implemented, not scientifically validated. G0, G1 and the G2.1–G2.4 context-schema loop are complete; G2.5 structural role induction is next and G3 onward is [Later].
 Freeze metrics and thresholds before evaluation; do not relax gates after seeing results.
 
-简体中文: [Done]表示已实现，不等于科学验证。G0、G1、G2.1至G2.3及G2.4的relation前提重设已完成，下一步是G2.4总效率评估；G3以后标为[Later]。
+简体中文: [Done]表示已实现，不等于科学验证。G0、G1及G2.1至G2.4的context schema闭环已完成，下一步是G2.5结构role归纳；G3以后标为[Later]。
 评估前固定指标与阈值，不根据结果放宽通过条件。
 
 ## Current baseline / 現在地 / 当前基础
@@ -153,7 +153,9 @@ G2将据此重设角色绑定、变化适应及证据效率。
 - [Done] 派生候補だけを保存し、再読込時に親fingerprint一致順で復元。親証拠変化時は派生候補を破棄し、dormant候補を推論indexから除外 / Persist only derived candidates, restore them in parent-fingerprint order, discard them when parent evidence changes and exclude dormant candidates from inference indices / 仅持久化派生候选，按父fingerprint一致顺序恢复；父证据变化时丢弃派生候选，并从推理索引排除休眠候选
 - [Done] 再現性とprecision改善を満たすcontext specializationを自動提案し、互換な兄弟をcontext論理和付きでmerge。親との差を必須化し、採用時は同じ遷移の広い祖先をdormant化。5 seed・final 200件でmerge 100%対最良の直接親75%、広い祖先は50%・false generalization 100% / Automatically propose reproducible context specializations with precision gain, merge compatible siblings with context disjunctions, require gains over parents and make replaced broad ancestors dormant; over five seeds and 200 final cases merge reaches 100% versus the strongest direct parent's 75%, while the broad ancestor reaches 50% with 100% false generalization / 自动提出具备可复现性及precision提升的context分化，以context析取合并兼容兄弟，要求优于父候选并使被替代的宽泛祖先休眠；5个seed及200个final案例中merge达到100%，最强直接父候选为75%，宽泛祖先为50%且错误泛化100%
 - [Done] 親ごとの自動specializationをprecision改善・support順の上位8件に制限し、候補爆発を局所的に抑制 / Limit automatic specializations per parent to the top eight by precision gain and support, locally bounding candidate growth / 按precision提升及support将每个父候选的自动分化限制为前8项，局部抑制候选爆炸
-- [Next] noisy・相関context tagに対する連言探索を実装し、多重候補選択後も独立held-out改善が維持されるか検証 / Implement conjunctive search for noisy correlated context tags and verify independent held-out gains after multiple-candidate selection / 为含噪且相关的context tag实现合取搜索，并验证多候选选择后能否保持独立留出提升
+- [Done] 最大24 tagから単一・2連言の36条件を有限探索し、親ごと上位8候補、development winner 1候補だけをfinalへ進める選択契約を実装。学習時に完全相関する6 proxyを含む7候補から5 seedすべてで安定条件を選び、final 200件で100%対親50%、95% CI下限+43ポイント、false generalization 0%対100% / Search a bounded set of singleton and pairwise conjunctions from at most 24 tags, retain eight candidates per parent and allow one development winner into final; from seven candidates including six perfectly correlated training proxies, all five seeds select the stable condition and reach 100% versus the parent's 50%, a +43-point lower 95% bound and 0% versus 100% false generalization over 200 final cases / 从最多24个tag有限搜索单项及二元合取，每个父候选保留8项且仅允许1个development优胜者进入final；在含6个训练时完全相关proxy的7个候选中，5个seed均选中稳定条件，200个final案例达到100%对父候选50%，95%区间下限+43个百分点，错误泛化0%对100%
+- [Done] G2.4のcontext schemaについて、発見・候補予算・相関解消・独立採否・推論置換・保存再構築を完了 / Complete discovery, candidate budgeting, correlation resolution, independent adoption, inference replacement and persistence reconstruction for G2.4 context schemas / 完成G2.4 context schema的发现、候选预算、相关性消解、独立采纳、推理替换及持久化重建
+- [Next] 外部role labelに依存しない構造role誘導を実装し、供給role版とのbinding・composition差、誤型付け、保存量を独立development/finalで比較 / Implement structural role induction without external role labels and compare binding, composition, mistyping and storage against supplied roles on independent development and final data / 实现不依赖外部role标签的结构role归纳，并在独立development/final数据上比较其与外部提供role版本的binding、composition、错误类型及存储量
 - [Done] schema v4でEventの重複ID・空collection・既定値を省略 / In schema v4 omit duplicated event IDs, empty collections and defaults / schema v4省略Event重复ID、空集合及默认值
 - [Done] graphのenergy・reliability等は履歴として保持し、pattern・structural pattern・primitiveの重複IDと既定値をlosslessに省略。候補・Event圧縮と合わせて26,399→21,137 bytes、19.93%削減 / Preserve graph energy and reliability history while losslessly omitting duplicated IDs and defaults from pattern and primitive records; combined reduction is 26,399 to 21,137 bytes, or 19.93% / 保留graph的energy及reliability历史，无损省略pattern及primitive记录中的重复ID与默认值；合计由26,399降至21,137 bytes，减少19.93%
 - [Done] 5 seedのG2全Stateでschema v4を評価し、平均134,478→102,287 bytes・23.94%削減、5,000予測・2,250計画・Composition・simulation差分0 / Evaluate schema v4 over five full G2 states: 134,478 to 102,287 mean bytes, 23.94% reduction and zero differences over 5,000 predictions, 2,250 plans, composition and simulation / 在5个完整G2 State上评估schema v4：平均134,478降至102,287 bytes，减少23.94%，5,000次预测、2,250次规划、Composition及simulation差异为0
@@ -169,6 +171,8 @@ G2将据此重设角色绑定、变化适应及证据效率。
 任意関係候補の追加価値検証: [G2任意関係評価 / Generic relation evaluation / 任意关系评估](G2-Generic-Relation-Evaluation-2026-09-09.md)
 
 派生候補の追加価値検証: [G2派生候補評価 / Derived candidate evaluation / 衍生候选评估](G2-Derived-Candidate-Evaluation-2026-09-11.md)
+
+相関contextの連言選択検証: [G2 context連言評価 / Context conjunction evaluation / Context合取评估](G2-Context-Conjunction-Evaluation-2026-09-12.md)
 
 日本語: [G2比較結果](G2-Structural-Reuse-Evaluation-2026-09-08.md)では、final 200 episodeでRISAは観測から前提を学ぶ
 composition 100%（具体遷移表0%）、binding 100%（同75%、役割束縛なし75%）、B期drift 75%（同33.3%、
@@ -191,8 +195,8 @@ compositionとbindingの両方で最強の適用可能baselineより成功率が
 自動schema獲得が勝てなければ、明示schemaを使う説明可能な記憶・計画部品へ用途を絞る。
 
 G2.1〜G2.3は対象別ablationで5ポイントを超える改善を示したが、当初の広いgateは未達である。
-明示前提compositionは具体遷移表と同率で、役割型も外部入力だからである。G2.4では候補概念を実際の推論へ接続し、
-型・schemaの自動獲得と効率を独立held-outで検証する。gateの定義は維持する。
+明示前提compositionは具体遷移表と同率で、役割型も外部入力だからである。G2.4ではcontext schemaの発見から
+独立採否・推論置換・保存再構築までを完了した。G2.5では外部role labelを外して構造role誘導を測る。gateの定義は維持する。
 
 概念凝縮の追加条件として、候補なし方式より実測記述長を減らし、false generalizationを増やさないことを要求する。
 新概念を使う二世代目以降の候補探索は、祖先と重ならない独立held-out episodeで追加改善が確認できた場合だけ「知能複利」と報告する。
@@ -208,9 +212,9 @@ false generalization. Report second-generation discovery as intelligence compoun
 held-out episodes whose evidence does not overlap the candidate lineage.
 
 G2.1–G2.3 exceed five points in their targeted ablations, but the original broad gate is not yet met: supplied-
-precondition composition still ties the grounded table, and target roles are external inputs. G2.4 must connect
-candidates to inference and test automatic type/schema acquisition and efficiency on independent held-out evidence.
-The gate remains unchanged.
+precondition composition still ties the grounded table, and target roles are external inputs. G2.4 now completes the
+context-schema loop and its persistence evaluation on independent held-out evidence. G2.5 must remove supplied role
+labels and measure automatic structural role induction. The gate remains unchanged.
 
 简体中文: G0/G1后固定规划器。初始采纳条件：组合与绑定任务均超过最强适用基线至少5个百分点，
 差值95%区间下限大于0，遵守相同预算上限，已知任务下降不超过2个百分点。以上是预设门槛，不是实测结果。
@@ -220,7 +224,7 @@ The gate remains unchanged.
 独立留出回合时，才可称为智能复利。
 
 G2.1至G2.3在各自消融中提升超过5个百分点，但仍未达到原先的广义门槛：已提供前提的composition仍与具体转移表持平，
-target角色也来自外部输入。G2.4必须把候选接入推理，并在独立留出证据上验证类型/schema自动获取及效率；门槛保持不变。
+target角色也来自外部输入。G2.4现已完成context schema闭环及独立留出持久化评估；G2.5必须去除外部role标签并测量自动结构role归纳。门槛保持不变。
 
 ## G3 — Adaptation and bounded cost / 継続適応と計算予算 / 持续适应与计算预算
 

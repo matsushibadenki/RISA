@@ -76,6 +76,12 @@ def build_parser() -> argparse.ArgumentParser:
     predict_parser.add_argument("--action", required=True)
     predict_parser.add_argument("--target")
     predict_parser.add_argument("--target-role", action="append", default=[])
+    predict_parser.add_argument(
+        "--entity", action="append", type=_parse_text_assignment, default=[]
+    )
+    predict_parser.add_argument(
+        "--entity-relation", action="append", type=_parse_entity_relation, default=[]
+    )
     predict_parser.add_argument("--context", action="append", default=[])
     predict_parser.add_argument("--state-dir", default="state")
 
@@ -114,6 +120,13 @@ def build_parser() -> argparse.ArgumentParser:
     )
     forecast_parser.add_argument("--context", action="append", default=[])
     forecast_parser.add_argument("--target-role", action="append", default=[])
+    forecast_parser.add_argument("--target")
+    forecast_parser.add_argument(
+        "--entity", action="append", type=_parse_text_assignment, default=[]
+    )
+    forecast_parser.add_argument(
+        "--entity-relation", action="append", type=_parse_entity_relation, default=[]
+    )
     forecast_parser.add_argument("--max-candidates", type=int, default=3)
     forecast_parser.add_argument("--state-dir", default="state")
 
@@ -221,6 +234,8 @@ def main() -> None:
                 target=args.target,
                 context_tags=args.context,
                 target_roles=args.target_role,
+                entity_bindings=dict(args.entity),
+                entity_relations=args.entity_relation,
             ),
         )
         print(format_prediction(result))
@@ -275,6 +290,9 @@ def main() -> None:
             context_tags=args.context,
             max_candidates=args.max_candidates,
             target_roles=args.target_role,
+            target=args.target,
+            entity_bindings=dict(args.entity),
+            entity_relations=args.entity_relation,
         )
         print(json.dumps([candidate.to_dict() for candidate in candidates], indent=2))
         return

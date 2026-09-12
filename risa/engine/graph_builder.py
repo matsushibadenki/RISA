@@ -3,6 +3,7 @@ from __future__ import annotations
 from risa.core.models import Edge, Event, Node
 from risa.core.state import RisaState
 from risa.engine.metabolism import activate_nodes, reinforce_coactivation, reinforce_reproducible_relation
+from risa.engine.role_induction import effective_event_target_roles
 
 
 def normalize_label(value: str) -> str:
@@ -264,7 +265,7 @@ def ingest_event(
                 last_updated=event.timestamp,
             )
         )
-        for role in sorted({normalize_label(item) for item in event.target_roles}):
+        for role in effective_event_target_roles(event):
             role_id = _node_id("role", role)
             state.graph.add_or_update_node(
                 Node(

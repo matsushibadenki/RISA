@@ -327,6 +327,9 @@ class UnnamedConceptCandidate:
     parent_heldout_composition_delta: float = 0.0
     parent_prediction_delta_ci_lower: float = 0.0
     parent_composition_delta_ci_lower: float = 0.0
+    proposal_hypothesis_count: int = 0
+    proposal_precision_gain: float = 0.0
+    selected_for_final: bool = False
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -340,6 +343,9 @@ class PredictionQuery:
     context_tags: list[str] = field(default_factory=list)
     actor_roles: list[str] = field(default_factory=list)
     target_roles: list[str] = field(default_factory=list)
+    entity_bindings: dict[str, str] = field(default_factory=dict)
+    entity_relations: list[dict[str, str]] = field(default_factory=list)
+    enable_role_induction: bool = True
     enable_change_adaptation: bool = True
     enable_candidate_concepts: bool = True
 

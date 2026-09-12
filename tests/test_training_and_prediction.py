@@ -24,6 +24,7 @@ from risa.engine.candidate_discovery import (
     evaluate_derived_candidate,
     evaluate_unnamed_candidate,
     matching_adopted_candidates,
+    select_derived_candidates_for_final,
 )
 from risa.engine.candidate_lifecycle import (
     merge_candidates,
@@ -2764,6 +2765,143 @@ class TrainingAndPredictionTests(unittest.TestCase):
                 false_generalization_delta=0.0,
             )
 
+    def test_structure_induced_role_transfers_without_external_role_labels(self) -> None:
+        state = RisaState()
+        events = []
+        for index, (effect, relation) in enumerate(
+            (
+                ("warm", "powered_by"),
+                ("warm", "powered_by"),
+                ("cold", "cooled_by"),
+                ("cold", "cooled_by"),
+            ),
+            1,
+        ):
+            target = f"device-{index}"
+            events.append(
+                Event(
+                    f"role-induction-{index}",
+                    index,
+                    f"robot-{index}",
+                    "inspect",
+                    target=target,
+                    observed_effects=[effect],
+                    episode_id=f"role-episode-{index}",
+                    source=f"role-sensor-{index}",
+                    entity_bindings={"object": target, "provider": f"source-{index}"},
+                    entity_relations=[
+                        {
+                            "source": "object",
+                            "relation": relation,
+                            "target": "provider",
+                        }
+                    ],
+                    entity_relations_observed=True,
+                )
+            )
+        train_events(state, events)
+        candidate = next(
+            item
+            for item in state.unnamed_concept_candidates.values()
+            if item.structural_schema.get("effects") == ["warm"]
+        )
+        self.assertEqual(
+            candidate.structural_schema["target_role_origin"],
+            "induced_structure",
+        )
+        self.assertEqual(
+            candidate.structural_schema["target_role_signature"],
+            ["out:powered_by"],
+        )
+        self.assertTrue(
+            candidate.typed_role_variables["target"].startswith("struct_role:")
+        )
+        for partition, event_id in (
+            ("development", "role-development"),
+            ("final", "role-final"),
+        ):
+            evaluate_unnamed_candidate(
+                state,
+                candidate.id,
+                partition=partition,
+                evaluation_event_ids=[event_id],
+                prediction_delta=0.25,
+                composition_delta=0.25,
+                prediction_delta_ci_lower=0.1,
+                composition_delta_ci_lower=0.1,
+                false_generalization_delta=0.0,
+            )
+        state.action_target_role_context_effect_counts.clear()
+        state.structural_primitives.clear()
+        bindings = {"item": "new-device", "supply": "new-grid"}
+        powered_relation = [
+            {"source": "item", "relation": "powered_by", "target": "supply"}
+        ]
+        matching = predict_next_effect(
+            state,
+            PredictionQuery(
+                actor="new-robot",
+                action="inspect",
+                target="new-device",
+                entity_bindings=bindings,
+                entity_relations=powered_relation,
+            ),
+        )
+        disabled = predict_next_effect(
+            state,
+            PredictionQuery(
+                actor="new-robot",
+                action="inspect",
+                target="new-device",
+                entity_bindings=bindings,
+                entity_relations=powered_relation,
+                enable_role_induction=False,
+            ),
+        )
+        mismatched = predict_next_effect(
+            state,
+            PredictionQuery(
+                actor="new-robot",
+                action="inspect",
+                target="new-device",
+                entity_bindings=bindings,
+                entity_relations=[
+                    {
+                        "source": "item",
+                        "relation": "cooled_by",
+                        "target": "supply",
+                    }
+                ],
+            ),
+        )
+        self.assertEqual(matching.predicted_effects, ["warm"])
+        self.assertIn(candidate.id, matching.applicability_basis)
+        self.assertEqual(disabled.claim_status, "abstained")
+        self.assertEqual(mismatched.claim_status, "abstained")
+        forecast = forecast_next_effects(
+            state,
+            "inspect",
+            target="new-device",
+            entity_bindings=bindings,
+            entity_relations=powered_relation,
+        )
+        self.assertEqual(forecast[0].added_states, ["warm"])
+
+        restored = RisaState.from_dict(state.to_dict())
+        restored.action_target_role_context_effect_counts.clear()
+        restored.structural_primitives.clear()
+        restored_result = predict_next_effect(
+            restored,
+            PredictionQuery(
+                actor="new-robot",
+                action="inspect",
+                target="new-device",
+                entity_bindings=bindings,
+                entity_relations=powered_relation,
+            ),
+        )
+        self.assertEqual(restored_result.predicted_effects, ["warm"])
+
     def test_candidate_derivation_blocks_ancestor_reuse_and_persists_dormancy(self) -> None:
         state = RisaState()
         train_events(state, [
@@ -2926,25 +3064,32 @@ class TrainingAndPredictionTests(unittest.TestCase):
             )
         self.assertEqual(warm_parent.lifecycle_status, "adopted")
 
-        for partition, event_id in (
-            ("development", "context-development"),
-            ("final", "context-final"),
-        ):
-            evaluate_derived_candidate(
-                state,
-                merged.id,
-                partition=partition,
-                evaluation_event_ids=[event_id],
-                prediction_delta=0.25,
-                composition_delta=0.0,
-                prediction_delta_ci_lower=0.1,
-                composition_delta_ci_lower=0.0,
-                false_generalization_delta=-0.25,
-                parent_prediction_delta=0.25,
-                parent_composition_delta=0.0,
-                parent_prediction_delta_ci_lower=0.1,
-                parent_composition_delta_ci_lower=0.0,
-            )
+        evaluation_arguments = {
+            "prediction_delta": 0.25,
+            "composition_delta": 0.0,
+            "prediction_delta_ci_lower": 0.1,
+            "composition_delta_ci_lower": 0.0,
+            "false_generalization_delta": -0.25,
+            "parent_prediction_delta": 0.25,
+            "parent_composition_delta": 0.0,
+            "parent_prediction_delta_ci_lower": 0.1,
+            "parent_composition_delta_ci_lower": 0.0,
+        }
+        evaluate_derived_candidate(
+            state,
+            merged.id,
+            partition="development",
+            evaluation_event_ids=["context-development"],
+            **evaluation_arguments,
+        )
+        select_derived_candidates_for_final(state, [merged.id])
+        evaluate_derived_candidate(
+            state,
+            merged.id,
+            partition="final",
+            evaluation_event_ids=["context-final"],
+            **evaluation_arguments,
+        )
         self.assertEqual(merged.lifecycle_status, "adopted")
         self.assertTrue(warm_parent.dormant)
         self.assertIn(
@@ -2969,6 +3114,9 @@ class TrainingAndPredictionTests(unittest.TestCase):
         self.assertEqual(
             restored.unnamed_concept_candidates[merged.id].lifecycle_status,
             "adopted",
+        )
+        self.assertTrue(
+            restored.unnamed_concept_candidates[merged.id].selected_for_final
         )
 
         no_parent_gain = warm_specializations[0]
@@ -3051,6 +3199,103 @@ class TrainingAndPredictionTests(unittest.TestCase):
             },
             {("context-2",), ("context-3",)},
         )
+
+    def test_conjunctive_context_search_and_development_selection(self) -> None:
+        state = RisaState()
+        events = []
+        timestamp = 1
+        for index in range(24):
+            events.append(
+                Event(
+                    f"conjunction-warm-{index}",
+                    timestamp,
+                    f"warm-robot-{index}",
+                    "inspect",
+                    target=f"warm-device-{index}",
+                    target_roles=["device"],
+                    context_tags=["powered", "indoor", "near_power"],
+                    observed_effects=["warm"],
+                    episode_id=f"warm-episode-{index}",
+                    source=f"warm-sensor-{index}",
+                )
+            )
+            timestamp += 1
+        for index in range(12):
+            for group, tags in (
+                ("powered-outdoor", ["powered", "outdoor", "near_power"]),
+                ("unpowered-indoor", ["unpowered", "indoor"]),
+            ):
+                events.append(
+                    Event(
+                        f"conjunction-cold-{group}-{index}",
+                        timestamp,
+                        f"cold-robot-{group}-{index}",
+                        "inspect",
+                        target=f"cold-device-{group}-{index}",
+                        target_roles=["device"],
+                        context_tags=tags,
+                        observed_effects=["cold"],
+                        episode_id=f"cold-episode-{group}-{index}",
+                        source=f"cold-sensor-{group}-{index}",
+                    )
+                )
+                timestamp += 1
+        train_events(state, events)
+        candidates = {
+            tuple(candidate.structural_schema.get("required_context_tags", [])): candidate
+            for candidate in state.unnamed_concept_candidates.values()
+            if candidate.derivation_type == "specialized"
+            and candidate.structural_schema.get("effects") == ["warm"]
+        }
+        self.assertEqual(
+            set(candidates),
+            {("indoor", "near_power"), ("indoor", "powered")},
+        )
+        self.assertTrue(
+            all(candidate.proposal_hypothesis_count == 6 for candidate in candidates.values())
+        )
+        proxy = candidates[("indoor", "near_power")]
+        stable = candidates[("indoor", "powered")]
+        for candidate, gain, lower in (
+            (proxy, 0.1, 0.02),
+            (stable, 0.3, 0.15),
+        ):
+            evaluate_derived_candidate(
+                state,
+                candidate.id,
+                partition="development",
+                evaluation_event_ids=["shared-conjunction-development"],
+                prediction_delta=gain,
+                composition_delta=0.0,
+                prediction_delta_ci_lower=lower,
+                composition_delta_ci_lower=0.0,
+                false_generalization_delta=0.0,
+                parent_prediction_delta=gain,
+                parent_composition_delta=0.0,
+                parent_prediction_delta_ci_lower=lower,
+                parent_composition_delta_ci_lower=0.0,
+            )
+        selected = select_derived_candidates_for_final(
+            state, [proxy.id, stable.id]
+        )
+        self.assertEqual([candidate.id for candidate in selected], [stable.id])
+        self.assertEqual(proxy.lifecycle_status, "rejected")
+        with self.assertRaisesRegex(ValueError, "development selection"):
+            evaluate_derived_candidate(
+                state,
+                proxy.id,
+                partition="final",
+                evaluation_event_ids=["proxy-final"],
+                prediction_delta=0.1,
+                composition_delta=0.0,
+                prediction_delta_ci_lower=0.01,
+                composition_delta_ci_lower=0.0,
+                false_generalization_delta=0.0,
+                parent_prediction_delta=0.1,
+                parent_composition_delta=0.0,
+                parent_prediction_delta_ci_lower=0.01,
+                parent_composition_delta_ci_lower=0.0,
+            )
 
     def test_temporal_candidate_reuses_a_same_target_plan_without_stored_primitives(self) -> None:
         state = RisaState()

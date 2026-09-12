@@ -330,6 +330,7 @@ _CANDIDATE_EVALUATION_FIELDS = (
     "parent_heldout_composition_delta",
     "parent_prediction_delta_ci_lower",
     "parent_composition_delta_ci_lower",
+    "selected_for_final",
 )
 
 
@@ -488,6 +489,8 @@ def _candidate_evaluation_record(
     }
     if not candidate.dormant:
         record.pop("dormant", None)
+    if not candidate.selected_for_final:
+        record.pop("selected_for_final", None)
     record["evidence_digest"] = _candidate_evidence_digest(candidate)
     return record
 

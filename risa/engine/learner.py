@@ -12,6 +12,7 @@ from risa.core.models import (
 )
 from risa.core.state import RisaState
 from risa.engine.graph_builder import normalize_label
+from risa.engine.role_induction import effective_event_target_roles
 from risa.engine.evidence import index_event_evidence
 from risa.engine.validator import validation_effect_support
 
@@ -49,7 +50,7 @@ def learn_from_event(state: RisaState, event: Event) -> None:
             _target_evidence_key("role", action, normalize_label(role), context_key),
             {},
         )
-        for role in sorted(set(event.target_roles))
+        for role in effective_event_target_roles(event)
     ]
     outcome_effects = sorted({normalize_label(effect) for effect in event.observed_effects})
     outcome_pattern_ids: set[str] = set()

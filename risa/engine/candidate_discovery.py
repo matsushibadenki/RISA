@@ -6,6 +6,11 @@ import hashlib
 from risa.core.models import Event, UnnamedConceptCandidate
 from risa.core.state import RisaState
 from risa.engine.graph_builder import normalize_label
+from risa.engine.role_induction import (
+    effective_event_target_roles,
+    is_induced_role,
+    target_relation_position_signature,
+)
 
 
 def discover_unnamed_candidates(state: RisaState) -> dict[str, UnnamedConceptCandidate]:
@@ -23,7 +28,7 @@ def discover_unnamed_candidates(state: RisaState) -> dict[str, UnnamedConceptCan
             continue
         action = normalize_label(event.action)
         outcome = tuple(sorted({normalize_label(item) for item in event.observed_effects}))
-        for role in sorted({normalize_label(item) for item in event.target_roles}):
+        for role in effective_event_target_roles(event):
             groups[(action, role, outcome)].append(event)
             all_by_action_role[(action, role)].append(event)
 
@@ -54,13 +59,23 @@ def discover_unnamed_candidates(state: RisaState) -> dict[str, UnnamedConceptCan
             + sum(len(effect) for effect in outcome)
             + sum(len(target) for target in targets)
         )
+        structural_schema: dict[str, object] = {
+            "action": action,
+            "target_role": role,
+            "effects": list(outcome),
+        }
+        if is_induced_role(role):
+            structural_schema["target_role_origin"] = "induced_structure"
+            structural_schema["target_role_signature"] = list(
+                target_relation_position_signature(
+                    target=events[0].target,
+                    entity_bindings=events[0].entity_bindings,
+                    entity_relations=events[0].entity_relations,
+                )
+            )
         candidate = UnnamedConceptCandidate(
             id=candidate_id,
-            structural_schema={
-                "action": action,
-                "target_role": role,
-                "effects": list(outcome),
-            },
+            structural_schema=structural_schema,
             typed_role_variables={"target": role},
             supporting_event_ids=sorted(event.id for event in events),
             counterexample_event_ids=sorted(event.id for event in counterexamples),
@@ -287,9 +302,9 @@ def _discover_temporal_sequence_candidates(
         for first, second in zip(ordered, ordered[1:]):
             if normalize_label(first.target or "") != normalize_label(second.target or ""):
                 continue
-            shared_roles = {
-                normalize_label(role) for role in first.target_roles
-            }.intersection(normalize_label(role) for role in second.target_roles)
+            shared_roles = set(effective_event_target_roles(first)).intersection(
+                effective_event_target_roles(second)
+            )
             shared_actor_roles: set[str] = set()
             if normalize_label(first.actor) == normalize_label(second.actor):
                 shared_actor_roles = {
@@ -747,6 +762,7 @@ def _restore_unchanged_evaluation(
     candidate.parent_heldout_composition_delta = previous.parent_heldout_composition_delta
     candidate.parent_prediction_delta_ci_lower = previous.parent_prediction_delta_ci_lower
     candidate.parent_composition_delta_ci_lower = previous.parent_composition_delta_ci_lower
+    candidate.selected_for_final = previous.selected_for_final
     candidate.dormant = previous.dormant
 
 
@@ -851,6 +867,10 @@ def evaluate_derived_candidate(
     candidate = state.unnamed_concept_candidates[candidate_id]
     if candidate.derivation_generation <= 0 or not candidate.parent_candidate_ids:
         raise ValueError("derived evaluation requires a candidate with parents")
+    if partition == "final" and not candidate.selected_for_final:
+        raise ValueError(
+            "final evaluation requires development selection for a derived candidate"
+        )
     parent_has_supported_gain = (
         parent_prediction_delta >= minimum_gain
         and parent_prediction_delta_ci_lower > 0.0
@@ -877,10 +897,64 @@ def evaluate_derived_candidate(
     if not parent_has_supported_gain:
         evaluated.lifecycle_status = "rejected"
         rebuild_candidate_inference_index(state)
+    elif partition == "development":
+        evaluated.selected_for_final = False
     elif evaluated.lifecycle_status == "adopted":
         _dormant_replaced_ancestors(state, evaluated)
         rebuild_candidate_inference_index(state)
     return evaluated
+
+
+def select_derived_candidates_for_final(
+    state: RisaState,
+    candidate_ids: list[str],
+    *,
+    max_selected: int = 1,
+) -> list[UnnamedConceptCandidate]:
+    """Select a bounded development winner set before touching final evidence."""
+    if max_selected < 1:
+        raise ValueError("max_selected must be positive")
+    candidates = [state.unnamed_concept_candidates[item] for item in candidate_ids]
+    if not candidates or any(candidate.derivation_generation <= 0 for candidate in candidates):
+        raise ValueError("selection requires at least one derived candidate")
+    eligible = [
+        candidate
+        for candidate in candidates
+        if candidate.lifecycle_status == "provisional"
+        and candidate.development_evaluation_event_ids
+        and not candidate.final_evaluation_event_ids
+    ]
+    if not eligible:
+        raise ValueError("selection requires a provisional development evaluation")
+    development_partitions = {
+        tuple(candidate.development_evaluation_event_ids) for candidate in eligible
+    }
+    if len(development_partitions) != 1:
+        raise ValueError("selection candidates must share one development partition")
+    selected_ids = {
+        candidate.id
+        for candidate in sorted(
+            eligible,
+            key=lambda item: (
+                -max(
+                    item.parent_prediction_delta_ci_lower,
+                    item.parent_composition_delta_ci_lower,
+                ),
+                -max(
+                    item.parent_heldout_prediction_delta,
+                    item.parent_heldout_composition_delta,
+                ),
+                -max(item.prediction_delta_ci_lower, item.composition_delta_ci_lower),
+                item.id,
+            ),
+        )[:max_selected]
+    }
+    for candidate in candidates:
+        candidate.selected_for_final = candidate.id in selected_ids
+        if candidate.lifecycle_status == "provisional" and not candidate.selected_for_final:
+            candidate.lifecycle_status = "rejected"
+    rebuild_candidate_inference_index(state)
+    return [state.unnamed_concept_candidates[item] for item in sorted(selected_ids)]
 
 
 def _dormant_replaced_ancestors(

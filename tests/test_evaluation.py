@@ -5,11 +5,15 @@ from pathlib import Path
 import unittest
 
 from experiments.candidate_transfer_evaluation import run_candidate_transfer
+from experiments.context_conjunction_evaluation import (
+    run_context_conjunction_evaluation,
+)
 from experiments.derived_candidate_evaluation import run_derived_candidate_evaluation
 from experiments.generic_relation_candidate_evaluation import (
     run_generic_relation_evaluation,
 )
 from experiments.g2_persistence_evaluation import run_persistence_evaluation
+from experiments.structural_role_evaluation import run_structural_role_evaluation
 from experiments.temporal_candidate_evaluation import (
     run_temporal_candidate_evaluation,
 )
@@ -20,6 +24,64 @@ MANIFEST_PATH = Path(__file__).parents[1] / "experiments" / "g1_manifest.json"
 
 
 class ComparativeEvaluationTests(unittest.TestCase):
+    def test_structure_induced_roles_match_supplied_roles_on_heldout_targets(self) -> None:
+        result = run_structural_role_evaluation(
+            {
+                "benchmark_version": "test-structural-role",
+                "seeds": [37],
+                "development_episodes_per_seed": 40,
+                "final_episodes_per_seed": 40,
+                "bootstrap_samples": 100,
+                "minimum_gain": 0.05,
+            }
+        )
+
+        self.assertEqual(result["decision"], "adopt_structural_role_induction")
+        self.assertTrue(all(value == 0 for value in result["leakage_audit"].values()))
+        aggregate = result["aggregate"]
+        self.assertEqual(aggregate["induced_prediction_success_rate"], 1.0)
+        self.assertEqual(aggregate["supplied_prediction_success_rate"], 1.0)
+        self.assertEqual(aggregate["no_role_prediction_success_rate"], 0.5)
+        self.assertEqual(aggregate["induced_composition_success_rate"], 1.0)
+        self.assertEqual(aggregate["supplied_composition_success_rate"], 1.0)
+        self.assertEqual(aggregate["no_role_composition_success_rate"], 0.5)
+        self.assertEqual(aggregate["induced_mistyping_rate"], 0.0)
+        self.assertEqual(aggregate["supplied_mistyping_rate"], 0.0)
+        self.assertLess(
+            aggregate["mean_induced_state_bytes"],
+            aggregate["mean_supplied_state_bytes"],
+        )
+        self.assertEqual(
+            set(result["lifecycle"][0]["induced_after_final"]), {"adopted"}
+        )
+
+    def test_noisy_context_conjunction_selects_one_causal_final_candidate(self) -> None:
+        result = run_context_conjunction_evaluation(
+            {
+                "benchmark_version": "test-context-conjunction",
+                "seeds": [31],
+                "development_episodes_per_seed": 160,
+                "final_episodes_per_seed": 40,
+                "bootstrap_samples": 100,
+                "minimum_gain": 0.05,
+                "proxy_count": 6,
+            }
+        )
+        self.assertEqual(result["decision"], "adopt_bounded_conjunction_selection")
+        self.assertEqual(
+            result["leakage_audit"],
+            {
+                "support_development_overlap": 0,
+                "support_final_overlap": 0,
+                "development_final_overlap": 0,
+            },
+        )
+        self.assertEqual(result["aggregate"]["generated_candidates"], 7.0)
+        self.assertEqual(result["aggregate"]["explored_hypotheses"], 36.0)
+        self.assertEqual(result["aggregate"]["candidate_success_rate"], 1.0)
+        self.assertEqual(result["aggregate"]["parent_success_rate"], 0.5)
+        self.assertTrue(result["lifecycle"][0]["selected_stable_condition"])
+
     def test_automatic_context_merge_beats_its_parent_on_heldout_cases(self) -> None:
         result = run_derived_candidate_evaluation(
             {

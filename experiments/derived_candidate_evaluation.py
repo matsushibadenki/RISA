@@ -15,6 +15,7 @@ from risa.engine.candidate_discovery import (
     _candidate_context_matches,
     evaluate_derived_candidate,
     rebuild_candidate_inference_index,
+    select_derived_candidates_for_final,
 )
 from risa.engine.runtime import TrainingOptions, train_events
 
@@ -66,6 +67,10 @@ def run_derived_candidate_evaluation(manifest: dict[str, Any]) -> dict[str, Any]
                 parent_composition_delta_ci_lower=0.0,
                 minimum_gain=float(manifest["minimum_gain"]),
             )
+            if partition == "development" and state.unnamed_concept_candidates[
+                derived_id
+            ].lifecycle_status == "provisional":
+                select_derived_candidates_for_final(state, [derived_id])
             record[f"after_{partition}"] = state.unnamed_concept_candidates[derived_id].lifecycle_status
             rows.append({
                 "seed": seed,

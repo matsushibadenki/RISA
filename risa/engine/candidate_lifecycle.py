@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+from itertools import combinations
 import json
 
 from risa.core.models import Event, UnnamedConceptCandidate
@@ -80,10 +81,16 @@ def propose_context_derivations(
     *,
     minimum_precision_gain: float = 0.2,
     max_specializations_per_parent: int = 8,
+    max_context_tags: int = 24,
+    max_condition_size: int = 2,
 ) -> list[UnnamedConceptCandidate]:
-    """Propose reproducible context specializations and a lossless sibling merge."""
+    """Propose bounded context conjunctions and a lossless sibling merge."""
     if max_specializations_per_parent < 1:
         raise ValueError("max_specializations_per_parent must be positive")
+    if max_context_tags < 1:
+        raise ValueError("max_context_tags must be positive")
+    if max_condition_size not in {1, 2}:
+        raise ValueError("max_condition_size must be 1 or 2")
     proposed: list[UnnamedConceptCandidate] = []
     base_candidates = [
         candidate
@@ -105,25 +112,37 @@ def propose_context_derivations(
             if event_id in state.events_by_id
         ]
         parent_precision = len(support_events) / (len(support_events) + len(counter_events))
-        tags = sorted(
-            {
+        tag_support = {
+            tag: sum(tag in _normalized_event_tags(event) for event in support_events)
+            for tag in {
                 normalize_tag(tag)
                 for event in support_events
                 for tag in event.context_tags
                 if normalize_tag(tag)
             }
-        )
-        qualified: list[tuple[float, int, str, list[Event]]] = []
-        for tag in tags:
+        }
+        tags = [
+            tag
+            for tag, _ in sorted(
+                tag_support.items(), key=lambda item: (-item[1], item[0])
+            )[:max_context_tags]
+        ]
+        conditions = [(tag,) for tag in tags]
+        if max_condition_size >= 2:
+            conditions.extend(combinations(sorted(tags), 2))
+        hypothesis_count = len(conditions)
+        qualified: list[tuple[float, int, tuple[str, ...], list[Event]]] = []
+        for condition in conditions:
+            required = set(condition)
             matching_support = [
                 event
                 for event in support_events
-                if tag in {normalize_tag(item) for item in event.context_tags}
+                if required.issubset(_normalized_event_tags(event))
             ]
             matching_counters = [
                 event
                 for event in counter_events
-                if tag in {normalize_tag(item) for item in event.context_tags}
+                if required.issubset(_normalized_event_tags(event))
             ]
             if not _has_independent_diversity(matching_support):
                 continue
@@ -133,22 +152,34 @@ def propose_context_derivations(
             if precision - parent_precision < minimum_precision_gain:
                 continue
             qualified.append(
-                (precision - parent_precision, len(matching_support), tag, matching_support)
+                (
+                    precision - parent_precision,
+                    len(matching_support),
+                    tuple(condition),
+                    matching_support,
+                )
             )
         siblings: list[UnnamedConceptCandidate] = []
-        for _, _, tag, matching_support in sorted(
-            qualified, key=lambda item: (-item[0], -item[1], item[2])
+        for gain, _, condition, matching_support in sorted(
+            qualified, key=lambda item: (-item[0], -item[1], len(item[2]), item[2])
         )[:max_specializations_per_parent]:
             child = specialize_candidate(
                 state,
                 parent.id,
                 supporting_event_ids=[event.id for event in matching_support],
-                schema_updates={"required_context_tags": [tag]},
+                schema_updates={"required_context_tags": list(condition)},
             )
+            child.proposal_hypothesis_count = hypothesis_count
+            child.proposal_precision_gain = round(gain, 6)
             siblings.append(child)
             proposed.append(child)
-        if len(siblings) > 1:
-            proposed.append(merge_candidates(state, [item.id for item in siblings]))
+        if len(siblings) > 1 and _supports_are_pairwise_disjoint(siblings):
+            merged = merge_candidates(state, [item.id for item in siblings])
+            merged.proposal_hypothesis_count = hypothesis_count
+            merged.proposal_precision_gain = round(
+                merged.reconstruction_gain - parent_precision, 6
+            )
+            proposed.append(merged)
     return proposed
 
 
@@ -332,6 +363,22 @@ def _has_independent_diversity(events: list[Event]) -> bool:
         and len({getattr(event, "source", "") for event in events}) >= 2
         and len({getattr(event, "episode_id", "") for event in events}) >= 2
     )
+
+
+def _normalized_event_tags(event: Event) -> set[str]:
+    return {normalize_tag(tag) for tag in event.context_tags if normalize_tag(tag)}
+
+
+def _supports_are_pairwise_disjoint(
+    candidates: list[UnnamedConceptCandidate],
+) -> bool:
+    seen: set[str] = set()
+    for candidate in candidates:
+        support = set(candidate.supporting_event_ids)
+        if seen.intersection(support):
+            return False
+        seen.update(support)
+    return True
 
 
 def _refresh_evidence_statistics(

@@ -4,6 +4,10 @@ from risa.core.models import PredictionQuery, PredictionResult
 from risa.core.state import RisaState
 from risa.engine.candidate_discovery import matching_adopted_candidates
 from risa.engine.graph_builder import normalize_label
+from risa.engine.role_induction import (
+    effective_event_target_roles,
+    effective_query_target_roles,
+)
 from risa.engine.evidence import matching_evidence_event_ids
 from risa.engine.validator import competition_penalty, validation_support
 
@@ -12,7 +16,13 @@ def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionR
     actor = normalize_label(query.actor)
     action = normalize_label(query.action)
     target = normalize_label(query.target) if query.target else ""
-    target_roles = sorted({normalize_label(role) for role in query.target_roles})
+    target_roles = effective_query_target_roles(
+        target=query.target,
+        supplied_roles=query.target_roles,
+        entity_bindings=query.entity_bindings,
+        entity_relations=query.entity_relations,
+        enable_role_induction=query.enable_role_induction,
+    )
     adopted_candidates = (
         matching_adopted_candidates(
             state, action, target_roles, query.context_tags
@@ -398,7 +408,7 @@ def _event_supporting_paths(
             continue
         if effect not in [normalize_label(item) for item in event.observed_effects]:
             continue
-        event_roles = {normalize_label(role) for role in event.target_roles}
+        event_roles = set(effective_event_target_roles(event))
         target_matches = normalize_label(event.target or "") == target
         role_matches = bool(set(target_roles).intersection(event_roles))
         if target and not target_matches and not role_matches:
@@ -595,9 +605,7 @@ def _target_grounded_outcome(
             normalize_label(event.action) == action
             and (
                 normalize_label(event.target or "") == target
-                or bool(set(target_roles).intersection(
-                    normalize_label(role) for role in event.target_roles
-                ))
+                or bool(set(target_roles).intersection(effective_event_target_roles(event)))
             )
             and selected_effect in event_effects
             and event_context == context_key
@@ -650,7 +658,7 @@ def _recent_grounded_outcome(
         outcome = tuple(sorted({normalize_label(effect) for effect in event.observed_effects}))
         if normalize_label(event.target or "") == target:
             exact.append(outcome)
-        elif query_roles.intersection(normalize_label(role) for role in event.target_roles):
+        elif query_roles.intersection(effective_event_target_roles(event)):
             role_bound.append(outcome)
     outcomes = exact or role_bound
     if len(outcomes) < minimum_run:

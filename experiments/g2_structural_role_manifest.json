@@ -1,0 +1,8 @@
+{
+  "benchmark_version": "g2-structural-role-v1",
+  "seeds": [17, 31, 47, 67, 83],
+  "development_episodes_per_seed": 800,
+  "final_episodes_per_seed": 200,
+  "bootstrap_samples": 2000,
+  "minimum_gain": 0.05
+}

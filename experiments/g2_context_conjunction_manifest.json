@@ -1,0 +1,9 @@
+{
+  "benchmark_version": "g2-context-conjunction-v1",
+  "seeds": [13, 29, 43, 61, 79],
+  "development_episodes_per_seed": 800,
+  "final_episodes_per_seed": 200,
+  "bootstrap_samples": 2000,
+  "minimum_gain": 0.05,
+  "proxy_count": 6
+}
