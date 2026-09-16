@@ -110,4 +110,4 @@ The long-term test is whether more experience produces more reusable structure, 
 
 ## License
 
-A license has not been specified yet.
+MIT License.
