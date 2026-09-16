@@ -1,4 +1,6 @@
-<img src="docs/images/logo_RISA.png" alt="RISA logo" width="240">
+<p align="center">
+  <img src="docs/images/logo_RISA.png" width="220" alt="RISA logo">
+</p>
 
 # RISA
 
@@ -10,14 +12,14 @@ RISA has a working structured-world core. It has **not** established a general a
 
 ## Current evidence
 
-| Stage | What was measured | Result and limit |
-| --- | --- | --- |
-| G1 | Synthetic control, composition, binding, uncertainty and A→B→A drift tasks | Structural primitives support multi-step planning, but RISA tied the strongest applicable grounded-transition baseline on the main static tasks. The original B drift phase reached 33.3% success. [Report](docs/G1-Comparative-Evaluation-2026-09-08.md) |
-| G2 | Targeted tests of learned applicability, role binding, candidate reuse and persistence | Several targeted ablations improved, including learned-precondition composition at 100% versus 0% and binding at 100% versus 75%. Supplied-precondition composition still tied the grounded table. These are task-specific results, not general superiority. [Structural reuse](docs/G2-Structural-Reuse-Evaluation-2026-09-08.md) · [Derived candidates](docs/G2-Derived-Candidate-Evaluation-2026-09-11.md) |
-| G2.5–G2.6 | Roles induced from relation position and refined when outcomes conflict | One-hop induced roles matched supplied roles on the reported tasks; targeted two-hop refinement improved prediction, composition and planning over restricted role conditions. [Structural roles](docs/G2-Structural-Role-Evaluation-2026-09-12.md) · [Role disambiguation](docs/G2-Role-Disambiguation-Evaluation-2026-09-13.md) |
-| G2 persistence | Full G2 states across five seeds | Schema v4 reduced mean serialized state from 134,478 to 102,287 bytes (23.94%) with no reported reload differences over 5,000 predictions and 2,250 plans, plus composition and simulation checks. The storage gap to simpler baselines remains. [Report](docs/G2-Persistence-Evaluation-2026-09-10.md) |
-| G3.1 | Indexed prediction access and bounded Replay selection at 1k, 10k and 100k events | Indexed and full-scan `PredictionResult` payloads matched in all nine scale rows. Event-access work improved by at least 63.49× and p95 latency by at least 20.37×; Replay selection stayed within 128 events. The fixture did **not** execute full graph construction, online learning, candidate discovery or planning at 100k. [Report](docs/G3-Scale-Evaluation-2026-09-13.md) |
-| G3.2 preflight | Five seeds and seven requested split/merge/dormancy conditions under A→B→A drift | The development preflight completed 35 rows but **failed its mechanism-opportunity gate**: adopted merges, dormant candidates and executed Primitive context splits were zero in every row. Equal recovery across conditions cannot be interpreted as evidence that these mechanisms are ineffective. No independent G3.2 final evaluation has run. [Report](docs/G3.2-Drift-Preflight-2026-09-16.md) |
+| Stage          | What was measured                                                                      | Result and limit                                                                                                                                                                                                                                                                                                                                                                                              |
+| -------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| G1             | Synthetic control, composition, binding, uncertainty and A→B→A drift tasks             | Structural primitives support multi-step planning, but RISA tied the strongest applicable grounded-transition baseline on the main static tasks. The original B drift phase reached 33.3% success. [Report](docs/G1-Comparative-Evaluation-2026-09-08.md)                                                                                                                                                     |
+| G2             | Targeted tests of learned applicability, role binding, candidate reuse and persistence | Several targeted ablations improved, including learned-precondition composition at 100% versus 0% and binding at 100% versus 75%. Supplied-precondition composition still tied the grounded table. These are task-specific results, not general superiority. [Structural reuse](docs/G2-Structural-Reuse-Evaluation-2026-09-08.md) · [Derived candidates](docs/G2-Derived-Candidate-Evaluation-2026-09-11.md) |
+| G2.5–G2.6      | Roles induced from relation position and refined when outcomes conflict                | One-hop induced roles matched supplied roles on the reported tasks; targeted two-hop refinement improved prediction, composition and planning over restricted role conditions. [Structural roles](docs/G2-Structural-Role-Evaluation-2026-09-12.md) · [Role disambiguation](docs/G2-Role-Disambiguation-Evaluation-2026-09-13.md)                                                                             |
+| G2 persistence | Full G2 states across five seeds                                                       | Schema v4 reduced mean serialized state from 134,478 to 102,287 bytes (23.94%) with no reported reload differences over 5,000 predictions and 2,250 plans, plus composition and simulation checks. The storage gap to simpler baselines remains. [Report](docs/G2-Persistence-Evaluation-2026-09-10.md)                                                                                                       |
+| G3.1           | Indexed prediction access and bounded Replay selection at 1k, 10k and 100k events      | Indexed and full-scan `PredictionResult` payloads matched in all nine scale rows. Event-access work improved by at least 63.49× and p95 latency by at least 20.37×; Replay selection stayed within 128 events. The fixture did **not** execute full graph construction, online learning, candidate discovery or planning at 100k. [Report](docs/G3-Scale-Evaluation-2026-09-13.md)                            |
+| G3.2 preflight | Five seeds and seven requested split/merge/dormancy conditions under A→B→A drift       | The development preflight completed 35 rows but **failed its mechanism-opportunity gate**: adopted merges, dormant candidates and executed Primitive context splits were zero in every row. Equal recovery across conditions cannot be interpreted as evidence that these mechanisms are ineffective. No independent G3.2 final evaluation has run. [Report](docs/G3.2-Drift-Preflight-2026-09-16.md)         |
 
 The G3.2 preflight exposed a concrete lifecycle gap. A1 produced merge proposals in all five Full runs, but proposals did not become adopted structures in the online drift path. The next experiment must provide separate candidate-development, candidate-adoption and experiment-final evidence, count supervised validation labels in the adaptation budget, and verify that each mechanism actually executes. See the [G3.2 protocol](docs/G3.2-Drift-Protocol.md) and [current roadmap](docs/ROADMAP.md).
 
@@ -33,16 +35,16 @@ RISA currently accepts **structured JSON events**. Natural language, image and a
 
 ## Repository layout
 
-| Path | Purpose |
-| --- | --- |
-| `risa/core/` | Event, graph, candidate and state models |
-| `risa/engine/` | Ingestion, learning, discovery, prediction, Replay, planning and persistence |
-| `risa/evaluation/` | Benchmark models and G3.2 measurement helpers |
-| `risa/cli/` | Command-line interface |
-| `experiments/` | Versioned manifests and reproducible experiment runners |
-| `docs/` | Roadmap, protocols, reports and machine-readable results |
-| `data/` | Small structured-world examples |
-| `tests/` | Regression tests |
+| Path               | Purpose                                                                      |
+| ------------------ | ---------------------------------------------------------------------------- |
+| `risa/core/`       | Event, graph, candidate and state models                                     |
+| `risa/engine/`     | Ingestion, learning, discovery, prediction, Replay, planning and persistence |
+| `risa/evaluation/` | Benchmark models and G3.2 measurement helpers                                |
+| `risa/cli/`        | Command-line interface                                                       |
+| `experiments/`     | Versioned manifests and reproducible experiment runners                      |
+| `docs/`            | Roadmap, protocols, reports and machine-readable results                     |
+| `data/`            | Small structured-world examples                                              |
+| `tests/`           | Regression tests                                                             |
 
 ## Quick start
 
