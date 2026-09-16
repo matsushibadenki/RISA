@@ -1,3 +1,5 @@
+<img src="docs/images/logo_RISA.png" alt="RISA logo" width="240">
+
 # RISA
 
 **RISA** (Relationally Involving Self-organizing Architecture) is a Python research prototype for learning reusable structure from experience. It ingests structured events, builds a relational world model, discovers recurring transitions and candidate concepts, and uses that model for prediction and planning.
