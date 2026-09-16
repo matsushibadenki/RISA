@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from collections import defaultdict
 import hashlib
+import json
+from typing import Callable
 
 from risa.core.models import Event, UnnamedConceptCandidate
 from risa.core.state import RisaState
@@ -16,7 +18,14 @@ from risa.engine.role_induction import (
 )
 
 
-def discover_unnamed_candidates(state: RisaState) -> dict[str, UnnamedConceptCandidate]:
+def discover_unnamed_candidates(
+    state: RisaState, *, enable_specialization: bool = True, enable_merge: bool = True,
+    frozen_context_conditions: dict[str, tuple[tuple[str, ...], ...]] | None = None,
+    retain_validated_on_consistent_extension: bool = False,
+    extension_validator: Callable[
+        [RisaState, UnnamedConceptCandidate, UnnamedConceptCandidate], bool
+    ] | None = None,
+) -> dict[str, UnnamedConceptCandidate]:
     """Propose cross-target schemas from primary Event evidence only."""
     previous_candidates = state.unnamed_concept_candidates
     groups: dict[tuple[str, str, tuple[str, ...]], list[Event]] = defaultdict(list)
@@ -107,7 +116,18 @@ def discover_unnamed_candidates(state: RisaState) -> dict[str, UnnamedConceptCan
     state.unnamed_concept_candidates = candidates
     from risa.engine.candidate_lifecycle import propose_context_derivations
 
-    propose_context_derivations(state)
+    propose_context_derivations(
+        state,
+        enable_specialization=enable_specialization,
+        enable_merge=enable_merge,
+        frozen_context_conditions=frozen_context_conditions,
+    )
+    if retain_validated_on_consistent_extension:
+        if extension_validator is None:
+            raise ValueError("candidate validation inheritance requires an extension validator")
+        _retain_validated_consistent_extensions(
+            state, previous_candidates, extension_validator
+        )
     for candidate in sorted(
         (
             item
@@ -129,6 +149,82 @@ def discover_unnamed_candidates(state: RisaState) -> dict[str, UnnamedConceptCan
     state.unnamed_concept_candidates = candidates
     rebuild_candidate_inference_index(state)
     return candidates
+
+
+def _retain_validated_consistent_extensions(
+    state: RisaState,
+    previous_candidates: dict[str, UnnamedConceptCandidate],
+    extension_validator: Callable[
+        [RisaState, UnnamedConceptCandidate, UnnamedConceptCandidate], bool
+    ],
+) -> None:
+    """Experimentally carry final validation after independent revalidation.
+
+    This never carries adoption over a new in-scope counterexample, changed
+    schema/roles, or overlapping held-out evidence. Normal training leaves it off.
+    """
+    current = state.unnamed_concept_candidates
+    old_adopted = [
+        candidate for candidate in previous_candidates.values()
+        if candidate.derivation_generation > 0
+        and candidate.lifecycle_status == "adopted"
+        and candidate.final_evaluation_event_ids
+    ]
+    for candidate in sorted(current.values(), key=lambda item: item.id):
+        if candidate.derivation_generation == 0 or candidate.lifecycle_status != "proposed":
+            continue
+        possible = [
+            old for old in old_adopted
+            if old.id != candidate.id
+            and old.derivation_type == candidate.derivation_type
+            and old.structural_schema == candidate.structural_schema
+            and old.typed_role_variables == candidate.typed_role_variables
+            and set(old.supporting_event_ids).issubset(candidate.supporting_event_ids)
+            and old.counterexample_event_ids == candidate.counterexample_event_ids
+            and _matching_parent_semantics(
+                old, previous_candidates, candidate, current
+            )
+        ]
+        if not possible:
+            continue
+        previous = max(
+            possible, key=lambda item: (len(item.supporting_event_ids), item.id)
+        )
+        protected = _candidate_protected_evidence(state, candidate.id)
+        if protected.intersection(previous.evaluation_event_ids):
+            continue
+        if not extension_validator(state, previous, candidate):
+            continue
+        _copy_candidate_evaluation(candidate, previous)
+
+
+def _matching_parent_semantics(
+    old: UnnamedConceptCandidate,
+    old_pool: dict[str, UnnamedConceptCandidate],
+    new: UnnamedConceptCandidate,
+    new_pool: dict[str, UnnamedConceptCandidate],
+) -> bool:
+    def descriptions(
+        candidate: UnnamedConceptCandidate,
+        pool: dict[str, UnnamedConceptCandidate],
+    ) -> list[str] | None:
+        parents = [pool.get(parent_id) for parent_id in candidate.parent_candidate_ids]
+        if any(parent is None for parent in parents):
+            return None
+        return sorted(
+            json.dumps(
+                {
+                    "schema": parent.structural_schema,
+                    "roles": parent.typed_role_variables,
+                    "derivation_type": parent.derivation_type,
+                },
+                sort_keys=True,
+            )
+            for parent in parents
+            if parent is not None
+        )
+
+    return descriptions(old, old_pool) == descriptions(new, new_pool)
 
 
 def _single_transition_role_assignments(
@@ -855,6 +951,13 @@ def _restore_unchanged_evaluation(
         or previous.counterexample_event_ids != candidate.counterexample_event_ids
     ):
         return
+    _copy_candidate_evaluation(candidate, previous)
+
+
+def _copy_candidate_evaluation(
+    candidate: UnnamedConceptCandidate,
+    previous: UnnamedConceptCandidate,
+) -> None:
     candidate.lifecycle_status = previous.lifecycle_status
     candidate.evaluation_event_ids = list(previous.evaluation_event_ids)
     candidate.development_evaluation_event_ids = list(
@@ -970,6 +1073,7 @@ def evaluate_derived_candidate(
     parent_prediction_delta_ci_lower: float,
     parent_composition_delta_ci_lower: float,
     minimum_gain: float = 0.05,
+    enable_ancestor_dormancy: bool = True,
 ) -> UnnamedConceptCandidate:
     """Evaluate a derived candidate against a baseline and its strongest parent."""
     candidate = state.unnamed_concept_candidates[candidate_id]
@@ -1008,7 +1112,8 @@ def evaluate_derived_candidate(
     elif partition == "development":
         evaluated.selected_for_final = False
     elif evaluated.lifecycle_status == "adopted":
-        _dormant_replaced_ancestors(state, evaluated)
+        if enable_ancestor_dormancy:
+            _dormant_replaced_ancestors(state, evaluated)
         rebuild_candidate_inference_index(state)
     return evaluated
 

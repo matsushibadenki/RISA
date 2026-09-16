@@ -8,13 +8,17 @@ from risa.engine.graph_builder import normalize_label
 from risa.engine.learner import refresh_primitive_adoption
 
 
-def execute_safe_adaptations(state: RisaState) -> list[StructuralAdaptationCandidate]:
+def execute_safe_adaptations(
+    state: RisaState, *, enable_context_split: bool = True
+) -> list[StructuralAdaptationCandidate]:
     """Execute only adaptations that can be derived from existing evidence."""
     processed: list[StructuralAdaptationCandidate] = []
     for candidate in state.structural_adaptation_candidates.values():
         if candidate.status != "proposed":
             continue
         if candidate.proposed_operation == "SPLIT_CONTEXT":
+            if not enable_context_split:
+                continue
             _execute_context_split(state, candidate)
         elif candidate.proposed_operation == "REPAIR_TRANSITION":
             _execute_transition_repair(state, candidate)

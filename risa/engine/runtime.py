@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Callable
 
-from risa.core.models import Event
+from risa.core.models import Event, ReplaySummary, UnnamedConceptCandidate
 from risa.core.state import RisaState
 from risa.engine.abstractor import rebuild_concepts
 from risa.engine.adaptation import execute_safe_adaptations
@@ -25,7 +26,16 @@ class TrainingOptions:
     enable_replay: bool = True
     enable_adaptation: bool = True
     enable_coactivation: bool = True
+    enable_context_split: bool = True
+    enable_candidate_specialization: bool = True
+    enable_candidate_merge: bool = True
+    frozen_context_conditions: dict[str, tuple[tuple[str, ...], ...]] | None = None
+    retain_validated_on_consistent_extension: bool = False
+    candidate_extension_validator: Callable[
+        [RisaState, UnnamedConceptCandidate, UnnamedConceptCandidate], bool
+    ] | None = None
     replay_max_events: int | None = None
+    replay_summaries: list[ReplaySummary] | None = None
 
 
 def train_events(
@@ -34,6 +44,8 @@ def train_events(
     options: TrainingOptions | None = None,
 ) -> RisaState:
     options = options or TrainingOptions()
+    if options.retain_validated_on_consistent_extension and options.candidate_extension_validator is None:
+        raise ValueError("candidate validation inheritance requires an extension validator")
     new_events = _validate_and_filter_events(state, events)
     if not new_events:
         return state
@@ -77,11 +89,24 @@ def train_events(
         previous_by_actor_episode[actor_episode] = event
         previous_global_by_episode[episode_id] = event
     rebuild_concepts(state)
-    discover_unnamed_candidates(state)
+    discover_unnamed_candidates(
+        state,
+        enable_specialization=options.enable_candidate_specialization,
+        enable_merge=options.enable_candidate_merge,
+        frozen_context_conditions=options.frozen_context_conditions,
+        retain_validated_on_consistent_extension=(
+            options.retain_validated_on_consistent_extension
+        ),
+        extension_validator=options.candidate_extension_validator,
+    )
     if options.enable_replay:
-        replay_structural_memory(state, max_events=options.replay_max_events)
+        summary = replay_structural_memory(state, max_events=options.replay_max_events)
+        if options.replay_summaries is not None:
+            options.replay_summaries.append(summary)
     if options.enable_adaptation:
-        execute_safe_adaptations(state)
+        execute_safe_adaptations(
+            state, enable_context_split=options.enable_context_split
+        )
     return state
 
 

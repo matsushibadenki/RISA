@@ -1,442 +1,109 @@
 # RISA
 
-RISA は **Relationally Involving Self-organizing Architecture** の略で、
-重み付き関数近似を知識の本体に置くのではなく、
-**経験から関係構造を自己更新し続ける知能**
-を目指す研究プロジェクトです。
+**RISA** (Relationally Involving Self-organizing Architecture) is a Python research prototype for learning reusable structure from experience. It ingests structured events, builds a relational world model, discovers recurring transitions and candidate concepts, and uses that model for prediction and planning.
 
-現在の RISA は、
-単なる知識グラフや単なる構造保存ではなく、
+The central research hypothesis is that experience can **condense into reusable internal structure**. More experience should improve performance on unfamiliar problems without requiring storage and search work to grow in proportion to the event log. A concept, in this view, is a structure reused across many experiences, not a label supplied in advance.
 
-- 経験を状態遷移として蓄積する
-- 反復する構造を共有パターンとして圧縮する
-- 共活性と局所探索で必要な周辺だけを起動する
-- 保存済み構造から未保存の関係を導ける方向へ進む
+RISA has a working structured-world core. It has **not** established a general advantage over strong baselines, demonstrated recursive concept formation, or shown end-to-end learning at 100,000 events. The current priority is to test which structural mechanisms actually help under change before adding new perception or execution layers.
 
-という設計思想を中心にしています。
+## Current evidence
 
-特に重要なのは、
+| Stage | What was measured | Result and limit |
+| --- | --- | --- |
+| G1 | Synthetic control, composition, binding, uncertainty and A→B→A drift tasks | Structural primitives support multi-step planning, but RISA tied the strongest applicable grounded-transition baseline on the main static tasks. The original B drift phase reached 33.3% success. [Report](docs/G1-Comparative-Evaluation-2026-09-08.md) |
+| G2 | Targeted tests of learned applicability, role binding, candidate reuse and persistence | Several targeted ablations improved, including learned-precondition composition at 100% versus 0% and binding at 100% versus 75%. Supplied-precondition composition still tied the grounded table. These are task-specific results, not general superiority. [Structural reuse](docs/G2-Structural-Reuse-Evaluation-2026-09-08.md) · [Derived candidates](docs/G2-Derived-Candidate-Evaluation-2026-09-11.md) |
+| G2.5–G2.6 | Roles induced from relation position and refined when outcomes conflict | One-hop induced roles matched supplied roles on the reported tasks; targeted two-hop refinement improved prediction, composition and planning over restricted role conditions. [Structural roles](docs/G2-Structural-Role-Evaluation-2026-09-12.md) · [Role disambiguation](docs/G2-Role-Disambiguation-Evaluation-2026-09-13.md) |
+| G2 persistence | Full G2 states across five seeds | Schema v4 reduced mean serialized state from 134,478 to 102,287 bytes (23.94%) with no reported reload differences over 5,000 predictions and 2,250 plans, plus composition and simulation checks. The storage gap to simpler baselines remains. [Report](docs/G2-Persistence-Evaluation-2026-09-10.md) |
+| G3.1 | Indexed prediction access and bounded Replay selection at 1k, 10k and 100k events | Indexed and full-scan `PredictionResult` payloads matched in all nine scale rows. Event-access work improved by at least 63.49× and p95 latency by at least 20.37×; Replay selection stayed within 128 events. The fixture did **not** execute full graph construction, online learning, candidate discovery or planning at 100k. [Report](docs/G3-Scale-Evaluation-2026-09-13.md) |
+| G3.2 preflight | Five seeds and seven requested split/merge/dormancy conditions under A→B→A drift | The development preflight completed 35 rows but **failed its mechanism-opportunity gate**: adopted merges, dormant candidates and executed Primitive context splits were zero in every row. Equal recovery across conditions cannot be interpreted as evidence that these mechanisms are ineffective. No independent G3.2 final evaluation has run. [Report](docs/G3.2-Drift-Preflight-2026-09-16.md) |
 
-> 概念は最初から与えられる分類名ではなく、
-> 多数の経験で繰り返し再利用された内部構造である
+The G3.2 preflight exposed a concrete lifecycle gap. A1 produced merge proposals in all five Full runs, but proposals did not become adopted structures in the online drift path. The next experiment must provide separate candidate-development, candidate-adoption and experiment-final evidence, count supervised validation labels in the adaptation budget, and verify that each mechanism actually executes. See the [G3.2 protocol](docs/G3.2-Drift-Protocol.md) and [current roadmap](docs/ROADMAP.md).
 
-という立場です。
+## How RISA works
 
+1. **Events and graph.** A structured `Event` records actors, actions, targets, context, observed effects, relations and optional before-state information. Ingestion adds evidence-bearing nodes and edges to the graph.
+2. **Learning and structural reuse.** RISA learns outcome counts, shared patterns, transition Primitives, role signatures, applicability conditions and unnamed concept candidates from repeated evidence. Candidate promotion uses disjoint development and final evidence.
+3. **Prediction and adaptation.** Predictions return effects, scores, evidence IDs and structural paths. Pre-update validation, bounded Replay and change hypotheses can update the model. Context splitting, candidate merging and dormancy exist, but their causal value under drift is still unproven.
+4. **Planning.** Forecasting, branch simulation, goal evaluation and counterfactual planning use the learned model. The planner supports state and numeric constraints, AND/OR goal decomposition, partial-order execution and threat diagnostics. Planning quality must be evaluated separately from world-model quality.
+5. **Persistence.** The state uses schema v4. Rebuildable readout indexes are derived from Events on load; compact graph and candidate records preserve the evidence and evaluation state needed for reconstruction.
 
-## 設計評価と現在の優先順位 / Assessment / 设计评估 — 2026-09-13
+RISA currently accepts **structured JSON events**. Natural language, image and audio perception are outside this core. Planned neural, SNN, logic-gate and hardware paths are conditional on evidence that structural learning itself works.
 
-**構造ベースのAIとして研究を続ける価値があります。ただし、一般的な優位性はまだ未実証です。**
-G2では役割束縛、前提学習、変化適応を実装し、全110テストが通過しています。final評価は、観測から前提を学ぶcompositionで
-100%対具体遷移表0%、未知target bindingで100%対75%、B期driftで75%対33.3%でした。明示前提compositionは同率で、
-従来の役割型は外部入力でしたが、G2.5では一hopのrelation位置から内部roleを誘導し、外部role版と同じ予測・composition 100%、roleなし50%、未知・逆向きrelationの誤型付け0%を得ました。G2.6ではoutcome衝突時だけ最大二hop・base roleごとに最大8候補へ分化し、予測・compositionとも100%対一hop版50%、actor・任意entity変数planも100%対誘導無効50%でした。任意3-entity関係候補は既存経路比+80ポイントとなり、relation観測noiseへの耐性と成功反例による前提撤回を実装しました。相関proxyを含む36条件から7候補を生成する連言評価では、developmentで安定条件を選び、finalで100%対親50%となりました。schema v4はG2全Stateで平均134,478→102,287 bytes、23.94%削減し、5,000予測・2,250計画・Composition・simulationの再読込差分は0でした。baselineとの保存量差は残っています。
-G3.1では1k・10k・100k Eventの9条件でindex版と全走査参照版の予測payloadが完全一致し、Event参照作業量は最小63.49倍、p95は最小20.37倍改善しました。Replay選択は全sort参照と一致したまま128件に収まりました。これは予測read modelとReplay選択の合成scale評価であり、学習・graph構築・候補発見・planner全体の100k性能は未評価です。
-以下の機能一覧は実装の存在を示し、任意の入力での正しさや研究仮説の証明を意味しません。
+## Repository layout
 
-English: Structural AI research remains worthwhile, but a general advantage is not established. G2 implements role
-binding, applicability learning and change adaptation; all 110 tests pass. Final success is 100% versus 0% on learned
-composition, 100% versus 75% on binding, and 75% versus 33.3% in phase-B drift. Supplied composition still ties,
-roles were external inputs in that benchmark, and state is about 40× larger. G2.5 induces one-hop positional roles and matches supplied roles at 100% prediction and composition versus 50% with roles disabled, with 0% mistyping on unknown or reversed relations. G2.6 refines only collided roles with at most two hops and eight refinements per base; prediction and composition reach 100% versus 50% for one-hop, while actor/arbitrary-variable plans reach 100% versus 50% with induction disabled. Single-transition candidates were redundant, while a typed
-two-step temporal and actor/target candidates add value, and a generic three-entity relation candidate gains 80 points.
-Relation observation noise tolerance and premise retraction from successful counterexamples are implemented. In a conjunction benchmark with correlated proxies, development selects the stable condition from seven candidates generated across 36 conditions; final accuracy is 100% versus the parent's 50%. Across full G2 states, schema v4 reduces mean persistence from 134,478 to 102,287 bytes, or 23.94%, with zero reload mismatches over 5,000 predictions, 2,250 plans, composition and simulation. G3.1 reaches 100k Events with identical indexed and full-scan prediction payloads in all nine scale rows; indexed Event work improves by at least 63.49× and p95 by at least 20.37×, while Replay selection stays at 128 Events. This synthetic fixture does not measure end-to-end learning, graph construction, candidate discovery or planning at 100k. The baseline storage gap remains.
+| Path | Purpose |
+| --- | --- |
+| `risa/core/` | Event, graph, candidate and state models |
+| `risa/engine/` | Ingestion, learning, discovery, prediction, Replay, planning and persistence |
+| `risa/evaluation/` | Benchmark models and G3.2 measurement helpers |
+| `risa/cli/` | Command-line interface |
+| `experiments/` | Versioned manifests and reproducible experiment runners |
+| `docs/` | Roadmap, protocols, reports and machine-readable results |
+| `data/` | Small structured-world examples |
+| `tests/` | Regression tests |
 
-简体中文: 结构AI研究仍值得继续，但尚未证明普遍优势。G2已实现角色绑定、适用条件学习及变化适应，全部110项测试通过。
-最终成功率在观测学习composition为100%对0%，binding为100%对75%，B阶段drift为75%对33.3%。已提供前提的
-composition仍持平，该评估中的角色来自外部输入。G2.5现可从一hop relation位置归纳内部role，预测及composition与外部role版同为100%，禁用role时为50%，未知或反向relation的错误类型率为0%。G2.6仅在outcome冲突时细分，最多二hop且每个base role最多8个候选；预测及composition为100%对一hop版50%，actor及任意entity变量plan为100%对禁用归纳50%。任意三entity关系候选比现有路径高80个百分点；已实现relation观测噪声耐受及成功反例触发的前提撤回。在含相关proxy的合取评估中，系统从36个条件生成7个候选，在development选择稳定条件，final达到100%，父候选为50%。schema v4在完整G2 State上使平均持久化量由134,478降至102,287 bytes，减少23.94%；5,000次预测、2,250次规划、Composition及simulation重载差异均为0。G3.1的9个规模条件均达到10万Event，索引版与全扫描版预测payload完全一致；Event工作量最少改善63.49倍，p95最少改善20.37倍，Replay选择保持128件。该合成fixture尚未测量10万规模的端到端学习、graph构建、候选发现及规划；与baseline的存储差距仍存在。
+## Quick start
 
-- [設計評価・再現結果 / Assessment / 评估](docs/RISA-Structural-AI-Assessment-2026-09-05.md)
-- [現行ロードマップ / Current roadmap / 当前路线图](docs/ROADMAP.md)
-- [G2構造再利用評価 / G2 structural reuse evaluation / G2结构复用评估](docs/G2-Structural-Reuse-Evaluation-2026-09-08.md)
-- [G2候補転移評価 / G2 candidate transfer evaluation / G2候选迁移评估](docs/G2-Candidate-Transfer-Evaluation-2026-09-08.md)
-- [G2時間列候補評価 / G2 temporal candidate evaluation / G2时间序列候选评估](docs/G2-Temporal-Candidate-Evaluation-2026-09-09.md)
-- [G2関係候補評価 / G2 relational candidate evaluation / G2关系候选评估](docs/G2-Relational-Candidate-Evaluation-2026-09-09.md)
-- [G2任意関係評価 / G2 generic relation evaluation / G2任意关系评估](docs/G2-Generic-Relation-Evaluation-2026-09-09.md)
-- [G2永続化評価 / G2 persistence evaluation / G2持久化评估](docs/G2-Persistence-Evaluation-2026-09-10.md)
-- [G2構造role評価 / G2 structural role evaluation / G2结构role评估](docs/G2-Structural-Role-Evaluation-2026-09-12.md)
-- [G2 role曖昧性解消評価 / G2 role disambiguation evaluation / G2 role消歧评估](docs/G2-Role-Disambiguation-Evaluation-2026-09-13.md)
-- [現行ポリシー / Current policy / 当前方针](docs/policy.md)
-- [未分知と概念凝縮 / Undivided Knowledge and Concept Condensation / 未分知识与概念凝聚](docs/RISA-Undivided-Knowledge-and-Concept-Condensation.md)
+Requires Python 3.10 or newer. Run these commands from the repository root:
 
-## 現在の状態
-
-RISA はすでに
-**MVP-1 の雛形実装が動作している段階**
-です。
-
-現時点では、
-
-- 構造化イベントの学習
-- 最小グラフ更新
-- 共有構造パターンの学習
-- 構造差分の保存
-- 共活性ベースの局所探索
-- 説明付き予測
-- 簡易な構造代謝
-- 学習前予測と観測比較による局所検証履歴
-- effect 単位の検証履歴を共有構造の安定性へ反映
-- 競合履歴を `co_activates_with` の可塑性へ反映
-- 反復観測された `affects` 関係を安定化し、予測誤差で再可塑化
-- 現在の世界モデルで過去経験を再生し、構造ドリフトを採用判断へ反映
-- 自己生成したeffectを次のactive stateへ渡すdeployment replay
-- active state dropoutによる構造頑健性の診断
-- Replay失敗の種類に応じた局所適応候補の生成
-- 観測contextだけを使う安全なPrimitive分裂と継続ルーティング
-- actor-localな観測effectに基づく遷移修復
-- actor-localな`precedes`と全体到着順`globally_precedes`の分離
-- 個別経験を保持するevent-level temporal edgeと時系列説明
-- `consumed_states`による状態消費を含むtrajectory
-- `state_group_updates`による排他的状態置換
-- `numeric_preconditions`と`state_variable_deltas`による部分消費
-- unit・minimum・maximum付き量的状態と原子的更新
-- 複数候補の状態・量的資源を混ぜずに追跡する分岐シミュレーション
-- goal・資源cost・trajectory riskを分解表示する分岐評価
-- AND/OR状態、数値条件、禁止状態を表すGoal Specification
-- hard constraint違反branchの早期pruningと探索診断
-- 初期action・状態・数値変数の介入案を比較するCounterfactual Planning
-- Goal状態を出力するPrimitiveからの根拠付き介入候補生成
-- 観測済み時間関係を逆向きにたどる複数step Goal Decomposition
-- 提案action列をstep単位で検証するSequence-Constrained Simulation
-- 複数のAND前提subplanを依存graphへ統合するConjunctive Planning
-- 同じ前提を満たす複数producerを保持・実行比較するDisjunctive Planning
-- 入れ子のAND/OR前提を深さ制限付きで展開するNested AND-OR Planning
-- dependency-ready Primitiveを直接実行するPartial-Order Plan Execution
-- state消費・排他更新・数値資源競合を説明するPlan Graph Threat Detection
-
-まで実装されています。
-
-つまり今は
-「構想だけのリポジトリ」ではなく、
-**小さく動く研究用コアを持ちながら設計思想を深めている段階**
-です。
-
-## 目標
-
-最終目標は、
-**動作する実用性のある知能**
-を作ることです。
-
-そのために、当面は次を重視します。
-
-1. 経験を壊れにくい構造記憶として保持できる
-2. 構造を圧縮し、再利用可能な内部単位を育てられる
-3. 局所探索だけで予測と説明ができる
-4. 新しい経験で継続的に改善できる
-5. 学習器が変わっても知識基盤を継承しやすい
-
-## 設計思想
-
-RISA の現状の中核思想は次です。
-
-- 知識は「保存された文章」ではなく「再利用可能な構造」である
-- 構造を大量に保存するだけでは知識創発は起きない
-- 重要なのは構造間で何を共有するかである
-- 概念は明示分類の結果ではなく、内部構造の再利用から立ち上がる
-- 推論は全探索ではなく局所活性化と局所探索で行う
-- 例外は削除するのではなく、文脈分化や差分学習の材料として扱う
-- 長期的には Transformer・SNN・Symbolic と共生する知能基盤を目指す
-
-現在の実装では、この思想をいきなり完全実装するのではなく、
-
-- `StructuralPattern`
-- `StructureDelta`
-- `co_activates_with`
-- `recent_activity` / `energy` / `dormant`
-
-のような最小要素から段階的に具体化しています。
-
-## MVP-1 の範囲
-
-MVP-1 では、
-自由自然言語や生の画像・音声はまだ直接扱いません。
-
-入力は JSON 形式の構造化イベントに限定し、
-まずは次を安定して成立させます。
-
-- イベントからノードとエッジを生成する
-- 時系列反復から予測関係を学習する
-- 類似経験から共有構造を圧縮する
-- 共有構造間の差分を保存する
-- 次に起きやすい effect を予測する
-- 予測の根拠を構造として説明する
-
-この段階での RISA は、
-知覚器そのものではなく、
-**状態遷移イベントの統合器・構造記憶・局所推論器**
-として設計しています。
-
-## 現在の実装内容
-
-最小の研究用コアとして、以下を含みます。
-
-- `risa/core`
-  基本データ構造
-- `risa/engine`
-  学習、抽象化、予測、代謝、保存
-- `risa/cli`
-  `train`, `predict`, `inspect`, `forecast`, `compose`, `simulate`, `evaluate`, `plan`
-- `data/toy_world.json`
-  最初の学習データ
-- `tests/`
-  `unittest` ベースの最小テスト
-
-現在動作している要素は次です。
-
-- 構造化イベントの読み込み
-- event node を含む最小グラフ更新
-- action / effect パターン学習
-- 文脈つき `StructuralPattern` の共有構造学習
-- 反復する action / effect 遷移からの `StructuralPrimitive` 抽出
-- Event を構成する primitive ID の保存
-- 再利用・検証・圧縮代理値による primitive の provisional 採用
-- Replay 成功率による primitive の再評価と段階的 Consolidation
-- actor別の自己生成状態軌跡によるdeployment drift評価
-- 通常Replayと分離したcontrolled perturbation replay
-- `SPLIT_CONTEXT` / `REPAIR_TRANSITION` / `ADD_REDUNDANT_PATH`適応候補
-- 証拠で分配可能な`SPLIT_CONTEXT`の自動実行
-- precondition生成が観測済みの場合だけ行う`REPAIR_TRANSITION`
-- 継続学習バッチを保存済み時系列へ接続する時間インデックス
-- `event_precedes`を含む具体的な予測根拠パス
-- forecast/composition/replayにおける`remove -> add`状態更新
-- 観測済みgroup候補から旧状態を除去する排他更新
-- CLIから指定できる量的state variable
-- 適用後の`resulting_variables`を返すstateful forecast
-- 採用済み primitive を時間的に合成する `compose` CLI
-- 任意の `preconditions` を使う最小の `State_t + Action -> State_{t+1}` 表現
-- CurrentState と action から複数の effect 候補を保つ `forecast` CLI
-- 支持された少数候補も保持し、独立trajectoryとして展開する `simulate` CLI
-- 目標達成を最優先に、confidence・cost・riskを比較する `evaluate` CLI
-- 共有構造間の最小差分 `StructureDelta` の蓄積
-- 共有 action / effect による簡易概念生成
-- `actor`, `action`, `context` を入口にした簡易局所活性化
-- 根拠イベントと根拠経路を含む予測説明
-- `recent_activity`, `energy`, `dormant` を使った最小の構造代謝
-- 同一イベントで共活性した構造に対する `co_activates_with` の強化
-- `co_activates_with` を使った候補探索と説明補強
-- 学習前予測と観測結果の差を蓄積する最小の prediction-validation history
-- `Pattern` / `StructuralPattern` の `validation_score` を使った安定性補正
-- 競合履歴による `competition_inhibits` 経路の説明と `co_activates_with` 可塑性補正
-- `affects` edge の再現性に応じた reliability / plasticity 更新と説明経路への反映
-- 型付きtarget roleによる未知対象の束縛と根拠経路
-- before-state成功・失敗観測からの保守的な適用前提学習と反例撤回
-- 同一contextの直近outcomeによる変化仮説とA→B→A適応
-- evidence index、compact graph保存、件数上限付きReplay
-- 多様なsource・episode・targetからの匿名概念候補と非重複held-out昇格判定
-
-## 最初の評価タスク
-
-最初の実験は、
-小さな toy world で行います。
-
-```text
-dog run -> fatigue_up
-dog rest -> fatigue_down
-human run -> fatigue_up
-horse run -> fatigue_up
-drink water -> thirst_down
+```bash
+python3 -m risa.cli.main train data/toy_world.json --state-dir /tmp/risa-toy
+python3 -m risa.cli.main predict --actor wolf --action run --state-dir /tmp/risa-toy
+python3 -m pytest -q
 ```
 
-この学習後に、
+The `wolf run` example is a smoke check: action frequency can produce the same answer. It does not establish structural generalization.
 
-```text
-wolf run -> ?
-```
-
-に対して
-
-```text
-fatigue_up
-```
-
-を予測し、
-その理由を構造として返せれば、
-最小の動作確認になります。ただしaction頻度だけでも同じ答えが出るため、
-この例だけでは構造学習の追加価値や体系的汎化を示しません。
-
-English: This is a smoke check; action frequency gives the same answer, so it does not establish structural generalization.
-
-简体中文: 这只是基本运行检查；动作频度也能得到相同答案，因此不能证明结构泛化。
-
-分岐状態遷移は次のコマンドで確認できます。
+To inspect stateful branches and constraints:
 
 ```bash
 python3 -m risa.cli.main train data/branching_world.json --state-dir /tmp/risa-branch
 python3 -m risa.cli.main simulate --start-action route \
   --start-variable energy=5 --max-steps 2 --max-branches 4 \
   --state-dir /tmp/risa-branch
-```
-
-`safe_path -> arrived_safe`と`fast_path -> arrived_fast`は別trajectoryとして保持され、
-各候補のenergyも独立して更新されます。
-
-分岐を評価して選択する場合は次を実行します。
-
-```bash
 python3 -m risa.cli.main evaluate --start-action route \
-  --goal-state arrived_safe --goal-state arrived_fast \
-  --require-state safe_path --min-variable energy=1 \
-  --forbid-state fast_path \
-  --avoid-state fast_path --start-variable energy=5 \
-  --cost-variable energy=0.1 --max-steps 2 --state-dir /tmp/risa-branch
+  --require-state safe_path --forbid-state fast_path \
+  --start-variable energy=5 --max-steps 2 \
+  --state-dir /tmp/risa-branch
 ```
 
-複数の`--goal-state`は代替目標（OR）、複数の`--require-state`はすべて必要な目標（AND）です。
-`--min-variable`と`--max-variable`は終端数値条件、`--forbid-state`はtrajectory全体のhard constraintです。
-到達可能な目標がない場合、
-順位は診断用に返しますが`selected_branch_id`は`null`となります。
+The CLI also provides `inspect`, `forecast`, `compose` and `plan`. Run `python3 -m risa.cli.main --help` or a subcommand's `--help` for options. Examples for conjunction, disjunction and nested AND/OR plans are in `data/`.
 
-`evaluate`は`--forbid-state`へ入った候補を次stepへ展開しません。出力の`search_diagnostics`には、
-展開候補数、constraint prune数、beam prune数が含まれます。比較用の`--avoid-state`はsoft riskなので、
-候補を残したままpenaltyだけを付けます。
-
-介入案を比較する場合はJSON配列で指定します。
+## Reproduce the research checks
 
 ```bash
-python3 -m risa.cli.main plan --start-action route \
-  --interventions data/branching_interventions.json \
-  --require-state safe_path --goal-state arrived_safe --goal-state arrived_fast \
-  --min-variable energy=2 --forbid-state fast_path \
-  --start-variable energy=3 --max-steps 2 --state-dir /tmp/risa-branch
+python3 -m experiments.comparative_evaluation \
+  --manifest experiments/g1_manifest.json --output /tmp/g1-results.json
+python3 -m experiments.scale_evaluation \
+  --manifest experiments/g3_scale_manifest.json --output /tmp/g3-scale-results.json
+python3 -m experiments.g3_drift_preflight \
+  --manifest experiments/g3_drift_preflight_manifest.json \
+  --output /tmp/g3-drift-preflight-results.json
 ```
 
-`plan`はbaselineも同じ表へ含め、各介入の開始action、状態追加・削除、変数上書き、明示costを比較します。
-goalを達成できる介入だけが選択対象です。simulationは一時的で、学習済み構造を変更しません。
+The G3.2 preflight is a **development diagnostic**. Its expected opportunity-gate result is `fail`; it is not a substitute for an independent final experiment. G3.1's 100k full-scan reference can take substantially longer than the other checks. The committed result artifacts and their manifests are linked from the corresponding reports.
 
-既存Primitiveから介入案を生成する場合、介入ファイルは不要です。
+## Roadmap
 
-```bash
-python3 -m risa.cli.main plan --start-action route --generate-interventions \
-  --backward-depth 3 \
-  --require-state safe_path --goal-state arrived_safe --goal-state arrived_fast \
-  --min-variable energy=2 --forbid-state fast_path \
-  --start-variable energy=3 --max-steps 2 --state-dir /tmp/risa-branch
-```
+- [Done] G0–G2.6: structured-event semantics, targeted comparisons, candidate lifecycle, induced roles and persistence checks.
+- [Done] G3.1: indexed prediction access and bounded Replay selection measured through 100k synthetic events.
+- [Done] G3.2 groundwork: mechanism switches, drift metrics, online runner, candidate-extension validation and a preflight that exposed missing mechanism opportunities.
+- [Next] G3.2: run a valid A→B→A ablation with split, merge and dormancy active in the relevant conditions. Primary metrics are `recovery_events`, `retention_after_return`, `adaptation_touch_ratio` and `replay_cost_per_recovery`.
+- [Later] G3.3: measure ingestion through persistence at 1k, 10k and 100k events; decide whether to attempt 1M from those results.
+- [Later] G3.4: measure structure growth, description length, storage per event, candidate generation and planner work per query.
+- [Later] G4: test second-generation concepts, self-formed hierarchy and transfer to a new small world using lineage-disjoint held-out evidence.
 
-生成案には`generated`、`generation_reason`、`evidence_primitive_ids`が付きます。現段階ではgoal状態を
-直接出力するPrimitiveに加え、観測済み`precedes`で接続された前段Primitiveを`--backward-depth`まで
-逆向きにたどります。chain候補には`suggested_action_sequence`が付きます。生成結果は実行命令ではなく
-simulation対象の仮説です。
+The long-term test is whether more experience produces more reusable structure, lower marginal storage and search cost, and higher success on unseen problems **at the same time**. If structure counts and costs grow roughly with the event log while only accuracy improves, the condensation hypothesis needs revision. The [roadmap](docs/ROADMAP.md) defines the evidence gates and later research options.
 
-chain候補はplanner内で自由な次action探索へ戻さず、`suggested_action_sequence`を指定順に実行します。
-各隣接actionの`precedes`、Primitiveのstate・数値条件、禁止状態を再検証し、途中失敗や不正edgeは
-`sequence_failed_count`と`invalid_sequence_edge_count`へ記録します。
+## Documentation
 
-`data/conjunctive_world.json`では、`launch`に必要な`frame_ready`と`power_ready`を別々のsubplanとして解決し、
-`prepare_frame -> prepare_power -> launch`へ線形化します。出力の`plan_graph.dependencies`から、どのPrimitiveが
-どの前提状態を供給したか確認できます。
+- [Roadmap](docs/ROADMAP.md)
+- [G3.2 drift protocol](docs/G3.2-Drift-Protocol.md) and [preflight report](docs/G3.2-Drift-Preflight-2026-09-16.md)
+- [G3.1 scale report](docs/G3-Scale-Evaluation-2026-09-13.md)
+- [G2 structural reuse](docs/G2-Structural-Reuse-Evaluation-2026-09-08.md), [derived candidates](docs/G2-Derived-Candidate-Evaluation-2026-09-11.md), [context conjunctions](docs/G2-Context-Conjunction-Evaluation-2026-09-12.md), [persistence](docs/G2-Persistence-Evaluation-2026-09-10.md)
+- [G1 comparative evaluation](docs/G1-Comparative-Evaluation-2026-09-08.md)
+- [MVP technical design](docs/RISA-MVP-1-Technical-Design.md) and [concept condensation notes](docs/RISA-Undivided-Knowledge-and-Concept-Condensation.md)
 
-`data/disjunctive_world.json`では、`power_ready`を生成する安全・高速の2経路を同じ
-`alternative_group_id`に保持します。各候補の`selected_producers`、必要資源、実行結果を比較し、目標制約を
-満たす低cost経路を選びます。代替案を早期に一つへ潰さず、Sequence-Constrained Simulationで同じ条件下に
-置いて選ぶことが、このMVPの中心です。
+## License
 
-English: Producer alternatives are preserved as an OR group and compared by exact sequence simulation.
-
-简体中文: 多个生产者方案作为OR组保留，并通过严格的序列模拟进行比较。
-
-`data/nested_and_or_world.json`では、`launch`直下の`power_ready` producerは一つですが、そのproducerが要求する
-`supply_ready`に太陽・電力網の2経路があります。探索は末端までAND前提をたどり、内側のORを2つのplan variantへ
-展開します。`alternative_choice_count`、`dependency_depth`、`alternative_search_truncated`から探索範囲を確認できます。
-
-English: Nested producer alternatives are expanded recursively with explicit depth and truncation metadata.
-
-简体中文: 递归展开嵌套生产者替代方案，并显式记录深度与截断信息。
-
-plan graph付き介入は、固定action列ではなくdependencyを満たしたready Primitiveから実行します。独立した
-subplanの順序はbranchとして保持し、各stepでplanが指定したPrimitive IDだけを適用します。これにより7 nodeの
-全順列制限をなくし、同名actionの別Primitiveが混ざることも防ぎます。診断にはready node展開数、deadlock数、
-Primitive不一致数を含めます。
-
-English: Plan graphs execute dependency-ready primitive IDs directly without factorial pre-linearization.
-
-简体中文: 计划图直接执行依赖已满足的原语ID，无需阶乘级预线性化。
-
-plan生成時には、あるPrimitiveが別のPrimitiveの必要stateを消費する`state_clobber`、排他的状態を置換する
-`exclusive_state_clobber`、未順序のsubplanが同じ数値資源を消費する`numeric_resource_contention`を検出します。
-threatはplanを即時拒否せず、順序、severity、推奨解決順とともに保持し、partial-order executorで実現可能な順序を
-検証します。
-
-English: Static threats remain explainable hypotheses and are validated by partial-order execution.
-
-简体中文: 静态冲突作为可解释假设保留，并由偏序执行进行验证。
-
-## 次の重点課題 / Next priorities / 下一步重点
-
-- [Done] G0: 同時effect・Replay・証拠・対象照合・保存契約を修正 / Repaired joint effects, replay, evidence, target matching and persistence / 已修复同时效果、重放、证据、对象匹配与保存契约
-- [Done] G1: 5 seed・各split 200 held-out episodeでbaseline・ablation・oracle比較を実施 / Compared baselines, ablations and oracle over five seeds and 200 held-out episodes per split / 已用5个seed及每个split 200个留出回合比较基线、消融与oracle
-- [Done] G2.1–G2.3: 未知targetの役割束縛、変化点適応、前提学習 / Role binding, change adaptation and applicability learning / 角色绑定、变化适应及适用条件学习
-- [Done] G2.4基盤: evidence index、compact graph、予算付きReplay、匿名候補の段階評価 / Evidence index, compact graph, bounded replay and staged unnamed-candidate evaluation / 证据索引、紧凑图、有界重放及无名候选分阶段评估
-- [Done] G2.4推論接続: 採用候補を派生indexから予測・一時Primitiveへ接続 / Connect adopted candidates to prediction and ephemeral primitives through a derived index / 通过派生索引将已采纳候选接入预测及临时原语
-- [Done] G2.4候補評価: 5 seed・final 200件で単一遷移候補は100%対100%、改善0として棄却 / Reject redundant single-transition candidates after a 100% versus 100% comparison over five seeds and 200 final cases / 以5个种子及200个final案例得到100%对100%，拒绝冗余单一转移候选
-- [Done] G2.4候補圧縮: 回帰一致・rollback・再読込・新規学習復元を実装し、対象readoutを81→2 bytesへ圧縮 / Candidate compaction with equivalence, rollback, reload and learning restoration; targeted readout reduced from 81 to 2 bytes / 实现含一致性、回滚、重载及学习恢复的候选压缩，目标readout由81降至2 bytes
-- [Done] G2.4時間列候補: 同一target変数を束縛する2段階schemaへ、前提・消費状態・数値条件・変数差分を保持し、一時macroとして合成 / Temporal candidates bind one target across two steps, preserve applicability and state/variable transitions, and compose as ephemeral macros / 时间序列候选在两步中绑定同一target，保存适用条件及状态与变量转移，并作为临时宏进行组合
-- [Done] G2.4時間列評価: 5 seed・final 200件で候補100%対既存75%、差+25ポイント、false generalization 0%対33.3%として採用 / Adopt the temporal candidate at 100% versus 75%, a 25-point gain, and 0% versus 33.3% false generalization over five seeds and 200 final cases / 5个种子及200个final案例中候选100%对现有路径75%、提升25个百分点、错误泛化0%对33.3%，因此采纳
-- [Done] G2.4関係候補: actor/target二変数を束縛し、5 seed・final 200件で100%対40%、差+60ポイント、false generalization 0%対75% / Bind actor and target variables; reach 100% versus 40%, +60 points, and 0% versus 75% false generalization over five seeds and 200 final cases / 绑定actor与target变量；5个种子及200个final案例达到100%对40%、提升60个百分点、错误泛化0%对75%
-- [Done] G2.4 identity制約: 支持Eventからactor/targetの`equal`/`not_equal`を帰納し、具体queryで検査 / Infer actor/target equality or inequality from supporting events and enforce it on concrete queries / 从支持Event归纳actor/target的同一或差异，并在具体query中检查
-- [Done] G2.4任意関係: 3つ以上のentity変数・role・relationを発見・再束縛し、final 200件で100%対20%、false generalization 0%対100% / Discover and rebind three or more entity variables, roles and relations; reach 100% versus 20% and 0% versus 100% false generalization over 200 final cases / 发现并重新绑定三个以上entity变量、角色及relation；200个final案例达到100%对20%、错误泛化0%对100%
-- [Done] G2.4 relation前提: 完全観測flagを導入し、成功列の共通relationから前提を作成。余分な観測noiseを無視し、前提欠落の失敗と真の反例を分離し、成功反例で前提を撤回 / Add a complete-observation flag, infer requirements from successful intersections, ignore extra relation noise, separate missing-premise failures from true counterexamples, and retract premises after a successful counterexample / 添加完整观测标记，从成功序列交集归纳前提，忽略额外relation噪声，区分缺少前提的失败与真正反例，并在成功反例后撤回前提
-- [Done] G2.4効率評価: final 200 queryでreadout 81→2 bytesとp95非悪化を確認したが、総保存Stateが21,161→21,249 bytesへ増えたため現方式を棄却 / Over 200 final queries the readout falls from 81 to 2 bytes without a p95 regression, but total persisted state grows from 21,161 to 21,249 bytes, so reject this approach / 200个final query中readout由81降至2 bytes且p95未恶化，但持久化State总量由21,161增至21,249 bytes，因此否决当前方案
-- [Done] G2.4候補永続化: schema v4で候補schema・型変数・支持/反例IDをEventから再構築し、評価状態だけをfingerprint付きで保存。旧候補payload相当26,399→25,756 bytes / In schema v4, rebuild candidate schemas, typed variables, support and counterexample IDs from events and persist only fingerprinted evaluations; 26,399 to 25,756 bytes / schema v4从Event重建候选schema、类型变量、支持及反例ID，只保存带fingerprint的评估；26,399降至25,756 bytes
-- [Done] G2.4 Event圧縮: Eventの重複IDと既定値を省略 / Omit duplicated event IDs and default values / 省略Event重复ID及默认值
-- [Done] G2.4導出構造圧縮: graphの履歴値を保持し、pattern・structural pattern・primitiveをlossless圧縮。候補・Eventと合わせて26,399→21,137 bytes、19.93%削減 / Preserve graph history and losslessly compact pattern and primitive records; together reduce 26,399 to 21,137 bytes, or 19.93% / 保留graph历史值并无损压缩pattern及primitive记录；合计使26,399降至21,137 bytes，减少19.93%
-- [Done] G2.4広域圧縮評価: 5 seedのG2全Stateで134,478→102,287 bytes、23.94%削減。5,000予測・2,250計画・Composition・simulationの差分0 / Across five full G2 states reduce 134,478 to 102,287 bytes, or 23.94%, with zero differences over 5,000 predictions, 2,250 plans, composition and simulation / 5个完整G2 State由134,478降至102,287 bytes，减少23.94%；5,000次预测、2,250次规划、Composition及simulation差异为0
-- [Done] G2.4候補生命周期基盤: specialization・merge・dormancy、二世代候補、親証拠fingerprint、祖先を含む循環支持禁止を実装 / Implement specialization, merge, dormancy, second-generation candidates, parent-evidence fingerprints and ancestor-aware circular-support prevention / 实现候选分化、合并、休眠、第二代候选、父证据fingerprint及祖先感知的循环支持防止
-- [Done] G2.4派生候補評価: 再現性とprecision改善でcontext specializationを自動提案し、互換な兄弟を条件の論理和を保ったままmerge。5 seed・final 200件でmerge 100%対最良の直接親75%、広い祖先は50%・false generalization 100% / Propose context specializations from reproducibility and precision gain and merge compatible siblings while preserving context disjunctions; over five seeds and 200 final cases, merge reaches 100% versus the strongest direct parent's 75%, while the broad ancestor reaches 50% with 100% false generalization / 按可复现性及precision提升自动提出context分化，在保留context析取条件下合并兼容兄弟；5个seed及200个final案例中merge达到100%，最强直接父候选为75%，宽泛祖先为50%且错误泛化100%
-- [Done] G2.4候補数予算: 親ごとのspecializationをprecision改善・support順で上位8件に制限 / Limit specializations per parent to the top eight by precision gain and support / 按precision提升及support将每个父候选的分化限制为前8项
-- [Done] G2.4複合context探索: 最大24 tag・2連言・親ごと8候補に探索を制限し、developmentで1候補だけをfinalへ選択。6個の相関proxyを含む36条件・7候補から5 seedすべてで安定条件を選び、final 100%対親50% / Bound search to 24 tags, pairwise conjunctions and eight candidates per parent, selecting one development winner for final; across 36 conditions and seven candidates with six correlated proxies, all five seeds select the stable condition and reach 100% versus the parent's 50% / 将搜索限制为24个tag、二元合取及每个父候选8项，并在development仅选择1项进入final；在含6个相关proxy的36个条件及7个候选中，5个seed均选中稳定条件，final达到100%，父候选为50%
-- [Done] G2.4節目: context schemaの発見・選択・独立採否・推論置換・保存再構築を一巡させた / Complete the G2.4 context-schema loop across discovery, selection, independent adoption, inference replacement and persistence reconstruction / 完成G2.4 context schema从发现、选择、独立采纳、推理替换到持久化重建的闭环
-- [Done] G2.5一hop構造role誘導: 外部roleなしでrelation位置から内部roleを作り、5 seed・final 200件で予測・compositionとも100%、外部role版100%、roleなし50%、誤型付け0% / Derive one-hop internal roles from relation position without external labels; over five seeds and 200 final cases, prediction and composition reach 100%, supplied roles 100%, no roles 50%, and mistyping 0% / 不依赖外部role标签，从relation位置生成一hop内部role；5个seed及200个final案例中预测与composition均为100%，外部role版100%，无role版50%，错误类型率0%
-- [Done] G2.6 role衝突解消: outcome衝突時だけ最大二hop・base roleごとに最大8 refinementへ分化し、actor・任意entity変数へ拡張。5 seedで予測・composition・plan 100%、制限版50%、誤型付け0% / Refine only collided roles with at most two hops and eight refinements per base, extending roles to actors and arbitrary variables; over five seeds prediction, composition and plans reach 100% versus 50% restricted baselines with 0% mistyping / 仅在role冲突时细分，最多二hop且每个base最多8个refinement，并扩展到actor及任意变量；5个seed中预测、composition及plan均为100%，限制版为50%，错误类型率0%
-- [Done] G3.1 Event access: 1k・10k・100kの全9条件でindex版と全走査版の予測差分0、作業量63.49倍以上、p95 20.37倍以上、Replay選択128件 / Across all nine 1k, 10k and 100k rows, indexed and full-scan predictions match exactly, with at least 63.49× lower Event work, 20.37× better p95 and Replay selection bounded to 128 / 在1千、1万及10万Event的全部9个条件中，索引与全扫描预测完全一致，Event工作量至少改善63.49倍，p95至少改善20.37倍，Replay选择限制为128件
-- [Next] G3.2 drift: context split・merge・dormancyを分離し、回復遅延・旧知識保持・適応件数・Replay量を評価 / Isolate context splitting, merging and dormancy under drift; measure recovery delay, retained prior knowledge, adaptation count and Replay work / 在漂移中分别评估context分裂、合并及休眠，并测量恢复延迟、旧知识保持、适应次数及Replay工作量
-- [Later] G4: 用途検証と追加研究。Canopy・SNN・階層credit・微分可能logic gate・BitNet/SNN/Logic交点の三値Event回路は比較結果から再判断 / Validate applications; gate canopy, SNN, hierarchical credit, differentiable logic gates and ternary event circuits at the BitNet/SNN/Logic intersection on evidence / 验证应用，根据比较证据决定Canopy、SNN、层级信用、可微逻辑门及BitNet/SNN/Logic交点的三值Event电路
-
-完了条件と仮説の見直し条件は[ROADMAP](docs/ROADMAP.md)に集約しています。
-The roadmap defines completion and revision gates. 路线图统一规定完成与修订条件。
-
-## ドキュメント
-
-- [RISA Roadmap](docs/ROADMAP.md)
-- [G1 Comparative Evaluation](docs/G1-Comparative-Evaluation-2026-09-08.md)
-- [G2 Structural Reuse Evaluation](docs/G2-Structural-Reuse-Evaluation-2026-09-08.md)
-- [G2 Derived Candidate Evaluation](docs/G2-Derived-Candidate-Evaluation-2026-09-11.md)
-- [G2 Context Conjunction Evaluation](docs/G2-Context-Conjunction-Evaluation-2026-09-12.md)
-- [G2 Structural Role Evaluation](docs/G2-Structural-Role-Evaluation-2026-09-12.md)
-- [G2 Role Disambiguation Evaluation](docs/G2-Role-Disambiguation-Evaluation-2026-09-13.md)
-- [G3 Scale Evaluation](docs/G3-Scale-Evaluation-2026-09-13.md)
-- [G2 Candidate Transfer Evaluation](docs/G2-Candidate-Transfer-Evaluation-2026-09-08.md)
-- [RISA MVP-1 Technical Design](docs/RISA-MVP-1-Technical-Design.md)
-- [RISA Design Policy](docs/policy.md)
-- [RISA Undivided Knowledge and Concept Condensation](docs/RISA-Undivided-Knowledge-and-Concept-Condensation.md)
-- [RISA Concept Formation and Multimodal Notes](docs/RISA-Concept-Formation-and-Multimodal-Notes.md)
-- [RISA Structural Sharing and Knowledge Emergence](docs/RISA-Structural-Sharing-and-Knowledge-Emergence.md)
-- [RISA Structural Interpolation and Smoothing](docs/RISA-Structural-Interpolation-and-Smoothing.md)
-- [RISA Plasticity and Memory Reinforcement](docs/RISA-Plasticity-and-Memory-Reinforcement.md)
-- [RISA Predictive Memory Transition and Structural Replay](docs/RISA-Predictive-Memory-Transition-and-Replay.md)
-- [RISA Hierarchical Local Credit Assignment](docs/RISA-Hierarchical-Local-Credit-Assignment.md)
-- [RISA Industrialized Neural Computation Principles](docs/RISA-Industrialized-Neural-Computation-Principles.md)
-- [RISA Concept Cells and Structure Metabolism](docs/RISA-Concept-Cells-and-Structure-Metabolism.md)
-- [RISA Constraints and Self-Organization Notes](docs/RISA-Constraints-and-Self-Organization-Notes.md)
-- [RISA Search and Activation Strategy Notes](docs/RISA-Search-and-Activation-Strategy-Notes.md)
-- [RISA Relation Field and Event Packets](docs/RISA-Relation-Field-and-Event-Packets.md)
-- [RISA Transformer and SNN Relationship Notes](docs/RISA-Transformer-SNN-Relationship-Notes.md)
-- [RISA Transformer Coevolution and Hypothesis Loop](docs/RISA-Transformer-Coevolution-and-Hypothesis-Loop.md)
-- [RISA Mixture of Architectures and Dynamic Routing](docs/RISA-Mixture-of-Architectures-and-Dynamic-Routing.md)
-- [RISA and SARA Engine Compatibility](docs/RISA-and-SARA-Engine-Compatibility.md)
-- [RISA Open Source Landscape and Differentiation](docs/RISA-Open-Source-Landscape-and-Differentiation.md)
-- [RISA vs ANN and SNN Assessment](docs/RISA-vs-ANN-and-SNN-Assessment.md)
-- [RISA RAG and SNN Cache Analogy Notes](docs/RISA-RAG-and-SNN-Cache-Analogy-Notes.md)
-- [RISA Differentiable Logic-Gate Research](docs/RISA-Differentiable-Logic-Gate-Research-Notes.md)
-
-## 実行例
-
-```bash
-python3 -m risa.cli.main train data/toy_world.json --state-dir state
-python3 -m risa.cli.main predict --actor wolf --action run --state-dir state
-python3 -m risa.cli.main train data/stateful_world.json --state-dir stateful-state
-python3 -m risa.cli.main forecast --action use --current-state charged \
-  --variable energy=5 --context robot --context power --state-dir stateful-state
-python3 -m unittest discover -s tests
-```
-
-## ライセンス
-
-未定
+A license has not been specified yet.

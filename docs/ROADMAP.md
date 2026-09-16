@@ -1,6 +1,6 @@
 # RISA Roadmap / RISA ロードマップ / RISA 路线图
 
-Updated: 2026-09-13. [Design assessment / 設計評価 / 设计评估](RISA-Structural-AI-Assessment-2026-09-05.md)
+Updated: 2026-09-16. [Design assessment / 設計評価 / 设计评估](RISA-Structural-AI-Assessment-2026-09-05.md)
 
 ## Authority and objective / 位置付けと目的 / 定位与目标
 
@@ -241,7 +241,11 @@ G2.4已完成context schema闭环；G2.5的一hop结构role与外部role持平�
 ## G3 — Adaptation and bounded cost / 継続適応と計算予算 / 持续适应与计算预算
 
 - [Done] G3.1: 3 seed・1k→10k→100k Eventの全9条件でindex版と全走査参照版の全予測field差分0。Event作業量を最小63.49倍、p95を最小20.37倍改善し、Replay windowは全sort参照と一致したまま128件に制限 / Across all nine rows over three seeds and 1k→10k→100k Events, every prediction field matches the full-scan reference; Event work improves by at least 63.49×, p95 by at least 20.37×, and the 128-Event Replay window matches a full sort / 在3个seed及1千→1万→10万Event的全部9个条件中，所有预测字段与全扫描参考一致；Event工作量至少改善63.49倍，p95至少改善20.37倍，128件Replay窗口与全排序一致
+- [Done] G3.2計測基盤: 機構別切替・A→B→Aランナーと4指標・A1固定条件からのmerge再提案・独立development検証を必須とする実験用採用継承 / Add mechanism switches, an A→B→A metric runner, merge reproposal from frozen A1 scopes and opt-in validation inheritance gated by independent development probes / 已添加机制开关、A→B→A指标运行器、基于冻结A1条件的合并重提议，以及须通过独立development探针的可选验证继承
+- [Done] G3.2開発preflight: 5 seed×7条件を完走したが、採用済みmerge・休眠・実行済みPrimitive分裂が全行0で機構機会gateは不合格 / Complete a 5-seed, 7-arm development preflight; the opportunity gate fails because adopted merges, dormancy and executed Primitive splits are zero in every row / 完成5个seed、7条件的开发预检；全部行中已采纳合并、休眠及已执行原语分裂均为零，机制机会门槛未通过
 - [Next] G3.2: 文脈分裂・統合・休眠を個別ablationし、drift回復遅延・旧知識保持・適応件数・Replay量を評価 / Ablate splitting, merging and dormancy separately under drift; measure recovery delay, retained prior knowledge, adaptation count and Replay work / 分别消融context分裂、合并及休眠，评估漂移恢复延迟、旧知识保持、适应次数及Replay工作量
+- [Later] G3.3: 1k→10k→100k Eventでingestion、graph更新、候補発見、凝縮、予測、計画、Replay、保存をend-to-end測定。1Mは先行する3規模の結果で判断 / Profile end-to-end ingestion through persistence at 1k, 10k and 100k Events; decide on 1M from those results / 在1千、1万及10万Event下端到端测量摄取至持久化；根据前三种规模决定是否测试100万
+- [Later] G3.4: Eventあたり保存量・active構造数・候補数・記述長とqueryあたり探索量の成長曲線を測る / Measure growth curves for bytes, active structures, candidates and description length per Event, and search work per query / 测量每Event的存储量、活跃结构数、候选数及描述长度，以及每query探索量的增长曲线
 - [Later] score校正、unknownの区別、状態を含む探索重複判定 / Calibration, unknown states, state-aware search deduplication / 校准、未知状态及考虑状态的搜索去重
 
 日本語: G3.1の予測read modelとReplay選択は採用条件を通過した。合成fixtureは完全な学習・graph構築・候補発見・planner探索を含まないため、それらの100k性能は未評価として残す。G3.2で更新範囲、Replay件数、回復速度と忘却をdrift下で測る。
@@ -252,7 +256,27 @@ English: G3.1 prediction read models and Replay selection passed the adoption ga
 
 詳細: [G3.1 Event access scale評価 / Event-access scale evaluation / Event访问规模评估](G3-Scale-Evaluation-2026-09-13.md)
 
-## G4 — Application and optional research / 用途と追加研究 / 应用与可选研究
+G3.2評価契約: [Drift ablation protocol / 漂移消融評価契約 / 漂移消融评估协议](G3.2-Drift-Protocol.md)。主要指標は`recovery_events`、`retention_after_return`、`adaptation_touch_ratio`、`replay_cost_per_recovery`。G3.3ではtime/bytes/active structures/candidate generation per Eventとplanner expanded nodes per queryを記録する。G3.4ではEvent増加に伴い再利用構造が増え、保存量と探索量の増分が下がり、独立held-out成功率が上がるかを同時に検証する。曲線が比例増加する場合は凝縮仮説を見直す。
+
+G3.2開発preflight: [機構機会監査 / Mechanism opportunity audit / 机制机会审计](G3.2-Drift-Preflight-2026-09-16.md)。35行すべてで採用済みmergeと休眠が0のため、独立finalへ進めず生命周期の作動機会を先に修正する。
+
+G3.2 contract: the same four primary metrics separate recovery, retention, local rewrite scope and Replay work. G3.3 measures time, bytes, active structures and candidate generation per Event plus planner expanded nodes per query. G3.4 tests whether reusable structure grows while marginal storage/search work falls and independent held-out success rises; proportional growth triggers a reconsideration of condensation.
+
+G3.2协议：四项主要指标分别衡量恢复、保留、局部改写范围及重放工作量。G3.3测量每Event的时间、字节、活跃结构和候选生成，以及每query的规划器扩展节点。G3.4同时检验可复用结构是否增加、边际存储与搜索成本是否下降、独立留出成功率是否提高；若结构按Event数量成比例增长，应重新审视凝聚假设。
+
+## G4 — Recursive concept formation / 再帰的概念形成 / 递归概念形成
+
+- [Later] G4.1 二世代候補を既存構造から発見し、祖先証拠と重ならない独立held-outで追加利得を示す / Discover second-generation candidates from learned structures and demonstrate gain on independent held-out episodes disjoint from ancestral evidence / 从已学习结构发现第二代候选，并在与祖先证据不重叠的独立留出回合中证明增益
+- [Later] G4.2 Event→Primitive→Schema→Macro→抽象relationの3～4段階が人手ラベルなしで形成されるか検証 / Test whether three to four levels of Event-to-Primitive-to-Schema-to-Macro-to-abstract-relation hierarchy arise without supplied labels / 检验Event到原语、Schema、宏及抽象关系的三至四层层级能否在无人为标签下形成
+- [Later] G4.3 系譜証拠と分離した新しい小世界へ構造を転移し、モデル品質とplanner品質を四条件で分離 / Transfer structure to a new small world with disjoint lineage evidence and separate model from planner quality in four cells / 将结构迁移到谱系证据互不重叠的新小世界，并以四条件区分模型与规划器质量
+
+日本語: 「経験から再利用可能構造が自己凝縮する」を中心仮説とし、保存量・探索量・未知問題成功率を同時に問う。独立held-outの改善がなければ二世代発見を知能増幅と呼ばない。自然言語・画像等の知覚adapterはG4の証拠を確認してから接続する。
+
+English: The central hypothesis is self-condensation of reusable structure from experience, judged jointly by storage, search and unseen-problem success. Do not call second-generation discovery intelligence compounding without independent held-out gains. Connect language and image perception adapters only after the G4 evidence is established.
+
+简体中文: 核心假设是经验自行凝聚为可复用结构，需同时考察存储量、搜索量与未知问题成功率。若没有独立留出增益，不把第二代发现称为智能增益；语言与图像感知适配器应在G4证据成立后接入。
+
+## Optional applications and execution research / 用途と実行層の追加研究 / 应用与执行层研究
 
 - [Later] 狭い業務手順・資源管理の外部ログでshadow評価 / Shadow evaluation on bounded workflow/resource logs / 在有限流程与资源日志上影子评估
 - [Later] Threat-Aware Ordering Repair。G1で探索失敗が主要因の場合に前倒し再判断 / Ordering repair, reconsider earlier only if G1 isolates search as the bottleneck / 若G1确认搜索为瓶颈再考虑提前顺序修复

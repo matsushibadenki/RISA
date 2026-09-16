@@ -79,6 +79,9 @@ def merge_candidates(
 def propose_context_derivations(
     state: RisaState,
     *,
+    enable_specialization: bool = True,
+    enable_merge: bool = True,
+    frozen_context_conditions: dict[str, tuple[tuple[str, ...], ...]] | None = None,
     minimum_precision_gain: float = 0.2,
     max_specializations_per_parent: int = 8,
     max_context_tags: int = 24,
@@ -160,20 +163,39 @@ def propose_context_derivations(
                 )
             )
         siblings: list[UnnamedConceptCandidate] = []
-        for gain, _, condition, matching_support in sorted(
-            qualified, key=lambda item: (-item[0], -item[1], len(item[2]), item[2])
-        )[:max_specializations_per_parent]:
-            child = specialize_candidate(
-                state,
-                parent.id,
-                supporting_event_ids=[event.id for event in matching_support],
-                schema_updates={"required_context_tags": list(condition)},
-            )
-            child.proposal_hypothesis_count = hypothesis_count
-            child.proposal_precision_gain = round(gain, 6)
-            siblings.append(child)
-            proposed.append(child)
-        if len(siblings) > 1 and _supports_are_pairwise_disjoint(siblings):
+        if enable_specialization:
+            for gain, _, condition, matching_support in sorted(
+                qualified, key=lambda item: (-item[0], -item[1], len(item[2]), item[2])
+            )[:max_specializations_per_parent]:
+                child = specialize_candidate(
+                    state,
+                    parent.id,
+                    supporting_event_ids=[event.id for event in matching_support],
+                    schema_updates={"required_context_tags": list(condition)},
+                )
+                child.proposal_hypothesis_count = hypothesis_count
+                child.proposal_precision_gain = round(gain, 6)
+                siblings.append(child)
+                proposed.append(child)
+        elif frozen_context_conditions:
+            # Rebuild only scopes discovered before drift. Current primary Event
+            # evidence updates support and lineage fingerprints normally.
+            for condition in frozen_context_conditions.get(parent.id, ()):
+                matching_support = [
+                    event for event in support_events
+                    if set(condition).issubset(_normalized_event_tags(event))
+                ]
+                if not _has_independent_diversity(matching_support):
+                    continue
+                child = specialize_candidate(
+                    state,
+                    parent.id,
+                    supporting_event_ids=[event.id for event in matching_support],
+                    schema_updates={"required_context_tags": list(condition)},
+                )
+                siblings.append(child)
+                proposed.append(child)
+        if enable_merge and len(siblings) > 1 and _supports_are_pairwise_disjoint(siblings):
             merged = merge_candidates(state, [item.id for item in siblings])
             merged.proposal_hypothesis_count = hypothesis_count
             merged.proposal_precision_gain = round(
@@ -181,6 +203,23 @@ def propose_context_derivations(
             )
             proposed.append(merged)
     return proposed
+
+
+def capture_context_conditions(
+    state: RisaState,
+) -> dict[str, tuple[tuple[str, ...], ...]]:
+    """Freeze pre-drift specialization scopes without retaining stale evidence."""
+    by_parent: dict[str, set[tuple[str, ...]]] = {}
+    for candidate in state.unnamed_concept_candidates.values():
+        if candidate.derivation_type != "specialized" or len(candidate.parent_candidate_ids) != 1:
+            continue
+        tags = candidate.structural_schema.get("required_context_tags")
+        if not isinstance(tags, list) or not tags:
+            continue
+        by_parent.setdefault(candidate.parent_candidate_ids[0], set()).add(
+            tuple(str(tag) for tag in tags)
+        )
+    return {key: tuple(sorted(values)) for key, values in sorted(by_parent.items())}
 
 
 def set_candidate_dormant(

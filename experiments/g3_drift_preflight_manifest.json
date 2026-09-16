@@ -1,0 +1,18 @@
+{
+  "benchmark_version": "g3.2-preflight-v1",
+  "seeds": [11, 23, 37, 53, 71],
+  "phase_observations": 12,
+  "probes_per_phase": 24,
+  "replay_interval": 4,
+  "replay_max_events": 8,
+  "recovery_window": 3,
+  "arms": [
+    "full",
+    "split_only",
+    "merge_only",
+    "no_split",
+    "no_merge",
+    "no_dormancy",
+    "none"
+  ]
+}
