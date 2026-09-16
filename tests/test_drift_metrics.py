@@ -1,8 +1,11 @@
 from __future__ import annotations
 
 import copy
+import pytest
 
-from experiments.g3_drift_preflight import run_preflight
+from experiments.g3_drift_preflight import ARMS, _events, mechanism_opportunity_audit, run_preflight
+from experiments.g3_lifecycle_readiness import run_lifecycle_readiness
+from experiments.g3_drift_candidate_primed import run_candidate_primed_preflight
 from risa.core.models import Event, Node, ReplaySummary, StructuralAdaptationCandidate
 from risa.core.models import PredictionQuery
 from risa.core.state import RisaState
@@ -16,6 +19,7 @@ from risa.engine.candidate_discovery import (
 from risa.engine.candidate_lifecycle import capture_context_conditions
 from risa.engine.runtime import TrainingOptions, train_events
 from risa.evaluation.candidate_extension import CandidateExtensionValidator, ExtensionProbe
+from risa.evaluation.candidate_adoption import ApplicabilityProbe, evaluate_candidate_on_probes
 from risa.evaluation.drift_metrics import (
     adaptation_touch_counts,
     mechanism_delta,
@@ -116,6 +120,164 @@ def test_preflight_rejects_fixture_without_active_mechanism_opportunities() -> N
     assert len(result["rows"]) == 7
     assert result["mechanism_opportunity_gate"] == "fail"
     assert all(row["final_adopted_merges"] == 0 for row in result["rows"])
+    assert "split:full" in result["mechanism_opportunity_audit"]["missing_opportunities"]
+
+
+def test_opportunity_gate_requires_executed_split_and_adopted_merge() -> None:
+    rows = [{
+        "arm": arm,
+        "seed": 11,
+        "final_executed_context_splits": int(split),
+        "final_adopted_merges": int(merge),
+        "final_dormant_candidates": int(dormancy),
+    } for arm, (split, merge, dormancy) in {
+        "full": (True, True, True),
+        "split_only": (True, False, False),
+        "merge_only": (False, True, False),
+        "no_split": (False, True, True),
+        "no_merge": (True, False, True),
+        "no_dormancy": (True, True, False),
+        "none": (False, False, False),
+    }.items()]
+    assert mechanism_opportunity_audit(rows)["status"] == "pass"
+    rows[0]["final_executed_context_splits"] = 0
+    audit = mechanism_opportunity_audit(rows)
+    assert audit["status"] == "fail"
+    assert audit["missing_opportunities"] == ["split:full"]
+    rows[0]["final_executed_context_splits"] = 1
+    rows[-1]["final_adopted_merges"] = 1
+    audit = mechanism_opportunity_audit(rows)
+    assert audit["status"] == "fail"
+    assert audit["unintended_executions"] == ["merge:none:11"]
+
+
+def test_probe_backed_lifecycle_exposes_unadoptable_broad_ancestor() -> None:
+    state = train_events(
+        RisaState(), _events(11, "A1", 6),
+        TrainingOptions(enable_replay=False, enable_metabolism=False),
+    )
+    broad = next(candidate for candidate in state.unnamed_concept_candidates.values()
+                 if candidate.derivation_generation == 0
+                 and candidate.structural_schema.get("effects") == ["warm"])
+    merged = next(candidate for candidate in state.unnamed_concept_candidates.values()
+                  if candidate.derivation_type == "merged")
+
+    def panel(prefix: str) -> list[ApplicabilityProbe]:
+        variants = (("indoor", True), ("sheltered", True),
+                    ("outdoor", False), ("exposed", False))
+        return [ApplicabilityProbe(
+            f"{prefix}:{index}", f"{prefix}:episode:{index}",
+            f"{prefix}:source:{index % 2}", (variants[index % 4][0],),
+            variants[index % 4][1],
+        ) for index in range(200)]
+
+    broad_result = evaluate_candidate_on_probes(
+        state, broad.id, panel("broad-development"),
+        partition="development", bootstrap_samples=200,
+    )
+    assert broad_result["status"] == "rejected"
+    assert broad_result["false_generalization_delta"] == 1.0
+
+    development_panel = panel("merge-development")
+    development = evaluate_candidate_on_probes(
+        state, merged.id, development_panel,
+        partition="development", bootstrap_samples=200,
+    )
+    assert development["status"] == "provisional"
+    assert development["parent_ci_lower"] > 0
+    select_derived_candidates_for_final(state, [merged.id])
+    with pytest.raises(ValueError, match="disjoint from development"):
+        evaluate_candidate_on_probes(
+            state, merged.id, development_panel,
+            partition="final", development_probes=development_panel,
+            bootstrap_samples=200,
+        )
+    final = evaluate_candidate_on_probes(
+        state, merged.id, panel("merge-final"),
+        partition="final", development_probes=development_panel,
+        bootstrap_samples=200,
+    )
+    assert final["status"] == "adopted"
+    assert final["supervised_labels"] == 200
+    assert not broad.dormant
+
+    leaked = panel("leaked")
+    leaked[0] = ApplicabilityProbe(
+        leaked[0].id, leaked[0].episode_id,
+        state.events_by_id[broad.supporting_event_ids[0]].source,
+        leaked[0].context_tags, leaked[0].expected_applicable,
+    )
+    with pytest.raises(ValueError, match="disjoint from candidate ancestry"):
+        evaluate_candidate_on_probes(
+            state, broad.id, leaked, partition="development", bootstrap_samples=200,
+        )
+
+
+def test_lifecycle_readiness_isolates_dormancy_after_validated_merge() -> None:
+    result = run_lifecycle_readiness({
+        "benchmark_version": "test-lifecycle-readiness",
+        "seeds": [11], "probes_per_partition": 200, "bootstrap_samples": 200,
+    })
+    on, off = result["rows"]
+    assert on["merged_status"] == off["merged_status"] == "adopted"
+    assert on["dormant_parent_count"] == 2
+    assert off["dormant_parent_count"] == 0
+    assert on["indoor_matching_candidates"] == 1
+    assert off["indoor_matching_candidates"] == 2
+    assert on["supervised_labels_per_arm"] == off["supervised_labels_per_arm"] == 1200
+
+
+def test_replay_instability_creates_real_split_opportunity() -> None:
+    events = [Event(
+        id=f"split-opportunity:{index}", timestamp=index + 1,
+        actor="shared-actor", action="inspect", target="shared-device",
+        target_roles=["device"],
+        context_tags=["indoor" if index % 2 == 0 else "outdoor"],
+        observed_effects=["warm" if index < 4 else "cold"],
+        episode_id=f"split-episode:{index}", source=f"split-source:{index}",
+    ) for index in range(16)]
+    enabled = train_events(
+        RisaState(), events,
+        TrainingOptions(enable_metabolism=False, enable_context_split=True),
+    )
+    disabled = train_events(
+        RisaState(), events,
+        TrainingOptions(enable_metabolism=False, enable_context_split=False),
+    )
+    primitive_id = "primitive:transition:entity->process->state:inspect->warm"
+    assert enabled.structural_primitives[primitive_id].replay_score < 0.6
+    assert enabled.structural_adaptation_candidates[primitive_id].status == "executed"
+    assert primitive_id in snapshot_mechanisms(enabled).executed_context_splits
+    assert disabled.structural_adaptation_candidates[primitive_id].status == "proposed"
+    assert not snapshot_mechanisms(disabled).executed_context_splits
+
+
+def test_candidate_primed_drift_records_online_validation_loss() -> None:
+    result = run_candidate_primed_preflight({
+        "benchmark_version": "test-candidate-primed",
+        "seeds": [11], "phase_observations": 6, "probes_per_phase": 6,
+        "adoption_probes_per_partition": 200, "bootstrap_samples": 200,
+        "extra_a2_observations": 96,
+        "replay_interval": 2, "replay_max_events": 4,
+        "recovery_window": 2, "arms": list(ARMS),
+    })
+    full = next(row for row in result["rows"] if row["arm"] == "full")
+    disabled = next(row for row in result["rows"] if row["arm"] == "no_dormancy")
+    assert full["a1_adopted_merges"] == disabled["a1_adopted_merges"] == 1
+    assert full["a1_dormant_candidates"] == 2
+    assert disabled["a1_dormant_candidates"] == 0
+    assert full["a1_supervised_adoption_labels"] == 1200
+    assert len(full["B_mechanism_trace"]) == 6
+    assert full["B_mechanism_trace"][-1]["adopted_merges"] == 0
+    assert full["final_merged_proposals"] == 0
+    frozen = next(row for row in result["rows"] if row["arm"] == "no_split")
+    assert frozen["final_merged_proposals"] == 1
+    assert frozen["final_adopted_merges"] == 0
+    assert frozen["A2_postphase_revalidated_merges"] == 1
+    assert frozen["A2_postphase_revalidation_labels"] == 1200
+    assert frozen["A2_extra_events_to_merge_proposal"] == 0
+    assert full["A2_extra_events_to_merge_proposal"] > 0
+    assert result["mechanism_opportunity_gate"] == "fail"
 
 
 def test_replay_cost_uses_actual_summaries() -> None:
@@ -236,6 +398,11 @@ def test_context_split_switch_leaves_proposal_pending() -> None:
     assert execute_safe_adaptations(state, enable_context_split=False) == []
     assert state.structural_adaptation_candidates[primitive_id].status == "proposed"
     assert len(execute_safe_adaptations(state, enable_context_split=True)) == 1
+    assert primitive_id in snapshot_mechanisms(state).executed_context_splits
+    # Replay replaces transient proposals; the executed split remains in the Primitive lineage.
+    from risa.engine.replay import replay_structural_memory
+    replay_structural_memory(state)
+    assert primitive_id in snapshot_mechanisms(state).executed_context_splits
 
 
 def test_ancestor_dormancy_switch_preserves_adopted_parent() -> None:

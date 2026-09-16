@@ -243,6 +243,11 @@ G2.4已完成context schema闭环；G2.5的一hop结构role与外部role持平�
 - [Done] G3.1: 3 seed・1k→10k→100k Eventの全9条件でindex版と全走査参照版の全予測field差分0。Event作業量を最小63.49倍、p95を最小20.37倍改善し、Replay windowは全sort参照と一致したまま128件に制限 / Across all nine rows over three seeds and 1k→10k→100k Events, every prediction field matches the full-scan reference; Event work improves by at least 63.49×, p95 by at least 20.37×, and the 128-Event Replay window matches a full sort / 在3个seed及1千→1万→10万Event的全部9个条件中，所有预测字段与全扫描参考一致；Event工作量至少改善63.49倍，p95至少改善20.37倍，128件Replay窗口与全排序一致
 - [Done] G3.2計測基盤: 機構別切替・A→B→Aランナーと4指標・A1固定条件からのmerge再提案・独立development検証を必須とする実験用採用継承 / Add mechanism switches, an A→B→A metric runner, merge reproposal from frozen A1 scopes and opt-in validation inheritance gated by independent development probes / 已添加机制开关、A→B→A指标运行器、基于冻结A1条件的合并重提议，以及须通过独立development探针的可选验证继承
 - [Done] G3.2開発preflight: 5 seed×7条件を完走したが、採用済みmerge・休眠・実行済みPrimitive分裂が全行0で機構機会gateは不合格 / Complete a 5-seed, 7-arm development preflight; the opportunity gate fails because adopted merges, dormancy and executed Primitive splits are zero in every row / 完成5个seed、7条件的开发预检；全部行中已采纳合并、休眠及已执行原语分裂均为零，机制机会门槛未通过
+- [Done] G3.2生命周期pilot: 独立probe評価で特化親2件とmergeを採用し、5 seedで休眠on/offの作動差を確認。drift効果は未測定 / Probe-backed adoption of two specialized parents and their merge yields a dormancy on/off contrast in five seeds; drift effects remain unmeasured / 独立探针评估采纳两个特化父候选及其合并，5个seed确认休眠开关的操作差异；漂移效果未测
+- [Done] G3.2分裂opportunity: 16 Eventの独立Replay fixtureで分裂on/offの実行差を確認。予測効果は未測定 / A separate 16-Event Replay fixture exercises the split on/off execution path; prediction effects remain unmeasured / 独立的16 Event重放fixture验证分裂开关的执行差异；预测效果未测
+- [Done] G3.2候補採用後preflight: A1ではmerge・休眠が作動するが、Bの1～4観測で採用/休眠が失効し、A2終了時の機構gateは不合格。採用ラベル予算も条件間で不一致 / A candidate-primed A→B→A preflight activates merge/dormancy at A1, but validation/dormancy disappear within 1–4 B observations; the final opportunity gate fails and adoption-label budgets differ across arms / 候选采纳后的A→B→A预检在A1触发合并与休眠，但B的1至4次观测使采纳/休眠失效；最终机制门槛未通过，条件间采纳标签预算也不同
+- [Done] G3.2失効診断: FullはB後にmerge提案自体が消え、A2でも戻らない。No splitは提案が残るが検証済み採用は戻らない / Full loses the merge proposal itself during B and does not recover it in A2; No split retains a proposal but never regains validated adoption / Full在B阶段失去合并提案且A2未恢复；No split保留提案但未恢复已验证的采纳
+- [Done] G3.2追加診断: No split/Merge onlyはA2後に1,200ラベルでmergeを再採用。Fullは提案の再出現に追加25～53 A2 Eventを要した。復帰直後の保持効果ではない / After A2, No split/Merge only re-adopt a merge with 1,200 labels; Full needs 25–53 extra A2 Events just to rediscover a proposal. This is not immediate-return retention / A2结束后No split/Merge only用1,200个标签重新采纳合并；Full仅重新发现提案就需额外25至53个A2 Event。这不代表刚返回时的知识保留
 - [Next] G3.2: 文脈分裂・統合・休眠を個別ablationし、drift回復遅延・旧知識保持・適応件数・Replay量を評価 / Ablate splitting, merging and dormancy separately under drift; measure recovery delay, retained prior knowledge, adaptation count and Replay work / 分别消融context分裂、合并及休眠，评估漂移恢复延迟、旧知识保持、适应次数及Replay工作量
 - [Later] G3.3: 1k→10k→100k Eventでingestion、graph更新、候補発見、凝縮、予測、計画、Replay、保存をend-to-end測定。1Mは先行する3規模の結果で判断 / Profile end-to-end ingestion through persistence at 1k, 10k and 100k Events; decide on 1M from those results / 在1千、1万及10万Event下端到端测量摄取至持久化；根据前三种规模决定是否测试100万
 - [Later] G3.4: Eventあたり保存量・active構造数・候補数・記述長とqueryあたり探索量の成長曲線を測る / Measure growth curves for bytes, active structures, candidates and description length per Event, and search work per query / 测量每Event的存储量、活跃结构数、候选数及描述长度，以及每query探索量的增长曲线
@@ -275,6 +280,22 @@ G3.2协议：四项主要指标分别衡量恢复、保留、局部改写范围�
 English: The central hypothesis is self-condensation of reusable structure from experience, judged jointly by storage, search and unseen-problem success. Do not call second-generation discovery intelligence compounding without independent held-out gains. Connect language and image perception adapters only after the G4 evidence is established.
 
 简体中文: 核心假设是经验自行凝聚为可复用结构，需同时考察存储量、搜索量与未知问题成功率。若没有独立留出增益，不把第二代发现称为智能增益；语言与图像感知适配器应在G4证据成立后接入。
+
+## G5 — Adaptive discovery policy from search history / 探索履歴からの発見方針学習 / 基于探索历史的发现策略学习
+
+[Later] Research reference: Zheng et al., [*Dream-RSI: Recursive Self-Improvement through Evolving Worlds* (PDF)](https://github.com/zhengkid/Dream-RSI/blob/main/papers/Dream-RSI.pdf), [arXiv HTML](https://arxiv.org/html/2609.14858). Dream-RSI replays **recorded discovery trees** to compare exploration policies over already observed branches, then deploys a selected policy to collect new trees. This is a meta-exploration idea; it does not demonstrate RISA's concept condensation or A→B→A adaptation.
+
+| Status | 日本語 | English | 简体中文 |
+| --- | --- | --- | --- |
+| [Later] G5.1 | 候補発見の分岐、親候補、選択順、予算、評価結果、停止理由を探索木として記録。RISAのEvent Replayとは別に扱う | Log discovery branches, parent candidates, selection order, budgets, evaluation outcomes and stopping reasons as search trees; keep this distinct from Event Replay | 将候选发现的分支、父候选、选择顺序、预算、评估结果与停止原因记录为搜索树，并与Event重放区分 |
+| [Later] G5.2 | 記録済み枝だけを厳密に再生し、未観測枝では結果を推測せずcoverage不足を報告。枝順・並列数・停止規則を同じ予算で比較 | Replay only recorded branches; report coverage gaps instead of inventing outcomes for unseen branches. Compare branch order, parallelism and stopping rules under matched budgets | 只重放已记录分支；对未观察分支报告覆盖缺口，不推测结果。在相同预算下比较分支顺序、并行度与停止规则 |
+| [Later] G5.3 | 固定探索方針、ランダム/単純heuristic、履歴要約による誘導を対照に、学習した方針を独立の新世界へオンライン展開 | Compare with fixed, random/simple heuristic and history-summary policies, then deploy the selected policy online in independent new worlds | 与固定、随机/简单启发式及历史摘要引导策略比较，再于独立新世界中在线部署选中策略 |
+
+日本語: G3.2～G4で候補形成と効果・費用を確認してから着手する。評価器と候補生成器を固定し、方針だけを変える。主指標は独立世界でのheld-out成功率、必要な候補評価回数、wall time、保存量、探索coverageとする。オフライン履歴上で現行方針以上という結果は、その履歴への適合を示すだけで、未知枝や新世界での改善保証とはみなさない。候補系譜、方針開発用の木、最終評価用の木を分離し、同一計算予算で複数seedの区間を報告する。G5の採用は、独立オンライン評価で成功率を維持または改善しつつ実探索費用を下げ、G4の構造凝縮・誤一般化の基準を悪化させない場合に限る。
+
+English: Start after G3.2–G4 establish candidate formation, benefit and cost. Hold the candidate generator and evaluator fixed while changing only the exploration policy. Primary measures are held-out success in new worlds, candidate evaluations, wall time, storage and search coverage. A policy that wins on its replay pool is only better on that pool; replay cannot validate unseen branches or guarantee online improvement. Separate candidate lineage, policy-development trees and final-evaluation trees, and report intervals across matched seeds and budgets. Adopt the policy only if independent online evaluation maintains or improves success while reducing real exploration cost without worsening G4 condensation or false generalization.
+
+简体中文: 在G3.2至G4验证候选形成、收益与成本后再开展。固定候选生成器和评估器，仅改变探索策略。主要指标为独立新世界的留出成功率、候选评估次数、运行时间、存储量和搜索覆盖率。历史重放池上的优势只适用于该池，不能验证未观察分支或保证在线提升。分离候选谱系、策略开发树及最终评估树，在匹配的seed与预算下报告区间。只有独立在线评估在维持或提高成功率的同时降低实际探索成本，且不恶化G4的结构凝聚与错误泛化，才采纳该策略。
 
 ## Optional applications and execution research / 用途と実行層の追加研究 / 应用与执行层研究
 

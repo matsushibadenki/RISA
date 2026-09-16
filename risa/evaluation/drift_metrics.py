@@ -26,8 +26,12 @@ def snapshot_mechanisms(state: RisaState) -> MechanismSnapshot:
     """Audit whether an ablated mechanism reached an operational state."""
     return MechanismSnapshot(
         executed_context_splits=frozenset(
-            key for key, candidate in state.structural_adaptation_candidates.items()
-            if candidate.proposed_operation == "SPLIT_CONTEXT" and candidate.status == "executed"
+            primitive.id for primitive in state.structural_primitives.values()
+            if primitive.superseded_by
+            and all(
+                successor.startswith(f"{primitive.id}::context:")
+                for successor in primitive.superseded_by
+            )
         ),
         merged_proposals=frozenset(
             key for key, candidate in state.unnamed_concept_candidates.items()

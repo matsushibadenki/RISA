@@ -27,6 +27,41 @@ ARMS = {
 }
 
 
+def mechanism_opportunity_audit(rows: list[dict]) -> dict[str, object]:
+    """Require active enabled mechanisms and inactive disabled mechanisms."""
+    enabled = {
+        "split": ("full", "split_only", "no_merge", "no_dormancy"),
+        "merge": ("full", "merge_only", "no_split", "no_dormancy"),
+        "dormancy": ("full", "no_split", "no_merge"),
+    }
+    field = {
+        "split": "executed_context_splits",
+        "merge": "adopted_merges",
+        "dormancy": "dormant_candidates",
+    }
+    observed = {}
+    for mechanism, arms in enabled.items():
+        observed[mechanism] = {
+            arm: sum(row[f"final_{field[mechanism]}"] > 0 for row in rows if row["arm"] == arm)
+            for arm in arms
+        }
+    missing = [
+        f"{mechanism}:{arm}"
+        for mechanism, arms in observed.items()
+        for arm, count in arms.items()
+        if count == 0
+    ]
+    unintended = [
+        f"{mechanism}:{row['arm']}:{row['seed']}"
+        for row in rows
+        for mechanism, arms in enabled.items()
+        if row["arm"] not in arms and row[f"final_{field[mechanism]}"] > 0
+    ]
+    return {"status": "pass" if not missing and not unintended else "fail",
+            "observed_seeds": observed, "missing_opportunities": missing,
+            "unintended_executions": unintended}
+
+
 def run_preflight(manifest: dict) -> dict:
     if set(manifest["arms"]) != set(ARMS):
         raise ValueError("preflight requires all seven fixed arms")
@@ -83,6 +118,7 @@ def run_preflight(manifest: dict) -> dict:
                 "final_merged_proposals": len(final_mechanisms.merged_proposals),
                 "final_adopted_merges": len(final_mechanisms.adopted_merges),
                 "final_dormant_candidates": len(final_mechanisms.dormant_candidates),
+                "final_executed_context_splits": len(final_mechanisms.executed_context_splits),
                 "a1_accuracy": result["a1_accuracy"],
                 "retention_after_return": result["retention_after_return"],
                 "B_recovery_events": result["B"]["recovery_events"],
@@ -94,17 +130,15 @@ def run_preflight(manifest: dict) -> dict:
                 "B_mechanisms": result["B"]["mechanisms"],
                 "A2_mechanisms": result["A2"]["mechanisms"],
             })
-    informative = all(
-        any(row["final_adopted_merges"] > 0 for row in rows if row["arm"] == arm)
-        for arm in ("full", "merge_only")
-    ) and any(row["final_dormant_candidates"] > 0 for row in rows)
+    opportunity = mechanism_opportunity_audit(rows)
     return {
         "benchmark_version": manifest["benchmark_version"],
         "manifest_sha256": hashlib.sha256(
             json.dumps(manifest, sort_keys=True).encode()
         ).hexdigest(),
         "status": "development_preflight_only",
-        "mechanism_opportunity_gate": "pass" if informative else "fail",
+        "mechanism_opportunity_gate": opportunity["status"],
+        "mechanism_opportunity_audit": opportunity,
         "rows": rows,
     }
 

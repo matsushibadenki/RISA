@@ -65,6 +65,7 @@ def run_drift_phase(
     online_successes: list[int] = []
     summaries: list[ReplaySummary] = []
     replay_call_event_counts: list[int] = []
+    mechanism_trace: list[dict[str, int]] = []
     for index, event in enumerate(observations, 1):
         prediction = predict_next_effect(
             state,
@@ -92,6 +93,14 @@ def run_drift_phase(
             replay_summaries=summaries,
         )
         train_events(state, [event], options=update_options)
+        mechanism_state = snapshot_mechanisms(state)
+        mechanism_trace.append({
+            "observed_events": index,
+            "executed_context_splits": len(mechanism_state.executed_context_splits),
+            "merged_proposals": len(mechanism_state.merged_proposals),
+            "adopted_merges": len(mechanism_state.adopted_merges),
+            "dormant_candidates": len(mechanism_state.dormant_candidates),
+        })
         if len(summaries) > len(replay_call_event_counts):
             replay_call_event_counts.append(index)
         trajectory.append((index, probe_success(state, probes)))
@@ -118,6 +127,7 @@ def run_drift_phase(
         "mechanisms": mechanism_delta(
             before_mechanisms, snapshot_mechanisms(state)
         ),
+        "mechanism_trace": mechanism_trace,
         "probe_accuracy_by_observed_events": trajectory,
     }
 

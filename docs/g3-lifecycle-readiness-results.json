@@ -1,0 +1,127 @@
+{
+  "benchmark_version": "g3.2-lifecycle-readiness-v1",
+  "manifest_sha256": "5ad033709a40e20da6380b37cfdd3b29c8119a0af8ec29646889658fe4ac3e63",
+  "rows": [
+    {
+      "active_adopted_merges": 1,
+      "adopted_parent_count_before_merge": 2,
+      "arm": "dormancy_on",
+      "dormant_parent_count": 2,
+      "indoor_matching_candidates": 1,
+      "merge_final_gain_over_parent": 0.25,
+      "merge_final_parent_ci_lower": 0.19,
+      "merged_status": "adopted",
+      "seed": 11,
+      "supervised_labels_per_arm": 1200
+    },
+    {
+      "active_adopted_merges": 1,
+      "adopted_parent_count_before_merge": 2,
+      "arm": "dormancy_off",
+      "dormant_parent_count": 0,
+      "indoor_matching_candidates": 2,
+      "merge_final_gain_over_parent": 0.25,
+      "merge_final_parent_ci_lower": 0.19,
+      "merged_status": "adopted",
+      "seed": 11,
+      "supervised_labels_per_arm": 1200
+    },
+    {
+      "active_adopted_merges": 1,
+      "adopted_parent_count_before_merge": 2,
+      "arm": "dormancy_on",
+      "dormant_parent_count": 2,
+      "indoor_matching_candidates": 1,
+      "merge_final_gain_over_parent": 0.25,
+      "merge_final_parent_ci_lower": 0.195,
+      "merged_status": "adopted",
+      "seed": 23,
+      "supervised_labels_per_arm": 1200
+    },
+    {
+      "active_adopted_merges": 1,
+      "adopted_parent_count_before_merge": 2,
+      "arm": "dormancy_off",
+      "dormant_parent_count": 0,
+      "indoor_matching_candidates": 2,
+      "merge_final_gain_over_parent": 0.25,
+      "merge_final_parent_ci_lower": 0.195,
+      "merged_status": "adopted",
+      "seed": 23,
+      "supervised_labels_per_arm": 1200
+    },
+    {
+      "active_adopted_merges": 1,
+      "adopted_parent_count_before_merge": 2,
+      "arm": "dormancy_on",
+      "dormant_parent_count": 2,
+      "indoor_matching_candidates": 1,
+      "merge_final_gain_over_parent": 0.25,
+      "merge_final_parent_ci_lower": 0.19,
+      "merged_status": "adopted",
+      "seed": 37,
+      "supervised_labels_per_arm": 1200
+    },
+    {
+      "active_adopted_merges": 1,
+      "adopted_parent_count_before_merge": 2,
+      "arm": "dormancy_off",
+      "dormant_parent_count": 0,
+      "indoor_matching_candidates": 2,
+      "merge_final_gain_over_parent": 0.25,
+      "merge_final_parent_ci_lower": 0.19,
+      "merged_status": "adopted",
+      "seed": 37,
+      "supervised_labels_per_arm": 1200
+    },
+    {
+      "active_adopted_merges": 1,
+      "adopted_parent_count_before_merge": 2,
+      "arm": "dormancy_on",
+      "dormant_parent_count": 2,
+      "indoor_matching_candidates": 1,
+      "merge_final_gain_over_parent": 0.25,
+      "merge_final_parent_ci_lower": 0.19,
+      "merged_status": "adopted",
+      "seed": 53,
+      "supervised_labels_per_arm": 1200
+    },
+    {
+      "active_adopted_merges": 1,
+      "adopted_parent_count_before_merge": 2,
+      "arm": "dormancy_off",
+      "dormant_parent_count": 0,
+      "indoor_matching_candidates": 2,
+      "merge_final_gain_over_parent": 0.25,
+      "merge_final_parent_ci_lower": 0.19,
+      "merged_status": "adopted",
+      "seed": 53,
+      "supervised_labels_per_arm": 1200
+    },
+    {
+      "active_adopted_merges": 1,
+      "adopted_parent_count_before_merge": 2,
+      "arm": "dormancy_on",
+      "dormant_parent_count": 2,
+      "indoor_matching_candidates": 1,
+      "merge_final_gain_over_parent": 0.25,
+      "merge_final_parent_ci_lower": 0.19,
+      "merged_status": "adopted",
+      "seed": 71,
+      "supervised_labels_per_arm": 1200
+    },
+    {
+      "active_adopted_merges": 1,
+      "adopted_parent_count_before_merge": 2,
+      "arm": "dormancy_off",
+      "dormant_parent_count": 0,
+      "indoor_matching_candidates": 2,
+      "merge_final_gain_over_parent": 0.25,
+      "merge_final_parent_ci_lower": 0.19,
+      "merged_status": "adopted",
+      "seed": 71,
+      "supervised_labels_per_arm": 1200
+    }
+  ],
+  "status": "development_opportunity_only"
+}

@@ -83,15 +83,21 @@ python3 -m experiments.scale_evaluation \
 python3 -m experiments.g3_drift_preflight \
   --manifest experiments/g3_drift_preflight_manifest.json \
   --output /tmp/g3-drift-preflight-results.json
+python3 -m experiments.g3_lifecycle_readiness \
+  --manifest experiments/g3_lifecycle_readiness_manifest.json \
+  --output /tmp/g3-lifecycle-readiness-results.json
+python3 -m experiments.g3_drift_candidate_primed \
+  --manifest experiments/g3_drift_candidate_primed_manifest.json \
+  --output /tmp/g3-drift-candidate-primed-results.json
 ```
 
-The G3.2 preflight is a **development diagnostic**. Its expected opportunity-gate result is `fail`; it is not a substitute for an independent final experiment. G3.1's 100k full-scan reference can take substantially longer than the other checks. The committed result artifacts and their manifests are linked from the corresponding reports.
+The G3.2 preflights are **development diagnostics**. Their expected opportunity-gate result is `fail`; neither substitutes for an independent final experiment. The lifecycle pilot shows that validated specialized parents can become dormant after a validated merge. The candidate-primed drift preflight shows that this validation disappears during B observations. Postphase re-adoption needs new labels, and dynamic rediscovery needs more A2 Events. None of these diagnostics demonstrates a drift benefit. G3.1's 100k full-scan reference can take substantially longer than the other checks. The committed result artifacts and their manifests are linked from the corresponding reports.
 
 ## Roadmap
 
 - [Done] G0–G2.6: structured-event semantics, targeted comparisons, candidate lifecycle, induced roles and persistence checks.
 - [Done] G3.1: indexed prediction access and bounded Replay selection measured through 100k synthetic events.
-- [Done] G3.2 groundwork: mechanism switches, drift metrics, online runner, candidate-extension validation and a preflight that exposed missing mechanism opportunities.
+- [Done] G3.2 groundwork: mechanism switches, drift metrics, online runner, probe-backed candidate adoption, and separate pilots that exercise split and merge/dormancy switches. The combined drift fixture still lacks these opportunities.
 - [Next] G3.2: run a valid A→B→A ablation with split, merge and dormancy active in the relevant conditions. Primary metrics are `recovery_events`, `retention_after_return`, `adaptation_touch_ratio` and `replay_cost_per_recovery`.
 - [Later] G3.3: measure ingestion through persistence at 1k, 10k and 100k events; decide whether to attempt 1M from those results.
 - [Later] G3.4: measure structure growth, description length, storage per event, candidate generation and planner work per query.

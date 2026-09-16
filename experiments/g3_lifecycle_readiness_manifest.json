@@ -1,0 +1,6 @@
+{
+  "benchmark_version": "g3.2-lifecycle-readiness-v1",
+  "seeds": [11, 23, 37, 53, 71],
+  "probes_per_partition": 200,
+  "bootstrap_samples": 200
+}
