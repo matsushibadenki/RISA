@@ -6,7 +6,10 @@ import pytest
 from experiments.g3_drift_preflight import ARMS, _events, mechanism_opportunity_audit, run_preflight
 from experiments.g3_lifecycle_readiness import run_lifecycle_readiness
 from experiments.g3_drift_candidate_primed import run_candidate_primed_preflight
-from risa.core.models import Event, Node, ReplaySummary, StructuralAdaptationCandidate
+from risa.core.models import (
+    Event, Node, ReplaySummary, StructuralAdaptationCandidate,
+    UnnamedConceptCandidate,
+)
 from risa.core.models import PredictionQuery
 from risa.core.state import RisaState
 from risa.engine.adaptation import execute_safe_adaptations
@@ -28,7 +31,9 @@ from risa.evaluation.drift_metrics import (
     snapshot_mechanisms,
     snapshot_structures,
 )
-from risa.evaluation.drift_runner import DriftProbe, run_aba, run_drift_phase
+from risa.evaluation.drift_runner import (
+    DriftProbe, ValidationStepResult, run_aba, run_drift_phase,
+)
 
 
 def test_touch_ratio_excludes_access_counters_and_counts_removal() -> None:
@@ -103,6 +108,78 @@ def test_aba_runner_reports_pre_relearning_retention() -> None:
     assert result["retention_after_return"] == result["a2_entry_accuracy"]
     assert "probe:a" not in state.events_by_id
     assert "probe:b" not in state.events_by_id
+
+
+def test_aba_validation_counts_labels_under_shared_budget() -> None:
+    state = RisaState()
+    result = run_aba(
+        state,
+        [Event("b:1", 1, "actor", "move", observed_effects=["b"])],
+        [Event("a:2", 2, "actor", "move", observed_effects=["a"])],
+        [DriftProbe("probe:a", PredictionQuery("actor", "move"), ("a",))],
+        [DriftProbe("probe:b", PredictionQuery("actor", "move"), ("b",))],
+        TrainingOptions(enable_replay=False), recovery_window=1,
+        validation_step=lambda state, index, event, remaining: ValidationStepResult(
+            (f"label:{event.id}",), 1
+        ),
+        validation_label_budget=2,
+    )
+    assert result["validation_labels_total"] == 2
+    assert result["B"]["validation_labels_total"] == 1
+    assert result["A2"]["validation_labels_total"] == 1
+    assert result["B"]["validation_adoption_decisions"] == 1
+    assert result["A2"]["validation_trace"][0]["labels_consumed"] == 1
+
+
+def test_aba_validation_rejects_budget_overrun_and_reused_label() -> None:
+    args = (
+        [Event("b:1", 1, "actor", "move", observed_effects=["b"])],
+        [Event("a:2", 2, "actor", "move", observed_effects=["a"])],
+        [DriftProbe("probe:a", PredictionQuery("actor", "move"), ("a",))],
+        [DriftProbe("probe:b", PredictionQuery("actor", "move"), ("b",))],
+        TrainingOptions(enable_replay=False),
+    )
+    distinct = lambda state, index, event, remaining: ValidationStepResult(
+        (f"label:{event.id}",)
+    )
+    with pytest.raises(ValueError, match="budget exceeded"):
+        run_aba(RisaState(), *args, validation_step=distinct, validation_label_budget=1)
+    reused = lambda state, index, event, remaining: ValidationStepResult(("label:1",))
+    with pytest.raises(ValueError, match="unique across the phase"):
+        run_aba(RisaState(), *args, validation_step=reused, validation_label_budget=2)
+
+
+def test_aba_validation_rejects_either_scoring_panel_as_evidence() -> None:
+    def leak(state, index, event, remaining):
+        state.events_by_id["probe:a"] = event
+        return ValidationStepResult()
+
+    with pytest.raises(ValueError, match="scoring probes entered learned Events"):
+        run_aba(
+            RisaState(),
+            [Event("b:1", 1, "actor", "move", observed_effects=["b"])],
+            [],
+            [DriftProbe("probe:a", PredictionQuery("actor", "move"), ("a",))],
+            [DriftProbe("probe:b", PredictionQuery("actor", "move"), ("b",))],
+            TrainingOptions(enable_replay=False), validation_step=leak,
+        )
+
+
+def test_phase_rejects_scoring_probe_in_candidate_evaluation() -> None:
+    def leak(state, index, event, remaining):
+        state.unnamed_concept_candidates["leak"] = UnnamedConceptCandidate(
+            "leak", evaluation_event_ids=["probe:heldout"]
+        )
+        return ValidationStepResult()
+
+    with pytest.raises(ValueError, match="scoring probes entered candidate validation"):
+        run_drift_phase(
+            RisaState(),
+            [Event("observe:1", 1, "actor", "move", observed_effects=["a"])],
+            [DriftProbe("probe:heldout", PredictionQuery("actor", "move"), ("a",))],
+            TrainingOptions(enable_replay=False), reference_accuracy=1.0,
+            validation_step=leak,
+        )
 
 
 def test_preflight_rejects_fixture_without_active_mechanism_opportunities() -> None:

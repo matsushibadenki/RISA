@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, replace
+from typing import Callable
 
 from risa.core.models import Event, PredictionQuery, ReplaySummary
 from risa.core.state import RisaState
@@ -23,6 +24,28 @@ class DriftProbe:
     id: str
     query: PredictionQuery
     expected_effects: tuple[str, ...]
+
+
+@dataclass(frozen=True)
+class ValidationStepResult:
+    """Supervised labels consumed by one online adoption/validation step."""
+
+    label_ids: tuple[str, ...] = ()
+    adoption_decisions: int = 0
+
+
+ValidationStep = Callable[[RisaState, int, Event, int | None], ValidationStepResult]
+
+
+def _assert_scoring_probes_unseen(state: RisaState, protected_ids: set[str]) -> None:
+    if protected_ids & set(state.events_by_id):
+        raise ValueError("scoring probes entered learned Events")
+    for candidate in state.unnamed_concept_candidates.values():
+        used = set(candidate.evaluation_event_ids)
+        used.update(candidate.development_evaluation_event_ids)
+        used.update(candidate.final_evaluation_event_ids)
+        if protected_ids & used:
+            raise ValueError("scoring probes entered candidate validation")
 
 
 def probe_success(state: RisaState, probes: list[DriftProbe]) -> float:
@@ -46,18 +69,28 @@ def run_drift_phase(
     replay_interval: int = 20,
     recovery_window: int = 5,
     replay_offset: int = 0,
+    validation_step: ValidationStep | None = None,
+    validation_label_budget: int | None = None,
+    protected_probe_ids: set[str] | None = None,
+    previous_validation_label_ids: set[str] | None = None,
 ) -> dict[str, object]:
     """Probe without learning, then learn each observation after scoring it."""
     if replay_interval < 1:
         raise ValueError("replay_interval must be positive")
     if replay_offset < 0:
         raise ValueError("replay_offset must be non-negative")
+    if validation_label_budget is not None and validation_label_budget < 0:
+        raise ValueError("validation_label_budget must be non-negative")
     if len({probe.id for probe in probes}) != len(probes):
         raise ValueError("duplicate probe IDs")
     if {probe.id for probe in probes} & {event.id for event in observations}:
         raise ValueError("probe IDs overlap online observations")
     if {probe.id for probe in probes} & set(state.events_by_id):
         raise ValueError("probe IDs overlap learned Events")
+    protected = {probe.id for probe in probes} | (protected_probe_ids or set())
+    if protected & {event.id for event in observations}:
+        raise ValueError("protected probe IDs overlap online observations")
+    _assert_scoring_probes_unseen(state, protected)
     before_structures = snapshot_structures(state)
     before_mechanisms = snapshot_mechanisms(state)
     entry_accuracy = probe_success(state, probes)
@@ -66,6 +99,10 @@ def run_drift_phase(
     summaries: list[ReplaySummary] = []
     replay_call_event_counts: list[int] = []
     mechanism_trace: list[dict[str, int]] = []
+    validation_trace: list[dict[str, int]] = []
+    consumed_label_ids: set[str] = set()
+    previous_labels = previous_validation_label_ids or set()
+    validation_decisions = 0
     for index, event in enumerate(observations, 1):
         prediction = predict_next_effect(
             state,
@@ -93,6 +130,32 @@ def run_drift_phase(
             replay_summaries=summaries,
         )
         train_events(state, [event], options=update_options)
+        if validation_step is not None:
+            remaining = (
+                None if validation_label_budget is None
+                else validation_label_budget - len(consumed_label_ids)
+            )
+            validation = validation_step(state, index, event, remaining)
+            if not isinstance(validation, ValidationStepResult):
+                raise TypeError("validation_step must return ValidationStepResult")
+            label_ids = validation.label_ids
+            if (len(label_ids) != len(set(label_ids))
+                    or set(label_ids) & (consumed_label_ids | previous_labels)):
+                raise ValueError("validation label IDs must be unique across the phase")
+            if set(label_ids) & protected:
+                raise ValueError("scoring probes cannot be validation labels")
+            if validation.adoption_decisions < 0:
+                raise ValueError("adoption_decisions must be non-negative")
+            if remaining is not None and len(label_ids) > remaining:
+                raise ValueError("validation label budget exceeded")
+            consumed_label_ids.update(label_ids)
+            validation_decisions += validation.adoption_decisions
+            validation_trace.append({
+                "observed_events": index,
+                "labels_consumed": len(label_ids),
+                "adoption_decisions": validation.adoption_decisions,
+            })
+        _assert_scoring_probes_unseen(state, protected)
         mechanism_state = snapshot_mechanisms(state)
         mechanism_trace.append({
             "observed_events": index,
@@ -111,6 +174,10 @@ def run_drift_phase(
         summary for event_count, summary in zip(replay_call_event_counts, summaries)
         if recovered_at is None or event_count <= recovered_at
     ]
+    labels_through_recovery = sum(
+        row["labels_consumed"] for row in validation_trace
+        if recovered_at is None or row["observed_events"] <= recovered_at
+    )
     return {
         "entry_accuracy": entry_accuracy,
         "exit_accuracy": trajectory[-1][1],
@@ -124,6 +191,11 @@ def run_drift_phase(
         ),
         "replay": replay_cost(summaries),
         "replay_cost_per_recovery": replay_cost(replay_through_recovery),
+        "validation_labels_total": len(consumed_label_ids),
+        "validation_label_ids": sorted(consumed_label_ids),
+        "validation_labels_per_recovery": labels_through_recovery,
+        "validation_adoption_decisions": validation_decisions,
+        "validation_trace": validation_trace,
         "mechanisms": mechanism_delta(
             before_mechanisms, snapshot_mechanisms(state)
         ),
@@ -143,6 +215,8 @@ def run_aba(
     b_reference_accuracy: float = 1.0,
     replay_interval: int = 20,
     recovery_window: int = 5,
+    validation_step: ValidationStep | None = None,
+    validation_label_budget: int | None = None,
 ) -> dict[str, object]:
     """Run B then A return from a trained A1 state with no probe learning."""
     if {probe.id for probe in a_probes} & {probe.id for probe in b_probes}:
@@ -150,11 +224,20 @@ def run_aba(
     observed_ids = [event.id for event in b_observations + a2_observations]
     if len(set(observed_ids)) != len(observed_ids):
         raise ValueError("online observation IDs must be unique")
+    if validation_label_budget is not None and validation_label_budget < 0:
+        raise ValueError("validation_label_budget must be non-negative")
+    protected = {probe.id for probe in a_probes + b_probes}
+    if protected & set(observed_ids):
+        raise ValueError("scoring probe IDs overlap online observations")
+    _assert_scoring_probes_unseen(state, protected)
     a1_accuracy = probe_success(state, a_probes)
     b = run_drift_phase(
         state, b_observations, b_probes, options,
         reference_accuracy=b_reference_accuracy,
         replay_interval=replay_interval, recovery_window=recovery_window,
+        validation_step=validation_step,
+        validation_label_budget=validation_label_budget,
+        protected_probe_ids=protected,
     )
     a2_entry_accuracy = probe_success(state, a_probes)
     a2 = run_drift_phase(
@@ -162,6 +245,13 @@ def run_aba(
         reference_accuracy=a1_accuracy,
         replay_interval=replay_interval, recovery_window=recovery_window,
         replay_offset=len(b_observations),
+        validation_step=validation_step,
+        validation_label_budget=(
+            None if validation_label_budget is None
+            else validation_label_budget - b["validation_labels_total"]
+        ),
+        protected_probe_ids=protected,
+        previous_validation_label_ids=set(b["validation_label_ids"]),
     )
     return {
         "a1_accuracy": a1_accuracy,
@@ -171,4 +261,7 @@ def run_aba(
         "a2_entry_accuracy": a2_entry_accuracy,
         "B": b,
         "A2": a2,
+        "validation_labels_total": (
+            b["validation_labels_total"] + a2["validation_labels_total"]
+        ),
     }
