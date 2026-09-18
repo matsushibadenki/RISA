@@ -6,6 +6,7 @@ import pytest
 from experiments.g3_drift_preflight import ARMS, _events, mechanism_opportunity_audit, run_preflight
 from experiments.g3_lifecycle_readiness import run_lifecycle_readiness
 from experiments.g3_drift_candidate_primed import run_candidate_primed_preflight
+from experiments.g3_split_drift_opportunity import run_split_opportunity
 from risa.core.models import (
     Event, Node, ReplaySummary, StructuralAdaptationCandidate,
     UnnamedConceptCandidate,
@@ -355,6 +356,41 @@ def test_candidate_primed_drift_records_online_validation_loss() -> None:
     assert frozen["A2_extra_events_to_merge_proposal"] == 0
     assert full["A2_extra_events_to_merge_proposal"] > 0
     assert result["mechanism_opportunity_gate"] == "fail"
+
+
+def test_online_validation_pilot_counts_labels_and_keeps_failed_gate() -> None:
+    result = run_candidate_primed_preflight({
+        "benchmark_version": "test-online-validation",
+        "seeds": [11], "phase_observations": 12, "probes_per_phase": 6,
+        "adoption_probes_per_partition": 200, "bootstrap_samples": 200,
+        "extra_a2_observations": 0,
+        "replay_interval": 4, "replay_max_events": 8,
+        "recovery_window": 3, "arms": list(ARMS),
+        "online_validation_a2_events": [1, 6, 12],
+        "online_validation_label_budget": 3600,
+    })
+    rows = {row["arm"]: row for row in result["rows"]}
+    assert rows["full"]["online_validation_labels"] == 0
+    assert rows["no_split"]["online_validation_labels"] == 3600
+    assert rows["no_split"]["online_validation_decisions"] == 18
+    assert rows["no_split"]["final_adopted_merges"] == 1
+    assert rows["no_split"]["final_dormant_candidates"] == 2
+    assert result["mechanism_opportunity_gate"] == "fail"
+
+
+def test_split_drift_opportunity_executes_without_recovery_gain() -> None:
+    result = run_split_opportunity({
+        "benchmark_version": "test-split-drift",
+        "seeds": [11], "a1_observations": 4,
+        "phase_observations": 12, "replay_interval": 1,
+        "replay_max_events": 28, "recovery_window": 2,
+    })
+    on, off = result["rows"]
+    assert on["arm"] == "split_on" and off["arm"] == "split_off"
+    assert on["final_executed_context_splits"] > 0
+    assert off["final_executed_context_splits"] == 0
+    assert on["B_recovery_events"] == off["B_recovery_events"]
+    assert on["A2_recovery_events"] == off["A2_recovery_events"]
 
 
 def test_replay_cost_uses_actual_summaries() -> None:

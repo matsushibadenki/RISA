@@ -1,0 +1,1957 @@
+{
+  "benchmark_version": "g3.2-split-drift-development-v1",
+  "manifest_sha256": "7fabca81d5dea00edf588e9f96cebcabc3b10b62c7881ec502a14cc387b65dfb",
+  "rows": [
+    {
+      "A2_adaptation_touch_ratio": 0.6333333333333333,
+      "A2_mechanism_trace": [
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 1
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 2
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 3
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 4
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 5
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 6
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 7
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 8
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 9
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 10
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 11
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 12
+        }
+      ],
+      "A2_recovery_events": 7,
+      "A2_replay_cost_per_recovery": {
+        "calls": 7,
+        "deployment_events_reapplied": 140,
+        "model_events_reapplied": 140,
+        "selection_events_examined": 140
+      },
+      "B_adaptation_touch_ratio": 0.631578947368421,
+      "B_mechanism_trace": [
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 1
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 2
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 3
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 4
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 5
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 6
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 7
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 8
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 9
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 10
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 11
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 12
+        }
+      ],
+      "B_recovery_events": 5,
+      "B_replay_cost_per_recovery": {
+        "calls": 5,
+        "deployment_events_reapplied": 35,
+        "model_events_reapplied": 35,
+        "selection_events_examined": 35
+      },
+      "a1_accuracy": 1.0,
+      "arm": "split_on",
+      "final_executed_context_splits": 2,
+      "retention_after_return": 0.0,
+      "seed": 11
+    },
+    {
+      "A2_adaptation_touch_ratio": 0.6538461538461539,
+      "A2_mechanism_trace": [
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 1
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 2
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 3
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 4
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 5
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 6
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 7
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 8
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 9
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 10
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 11
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 12
+        }
+      ],
+      "A2_recovery_events": 7,
+      "A2_replay_cost_per_recovery": {
+        "calls": 7,
+        "deployment_events_reapplied": 140,
+        "model_events_reapplied": 140,
+        "selection_events_examined": 140
+      },
+      "B_adaptation_touch_ratio": 0.631578947368421,
+      "B_mechanism_trace": [
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 1
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 2
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 3
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 4
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 5
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 6
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 7
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 8
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 9
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 10
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 11
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 12
+        }
+      ],
+      "B_recovery_events": 5,
+      "B_replay_cost_per_recovery": {
+        "calls": 5,
+        "deployment_events_reapplied": 35,
+        "model_events_reapplied": 35,
+        "selection_events_examined": 35
+      },
+      "a1_accuracy": 1.0,
+      "arm": "split_off",
+      "final_executed_context_splits": 0,
+      "retention_after_return": 0.0,
+      "seed": 11
+    },
+    {
+      "A2_adaptation_touch_ratio": 0.6428571428571429,
+      "A2_mechanism_trace": [
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 1
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 2
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 3
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 4
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 5
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 6
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 7
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 8
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 9
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 10
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 11
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 12
+        }
+      ],
+      "A2_recovery_events": 9,
+      "A2_replay_cost_per_recovery": {
+        "calls": 9,
+        "deployment_events_reapplied": 189,
+        "model_events_reapplied": 189,
+        "selection_events_examined": 189
+      },
+      "B_adaptation_touch_ratio": 0.631578947368421,
+      "B_mechanism_trace": [
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 1
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 2
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 3
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 4
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 5
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 6
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 7
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 8
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 9
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 10
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 11
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 12
+        }
+      ],
+      "B_recovery_events": 6,
+      "B_replay_cost_per_recovery": {
+        "calls": 6,
+        "deployment_events_reapplied": 45,
+        "model_events_reapplied": 45,
+        "selection_events_examined": 45
+      },
+      "a1_accuracy": 1.0,
+      "arm": "split_on",
+      "final_executed_context_splits": 1,
+      "retention_after_return": 0.0,
+      "seed": 23
+    },
+    {
+      "A2_adaptation_touch_ratio": 0.6538461538461539,
+      "A2_mechanism_trace": [
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 1
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 2
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 3
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 4
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 5
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 6
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 7
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 8
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 9
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 10
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 11
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 12
+        }
+      ],
+      "A2_recovery_events": 9,
+      "A2_replay_cost_per_recovery": {
+        "calls": 9,
+        "deployment_events_reapplied": 189,
+        "model_events_reapplied": 189,
+        "selection_events_examined": 189
+      },
+      "B_adaptation_touch_ratio": 0.631578947368421,
+      "B_mechanism_trace": [
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 1
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 2
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 3
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 4
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 5
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 6
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 7
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 8
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 9
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 10
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 11
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 12
+        }
+      ],
+      "B_recovery_events": 6,
+      "B_replay_cost_per_recovery": {
+        "calls": 6,
+        "deployment_events_reapplied": 45,
+        "model_events_reapplied": 45,
+        "selection_events_examined": 45
+      },
+      "a1_accuracy": 1.0,
+      "arm": "split_off",
+      "final_executed_context_splits": 0,
+      "retention_after_return": 0.0,
+      "seed": 23
+    },
+    {
+      "A2_adaptation_touch_ratio": 0.6333333333333333,
+      "A2_mechanism_trace": [
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 1
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 2
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 3
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 4
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 5
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 6
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 7
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 8
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 9
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 10
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 11
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 12
+        }
+      ],
+      "A2_recovery_events": 9,
+      "A2_replay_cost_per_recovery": {
+        "calls": 9,
+        "deployment_events_reapplied": 189,
+        "model_events_reapplied": 189,
+        "selection_events_examined": 189
+      },
+      "B_adaptation_touch_ratio": 0.631578947368421,
+      "B_mechanism_trace": [
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 1
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 2
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 3
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 4
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 5
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 6
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 7
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 8
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 9
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 10
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 11
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 12
+        }
+      ],
+      "B_recovery_events": 5,
+      "B_replay_cost_per_recovery": {
+        "calls": 5,
+        "deployment_events_reapplied": 35,
+        "model_events_reapplied": 35,
+        "selection_events_examined": 35
+      },
+      "a1_accuracy": 1.0,
+      "arm": "split_on",
+      "final_executed_context_splits": 2,
+      "retention_after_return": 0.0,
+      "seed": 37
+    },
+    {
+      "A2_adaptation_touch_ratio": 0.6538461538461539,
+      "A2_mechanism_trace": [
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 1
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 2
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 3
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 4
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 5
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 6
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 7
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 8
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 9
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 10
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 11
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 12
+        }
+      ],
+      "A2_recovery_events": 9,
+      "A2_replay_cost_per_recovery": {
+        "calls": 9,
+        "deployment_events_reapplied": 189,
+        "model_events_reapplied": 189,
+        "selection_events_examined": 189
+      },
+      "B_adaptation_touch_ratio": 0.631578947368421,
+      "B_mechanism_trace": [
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 1
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 2
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 3
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 4
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 5
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 6
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 7
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 8
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 9
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 10
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 11
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 12
+        }
+      ],
+      "B_recovery_events": 5,
+      "B_replay_cost_per_recovery": {
+        "calls": 5,
+        "deployment_events_reapplied": 35,
+        "model_events_reapplied": 35,
+        "selection_events_examined": 35
+      },
+      "a1_accuracy": 1.0,
+      "arm": "split_off",
+      "final_executed_context_splits": 0,
+      "retention_after_return": 0.0,
+      "seed": 37
+    },
+    {
+      "A2_adaptation_touch_ratio": 0.6428571428571429,
+      "A2_mechanism_trace": [
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 1
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 2
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 3
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 4
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 5
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 6
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 7
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 8
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 9
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 10
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 11
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 12
+        }
+      ],
+      "A2_recovery_events": 8,
+      "A2_replay_cost_per_recovery": {
+        "calls": 8,
+        "deployment_events_reapplied": 164,
+        "model_events_reapplied": 164,
+        "selection_events_examined": 164
+      },
+      "B_adaptation_touch_ratio": 0.631578947368421,
+      "B_mechanism_trace": [
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 1
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 2
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 3
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 4
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 5
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 6
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 7
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 8
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 9
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 10
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 11
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 12
+        }
+      ],
+      "B_recovery_events": 7,
+      "B_replay_cost_per_recovery": {
+        "calls": 7,
+        "deployment_events_reapplied": 56,
+        "model_events_reapplied": 56,
+        "selection_events_examined": 56
+      },
+      "a1_accuracy": 1.0,
+      "arm": "split_on",
+      "final_executed_context_splits": 2,
+      "retention_after_return": 0.0,
+      "seed": 53
+    },
+    {
+      "A2_adaptation_touch_ratio": 0.6538461538461539,
+      "A2_mechanism_trace": [
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 1
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 2
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 3
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 4
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 5
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 6
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 7
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 8
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 9
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 10
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 11
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 12
+        }
+      ],
+      "A2_recovery_events": 8,
+      "A2_replay_cost_per_recovery": {
+        "calls": 8,
+        "deployment_events_reapplied": 164,
+        "model_events_reapplied": 164,
+        "selection_events_examined": 164
+      },
+      "B_adaptation_touch_ratio": 0.631578947368421,
+      "B_mechanism_trace": [
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 1
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 2
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 3
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 4
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 5
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 6
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 7
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 8
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 9
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 10
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 11
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 12
+        }
+      ],
+      "B_recovery_events": 7,
+      "B_replay_cost_per_recovery": {
+        "calls": 7,
+        "deployment_events_reapplied": 56,
+        "model_events_reapplied": 56,
+        "selection_events_examined": 56
+      },
+      "a1_accuracy": 1.0,
+      "arm": "split_off",
+      "final_executed_context_splits": 0,
+      "retention_after_return": 0.0,
+      "seed": 53
+    },
+    {
+      "A2_adaptation_touch_ratio": 0.6333333333333333,
+      "A2_mechanism_trace": [
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 1
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 2
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 3
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 4
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 5
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 6
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 7
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 8
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 9
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 10
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 11
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 12
+        }
+      ],
+      "A2_recovery_events": 7,
+      "A2_replay_cost_per_recovery": {
+        "calls": 7,
+        "deployment_events_reapplied": 140,
+        "model_events_reapplied": 140,
+        "selection_events_examined": 140
+      },
+      "B_adaptation_touch_ratio": 0.631578947368421,
+      "B_mechanism_trace": [
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 1
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 2
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 3
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 4
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 1,
+          "merged_proposals": 0,
+          "observed_events": 5
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 6
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 7
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 8
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 9
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 10
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 11
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 2,
+          "merged_proposals": 0,
+          "observed_events": 12
+        }
+      ],
+      "B_recovery_events": 6,
+      "B_replay_cost_per_recovery": {
+        "calls": 6,
+        "deployment_events_reapplied": 45,
+        "model_events_reapplied": 45,
+        "selection_events_examined": 45
+      },
+      "a1_accuracy": 1.0,
+      "arm": "split_on",
+      "final_executed_context_splits": 2,
+      "retention_after_return": 0.0,
+      "seed": 71
+    },
+    {
+      "A2_adaptation_touch_ratio": 0.6538461538461539,
+      "A2_mechanism_trace": [
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 1
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 2
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 3
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 4
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 5
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 6
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 7
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 8
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 9
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 10
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 11
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 12
+        }
+      ],
+      "A2_recovery_events": 7,
+      "A2_replay_cost_per_recovery": {
+        "calls": 7,
+        "deployment_events_reapplied": 140,
+        "model_events_reapplied": 140,
+        "selection_events_examined": 140
+      },
+      "B_adaptation_touch_ratio": 0.631578947368421,
+      "B_mechanism_trace": [
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 1
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 2
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 3
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 4
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 5
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 6
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 7
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 8
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 9
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 10
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 11
+        },
+        {
+          "adopted_merges": 0,
+          "dormant_candidates": 0,
+          "executed_context_splits": 0,
+          "merged_proposals": 0,
+          "observed_events": 12
+        }
+      ],
+      "B_recovery_events": 6,
+      "B_replay_cost_per_recovery": {
+        "calls": 6,
+        "deployment_events_reapplied": 45,
+        "model_events_reapplied": 45,
+        "selection_events_examined": 45
+      },
+      "a1_accuracy": 1.0,
+      "arm": "split_off",
+      "final_executed_context_splits": 0,
+      "retention_after_return": 0.0,
+      "seed": 71
+    }
+  ],
+  "status": "development_opportunity_only"
+}

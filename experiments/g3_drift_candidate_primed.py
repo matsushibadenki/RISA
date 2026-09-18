@@ -12,12 +12,15 @@ from pathlib import Path
 from experiments.g3_drift_preflight import ARMS, _events, _probes, mechanism_opportunity_audit
 from experiments.g3_lifecycle_readiness import _panel
 from risa.core.state import RisaState
-from risa.engine.candidate_discovery import select_derived_candidates_for_final
+from risa.engine.candidate_discovery import (
+    rebuild_candidate_inference_index,
+    select_derived_candidates_for_final,
+)
 from risa.engine.candidate_lifecycle import capture_context_conditions
 from risa.engine.runtime import TrainingOptions, train_events
 from risa.evaluation.candidate_adoption import evaluate_candidate_on_probes
 from risa.evaluation.drift_metrics import snapshot_mechanisms
-from risa.evaluation.drift_runner import run_aba
+from risa.evaluation.drift_runner import ValidationStepResult, run_aba
 
 
 def _adopt_warm_candidates(
@@ -67,6 +70,72 @@ def _adopt_warm_candidates(
     return label_count
 
 
+def _online_validate_warm_candidates(
+    state: RisaState, seed: int, *, dormancy: bool, count: int,
+    bootstrap_samples: int, phase: str,
+) -> ValidationStepResult:
+    """Attempt validation without treating rejection or missing proposals as errors."""
+    warm = next(
+        (candidate for candidate in state.unnamed_concept_candidates.values()
+         if candidate.derivation_generation == 0
+         and candidate.structural_schema.get("effects") == ["warm"]),
+        None,
+    )
+    if warm is None:
+        return ValidationStepResult()
+    parents = sorted(
+        (candidate for candidate in state.unnamed_concept_candidates.values()
+         if candidate.derivation_type == "specialized"
+         and candidate.parent_candidate_ids == [warm.id]),
+        key=lambda candidate: candidate.id,
+    )
+    if len(parents) != 2:
+        return ValidationStepResult()
+    merge = next(
+        (candidate for candidate in state.unnamed_concept_candidates.values()
+         if candidate.derivation_type == "merged"
+         and set(candidate.parent_candidate_ids) == {parent.id for parent in parents}),
+        None,
+    )
+    if merge is None:
+        return ValidationStepResult()
+    used: list[str] = []
+    decisions = 0
+    for candidate in parents + [merge]:
+        if candidate.lifecycle_status == "adopted" and not candidate.dormant:
+            continue
+        # A new independent validation cycle keeps the historical ID union for
+        # provenance but replaces stale partition panels from the A1 cycle.
+        candidate.development_evaluation_event_ids = []
+        candidate.final_evaluation_event_ids = []
+        candidate.selected_for_final = False
+        candidate.lifecycle_status = "proposed"
+        rebuild_candidate_inference_index(state)
+        development = _panel(seed, f"{phase}:{candidate.id}:development", count)
+        final = _panel(seed, f"{phase}:{candidate.id}:final", count)
+        dev = evaluate_candidate_on_probes(
+            state, candidate.id, development, partition="development",
+            bootstrap_samples=bootstrap_samples, seed=seed,
+        )
+        used.extend(probe.id for probe in development)
+        decisions += 1
+        if dev["status"] != "provisional":
+            continue
+        select_derived_candidates_for_final(state, [candidate.id])
+        approved = evaluate_candidate_on_probes(
+            state, candidate.id, final, partition="final",
+            development_probes=development,
+            bootstrap_samples=bootstrap_samples, seed=seed + 1,
+            enable_ancestor_dormancy=dormancy,
+        )
+        used.extend(probe.id for probe in final)
+        decisions += 1
+        if approved["status"] == "adopted" and candidate.dormant:
+            candidate.dormant = False
+            rebuild_candidate_inference_index(state)
+    return ValidationStepResult(tuple(used), decisions)
+
+
 def run_candidate_primed_preflight(manifest: dict) -> dict:
     if set(manifest["arms"]) != set(ARMS):
         raise ValueError("all seven arms are required")
@@ -110,15 +179,36 @@ def run_candidate_primed_preflight(manifest: dict) -> dict:
                 bootstrap_samples=int(manifest["bootstrap_samples"]),
             )
             a1_mechanisms = snapshot_mechanisms(state)
+            online_schedule = tuple(manifest.get("online_validation_a2_events", []))
+            online_cap = int(manifest.get("online_validation_label_budget", 0))
+            if online_cap < 0 or any(
+                not isinstance(index, int) or index < 1
+                or index > len(a2) for index in online_schedule
+            ) or len(set(online_schedule)) != len(online_schedule):
+                raise ValueError("invalid online validation schedule or label budget")
+
+            def validate_online(current, index, event, remaining):
+                if not event.id.startswith("A2:") or index not in online_schedule:
+                    return ValidationStepResult()
+                if remaining is not None and remaining < 6 * count:
+                    return ValidationStepResult()
+                return _online_validate_warm_candidates(
+                    current, seed, dormancy=dormancy, count=count,
+                    bootstrap_samples=int(manifest["bootstrap_samples"]),
+                    phase=f"A2-online-{index}",
+                )
+
             outcome = run_aba(
                 state, b, a2, a_probes, b_probes, options,
                 replay_interval=int(manifest["replay_interval"]),
                 recovery_window=int(manifest["recovery_window"]),
+                validation_step=validate_online if online_schedule else None,
+                validation_label_budget=online_cap if online_schedule else None,
             )
             final = snapshot_mechanisms(state)
             postphase_labels = 0
             postphase_adopted_merges = 0
-            if final.merged_proposals:
+            if final.merged_proposals and not online_schedule:
                 revalidated = copy.deepcopy(state)
                 postphase_labels = _adopt_warm_candidates(
                     revalidated, seed, dormancy=dormancy, count=count,
@@ -142,6 +232,12 @@ def run_candidate_primed_preflight(manifest: dict) -> dict:
                 "a1_merged_proposals": len(a1_mechanisms.merged_proposals),
                 "a1_dormant_candidates": len(a1_mechanisms.dormant_candidates),
                 "a1_supervised_adoption_labels": labels,
+                "online_validation_labels": outcome["validation_labels_total"],
+                "online_validation_decisions": (
+                    outcome["B"]["validation_adoption_decisions"]
+                    + outcome["A2"]["validation_adoption_decisions"]
+                ),
+                "A2_online_validation_trace": outcome["A2"]["validation_trace"],
                 "final_adopted_merges": len(final.adopted_merges),
                 "final_merged_proposals": len(final.merged_proposals),
                 "final_dormant_candidates": len(final.dormant_candidates),

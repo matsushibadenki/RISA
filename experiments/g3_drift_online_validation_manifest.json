@@ -1,0 +1,15 @@
+{
+  "benchmark_version": "g3.2-online-validation-development-v1",
+  "seeds": [11, 23, 37, 53, 71],
+  "phase_observations": 12,
+  "probes_per_phase": 24,
+  "adoption_probes_per_partition": 200,
+  "bootstrap_samples": 200,
+  "extra_a2_observations": 0,
+  "replay_interval": 4,
+  "replay_max_events": 8,
+  "recovery_window": 3,
+  "online_validation_a2_events": [1, 6, 12],
+  "online_validation_label_budget": 3600,
+  "arms": ["full", "split_only", "merge_only", "no_split", "no_merge", "no_dormancy", "none"]
+}

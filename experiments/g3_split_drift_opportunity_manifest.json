@@ -1,0 +1,9 @@
+{
+  "benchmark_version": "g3.2-split-drift-development-v1",
+  "seeds": [11, 23, 37, 53, 71],
+  "a1_observations": 4,
+  "phase_observations": 12,
+  "replay_interval": 1,
+  "replay_max_events": 28,
+  "recovery_window": 2
+}
