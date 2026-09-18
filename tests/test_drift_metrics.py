@@ -171,6 +171,34 @@ def test_aba_validation_rejects_either_scoring_panel_as_evidence() -> None:
         )
 
 
+def test_phase_pre_update_diagnostic_runs_before_learning_and_is_read_only() -> None:
+    state = RisaState()
+    event = Event("observe:diagnostic", 1, "actor", "move", observed_effects=["a"])
+    probe = DriftProbe("probe:diagnostic", PredictionQuery("actor", "move"), ("a",))
+
+    def inspect(current, index, pending):
+        return {"not_learned_yet": pending.id not in current.events_by_id}
+
+    result = run_drift_phase(
+        state, [event], [probe], TrainingOptions(enable_replay=False),
+        reference_accuracy=1.0, pre_update_diagnostic=inspect,
+    )
+    assert result["pre_update_diagnostic_trace"][0]["diagnostic"] == {
+        "not_learned_yet": True
+    }
+    assert event.id in state.events_by_id
+
+    def mutate(current, index, pending):
+        current.events_by_id[pending.id] = pending
+        return {}
+
+    with pytest.raises(ValueError, match="must not change learning state"):
+        run_drift_phase(
+            RisaState(), [event], [probe], TrainingOptions(enable_replay=False),
+            reference_accuracy=1.0, pre_update_diagnostic=mutate,
+        )
+
+
 def test_phase_rejects_scoring_probe_in_candidate_evaluation() -> None:
     def leak(state, index, event, remaining):
         state.unnamed_concept_candidates["leak"] = UnnamedConceptCandidate(
@@ -473,6 +501,12 @@ def test_contextual_split_proposal_triggers_but_can_delay_recovery() -> None:
     assert attribution["no_primitive"]["mean_absolute_score_change_vs_full"] == 0.05
     assert attribution["no_recent_outcome"]["predictions_changed_vs_full"] == 0
     assert attribution["no_recent_outcome"]["mean_absolute_score_change_vs_full"] == 0.5
+    wrong = contextual_rule["A2_pre_update_readout_trace"][7]["diagnostic"]["variants"]
+    assert wrong["full"]["predicted_effects_by_probe"]["A2:23:7"] == ["cold"]
+    assert wrong["no_primitive"]["predicted_effects_by_probe"]["A2:23:7"] == ["warm"]
+    transfer = contextual_rule["B_transfer_on_B_probes"]["variants"]
+    assert transfer["full"]["accuracy"] == 1.0
+    assert transfer["no_primitive"]["predictions_changed_vs_full"] == 0
 
 
 def test_contextual_split_proposal_does_not_split_fully_stable_world() -> None:

@@ -50,6 +50,36 @@ def _probes(seed: int, phase: str, contextual_drift: bool = False) -> list[Drift
     ) for index, tag in enumerate(("indoor", "outdoor", "indoor", "outdoor"))]
 
 
+def _transfer_probes(seed: int, phase: str, contextual_drift: bool) -> list[DriftProbe]:
+    return [DriftProbe(
+        id=f"transfer:{phase}:{seed}:{index}",
+        query=PredictionQuery(
+            actor=f"unseen-actor:{seed}:{index}", action="inspect",
+            target=f"unseen-device:{seed}:{index}", target_roles=["device"],
+            context_tags=[tag],
+        ),
+        expected_effects=(
+            "cold" if phase == "B" and (not contextual_drift or tag == "indoor")
+            else "warm",
+        ),
+    ) for index, tag in enumerate(("indoor", "outdoor", "indoor", "outdoor"))]
+
+
+def _online_readout(state: RisaState, index: int, event: Event) -> dict[str, object]:
+    probe = DriftProbe(
+        event.id,
+        PredictionQuery(
+            actor=event.actor, action=event.action, target=event.target,
+            context_tags=list(event.context_tags),
+            actor_roles=list(event.actor_roles), target_roles=list(event.target_roles),
+            entity_bindings=dict(event.entity_bindings),
+            entity_relations=list(event.entity_relations),
+        ),
+        tuple(event.observed_effects),
+    )
+    return attribute_prediction_readout(state, [probe])
+
+
 def run_split_opportunity(manifest: dict) -> dict:
     rows = []
     contextual_drift = bool(manifest.get("contextual_drift", False))
@@ -83,11 +113,15 @@ def run_split_opportunity(manifest: dict) -> dict:
             b_probes = _probes(seed, "B", contextual_drift)
             protected = {probe.id for probe in a_probes + b_probes}
             a1_accuracy = probe_success(state, a_probes)
+            a1_transfer_on_a = attribute_prediction_readout(
+                state, _transfer_probes(seed, "A", contextual_drift)
+            )
             b_result = run_drift_phase(
                 state, b, b_probes, options, reference_accuracy=1.0,
                 replay_interval=int(manifest["replay_interval"]),
                 recovery_window=int(manifest["recovery_window"]),
                 protected_probe_ids=protected,
+                pre_update_diagnostic=_online_readout,
             )
             b_replay_diagnostic = contextual_replay_errors(
                 state, max_events=int(manifest["replay_max_events"])
@@ -99,15 +133,25 @@ def run_split_opportunity(manifest: dict) -> dict:
             )
             b_readout_on_a = attribute_prediction_readout(state, a_probes)
             b_readout_on_b = attribute_prediction_readout(state, b_probes)
+            b_transfer_on_a = attribute_prediction_readout(
+                state, _transfer_probes(seed, "A", contextual_drift)
+            )
+            b_transfer_on_b = attribute_prediction_readout(
+                state, _transfer_probes(seed, "B", contextual_drift)
+            )
             a2_entry_accuracy = probe_success(state, a_probes)
             a2_result = run_drift_phase(
                 state, a2, a_probes, options, reference_accuracy=a1_accuracy,
                 replay_interval=int(manifest["replay_interval"]),
                 recovery_window=int(manifest["recovery_window"]),
                 replay_offset=len(b), protected_probe_ids=protected,
+                pre_update_diagnostic=_online_readout,
             )
             mechanisms = snapshot_mechanisms(state)
             a2_readout_on_a = attribute_prediction_readout(state, a_probes)
+            a2_transfer_on_a = attribute_prediction_readout(
+                state, _transfer_probes(seed, "A", contextual_drift)
+            )
             rows.append({
                 "seed": seed, "arm": arm,
                 "contextual_drift": contextual_drift,
@@ -129,6 +173,12 @@ def run_split_opportunity(manifest: dict) -> dict:
                 "B_readout_on_A_probes": b_readout_on_a,
                 "B_readout_on_B_probes": b_readout_on_b,
                 "A2_readout_on_A_probes": a2_readout_on_a,
+                "A1_transfer_on_A_probes": a1_transfer_on_a,
+                "B_transfer_on_A_probes": b_transfer_on_a,
+                "B_transfer_on_B_probes": b_transfer_on_b,
+                "A2_transfer_on_A_probes": a2_transfer_on_a,
+                "B_pre_update_readout_trace": b_result["pre_update_diagnostic_trace"],
+                "A2_pre_update_readout_trace": a2_result["pre_update_diagnostic_trace"],
                 "final_executed_context_splits": len(mechanisms.executed_context_splits),
             })
     return {

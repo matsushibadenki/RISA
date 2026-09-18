@@ -35,6 +35,7 @@ class ValidationStepResult:
 
 
 ValidationStep = Callable[[RisaState, int, Event, int | None], ValidationStepResult]
+PreUpdateDiagnostic = Callable[[RisaState, int, Event], dict[str, object]]
 
 
 def _assert_scoring_probes_unseen(state: RisaState, protected_ids: set[str]) -> None:
@@ -73,6 +74,7 @@ def run_drift_phase(
     validation_label_budget: int | None = None,
     protected_probe_ids: set[str] | None = None,
     previous_validation_label_ids: set[str] | None = None,
+    pre_update_diagnostic: PreUpdateDiagnostic | None = None,
 ) -> dict[str, object]:
     """Probe without learning, then learn each observation after scoring it."""
     if replay_interval < 1:
@@ -99,11 +101,26 @@ def run_drift_phase(
     summaries: list[ReplaySummary] = []
     replay_call_event_counts: list[int] = []
     mechanism_trace: list[dict[str, int]] = []
+    pre_update_diagnostic_trace: list[dict[str, object]] = []
     validation_trace: list[dict[str, int]] = []
     consumed_label_ids: set[str] = set()
     previous_labels = previous_validation_label_ids or set()
     validation_decisions = 0
     for index, event in enumerate(observations, 1):
+        if pre_update_diagnostic is not None:
+            if event.id in state.events_by_id:
+                raise ValueError("pre-update Event was already learned")
+            before_diagnostic = state.to_dict()
+            diagnostic = pre_update_diagnostic(state, index, event)
+            if not isinstance(diagnostic, dict):
+                raise TypeError("pre_update_diagnostic must return a dict")
+            if state.to_dict() != before_diagnostic:
+                raise ValueError("pre_update_diagnostic must not change learning state")
+            pre_update_diagnostic_trace.append({
+                "observed_events": index,
+                "event_id": event.id,
+                "diagnostic": diagnostic,
+            })
         prediction = predict_next_effect(
             state,
             PredictionQuery(
@@ -200,6 +217,7 @@ def run_drift_phase(
             before_mechanisms, snapshot_mechanisms(state)
         ),
         "mechanism_trace": mechanism_trace,
+        "pre_update_diagnostic_trace": pre_update_diagnostic_trace,
         "probe_accuracy_by_observed_events": trajectory,
     }
 
