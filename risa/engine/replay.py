@@ -18,11 +18,14 @@ from risa.engine.predictor import predict_next_effect
 def replay_structural_memory(
     state: RisaState,
     max_events: int | None = None,
+    *,
+    enable_contextual_split_proposal: bool = False,
 ) -> ReplaySummary:
     """Re-evaluate stored evidence using the current induced world model."""
     summary = ReplaySummary()
     ordered_events, selection_work = replay_event_window(state, max_events)
     summary.selection_events_examined = selection_work
+    contextual_errors: dict[str, dict[str, list[int]]] = {}
 
     for event in ordered_events:
         primitive_ids = state.event_primitive_ids.get(event.id, [])
@@ -52,10 +55,21 @@ def replay_structural_memory(
         else:
             summary.failed_events += 1
 
+        contextual_seen: set[str] = set()
         for primitive_id in primitive_ids:
             primitive = state.structural_primitives.get(primitive_id)
             if primitive is None:
                 continue
+            if enable_contextual_split_proposal and primitive_id not in contextual_seen:
+                contextual_seen.add(primitive_id)
+                context = "|".join(sorted(
+                    normalize_label(tag) for tag in event.context_tags
+                )) or "__no_context__"
+                counts = contextual_errors.setdefault(primitive_id, {}).setdefault(
+                    context, [0, 0]
+                )
+                counts[0] += 1
+                counts[1] += int(not success)
             primitive.replay_count += 1
             if success:
                 primitive.replay_success_count += 1
@@ -63,7 +77,10 @@ def replay_structural_memory(
             refresh_primitive_adoption(primitive)
 
     _replay_deployment_trajectory(state, summary, events=ordered_events)
-    _refresh_adaptation_candidates(state)
+    _refresh_adaptation_candidates(
+        state,
+        contextual_errors if enable_contextual_split_proposal else None,
+    )
     return summary
 
 
@@ -183,13 +200,64 @@ def _drop_deterministic_state(active_states: set[str], event_id: str) -> set[str
     return set(ordered_states[:drop_index] + ordered_states[drop_index + 1 :])
 
 
-def _refresh_adaptation_candidates(state: RisaState) -> None:
+def _refresh_adaptation_candidates(
+    state: RisaState,
+    contextual_errors: dict[str, dict[str, list[int]]] | None = None,
+) -> None:
     candidates: dict[str, StructuralAdaptationCandidate] = {}
     for primitive in state.structural_primitives.values():
         candidate = _adaptation_candidate_for(primitive)
+        if candidate is None and contextual_errors is not None and not primitive.superseded_by:
+            candidate = _contextual_split_candidate(
+                primitive, contextual_errors.get(primitive.id, {})
+            )
         if candidate is not None:
             candidates[primitive.id] = candidate
     state.structural_adaptation_candidates = candidates
+
+
+def _contextual_split_candidate(
+    primitive: StructuralPrimitive,
+    contexts: dict[str, list[int]],
+) -> StructuralAdaptationCandidate | None:
+    """Experimental contrast: require local errors and a stable peer context."""
+    eligible = {
+        context: (total, wrong)
+        for context, (total, wrong) in contexts.items()
+        if total >= 2
+    }
+    unstable = [
+        (context, total, wrong)
+        for context, (total, wrong) in eligible.items()
+        if wrong >= 2 and wrong / total >= 0.75
+    ]
+    stable = [
+        (context, total, wrong)
+        for context, (total, wrong) in eligible.items()
+        if wrong / total <= 0.25
+    ]
+    contrasts = [
+        (bad_context, bad_total, bad_wrong, good_context, good_total, good_wrong)
+        for bad_context, bad_total, bad_wrong in unstable
+        for good_context, good_total, good_wrong in stable
+        if bad_context != good_context
+        and bad_wrong / bad_total - good_wrong / good_total >= 0.5
+    ]
+    if not contrasts:
+        return None
+    bad_context, bad_total, bad_wrong, good_context, good_total, good_wrong = min(contrasts)
+    return StructuralAdaptationCandidate(
+        primitive_id=primitive.id,
+        reason="contextual_clean_replay_instability_experimental",
+        proposed_operation="SPLIT_CONTEXT",
+        pressure=round(bad_wrong / bad_total - good_wrong / good_total, 4),
+        evidence={
+            "unstable_context_events": bad_total,
+            "unstable_context_errors": bad_wrong,
+            "stable_context_events": good_total,
+            "stable_context_errors": good_wrong,
+        },
+    )
 
 
 def _adaptation_candidate_for(

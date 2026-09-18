@@ -1,12 +1,15 @@
 from __future__ import annotations
 
 import copy
+from dataclasses import replace
 import pytest
 
 from experiments.g3_drift_preflight import ARMS, _events, mechanism_opportunity_audit, run_preflight
 from experiments.g3_lifecycle_readiness import run_lifecycle_readiness
 from experiments.g3_drift_candidate_primed import run_candidate_primed_preflight
-from experiments.g3_split_drift_opportunity import run_split_opportunity
+from experiments.g3_split_drift_opportunity import (
+    _events as split_events, run_split_opportunity,
+)
 from risa.core.models import (
     Event, Node, ReplaySummary, StructuralAdaptationCandidate,
     UnnamedConceptCandidate,
@@ -35,6 +38,8 @@ from risa.evaluation.drift_metrics import (
 from risa.evaluation.drift_runner import (
     DriftProbe, ValidationStepResult, run_aba, run_drift_phase,
 )
+from risa.evaluation.replay_diagnostics import contextual_replay_errors
+from risa.evaluation.readout_attribution import attribute_prediction_readout
 
 
 def test_touch_ratio_excludes_access_counters_and_counts_removal() -> None:
@@ -391,6 +396,97 @@ def test_split_drift_opportunity_executes_without_recovery_gain() -> None:
     assert off["final_executed_context_splits"] == 0
     assert on["B_recovery_events"] == off["B_recovery_events"]
     assert on["A2_recovery_events"] == off["A2_recovery_events"]
+
+
+def test_contextual_drift_retains_stable_context_but_does_not_trigger_split() -> None:
+    result = run_split_opportunity({
+        "benchmark_version": "test-contextual-split-drift",
+        "seeds": [11], "a1_observations": 4,
+        "phase_observations": 12, "contextual_drift": True,
+        "replay_interval": 1, "replay_max_events": 28,
+        "recovery_window": 2,
+    })
+    on, off = result["rows"]
+    assert on["final_executed_context_splits"] == 0
+    assert off["final_executed_context_splits"] == 0
+    assert on["retention_after_return"] == off["retention_after_return"] == 0.5
+    assert on["B_recovery_events"] == off["B_recovery_events"]
+    warm = {
+        row["context"]: row
+        for row in on["B_contextual_replay_diagnostic"]["rows"]
+        if row["primitive_id"].endswith("->warm")
+    }
+    assert warm["indoor"]["incorrect_events"] == warm["indoor"]["distinct_events"] == 2
+    assert warm["outdoor"]["incorrect_events"] == 0
+    assert warm["outdoor"]["distinct_events"] == 8
+    assert warm["indoor"]["cumulative_replay_score"] > 0.6
+
+
+def test_contextual_replay_diagnostic_does_not_change_learning_state() -> None:
+    state = train_events(
+        RisaState(), split_events(11, "A1", 4, True),
+        TrainingOptions(enable_replay=False, enable_metabolism=False),
+    )
+    for event in split_events(11, "B", 12, True):
+        train_events(state, [event], TrainingOptions(enable_metabolism=False))
+    before = copy.deepcopy(state.to_dict())
+    result = contextual_replay_errors(state, max_events=16)
+    assert result["selected_events"] == 16
+    assert state.to_dict() == before
+
+
+def test_readout_attribution_does_not_change_learning_state() -> None:
+    state = train_events(
+        RisaState(), split_events(11, "A1", 4, True),
+        TrainingOptions(enable_replay=False, enable_metabolism=False),
+    )
+    before = copy.deepcopy(state.to_dict())
+    result = attribute_prediction_readout(state, [
+        DriftProbe("heldout:attribution", PredictionQuery(
+            "actor:11", "inspect", "device:11",
+            context_tags=["indoor"], target_roles=["device"],
+        ), ("warm",)),
+    ])
+    assert result["probe_count"] == 1
+    assert state.to_dict() == before
+
+
+def test_contextual_split_proposal_triggers_but_can_delay_recovery() -> None:
+    result = run_split_opportunity({
+        "benchmark_version": "test-contextual-proposal",
+        "seeds": [23], "a1_observations": 4,
+        "phase_observations": 12, "contextual_drift": True,
+        "include_contextual_proposal": True,
+        "replay_interval": 1, "replay_max_events": 28,
+        "recovery_window": 2,
+    })
+    global_rule, contextual_rule, split_off = result["rows"]
+    assert global_rule["final_executed_context_splits"] == 0
+    assert contextual_rule["final_executed_context_splits"] == 1
+    assert split_off["final_executed_context_splits"] == 0
+    assert contextual_rule["B_split_variant_contexts"] == [["indoor"], ["outdoor"]]
+    assert contextual_rule["retention_after_return"] == global_rule["retention_after_return"]
+    assert contextual_rule["A2_recovery_events"] > global_rule["A2_recovery_events"]
+    attribution = contextual_rule["B_readout_on_B_probes"]["variants"]
+    assert attribution["full"]["accuracy"] == 1.0
+    assert attribution["no_primitive"]["predictions_changed_vs_full"] == 0
+    assert attribution["no_primitive"]["mean_absolute_score_change_vs_full"] == 0.05
+    assert attribution["no_recent_outcome"]["predictions_changed_vs_full"] == 0
+    assert attribution["no_recent_outcome"]["mean_absolute_score_change_vs_full"] == 0.5
+
+
+def test_contextual_split_proposal_does_not_split_fully_stable_world() -> None:
+    options = TrainingOptions(
+        enable_metabolism=False, enable_contextual_split_proposal=True,
+        enable_candidate_specialization=False, enable_candidate_merge=False,
+    )
+    state = train_events(
+        RisaState(), split_events(11, "A1", 4, True),
+        replace(options, enable_replay=False),
+    )
+    for event in split_events(11, "B", 12, True):
+        train_events(state, [replace(event, observed_effects=["warm"])], options)
+    assert not snapshot_mechanisms(state).executed_context_splits
 
 
 def test_replay_cost_uses_actual_summaries() -> None:

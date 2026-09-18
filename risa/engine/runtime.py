@@ -27,6 +27,7 @@ class TrainingOptions:
     enable_adaptation: bool = True
     enable_coactivation: bool = True
     enable_context_split: bool = True
+    enable_contextual_split_proposal: bool = False
     enable_candidate_specialization: bool = True
     enable_candidate_merge: bool = True
     frozen_context_conditions: dict[str, tuple[tuple[str, ...], ...]] | None = None
@@ -100,7 +101,10 @@ def train_events(
         extension_validator=options.candidate_extension_validator,
     )
     if options.enable_replay:
-        summary = replay_structural_memory(state, max_events=options.replay_max_events)
+        summary = replay_structural_memory(
+            state, max_events=options.replay_max_events,
+            enable_contextual_split_proposal=options.enable_contextual_split_proposal,
+        )
         if options.replay_summaries is not None:
             options.replay_summaries.append(summary)
     if options.enable_adaptation:
