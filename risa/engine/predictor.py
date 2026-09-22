@@ -222,7 +222,7 @@ def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionR
         context_key=context_key,
         selected_effect=best_effect,
     )
-    matching_outcomes = _matching_primitives(state, action, best_effect)
+    matching_outcomes = _matching_primitives(state, action, best_effect, context_key=context_key)
     best_outcome = max(
         matching_outcomes,
         key=lambda primitive: (primitive.adoption_score, primitive.support, primitive.id),
@@ -275,7 +275,9 @@ def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionR
         supporting_paths.append([action_id, "co_activates_with", best_effect_id])
     if _reproducibility_support(state, action_id, best_effect_id) > 0.0:
         supporting_paths.append([action_id, "reproducibly_affects", best_effect_id])
-    for primitive in _matching_primitives(state, action, best_effect, adopted_only=True):
+    for primitive in _matching_primitives(
+        state, action, best_effect, adopted_only=True, context_key=context_key
+    ):
         supporting_paths.append([primitive.id, "composes_to", best_effect_id])
     if best_candidate is not None:
         matched_role = normalize_label(
@@ -377,7 +379,9 @@ def _collect_local_candidates(state: RisaState, actor: str, action: str, context
         values.update(structural_pattern.effects)
     values.update(
         effect
-        for primitive in _matching_primitives(state, action, adopted_only=True)
+        for primitive in _matching_primitives(
+            state, action, adopted_only=True, context_key=context_key
+        )
         for effect in primitive.produced_states
     )
 
@@ -471,21 +475,24 @@ def _reproducibility_support(state: RisaState, action_id: str, effect_id: str) -
 
 
 def _primitive_support(state: RisaState, action: str, effect: str, context_key: str) -> float:
-    primitives = _matching_primitives(state, action, effect, adopted_only=True)
+    primitives = _matching_primitives(
+        state, action, effect, adopted_only=True, context_key=context_key
+    )
     if not primitives:
         return 0.0
 
     best_score = 0.0
+    query_context_tags = set(context_key.split("|")) if context_key != "__no_context__" else set()
     for primitive in primitives:
         support = min(1.0, primitive.support / 5.0)
-        if context_key == "__no_context__":
+        if "::context:" in primitive.id:
+            context_match = 1.0
+        elif context_key == "__no_context__":
             context_match = 0.7
         elif not primitive.context_tags:
             context_match = 0.5
         else:
-            context_match = len(set(context_key.split("|")) & primitive.context_tags) / len(
-                set(context_key.split("|"))
-            )
+            context_match = len(query_context_tags & primitive.context_tags) / len(query_context_tags)
         best_score = max(best_score, support * max(0.4, primitive.validation_score) * context_match)
     return best_score
 
@@ -495,14 +502,23 @@ def _matching_primitives(
     action: str,
     effect: str | None = None,
     adopted_only: bool = False,
+    context_key: str | None = None,
 ):
     input_condition = f"process:{action}"
+    query_context_tags = (
+        set(context_key.split("|")) if context_key not in (None, "__no_context__") else set()
+    )
     return [
         primitive
         for primitive in state.structural_primitives.values()
         if input_condition in primitive.input_conditions
         and (effect is None or effect in primitive.produced_states)
         and (not adopted_only or primitive.adopted)
+        and (
+            context_key is None
+            or "::context:" not in primitive.id
+            or primitive.context_tags == query_context_tags
+        )
     ]
 
 

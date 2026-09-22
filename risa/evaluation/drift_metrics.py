@@ -163,6 +163,30 @@ def recovery_events(
     return None
 
 
+def retention_adaptation_audit(
+    *, a1_accuracy: float, b_exit_accuracy: float, a2_entry_accuracy: float,
+    b_reference_accuracy: float = 1.0, target_fraction: float = 0.95,
+) -> dict[str, float | bool | None]:
+    """Keep raw A retention visible while qualifying its interpretation by B adaptation."""
+    values = (a1_accuracy, b_exit_accuracy, a2_entry_accuracy, b_reference_accuracy)
+    if any(not 0.0 <= value <= 1.0 for value in values):
+        raise ValueError("probe accuracies must be in [0, 1]")
+    if not 0.0 < target_fraction <= 1.0:
+        raise ValueError("target fraction must be in (0, 1]")
+    b_adapted = (
+        b_reference_accuracy > 0
+        and b_exit_accuracy >= target_fraction * b_reference_accuracy
+    )
+    retention = a2_entry_accuracy / a1_accuracy if a1_accuracy else None
+    return {
+        "b_exit_accuracy": b_exit_accuracy,
+        "b_adapted_at_return": b_adapted,
+        "a2_entry_accuracy": a2_entry_accuracy,
+        "retention_after_return": retention,
+        "retention_given_b_adaptation": retention if b_adapted else None,
+    }
+
+
 def replay_cost(summaries: list[ReplaySummary]) -> dict[str, int]:
     """Account for selection, model replay and deployment replay separately."""
     return {

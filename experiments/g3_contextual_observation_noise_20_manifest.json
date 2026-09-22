@@ -1,0 +1,12 @@
+{
+  "benchmark_version": "g3.2-contextual-observation-noise-20-development-v1",
+  "seeds": [11, 23, 37, 53, 71],
+  "a1_observations": 10,
+  "phase_observations": 20,
+  "contextual_drift": true,
+  "include_contextual_proposal": true,
+  "observation_noise_fraction": 0.2,
+  "replay_interval": 1,
+  "replay_max_events": 50,
+  "recovery_window": 2
+}

@@ -1,5 +1,1419 @@
 {
   "benchmark_version": "g3.2-split-contextual-development-v1",
+  "grounded_role_baseline_rows": [
+    {
+      "A2": {
+        "entry_accuracy": 0.5,
+        "exit_accuracy": 1.0,
+        "online_pre_update_accuracy": 0.9166666666666666,
+        "probe_accuracy_by_observed_events": [
+          [
+            0,
+            0.5
+          ],
+          [
+            1,
+            0.5
+          ],
+          [
+            2,
+            1.0
+          ],
+          [
+            3,
+            1.0
+          ],
+          [
+            4,
+            1.0
+          ],
+          [
+            5,
+            1.0
+          ],
+          [
+            6,
+            1.0
+          ],
+          [
+            7,
+            1.0
+          ],
+          [
+            8,
+            1.0
+          ],
+          [
+            9,
+            1.0
+          ],
+          [
+            10,
+            1.0
+          ],
+          [
+            11,
+            1.0
+          ],
+          [
+            12,
+            1.0
+          ]
+        ],
+        "recovery_events": 3
+      },
+      "A2_transfer_A_accuracy": 1.0,
+      "B": {
+        "entry_accuracy": 0.5,
+        "exit_accuracy": 1.0,
+        "online_pre_update_accuracy": 0.9166666666666666,
+        "probe_accuracy_by_observed_events": [
+          [
+            0,
+            0.5
+          ],
+          [
+            1,
+            0.5
+          ],
+          [
+            2,
+            0.5
+          ],
+          [
+            3,
+            1.0
+          ],
+          [
+            4,
+            1.0
+          ],
+          [
+            5,
+            1.0
+          ],
+          [
+            6,
+            1.0
+          ],
+          [
+            7,
+            1.0
+          ],
+          [
+            8,
+            1.0
+          ],
+          [
+            9,
+            1.0
+          ],
+          [
+            10,
+            1.0
+          ],
+          [
+            11,
+            1.0
+          ],
+          [
+            12,
+            1.0
+          ]
+        ],
+        "recovery_events": 4
+      },
+      "B_transfer_A_accuracy": 0.5,
+      "B_transfer_B_accuracy": 1.0,
+      "a1_accuracy": 1.0,
+      "a1_transfer_accuracy": 1.0,
+      "a2_entry_accuracy": 0.5,
+      "b_adapted_at_return": true,
+      "b_exit_accuracy": 1.0,
+      "retention_after_return": 0.5,
+      "retention_given_b_adaptation": 0.5,
+      "return_identifiability": {
+        "a_accuracy_ceiling_given_perfect_b": 0.5,
+        "a_probe_count": 4,
+        "b_reference_internally_consistent": true,
+        "identical_query_conflicting_a_probes": 2
+      },
+      "seed": 11,
+      "stored_bytes": 177,
+      "stored_entries": 2
+    },
+    {
+      "A2": {
+        "entry_accuracy": 0.5,
+        "exit_accuracy": 1.0,
+        "online_pre_update_accuracy": 0.9166666666666666,
+        "probe_accuracy_by_observed_events": [
+          [
+            0,
+            0.5
+          ],
+          [
+            1,
+            0.5
+          ],
+          [
+            2,
+            0.5
+          ],
+          [
+            3,
+            1.0
+          ],
+          [
+            4,
+            1.0
+          ],
+          [
+            5,
+            1.0
+          ],
+          [
+            6,
+            1.0
+          ],
+          [
+            7,
+            1.0
+          ],
+          [
+            8,
+            1.0
+          ],
+          [
+            9,
+            1.0
+          ],
+          [
+            10,
+            1.0
+          ],
+          [
+            11,
+            1.0
+          ],
+          [
+            12,
+            1.0
+          ]
+        ],
+        "recovery_events": 4
+      },
+      "A2_transfer_A_accuracy": 1.0,
+      "B": {
+        "entry_accuracy": 0.5,
+        "exit_accuracy": 1.0,
+        "online_pre_update_accuracy": 0.9166666666666666,
+        "probe_accuracy_by_observed_events": [
+          [
+            0,
+            0.5
+          ],
+          [
+            1,
+            1.0
+          ],
+          [
+            2,
+            1.0
+          ],
+          [
+            3,
+            1.0
+          ],
+          [
+            4,
+            1.0
+          ],
+          [
+            5,
+            1.0
+          ],
+          [
+            6,
+            1.0
+          ],
+          [
+            7,
+            1.0
+          ],
+          [
+            8,
+            1.0
+          ],
+          [
+            9,
+            1.0
+          ],
+          [
+            10,
+            1.0
+          ],
+          [
+            11,
+            1.0
+          ],
+          [
+            12,
+            1.0
+          ]
+        ],
+        "recovery_events": 2
+      },
+      "B_transfer_A_accuracy": 0.5,
+      "B_transfer_B_accuracy": 1.0,
+      "a1_accuracy": 1.0,
+      "a1_transfer_accuracy": 1.0,
+      "a2_entry_accuracy": 0.5,
+      "b_adapted_at_return": true,
+      "b_exit_accuracy": 1.0,
+      "retention_after_return": 0.5,
+      "retention_given_b_adaptation": 0.5,
+      "return_identifiability": {
+        "a_accuracy_ceiling_given_perfect_b": 0.5,
+        "a_probe_count": 4,
+        "b_reference_internally_consistent": true,
+        "identical_query_conflicting_a_probes": 2
+      },
+      "seed": 23,
+      "stored_bytes": 177,
+      "stored_entries": 2
+    },
+    {
+      "A2": {
+        "entry_accuracy": 0.5,
+        "exit_accuracy": 1.0,
+        "online_pre_update_accuracy": 0.9166666666666666,
+        "probe_accuracy_by_observed_events": [
+          [
+            0,
+            0.5
+          ],
+          [
+            1,
+            0.5
+          ],
+          [
+            2,
+            0.5
+          ],
+          [
+            3,
+            0.5
+          ],
+          [
+            4,
+            0.5
+          ],
+          [
+            5,
+            0.5
+          ],
+          [
+            6,
+            1.0
+          ],
+          [
+            7,
+            1.0
+          ],
+          [
+            8,
+            1.0
+          ],
+          [
+            9,
+            1.0
+          ],
+          [
+            10,
+            1.0
+          ],
+          [
+            11,
+            1.0
+          ],
+          [
+            12,
+            1.0
+          ]
+        ],
+        "recovery_events": 7
+      },
+      "A2_transfer_A_accuracy": 1.0,
+      "B": {
+        "entry_accuracy": 0.5,
+        "exit_accuracy": 1.0,
+        "online_pre_update_accuracy": 0.9166666666666666,
+        "probe_accuracy_by_observed_events": [
+          [
+            0,
+            0.5
+          ],
+          [
+            1,
+            0.5
+          ],
+          [
+            2,
+            1.0
+          ],
+          [
+            3,
+            1.0
+          ],
+          [
+            4,
+            1.0
+          ],
+          [
+            5,
+            1.0
+          ],
+          [
+            6,
+            1.0
+          ],
+          [
+            7,
+            1.0
+          ],
+          [
+            8,
+            1.0
+          ],
+          [
+            9,
+            1.0
+          ],
+          [
+            10,
+            1.0
+          ],
+          [
+            11,
+            1.0
+          ],
+          [
+            12,
+            1.0
+          ]
+        ],
+        "recovery_events": 3
+      },
+      "B_transfer_A_accuracy": 0.5,
+      "B_transfer_B_accuracy": 1.0,
+      "a1_accuracy": 1.0,
+      "a1_transfer_accuracy": 1.0,
+      "a2_entry_accuracy": 0.5,
+      "b_adapted_at_return": true,
+      "b_exit_accuracy": 1.0,
+      "retention_after_return": 0.5,
+      "retention_given_b_adaptation": 0.5,
+      "return_identifiability": {
+        "a_accuracy_ceiling_given_perfect_b": 0.5,
+        "a_probe_count": 4,
+        "b_reference_internally_consistent": true,
+        "identical_query_conflicting_a_probes": 2
+      },
+      "seed": 37,
+      "stored_bytes": 177,
+      "stored_entries": 2
+    },
+    {
+      "A2": {
+        "entry_accuracy": 0.5,
+        "exit_accuracy": 1.0,
+        "online_pre_update_accuracy": 0.9166666666666666,
+        "probe_accuracy_by_observed_events": [
+          [
+            0,
+            0.5
+          ],
+          [
+            1,
+            0.5
+          ],
+          [
+            2,
+            1.0
+          ],
+          [
+            3,
+            1.0
+          ],
+          [
+            4,
+            1.0
+          ],
+          [
+            5,
+            1.0
+          ],
+          [
+            6,
+            1.0
+          ],
+          [
+            7,
+            1.0
+          ],
+          [
+            8,
+            1.0
+          ],
+          [
+            9,
+            1.0
+          ],
+          [
+            10,
+            1.0
+          ],
+          [
+            11,
+            1.0
+          ],
+          [
+            12,
+            1.0
+          ]
+        ],
+        "recovery_events": 3
+      },
+      "A2_transfer_A_accuracy": 1.0,
+      "B": {
+        "entry_accuracy": 0.5,
+        "exit_accuracy": 1.0,
+        "online_pre_update_accuracy": 0.9166666666666666,
+        "probe_accuracy_by_observed_events": [
+          [
+            0,
+            0.5
+          ],
+          [
+            1,
+            1.0
+          ],
+          [
+            2,
+            1.0
+          ],
+          [
+            3,
+            1.0
+          ],
+          [
+            4,
+            1.0
+          ],
+          [
+            5,
+            1.0
+          ],
+          [
+            6,
+            1.0
+          ],
+          [
+            7,
+            1.0
+          ],
+          [
+            8,
+            1.0
+          ],
+          [
+            9,
+            1.0
+          ],
+          [
+            10,
+            1.0
+          ],
+          [
+            11,
+            1.0
+          ],
+          [
+            12,
+            1.0
+          ]
+        ],
+        "recovery_events": 2
+      },
+      "B_transfer_A_accuracy": 0.5,
+      "B_transfer_B_accuracy": 1.0,
+      "a1_accuracy": 1.0,
+      "a1_transfer_accuracy": 1.0,
+      "a2_entry_accuracy": 0.5,
+      "b_adapted_at_return": true,
+      "b_exit_accuracy": 1.0,
+      "retention_after_return": 0.5,
+      "retention_given_b_adaptation": 0.5,
+      "return_identifiability": {
+        "a_accuracy_ceiling_given_perfect_b": 0.5,
+        "a_probe_count": 4,
+        "b_reference_internally_consistent": true,
+        "identical_query_conflicting_a_probes": 2
+      },
+      "seed": 53,
+      "stored_bytes": 177,
+      "stored_entries": 2
+    },
+    {
+      "A2": {
+        "entry_accuracy": 0.5,
+        "exit_accuracy": 1.0,
+        "online_pre_update_accuracy": 0.9166666666666666,
+        "probe_accuracy_by_observed_events": [
+          [
+            0,
+            0.5
+          ],
+          [
+            1,
+            0.5
+          ],
+          [
+            2,
+            0.5
+          ],
+          [
+            3,
+            1.0
+          ],
+          [
+            4,
+            1.0
+          ],
+          [
+            5,
+            1.0
+          ],
+          [
+            6,
+            1.0
+          ],
+          [
+            7,
+            1.0
+          ],
+          [
+            8,
+            1.0
+          ],
+          [
+            9,
+            1.0
+          ],
+          [
+            10,
+            1.0
+          ],
+          [
+            11,
+            1.0
+          ],
+          [
+            12,
+            1.0
+          ]
+        ],
+        "recovery_events": 4
+      },
+      "A2_transfer_A_accuracy": 1.0,
+      "B": {
+        "entry_accuracy": 0.5,
+        "exit_accuracy": 1.0,
+        "online_pre_update_accuracy": 0.9166666666666666,
+        "probe_accuracy_by_observed_events": [
+          [
+            0,
+            0.5
+          ],
+          [
+            1,
+            0.5
+          ],
+          [
+            2,
+            0.5
+          ],
+          [
+            3,
+            1.0
+          ],
+          [
+            4,
+            1.0
+          ],
+          [
+            5,
+            1.0
+          ],
+          [
+            6,
+            1.0
+          ],
+          [
+            7,
+            1.0
+          ],
+          [
+            8,
+            1.0
+          ],
+          [
+            9,
+            1.0
+          ],
+          [
+            10,
+            1.0
+          ],
+          [
+            11,
+            1.0
+          ],
+          [
+            12,
+            1.0
+          ]
+        ],
+        "recovery_events": 4
+      },
+      "B_transfer_A_accuracy": 0.5,
+      "B_transfer_B_accuracy": 1.0,
+      "a1_accuracy": 1.0,
+      "a1_transfer_accuracy": 1.0,
+      "a2_entry_accuracy": 0.5,
+      "b_adapted_at_return": true,
+      "b_exit_accuracy": 1.0,
+      "retention_after_return": 0.5,
+      "retention_given_b_adaptation": 0.5,
+      "return_identifiability": {
+        "a_accuracy_ceiling_given_perfect_b": 0.5,
+        "a_probe_count": 4,
+        "b_reference_internally_consistent": true,
+        "identical_query_conflicting_a_probes": 2
+      },
+      "seed": 71,
+      "stored_bytes": 177,
+      "stored_entries": 2
+    }
+  ],
+  "grounded_role_count_baseline_rows": [
+    {
+      "A2": {
+        "entry_accuracy": 0.5,
+        "exit_accuracy": 1.0,
+        "online_pre_update_accuracy": 0.6666666666666666,
+        "probe_accuracy_by_observed_events": [
+          [
+            0,
+            0.5
+          ],
+          [
+            1,
+            0.5
+          ],
+          [
+            2,
+            0.5
+          ],
+          [
+            3,
+            0.5
+          ],
+          [
+            4,
+            0.5
+          ],
+          [
+            5,
+            0.5
+          ],
+          [
+            6,
+            0.5
+          ],
+          [
+            7,
+            1.0
+          ],
+          [
+            8,
+            1.0
+          ],
+          [
+            9,
+            1.0
+          ],
+          [
+            10,
+            1.0
+          ],
+          [
+            11,
+            1.0
+          ],
+          [
+            12,
+            1.0
+          ]
+        ],
+        "recovery_events": 8
+      },
+      "A2_transfer_A_accuracy": 1.0,
+      "B": {
+        "entry_accuracy": 0.5,
+        "exit_accuracy": 1.0,
+        "online_pre_update_accuracy": 0.8333333333333334,
+        "probe_accuracy_by_observed_events": [
+          [
+            0,
+            0.5
+          ],
+          [
+            1,
+            0.5
+          ],
+          [
+            2,
+            0.5
+          ],
+          [
+            3,
+            0.5
+          ],
+          [
+            4,
+            1.0
+          ],
+          [
+            5,
+            1.0
+          ],
+          [
+            6,
+            1.0
+          ],
+          [
+            7,
+            1.0
+          ],
+          [
+            8,
+            1.0
+          ],
+          [
+            9,
+            1.0
+          ],
+          [
+            10,
+            1.0
+          ],
+          [
+            11,
+            1.0
+          ],
+          [
+            12,
+            1.0
+          ]
+        ],
+        "recovery_events": 5
+      },
+      "B_transfer_A_accuracy": 0.5,
+      "B_transfer_B_accuracy": 1.0,
+      "a1_accuracy": 1.0,
+      "a1_transfer_accuracy": 1.0,
+      "a2_entry_accuracy": 0.5,
+      "b_adapted_at_return": true,
+      "b_exit_accuracy": 1.0,
+      "retention_after_return": 0.5,
+      "retention_given_b_adaptation": 0.5,
+      "return_identifiability": {
+        "a_accuracy_ceiling_given_perfect_b": 0.5,
+        "a_probe_count": 4,
+        "b_reference_internally_consistent": true,
+        "identical_query_conflicting_a_probes": 2
+      },
+      "seed": 11,
+      "stored_bytes": 283,
+      "stored_entries": 2
+    },
+    {
+      "A2": {
+        "entry_accuracy": 0.5,
+        "exit_accuracy": 1.0,
+        "online_pre_update_accuracy": 0.6666666666666666,
+        "probe_accuracy_by_observed_events": [
+          [
+            0,
+            0.5
+          ],
+          [
+            1,
+            0.5
+          ],
+          [
+            2,
+            0.5
+          ],
+          [
+            3,
+            0.5
+          ],
+          [
+            4,
+            0.5
+          ],
+          [
+            5,
+            0.5
+          ],
+          [
+            6,
+            0.5
+          ],
+          [
+            7,
+            0.5
+          ],
+          [
+            8,
+            0.5
+          ],
+          [
+            9,
+            0.5
+          ],
+          [
+            10,
+            1.0
+          ],
+          [
+            11,
+            1.0
+          ],
+          [
+            12,
+            1.0
+          ]
+        ],
+        "recovery_events": 11
+      },
+      "A2_transfer_A_accuracy": 1.0,
+      "B": {
+        "entry_accuracy": 0.5,
+        "exit_accuracy": 1.0,
+        "online_pre_update_accuracy": 0.8333333333333334,
+        "probe_accuracy_by_observed_events": [
+          [
+            0,
+            0.5
+          ],
+          [
+            1,
+            0.5
+          ],
+          [
+            2,
+            1.0
+          ],
+          [
+            3,
+            1.0
+          ],
+          [
+            4,
+            1.0
+          ],
+          [
+            5,
+            1.0
+          ],
+          [
+            6,
+            1.0
+          ],
+          [
+            7,
+            1.0
+          ],
+          [
+            8,
+            1.0
+          ],
+          [
+            9,
+            1.0
+          ],
+          [
+            10,
+            1.0
+          ],
+          [
+            11,
+            1.0
+          ],
+          [
+            12,
+            1.0
+          ]
+        ],
+        "recovery_events": 3
+      },
+      "B_transfer_A_accuracy": 0.5,
+      "B_transfer_B_accuracy": 1.0,
+      "a1_accuracy": 1.0,
+      "a1_transfer_accuracy": 1.0,
+      "a2_entry_accuracy": 0.5,
+      "b_adapted_at_return": true,
+      "b_exit_accuracy": 1.0,
+      "retention_after_return": 0.5,
+      "retention_given_b_adaptation": 0.5,
+      "return_identifiability": {
+        "a_accuracy_ceiling_given_perfect_b": 0.5,
+        "a_probe_count": 4,
+        "b_reference_internally_consistent": true,
+        "identical_query_conflicting_a_probes": 2
+      },
+      "seed": 23,
+      "stored_bytes": 283,
+      "stored_entries": 2
+    },
+    {
+      "A2": {
+        "entry_accuracy": 0.5,
+        "exit_accuracy": 1.0,
+        "online_pre_update_accuracy": 0.6666666666666666,
+        "probe_accuracy_by_observed_events": [
+          [
+            0,
+            0.5
+          ],
+          [
+            1,
+            0.5
+          ],
+          [
+            2,
+            0.5
+          ],
+          [
+            3,
+            0.5
+          ],
+          [
+            4,
+            0.5
+          ],
+          [
+            5,
+            0.5
+          ],
+          [
+            6,
+            0.5
+          ],
+          [
+            7,
+            0.5
+          ],
+          [
+            8,
+            0.5
+          ],
+          [
+            9,
+            1.0
+          ],
+          [
+            10,
+            1.0
+          ],
+          [
+            11,
+            1.0
+          ],
+          [
+            12,
+            1.0
+          ]
+        ],
+        "recovery_events": 10
+      },
+      "A2_transfer_A_accuracy": 1.0,
+      "B": {
+        "entry_accuracy": 0.5,
+        "exit_accuracy": 1.0,
+        "online_pre_update_accuracy": 0.8333333333333334,
+        "probe_accuracy_by_observed_events": [
+          [
+            0,
+            0.5
+          ],
+          [
+            1,
+            0.5
+          ],
+          [
+            2,
+            0.5
+          ],
+          [
+            3,
+            0.5
+          ],
+          [
+            4,
+            1.0
+          ],
+          [
+            5,
+            1.0
+          ],
+          [
+            6,
+            1.0
+          ],
+          [
+            7,
+            1.0
+          ],
+          [
+            8,
+            1.0
+          ],
+          [
+            9,
+            1.0
+          ],
+          [
+            10,
+            1.0
+          ],
+          [
+            11,
+            1.0
+          ],
+          [
+            12,
+            1.0
+          ]
+        ],
+        "recovery_events": 5
+      },
+      "B_transfer_A_accuracy": 0.5,
+      "B_transfer_B_accuracy": 1.0,
+      "a1_accuracy": 1.0,
+      "a1_transfer_accuracy": 1.0,
+      "a2_entry_accuracy": 0.5,
+      "b_adapted_at_return": true,
+      "b_exit_accuracy": 1.0,
+      "retention_after_return": 0.5,
+      "retention_given_b_adaptation": 0.5,
+      "return_identifiability": {
+        "a_accuracy_ceiling_given_perfect_b": 0.5,
+        "a_probe_count": 4,
+        "b_reference_internally_consistent": true,
+        "identical_query_conflicting_a_probes": 2
+      },
+      "seed": 37,
+      "stored_bytes": 283,
+      "stored_entries": 2
+    },
+    {
+      "A2": {
+        "entry_accuracy": 0.5,
+        "exit_accuracy": 1.0,
+        "online_pre_update_accuracy": 0.6666666666666666,
+        "probe_accuracy_by_observed_events": [
+          [
+            0,
+            0.5
+          ],
+          [
+            1,
+            0.5
+          ],
+          [
+            2,
+            0.5
+          ],
+          [
+            3,
+            0.5
+          ],
+          [
+            4,
+            0.5
+          ],
+          [
+            5,
+            0.5
+          ],
+          [
+            6,
+            1.0
+          ],
+          [
+            7,
+            1.0
+          ],
+          [
+            8,
+            1.0
+          ],
+          [
+            9,
+            1.0
+          ],
+          [
+            10,
+            1.0
+          ],
+          [
+            11,
+            1.0
+          ],
+          [
+            12,
+            1.0
+          ]
+        ],
+        "recovery_events": 7
+      },
+      "A2_transfer_A_accuracy": 1.0,
+      "B": {
+        "entry_accuracy": 0.5,
+        "exit_accuracy": 1.0,
+        "online_pre_update_accuracy": 0.8333333333333334,
+        "probe_accuracy_by_observed_events": [
+          [
+            0,
+            0.5
+          ],
+          [
+            1,
+            0.5
+          ],
+          [
+            2,
+            1.0
+          ],
+          [
+            3,
+            1.0
+          ],
+          [
+            4,
+            1.0
+          ],
+          [
+            5,
+            1.0
+          ],
+          [
+            6,
+            1.0
+          ],
+          [
+            7,
+            1.0
+          ],
+          [
+            8,
+            1.0
+          ],
+          [
+            9,
+            1.0
+          ],
+          [
+            10,
+            1.0
+          ],
+          [
+            11,
+            1.0
+          ],
+          [
+            12,
+            1.0
+          ]
+        ],
+        "recovery_events": 3
+      },
+      "B_transfer_A_accuracy": 0.5,
+      "B_transfer_B_accuracy": 1.0,
+      "a1_accuracy": 1.0,
+      "a1_transfer_accuracy": 1.0,
+      "a2_entry_accuracy": 0.5,
+      "b_adapted_at_return": true,
+      "b_exit_accuracy": 1.0,
+      "retention_after_return": 0.5,
+      "retention_given_b_adaptation": 0.5,
+      "return_identifiability": {
+        "a_accuracy_ceiling_given_perfect_b": 0.5,
+        "a_probe_count": 4,
+        "b_reference_internally_consistent": true,
+        "identical_query_conflicting_a_probes": 2
+      },
+      "seed": 53,
+      "stored_bytes": 283,
+      "stored_entries": 2
+    },
+    {
+      "A2": {
+        "entry_accuracy": 0.5,
+        "exit_accuracy": 1.0,
+        "online_pre_update_accuracy": 0.6666666666666666,
+        "probe_accuracy_by_observed_events": [
+          [
+            0,
+            0.5
+          ],
+          [
+            1,
+            0.5
+          ],
+          [
+            2,
+            0.5
+          ],
+          [
+            3,
+            0.5
+          ],
+          [
+            4,
+            0.5
+          ],
+          [
+            5,
+            0.5
+          ],
+          [
+            6,
+            0.5
+          ],
+          [
+            7,
+            1.0
+          ],
+          [
+            8,
+            1.0
+          ],
+          [
+            9,
+            1.0
+          ],
+          [
+            10,
+            1.0
+          ],
+          [
+            11,
+            1.0
+          ],
+          [
+            12,
+            1.0
+          ]
+        ],
+        "recovery_events": 8
+      },
+      "A2_transfer_A_accuracy": 1.0,
+      "B": {
+        "entry_accuracy": 0.5,
+        "exit_accuracy": 1.0,
+        "online_pre_update_accuracy": 0.8333333333333334,
+        "probe_accuracy_by_observed_events": [
+          [
+            0,
+            0.5
+          ],
+          [
+            1,
+            0.5
+          ],
+          [
+            2,
+            0.5
+          ],
+          [
+            3,
+            0.5
+          ],
+          [
+            4,
+            0.5
+          ],
+          [
+            5,
+            1.0
+          ],
+          [
+            6,
+            1.0
+          ],
+          [
+            7,
+            1.0
+          ],
+          [
+            8,
+            1.0
+          ],
+          [
+            9,
+            1.0
+          ],
+          [
+            10,
+            1.0
+          ],
+          [
+            11,
+            1.0
+          ],
+          [
+            12,
+            1.0
+          ]
+        ],
+        "recovery_events": 6
+      },
+      "B_transfer_A_accuracy": 0.5,
+      "B_transfer_B_accuracy": 1.0,
+      "a1_accuracy": 1.0,
+      "a1_transfer_accuracy": 1.0,
+      "a2_entry_accuracy": 0.5,
+      "b_adapted_at_return": true,
+      "b_exit_accuracy": 1.0,
+      "retention_after_return": 0.5,
+      "retention_given_b_adaptation": 0.5,
+      "return_identifiability": {
+        "a_accuracy_ceiling_given_perfect_b": 0.5,
+        "a_probe_count": 4,
+        "b_reference_internally_consistent": true,
+        "identical_query_conflicting_a_probes": 2
+      },
+      "seed": 71,
+      "stored_bytes": 283,
+      "stored_entries": 2
+    }
+  ],
   "manifest_sha256": "a548e060fc3e161f6267571117b40f21a6498ab54089796abd52e42ce022a8c4",
   "rows": [
     {
@@ -190,6 +1604,7 @@
           "observed_events": 12
         }
       ],
+      "A2_noisy_observations": 0,
       "A2_pre_update_readout_trace": [
         {
           "diagnostic": {
@@ -900,6 +2315,60 @@
           "observed_events": 12
         }
       ],
+      "A2_probe_accuracy_by_observed_events": [
+        [
+          0,
+          0.5
+        ],
+        [
+          1,
+          0.5
+        ],
+        [
+          2,
+          0.5
+        ],
+        [
+          3,
+          0.5
+        ],
+        [
+          4,
+          0.5
+        ],
+        [
+          5,
+          0.5
+        ],
+        [
+          6,
+          1.0
+        ],
+        [
+          7,
+          1.0
+        ],
+        [
+          8,
+          1.0
+        ],
+        [
+          9,
+          1.0
+        ],
+        [
+          10,
+          1.0
+        ],
+        [
+          11,
+          1.0
+        ],
+        [
+          12,
+          1.0
+        ]
+      ],
       "A2_readout_on_A_probes": {
         "probe_count": 4,
         "variants": {
@@ -1232,6 +2701,7 @@
           "observed_events": 12
         }
       ],
+      "B_noisy_observations": 0,
       "B_pre_update_readout_trace": [
         {
           "diagnostic": {
@@ -1942,6 +3412,60 @@
           "observed_events": 12
         }
       ],
+      "B_probe_accuracy_by_observed_events": [
+        [
+          0,
+          0.5
+        ],
+        [
+          1,
+          0.5
+        ],
+        [
+          2,
+          0.5
+        ],
+        [
+          3,
+          0.5
+        ],
+        [
+          4,
+          0.5
+        ],
+        [
+          5,
+          0.5
+        ],
+        [
+          6,
+          1.0
+        ],
+        [
+          7,
+          1.0
+        ],
+        [
+          8,
+          1.0
+        ],
+        [
+          9,
+          1.0
+        ],
+        [
+          10,
+          1.0
+        ],
+        [
+          11,
+          1.0
+        ],
+        [
+          12,
+          1.0
+        ]
+      ],
       "B_readout_on_A_probes": {
         "probe_count": 4,
         "variants": {
@@ -2149,6 +3673,11 @@
         "model_events_reapplied": 56,
         "selection_events_examined": 56
       },
+      "B_split_variant_audit": {
+        "B_scope_variants": 0,
+        "adopted_off_rule_variants": 0,
+        "rows": []
+      },
       "B_split_variant_contexts": [],
       "B_transfer_on_A_probes": {
         "probe_count": 4,
@@ -2351,11 +3880,23 @@
         }
       },
       "a1_accuracy": 1.0,
+      "a2_entry_accuracy": 0.5,
       "arm": "split_on",
+      "b_adapted_at_return": true,
+      "b_exit_accuracy": 1.0,
       "contextual_drift": true,
       "contextual_proposal_enabled": false,
       "final_executed_context_splits": 0,
+      "observation_noise_fraction": 0.0,
+      "phase_context_cue": false,
       "retention_after_return": 0.5,
+      "retention_given_b_adaptation": 0.5,
+      "return_identifiability": {
+        "a_accuracy_ceiling_given_perfect_b": 0.5,
+        "a_probe_count": 4,
+        "b_reference_internally_consistent": true,
+        "identical_query_conflicting_a_probes": 2
+      },
       "seed": 11
     },
     {
@@ -2546,6 +4087,7 @@
           "observed_events": 12
         }
       ],
+      "A2_noisy_observations": 0,
       "A2_pre_update_readout_trace": [
         {
           "diagnostic": {
@@ -3256,6 +4798,60 @@
           "observed_events": 12
         }
       ],
+      "A2_probe_accuracy_by_observed_events": [
+        [
+          0,
+          0.5
+        ],
+        [
+          1,
+          0.5
+        ],
+        [
+          2,
+          0.5
+        ],
+        [
+          3,
+          0.5
+        ],
+        [
+          4,
+          0.5
+        ],
+        [
+          5,
+          0.5
+        ],
+        [
+          6,
+          1.0
+        ],
+        [
+          7,
+          1.0
+        ],
+        [
+          8,
+          1.0
+        ],
+        [
+          9,
+          1.0
+        ],
+        [
+          10,
+          1.0
+        ],
+        [
+          11,
+          1.0
+        ],
+        [
+          12,
+          1.0
+        ]
+      ],
       "A2_readout_on_A_probes": {
         "probe_count": 4,
         "variants": {
@@ -3588,6 +5184,7 @@
           "observed_events": 12
         }
       ],
+      "B_noisy_observations": 0,
       "B_pre_update_readout_trace": [
         {
           "diagnostic": {
@@ -4298,6 +5895,60 @@
           "observed_events": 12
         }
       ],
+      "B_probe_accuracy_by_observed_events": [
+        [
+          0,
+          0.5
+        ],
+        [
+          1,
+          0.5
+        ],
+        [
+          2,
+          0.5
+        ],
+        [
+          3,
+          0.5
+        ],
+        [
+          4,
+          0.5
+        ],
+        [
+          5,
+          0.5
+        ],
+        [
+          6,
+          1.0
+        ],
+        [
+          7,
+          1.0
+        ],
+        [
+          8,
+          1.0
+        ],
+        [
+          9,
+          1.0
+        ],
+        [
+          10,
+          1.0
+        ],
+        [
+          11,
+          1.0
+        ],
+        [
+          12,
+          1.0
+        ]
+      ],
       "B_readout_on_A_probes": {
         "probe_count": 4,
         "variants": {
@@ -4505,6 +6156,11 @@
         "model_events_reapplied": 56,
         "selection_events_examined": 56
       },
+      "B_split_variant_audit": {
+        "B_scope_variants": 0,
+        "adopted_off_rule_variants": 0,
+        "rows": []
+      },
       "B_split_variant_contexts": [],
       "B_transfer_on_A_probes": {
         "probe_count": 4,
@@ -4707,11 +6363,23 @@
         }
       },
       "a1_accuracy": 1.0,
+      "a2_entry_accuracy": 0.5,
       "arm": "split_off",
+      "b_adapted_at_return": true,
+      "b_exit_accuracy": 1.0,
       "contextual_drift": true,
       "contextual_proposal_enabled": false,
       "final_executed_context_splits": 0,
+      "observation_noise_fraction": 0.0,
+      "phase_context_cue": false,
       "retention_after_return": 0.5,
+      "retention_given_b_adaptation": 0.5,
+      "return_identifiability": {
+        "a_accuracy_ceiling_given_perfect_b": 0.5,
+        "a_probe_count": 4,
+        "b_reference_internally_consistent": true,
+        "identical_query_conflicting_a_probes": 2
+      },
       "seed": 11
     },
     {
@@ -4902,6 +6570,7 @@
           "observed_events": 12
         }
       ],
+      "A2_noisy_observations": 0,
       "A2_pre_update_readout_trace": [
         {
           "diagnostic": {
@@ -5612,6 +7281,60 @@
           "observed_events": 12
         }
       ],
+      "A2_probe_accuracy_by_observed_events": [
+        [
+          0,
+          0.5
+        ],
+        [
+          1,
+          0.5
+        ],
+        [
+          2,
+          0.5
+        ],
+        [
+          3,
+          0.5
+        ],
+        [
+          4,
+          0.5
+        ],
+        [
+          5,
+          0.5
+        ],
+        [
+          6,
+          1.0
+        ],
+        [
+          7,
+          1.0
+        ],
+        [
+          8,
+          1.0
+        ],
+        [
+          9,
+          1.0
+        ],
+        [
+          10,
+          1.0
+        ],
+        [
+          11,
+          1.0
+        ],
+        [
+          12,
+          1.0
+        ]
+      ],
       "A2_readout_on_A_probes": {
         "probe_count": 4,
         "variants": {
@@ -5944,6 +7667,7 @@
           "observed_events": 12
         }
       ],
+      "B_noisy_observations": 0,
       "B_pre_update_readout_trace": [
         {
           "diagnostic": {
@@ -6654,6 +8378,60 @@
           "observed_events": 12
         }
       ],
+      "B_probe_accuracy_by_observed_events": [
+        [
+          0,
+          0.5
+        ],
+        [
+          1,
+          0.5
+        ],
+        [
+          2,
+          0.5
+        ],
+        [
+          3,
+          1.0
+        ],
+        [
+          4,
+          1.0
+        ],
+        [
+          5,
+          1.0
+        ],
+        [
+          6,
+          1.0
+        ],
+        [
+          7,
+          1.0
+        ],
+        [
+          8,
+          1.0
+        ],
+        [
+          9,
+          1.0
+        ],
+        [
+          10,
+          1.0
+        ],
+        [
+          11,
+          1.0
+        ],
+        [
+          12,
+          1.0
+        ]
+      ],
       "B_readout_on_A_probes": {
         "probe_count": 4,
         "variants": {
@@ -6861,6 +8639,11 @@
         "model_events_reapplied": 26,
         "selection_events_examined": 26
       },
+      "B_split_variant_audit": {
+        "B_scope_variants": 0,
+        "adopted_off_rule_variants": 0,
+        "rows": []
+      },
       "B_split_variant_contexts": [],
       "B_transfer_on_A_probes": {
         "probe_count": 4,
@@ -7063,11 +8846,23 @@
         }
       },
       "a1_accuracy": 1.0,
+      "a2_entry_accuracy": 0.5,
       "arm": "split_on",
+      "b_adapted_at_return": true,
+      "b_exit_accuracy": 1.0,
       "contextual_drift": true,
       "contextual_proposal_enabled": false,
       "final_executed_context_splits": 0,
+      "observation_noise_fraction": 0.0,
+      "phase_context_cue": false,
       "retention_after_return": 0.5,
+      "retention_given_b_adaptation": 0.5,
+      "return_identifiability": {
+        "a_accuracy_ceiling_given_perfect_b": 0.5,
+        "a_probe_count": 4,
+        "b_reference_internally_consistent": true,
+        "identical_query_conflicting_a_probes": 2
+      },
       "seed": 23
     },
     {
@@ -7258,6 +9053,7 @@
           "observed_events": 12
         }
       ],
+      "A2_noisy_observations": 0,
       "A2_pre_update_readout_trace": [
         {
           "diagnostic": {
@@ -7968,6 +9764,60 @@
           "observed_events": 12
         }
       ],
+      "A2_probe_accuracy_by_observed_events": [
+        [
+          0,
+          0.5
+        ],
+        [
+          1,
+          0.5
+        ],
+        [
+          2,
+          0.5
+        ],
+        [
+          3,
+          0.5
+        ],
+        [
+          4,
+          0.5
+        ],
+        [
+          5,
+          0.5
+        ],
+        [
+          6,
+          1.0
+        ],
+        [
+          7,
+          1.0
+        ],
+        [
+          8,
+          1.0
+        ],
+        [
+          9,
+          1.0
+        ],
+        [
+          10,
+          1.0
+        ],
+        [
+          11,
+          1.0
+        ],
+        [
+          12,
+          1.0
+        ]
+      ],
       "A2_readout_on_A_probes": {
         "probe_count": 4,
         "variants": {
@@ -8300,6 +10150,7 @@
           "observed_events": 12
         }
       ],
+      "B_noisy_observations": 0,
       "B_pre_update_readout_trace": [
         {
           "diagnostic": {
@@ -9010,6 +10861,60 @@
           "observed_events": 12
         }
       ],
+      "B_probe_accuracy_by_observed_events": [
+        [
+          0,
+          0.5
+        ],
+        [
+          1,
+          0.5
+        ],
+        [
+          2,
+          0.5
+        ],
+        [
+          3,
+          1.0
+        ],
+        [
+          4,
+          1.0
+        ],
+        [
+          5,
+          1.0
+        ],
+        [
+          6,
+          1.0
+        ],
+        [
+          7,
+          1.0
+        ],
+        [
+          8,
+          1.0
+        ],
+        [
+          9,
+          1.0
+        ],
+        [
+          10,
+          1.0
+        ],
+        [
+          11,
+          1.0
+        ],
+        [
+          12,
+          1.0
+        ]
+      ],
       "B_readout_on_A_probes": {
         "probe_count": 4,
         "variants": {
@@ -9217,6 +11122,11 @@
         "model_events_reapplied": 26,
         "selection_events_examined": 26
       },
+      "B_split_variant_audit": {
+        "B_scope_variants": 0,
+        "adopted_off_rule_variants": 0,
+        "rows": []
+      },
       "B_split_variant_contexts": [],
       "B_transfer_on_A_probes": {
         "probe_count": 4,
@@ -9419,11 +11329,23 @@
         }
       },
       "a1_accuracy": 1.0,
+      "a2_entry_accuracy": 0.5,
       "arm": "split_off",
+      "b_adapted_at_return": true,
+      "b_exit_accuracy": 1.0,
       "contextual_drift": true,
       "contextual_proposal_enabled": false,
       "final_executed_context_splits": 0,
+      "observation_noise_fraction": 0.0,
+      "phase_context_cue": false,
       "retention_after_return": 0.5,
+      "retention_given_b_adaptation": 0.5,
+      "return_identifiability": {
+        "a_accuracy_ceiling_given_perfect_b": 0.5,
+        "a_probe_count": 4,
+        "b_reference_internally_consistent": true,
+        "identical_query_conflicting_a_probes": 2
+      },
       "seed": 23
     },
     {
@@ -9614,6 +11536,7 @@
           "observed_events": 12
         }
       ],
+      "A2_noisy_observations": 0,
       "A2_pre_update_readout_trace": [
         {
           "diagnostic": {
@@ -10324,6 +12247,60 @@
           "observed_events": 12
         }
       ],
+      "A2_probe_accuracy_by_observed_events": [
+        [
+          0,
+          0.5
+        ],
+        [
+          1,
+          0.5
+        ],
+        [
+          2,
+          0.5
+        ],
+        [
+          3,
+          0.5
+        ],
+        [
+          4,
+          0.5
+        ],
+        [
+          5,
+          0.5
+        ],
+        [
+          6,
+          0.5
+        ],
+        [
+          7,
+          0.5
+        ],
+        [
+          8,
+          1.0
+        ],
+        [
+          9,
+          1.0
+        ],
+        [
+          10,
+          1.0
+        ],
+        [
+          11,
+          1.0
+        ],
+        [
+          12,
+          1.0
+        ]
+      ],
       "A2_readout_on_A_probes": {
         "probe_count": 4,
         "variants": {
@@ -10656,6 +12633,7 @@
           "observed_events": 12
         }
       ],
+      "B_noisy_observations": 0,
       "B_pre_update_readout_trace": [
         {
           "diagnostic": {
@@ -11366,6 +13344,60 @@
           "observed_events": 12
         }
       ],
+      "B_probe_accuracy_by_observed_events": [
+        [
+          0,
+          0.5
+        ],
+        [
+          1,
+          0.5
+        ],
+        [
+          2,
+          0.5
+        ],
+        [
+          3,
+          0.5
+        ],
+        [
+          4,
+          0.5
+        ],
+        [
+          5,
+          1.0
+        ],
+        [
+          6,
+          1.0
+        ],
+        [
+          7,
+          1.0
+        ],
+        [
+          8,
+          1.0
+        ],
+        [
+          9,
+          1.0
+        ],
+        [
+          10,
+          1.0
+        ],
+        [
+          11,
+          1.0
+        ],
+        [
+          12,
+          1.0
+        ]
+      ],
       "B_readout_on_A_probes": {
         "probe_count": 4,
         "variants": {
@@ -11573,6 +13605,11 @@
         "model_events_reapplied": 45,
         "selection_events_examined": 45
       },
+      "B_split_variant_audit": {
+        "B_scope_variants": 0,
+        "adopted_off_rule_variants": 0,
+        "rows": []
+      },
       "B_split_variant_contexts": [],
       "B_transfer_on_A_probes": {
         "probe_count": 4,
@@ -11775,11 +13812,23 @@
         }
       },
       "a1_accuracy": 1.0,
+      "a2_entry_accuracy": 0.5,
       "arm": "split_on",
+      "b_adapted_at_return": true,
+      "b_exit_accuracy": 1.0,
       "contextual_drift": true,
       "contextual_proposal_enabled": false,
       "final_executed_context_splits": 0,
+      "observation_noise_fraction": 0.0,
+      "phase_context_cue": false,
       "retention_after_return": 0.5,
+      "retention_given_b_adaptation": 0.5,
+      "return_identifiability": {
+        "a_accuracy_ceiling_given_perfect_b": 0.5,
+        "a_probe_count": 4,
+        "b_reference_internally_consistent": true,
+        "identical_query_conflicting_a_probes": 2
+      },
       "seed": 37
     },
     {
@@ -11970,6 +14019,7 @@
           "observed_events": 12
         }
       ],
+      "A2_noisy_observations": 0,
       "A2_pre_update_readout_trace": [
         {
           "diagnostic": {
@@ -12680,6 +14730,60 @@
           "observed_events": 12
         }
       ],
+      "A2_probe_accuracy_by_observed_events": [
+        [
+          0,
+          0.5
+        ],
+        [
+          1,
+          0.5
+        ],
+        [
+          2,
+          0.5
+        ],
+        [
+          3,
+          0.5
+        ],
+        [
+          4,
+          0.5
+        ],
+        [
+          5,
+          0.5
+        ],
+        [
+          6,
+          0.5
+        ],
+        [
+          7,
+          0.5
+        ],
+        [
+          8,
+          1.0
+        ],
+        [
+          9,
+          1.0
+        ],
+        [
+          10,
+          1.0
+        ],
+        [
+          11,
+          1.0
+        ],
+        [
+          12,
+          1.0
+        ]
+      ],
       "A2_readout_on_A_probes": {
         "probe_count": 4,
         "variants": {
@@ -13012,6 +15116,7 @@
           "observed_events": 12
         }
       ],
+      "B_noisy_observations": 0,
       "B_pre_update_readout_trace": [
         {
           "diagnostic": {
@@ -13722,6 +15827,60 @@
           "observed_events": 12
         }
       ],
+      "B_probe_accuracy_by_observed_events": [
+        [
+          0,
+          0.5
+        ],
+        [
+          1,
+          0.5
+        ],
+        [
+          2,
+          0.5
+        ],
+        [
+          3,
+          0.5
+        ],
+        [
+          4,
+          0.5
+        ],
+        [
+          5,
+          1.0
+        ],
+        [
+          6,
+          1.0
+        ],
+        [
+          7,
+          1.0
+        ],
+        [
+          8,
+          1.0
+        ],
+        [
+          9,
+          1.0
+        ],
+        [
+          10,
+          1.0
+        ],
+        [
+          11,
+          1.0
+        ],
+        [
+          12,
+          1.0
+        ]
+      ],
       "B_readout_on_A_probes": {
         "probe_count": 4,
         "variants": {
@@ -13929,6 +16088,11 @@
         "model_events_reapplied": 45,
         "selection_events_examined": 45
       },
+      "B_split_variant_audit": {
+        "B_scope_variants": 0,
+        "adopted_off_rule_variants": 0,
+        "rows": []
+      },
       "B_split_variant_contexts": [],
       "B_transfer_on_A_probes": {
         "probe_count": 4,
@@ -14131,11 +16295,23 @@
         }
       },
       "a1_accuracy": 1.0,
+      "a2_entry_accuracy": 0.5,
       "arm": "split_off",
+      "b_adapted_at_return": true,
+      "b_exit_accuracy": 1.0,
       "contextual_drift": true,
       "contextual_proposal_enabled": false,
       "final_executed_context_splits": 0,
+      "observation_noise_fraction": 0.0,
+      "phase_context_cue": false,
       "retention_after_return": 0.5,
+      "retention_given_b_adaptation": 0.5,
+      "return_identifiability": {
+        "a_accuracy_ceiling_given_perfect_b": 0.5,
+        "a_probe_count": 4,
+        "b_reference_internally_consistent": true,
+        "identical_query_conflicting_a_probes": 2
+      },
       "seed": 37
     },
     {
@@ -14326,6 +16502,7 @@
           "observed_events": 12
         }
       ],
+      "A2_noisy_observations": 0,
       "A2_pre_update_readout_trace": [
         {
           "diagnostic": {
@@ -15036,6 +17213,60 @@
           "observed_events": 12
         }
       ],
+      "A2_probe_accuracy_by_observed_events": [
+        [
+          0,
+          0.5
+        ],
+        [
+          1,
+          0.5
+        ],
+        [
+          2,
+          0.5
+        ],
+        [
+          3,
+          0.5
+        ],
+        [
+          4,
+          1.0
+        ],
+        [
+          5,
+          1.0
+        ],
+        [
+          6,
+          1.0
+        ],
+        [
+          7,
+          1.0
+        ],
+        [
+          8,
+          1.0
+        ],
+        [
+          9,
+          1.0
+        ],
+        [
+          10,
+          1.0
+        ],
+        [
+          11,
+          1.0
+        ],
+        [
+          12,
+          1.0
+        ]
+      ],
       "A2_readout_on_A_probes": {
         "probe_count": 4,
         "variants": {
@@ -15368,6 +17599,7 @@
           "observed_events": 12
         }
       ],
+      "B_noisy_observations": 0,
       "B_pre_update_readout_trace": [
         {
           "diagnostic": {
@@ -16078,6 +18310,60 @@
           "observed_events": 12
         }
       ],
+      "B_probe_accuracy_by_observed_events": [
+        [
+          0,
+          0.5
+        ],
+        [
+          1,
+          0.5
+        ],
+        [
+          2,
+          0.5
+        ],
+        [
+          3,
+          1.0
+        ],
+        [
+          4,
+          1.0
+        ],
+        [
+          5,
+          1.0
+        ],
+        [
+          6,
+          1.0
+        ],
+        [
+          7,
+          1.0
+        ],
+        [
+          8,
+          1.0
+        ],
+        [
+          9,
+          1.0
+        ],
+        [
+          10,
+          1.0
+        ],
+        [
+          11,
+          1.0
+        ],
+        [
+          12,
+          1.0
+        ]
+      ],
       "B_readout_on_A_probes": {
         "probe_count": 4,
         "variants": {
@@ -16285,6 +18571,11 @@
         "model_events_reapplied": 26,
         "selection_events_examined": 26
       },
+      "B_split_variant_audit": {
+        "B_scope_variants": 0,
+        "adopted_off_rule_variants": 0,
+        "rows": []
+      },
       "B_split_variant_contexts": [],
       "B_transfer_on_A_probes": {
         "probe_count": 4,
@@ -16487,11 +18778,23 @@
         }
       },
       "a1_accuracy": 1.0,
+      "a2_entry_accuracy": 0.5,
       "arm": "split_on",
+      "b_adapted_at_return": true,
+      "b_exit_accuracy": 1.0,
       "contextual_drift": true,
       "contextual_proposal_enabled": false,
       "final_executed_context_splits": 0,
+      "observation_noise_fraction": 0.0,
+      "phase_context_cue": false,
       "retention_after_return": 0.5,
+      "retention_given_b_adaptation": 0.5,
+      "return_identifiability": {
+        "a_accuracy_ceiling_given_perfect_b": 0.5,
+        "a_probe_count": 4,
+        "b_reference_internally_consistent": true,
+        "identical_query_conflicting_a_probes": 2
+      },
       "seed": 53
     },
     {
@@ -16682,6 +18985,7 @@
           "observed_events": 12
         }
       ],
+      "A2_noisy_observations": 0,
       "A2_pre_update_readout_trace": [
         {
           "diagnostic": {
@@ -17392,6 +19696,60 @@
           "observed_events": 12
         }
       ],
+      "A2_probe_accuracy_by_observed_events": [
+        [
+          0,
+          0.5
+        ],
+        [
+          1,
+          0.5
+        ],
+        [
+          2,
+          0.5
+        ],
+        [
+          3,
+          0.5
+        ],
+        [
+          4,
+          1.0
+        ],
+        [
+          5,
+          1.0
+        ],
+        [
+          6,
+          1.0
+        ],
+        [
+          7,
+          1.0
+        ],
+        [
+          8,
+          1.0
+        ],
+        [
+          9,
+          1.0
+        ],
+        [
+          10,
+          1.0
+        ],
+        [
+          11,
+          1.0
+        ],
+        [
+          12,
+          1.0
+        ]
+      ],
       "A2_readout_on_A_probes": {
         "probe_count": 4,
         "variants": {
@@ -17724,6 +20082,7 @@
           "observed_events": 12
         }
       ],
+      "B_noisy_observations": 0,
       "B_pre_update_readout_trace": [
         {
           "diagnostic": {
@@ -18434,6 +20793,60 @@
           "observed_events": 12
         }
       ],
+      "B_probe_accuracy_by_observed_events": [
+        [
+          0,
+          0.5
+        ],
+        [
+          1,
+          0.5
+        ],
+        [
+          2,
+          0.5
+        ],
+        [
+          3,
+          1.0
+        ],
+        [
+          4,
+          1.0
+        ],
+        [
+          5,
+          1.0
+        ],
+        [
+          6,
+          1.0
+        ],
+        [
+          7,
+          1.0
+        ],
+        [
+          8,
+          1.0
+        ],
+        [
+          9,
+          1.0
+        ],
+        [
+          10,
+          1.0
+        ],
+        [
+          11,
+          1.0
+        ],
+        [
+          12,
+          1.0
+        ]
+      ],
       "B_readout_on_A_probes": {
         "probe_count": 4,
         "variants": {
@@ -18641,6 +21054,11 @@
         "model_events_reapplied": 26,
         "selection_events_examined": 26
       },
+      "B_split_variant_audit": {
+        "B_scope_variants": 0,
+        "adopted_off_rule_variants": 0,
+        "rows": []
+      },
       "B_split_variant_contexts": [],
       "B_transfer_on_A_probes": {
         "probe_count": 4,
@@ -18843,11 +21261,23 @@
         }
       },
       "a1_accuracy": 1.0,
+      "a2_entry_accuracy": 0.5,
       "arm": "split_off",
+      "b_adapted_at_return": true,
+      "b_exit_accuracy": 1.0,
       "contextual_drift": true,
       "contextual_proposal_enabled": false,
       "final_executed_context_splits": 0,
+      "observation_noise_fraction": 0.0,
+      "phase_context_cue": false,
       "retention_after_return": 0.5,
+      "retention_given_b_adaptation": 0.5,
+      "return_identifiability": {
+        "a_accuracy_ceiling_given_perfect_b": 0.5,
+        "a_probe_count": 4,
+        "b_reference_internally_consistent": true,
+        "identical_query_conflicting_a_probes": 2
+      },
       "seed": 53
     },
     {
@@ -19038,6 +21468,7 @@
           "observed_events": 12
         }
       ],
+      "A2_noisy_observations": 0,
       "A2_pre_update_readout_trace": [
         {
           "diagnostic": {
@@ -19748,6 +22179,60 @@
           "observed_events": 12
         }
       ],
+      "A2_probe_accuracy_by_observed_events": [
+        [
+          0,
+          0.5
+        ],
+        [
+          1,
+          0.5
+        ],
+        [
+          2,
+          0.5
+        ],
+        [
+          3,
+          0.5
+        ],
+        [
+          4,
+          0.5
+        ],
+        [
+          5,
+          0.5
+        ],
+        [
+          6,
+          1.0
+        ],
+        [
+          7,
+          1.0
+        ],
+        [
+          8,
+          1.0
+        ],
+        [
+          9,
+          1.0
+        ],
+        [
+          10,
+          1.0
+        ],
+        [
+          11,
+          1.0
+        ],
+        [
+          12,
+          1.0
+        ]
+      ],
       "A2_readout_on_A_probes": {
         "probe_count": 4,
         "variants": {
@@ -20080,6 +22565,7 @@
           "observed_events": 12
         }
       ],
+      "B_noisy_observations": 0,
       "B_pre_update_readout_trace": [
         {
           "diagnostic": {
@@ -20790,6 +23276,60 @@
           "observed_events": 12
         }
       ],
+      "B_probe_accuracy_by_observed_events": [
+        [
+          0,
+          0.5
+        ],
+        [
+          1,
+          0.5
+        ],
+        [
+          2,
+          0.5
+        ],
+        [
+          3,
+          0.5
+        ],
+        [
+          4,
+          0.5
+        ],
+        [
+          5,
+          0.5
+        ],
+        [
+          6,
+          1.0
+        ],
+        [
+          7,
+          1.0
+        ],
+        [
+          8,
+          1.0
+        ],
+        [
+          9,
+          1.0
+        ],
+        [
+          10,
+          1.0
+        ],
+        [
+          11,
+          1.0
+        ],
+        [
+          12,
+          1.0
+        ]
+      ],
       "B_readout_on_A_probes": {
         "probe_count": 4,
         "variants": {
@@ -20997,6 +23537,11 @@
         "model_events_reapplied": 56,
         "selection_events_examined": 56
       },
+      "B_split_variant_audit": {
+        "B_scope_variants": 0,
+        "adopted_off_rule_variants": 0,
+        "rows": []
+      },
       "B_split_variant_contexts": [],
       "B_transfer_on_A_probes": {
         "probe_count": 4,
@@ -21199,11 +23744,23 @@
         }
       },
       "a1_accuracy": 1.0,
+      "a2_entry_accuracy": 0.5,
       "arm": "split_on",
+      "b_adapted_at_return": true,
+      "b_exit_accuracy": 1.0,
       "contextual_drift": true,
       "contextual_proposal_enabled": false,
       "final_executed_context_splits": 0,
+      "observation_noise_fraction": 0.0,
+      "phase_context_cue": false,
       "retention_after_return": 0.5,
+      "retention_given_b_adaptation": 0.5,
+      "return_identifiability": {
+        "a_accuracy_ceiling_given_perfect_b": 0.5,
+        "a_probe_count": 4,
+        "b_reference_internally_consistent": true,
+        "identical_query_conflicting_a_probes": 2
+      },
       "seed": 71
     },
     {
@@ -21394,6 +23951,7 @@
           "observed_events": 12
         }
       ],
+      "A2_noisy_observations": 0,
       "A2_pre_update_readout_trace": [
         {
           "diagnostic": {
@@ -22104,6 +24662,60 @@
           "observed_events": 12
         }
       ],
+      "A2_probe_accuracy_by_observed_events": [
+        [
+          0,
+          0.5
+        ],
+        [
+          1,
+          0.5
+        ],
+        [
+          2,
+          0.5
+        ],
+        [
+          3,
+          0.5
+        ],
+        [
+          4,
+          0.5
+        ],
+        [
+          5,
+          0.5
+        ],
+        [
+          6,
+          1.0
+        ],
+        [
+          7,
+          1.0
+        ],
+        [
+          8,
+          1.0
+        ],
+        [
+          9,
+          1.0
+        ],
+        [
+          10,
+          1.0
+        ],
+        [
+          11,
+          1.0
+        ],
+        [
+          12,
+          1.0
+        ]
+      ],
       "A2_readout_on_A_probes": {
         "probe_count": 4,
         "variants": {
@@ -22436,6 +25048,7 @@
           "observed_events": 12
         }
       ],
+      "B_noisy_observations": 0,
       "B_pre_update_readout_trace": [
         {
           "diagnostic": {
@@ -23146,6 +25759,60 @@
           "observed_events": 12
         }
       ],
+      "B_probe_accuracy_by_observed_events": [
+        [
+          0,
+          0.5
+        ],
+        [
+          1,
+          0.5
+        ],
+        [
+          2,
+          0.5
+        ],
+        [
+          3,
+          0.5
+        ],
+        [
+          4,
+          0.5
+        ],
+        [
+          5,
+          0.5
+        ],
+        [
+          6,
+          1.0
+        ],
+        [
+          7,
+          1.0
+        ],
+        [
+          8,
+          1.0
+        ],
+        [
+          9,
+          1.0
+        ],
+        [
+          10,
+          1.0
+        ],
+        [
+          11,
+          1.0
+        ],
+        [
+          12,
+          1.0
+        ]
+      ],
       "B_readout_on_A_probes": {
         "probe_count": 4,
         "variants": {
@@ -23353,6 +26020,11 @@
         "model_events_reapplied": 56,
         "selection_events_examined": 56
       },
+      "B_split_variant_audit": {
+        "B_scope_variants": 0,
+        "adopted_off_rule_variants": 0,
+        "rows": []
+      },
       "B_split_variant_contexts": [],
       "B_transfer_on_A_probes": {
         "probe_count": 4,
@@ -23555,11 +26227,23 @@
         }
       },
       "a1_accuracy": 1.0,
+      "a2_entry_accuracy": 0.5,
       "arm": "split_off",
+      "b_adapted_at_return": true,
+      "b_exit_accuracy": 1.0,
       "contextual_drift": true,
       "contextual_proposal_enabled": false,
       "final_executed_context_splits": 0,
+      "observation_noise_fraction": 0.0,
+      "phase_context_cue": false,
       "retention_after_return": 0.5,
+      "retention_given_b_adaptation": 0.5,
+      "return_identifiability": {
+        "a_accuracy_ceiling_given_perfect_b": 0.5,
+        "a_probe_count": 4,
+        "b_reference_internally_consistent": true,
+        "identical_query_conflicting_a_probes": 2
+      },
       "seed": 71
     }
   ],

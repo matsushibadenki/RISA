@@ -1,0 +1,14 @@
+{
+  "benchmark_version": "g3.2-contextual-return-cue-20-development-v1",
+  "seeds": [11, 23, 37, 53, 71],
+  "a1_observations": 10,
+  "phase_observations": 20,
+  "contextual_drift": true,
+  "phase_context_cue": true,
+  "include_contextual_proposal": true,
+  "observation_noise_fraction": 0.2,
+  "split_validation_labels_per_context": 8,
+  "replay_interval": 1,
+  "replay_max_events": 50,
+  "recovery_window": 2
+}

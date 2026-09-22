@@ -8,10 +8,10 @@ from experiments.g3_drift_preflight import ARMS, _events, mechanism_opportunity_
 from experiments.g3_lifecycle_readiness import run_lifecycle_readiness
 from experiments.g3_drift_candidate_primed import run_candidate_primed_preflight
 from experiments.g3_split_drift_opportunity import (
-    _events as split_events, run_split_opportunity,
+    _events as split_events, _probes as split_probes, run_split_opportunity,
 )
 from risa.core.models import (
-    Event, Node, ReplaySummary, StructuralAdaptationCandidate,
+    Event, Node, ReplaySummary, StructuralAdaptationCandidate, StructuralPrimitive,
     UnnamedConceptCandidate,
 )
 from risa.core.models import PredictionQuery
@@ -25,21 +25,30 @@ from risa.engine.candidate_discovery import (
 )
 from risa.engine.candidate_lifecycle import capture_context_conditions
 from risa.engine.runtime import TrainingOptions, train_events
+from risa.engine.predictor import (
+    _matching_primitives, _primitive_support, predict_next_effect,
+)
 from risa.evaluation.candidate_extension import CandidateExtensionValidator, ExtensionProbe
 from risa.evaluation.candidate_adoption import ApplicabilityProbe, evaluate_candidate_on_probes
 from risa.evaluation.drift_metrics import (
     adaptation_touch_counts,
     mechanism_delta,
     recovery_events,
+    retention_adaptation_audit,
     replay_cost,
     snapshot_mechanisms,
     snapshot_structures,
 )
 from risa.evaluation.drift_runner import (
-    DriftProbe, ValidationStepResult, run_aba, run_drift_phase,
+    DriftProbe, ValidationStepResult, probe_return_identifiability, run_aba,
+    run_drift_phase,
 )
 from risa.evaluation.replay_diagnostics import contextual_replay_errors
 from risa.evaluation.readout_attribution import attribute_prediction_readout
+from risa.evaluation.grounded_role_baseline import (
+    GroundedRoleCountBaseline, GroundedRoleTransitionBaseline,
+)
+from risa.evaluation.split_variant_validation import audit_split_variants_on_probes
 
 
 def test_touch_ratio_excludes_access_counters_and_counts_removal() -> None:
@@ -114,6 +123,53 @@ def test_aba_runner_reports_pre_relearning_retention() -> None:
     assert result["retention_after_return"] == result["a2_entry_accuracy"]
     assert "probe:a" not in state.events_by_id
     assert "probe:b" not in state.events_by_id
+
+
+def test_retention_requires_b_adaptation_for_qualified_interpretation() -> None:
+    underadapted = retention_adaptation_audit(
+        a1_accuracy=1.0, b_exit_accuracy=0.5, a2_entry_accuracy=1.0,
+    )
+    assert underadapted["retention_after_return"] == 1.0
+    assert underadapted["b_adapted_at_return"] is False
+    assert underadapted["retention_given_b_adaptation"] is None
+    adapted = retention_adaptation_audit(
+        a1_accuracy=1.0, b_exit_accuracy=1.0, a2_entry_accuracy=0.5,
+    )
+    assert adapted["b_adapted_at_return"] is True
+    assert adapted["retention_given_b_adaptation"] == 0.5
+    assert retention_adaptation_audit(
+        a1_accuracy=0.0, b_exit_accuracy=1.0, a2_entry_accuracy=0.0,
+    )["retention_given_b_adaptation"] is None
+    with pytest.raises(ValueError, match="probe accuracies"):
+        retention_adaptation_audit(
+            a1_accuracy=1.0, b_exit_accuracy=1.1, a2_entry_accuracy=1.0,
+        )
+
+
+def test_return_probe_identifiability_detects_same_query_conflict() -> None:
+    indoor = PredictionQuery("actor", "inspect", "device", context_tags=["indoor"])
+    outdoor = replace(indoor, context_tags=["outdoor"])
+    a = [DriftProbe("a:indoor", indoor, ("warm",)),
+         DriftProbe("a:outdoor", outdoor, ("warm",))]
+    b = [DriftProbe("b:indoor", indoor, ("cold",)),
+         DriftProbe("b:outdoor", outdoor, ("warm",))]
+    audit = probe_return_identifiability(a, b)
+    assert audit == {
+        "identical_query_conflicting_a_probes": 1,
+        "a_probe_count": 2,
+        "b_reference_internally_consistent": True,
+        "a_accuracy_ceiling_given_perfect_b": 0.5,
+    }
+    cued_b = [replace(probe, query=replace(probe.query, context_tags=[
+        *probe.query.context_tags, "phase:B",
+    ])) for probe in b]
+    assert probe_return_identifiability(a, cued_b)[
+        "a_accuracy_ceiling_given_perfect_b"
+    ] == 1.0
+    contradictory_b = b + [DriftProbe("b:other", indoor, ("warm",))]
+    assert probe_return_identifiability(a, contradictory_b)[
+        "a_accuracy_ceiling_given_perfect_b"
+    ] is None
 
 
 def test_aba_validation_counts_labels_under_shared_budget() -> None:
@@ -507,6 +563,195 @@ def test_contextual_split_proposal_triggers_but_can_delay_recovery() -> None:
     transfer = contextual_rule["B_transfer_on_B_probes"]["variants"]
     assert transfer["full"]["accuracy"] == 1.0
     assert transfer["no_primitive"]["predictions_changed_vs_full"] == 0
+
+
+def test_grounded_role_baseline_uses_only_observed_role_context() -> None:
+    model = GroundedRoleTransitionBaseline()
+    indoor = PredictionQuery(
+        "new-actor", "inspect", "new-device",
+        target_roles=["device"], context_tags=["indoor"],
+    )
+    outdoor = replace(indoor, context_tags=["outdoor"])
+    missing_role = replace(indoor, target_roles=[])
+    assert model.predict(indoor) == ()
+    model.observe(Event(
+        "a1:role", 1, "old-actor", "inspect", target="old-device",
+        target_roles=["device"], context_tags=["indoor"],
+        observed_effects=["warm"],
+    ))
+    assert model.predict(indoor) == ("warm",)
+    assert model.predict(outdoor) == model.predict(missing_role) == ()
+    model.observe(Event(
+        "b:role", 2, "old-actor", "inspect", target="old-device",
+        target_roles=["device"], context_tags=["indoor"],
+        observed_effects=["cold"],
+    ))
+    assert model.predict(indoor) == ("cold",)
+
+
+def test_grounded_role_count_baseline_votes_and_breaks_ties_by_recency() -> None:
+    model = GroundedRoleCountBaseline()
+    query = PredictionQuery(
+        "new-actor", "inspect", "new-device",
+        target_roles=["device"], context_tags=["indoor"],
+    )
+    assert model.predict(query) == ()
+    for index, effect in enumerate(("warm", "warm", "cold", "cold", "warm"), 1):
+        model.observe(Event(
+            f"vote:{index}", index, "old-actor", "inspect", target="old-device",
+            target_roles=["device"], context_tags=["indoor"],
+            observed_effects=[effect],
+        ))
+        assert model.predict(query) == (
+            ("warm",) if index != 4 else ("cold",)
+        )
+    assert model.stored_bytes() > 0
+
+
+def test_role_baseline_is_stronger_on_contextual_drift_development_world() -> None:
+    result = run_split_opportunity({
+        "benchmark_version": "test-role-baseline",
+        "seeds": [23], "a1_observations": 4,
+        "phase_observations": 12, "contextual_drift": True,
+        "include_contextual_proposal": True,
+        "replay_interval": 1, "replay_max_events": 28,
+        "recovery_window": 2,
+    })
+    baseline = result["grounded_role_baseline_rows"][0]
+    contextual = next(row for row in result["rows"] if row["arm"] == "contextual_split")
+    assert baseline["B"]["online_pre_update_accuracy"] == 11 / 12
+    assert baseline["A2"]["online_pre_update_accuracy"] == 11 / 12
+    assert baseline["B"]["recovery_events"] < contextual["B_recovery_events"]
+    assert baseline["A2"]["recovery_events"] < contextual["A2_recovery_events"]
+    assert baseline["retention_after_return"] == contextual["retention_after_return"]
+
+
+def test_contextual_observation_noise_is_balanced_and_probes_latent_rule() -> None:
+    for phase in ("B", "A2"):
+        clean = split_events(11, phase, 20, True)
+        noisy = split_events(11, phase, 20, True, 0.2)
+        assert [event.id for event in noisy] == [event.id for event in clean]
+        assert [event.context_tags for event in noisy] == [event.context_tags for event in clean]
+        changed = [event for event, original in zip(noisy, clean)
+                   if event.observed_effects != original.observed_effects]
+        assert len(changed) == 4
+        assert sum(event.context_tags == ["indoor"] for event in changed) == 2
+        assert sum(event.context_tags == ["outdoor"] for event in changed) == 2
+        probes = split_probes(11, "B" if phase == "B" else "A", True)
+        assert [probe.expected_effects for probe in probes] == (
+            [("cold",), ("warm",)] * 2 if phase == "B" else [("warm",)] * 4
+        )
+    assert [event.observed_effects for event in split_events(11, "A1", 10, True, 0.2)] == [
+        ["warm"]
+    ] * 10
+    with pytest.raises(ValueError, match="exact count"):
+        split_events(11, "B", 12, True, 0.2)
+
+
+def test_return_cue_is_observable_and_removes_exact_query_conflict() -> None:
+    a1 = split_events(11, "A1", 10, True, phase_context_cue=True)
+    b = split_events(11, "B", 20, True, 0.2, True)
+    a2 = split_events(11, "A2", 20, True, 0.2, True)
+    assert {tuple(event.context_tags) for event in a1} == {
+        ("indoor", "regime:A"), ("outdoor", "regime:A")
+    }
+    assert {tuple(event.context_tags) for event in b} == {
+        ("indoor", "regime:B"), ("outdoor", "regime:B")
+    }
+    assert {tuple(event.context_tags) for event in a2} == {
+        ("indoor", "regime:A"), ("outdoor", "regime:A")
+    }
+    assert all(event.observed_effects == ["warm"] for event in a1)
+    assert sum(event.observed_effects != [
+        "cold" if event.context_tags[0] == "indoor" else "warm"
+    ] for event in b) == 4
+    audit = probe_return_identifiability(
+        split_probes(11, "A", True, True), split_probes(11, "B", True, True)
+    )
+    assert audit["identical_query_conflicting_a_probes"] == 0
+    assert audit["a_accuracy_ceiling_given_perfect_b"] == 1.0
+
+
+def test_noisy_return_cue_audits_adopted_off_rule_split_variants() -> None:
+    result = run_split_opportunity({
+        "benchmark_version": "test-return-cue-variant-audit",
+        "seeds": [11], "a1_observations": 10, "phase_observations": 20,
+        "contextual_drift": True, "phase_context_cue": True,
+        "include_contextual_proposal": True,
+        "observation_noise_fraction": 0.2,
+        "split_validation_labels_per_context": 8,
+        "replay_interval": 1, "replay_max_events": 50,
+        "recovery_window": 2,
+    })
+    rows = {row["arm"]: row for row in result["rows"]}
+    assert rows["split_off"]["B_split_variant_audit"]["B_scope_variants"] == 0
+    contextual = rows["contextual_split"]["B_split_variant_audit"]
+    assert contextual["B_scope_variants"] == 4
+    assert contextual["adopted_off_rule_variants"] == 2
+    assert sorted(row["support"] for row in contextual["rows"]
+                  if row["adopted"] and not row["matches_B_latent_rule"]) == [2, 2]
+    heldout = rows["contextual_split"]["B_split_heldout_validation"]
+    assert heldout["available_labels"] == heldout["consumed_labels"] == 16
+    assert heldout["variant_evaluations"] == 4
+    assert heldout["adopted_variants_failing_heldout"] == 2
+    assert sorted(row["heldout_accuracy"] for row in heldout["rows"]) == [0.0, 0.0, 1.0, 1.0]
+    assert rows["contextual_split"]["B_probe_accuracy_by_observed_events"] == (
+        rows["split_off"]["B_probe_accuracy_by_observed_events"]
+    )
+
+
+def test_split_variant_heldout_audit_is_read_only_and_rejects_label_overlap() -> None:
+    state = RisaState()
+    primitive = StructuralPrimitive(
+        id="primitive:inspect->warm::context:indoor",
+        relation_type="transition", role_signature="entity->process->state",
+        input_conditions={"process:inspect"}, output_state="warm",
+        context_tags={"indoor"}, support=2, adopted=True,
+    )
+    state.structural_primitives[primitive.id] = primitive
+    probe = DriftProbe("validation:indoor", PredictionQuery(
+        "new-actor", "inspect", context_tags=["indoor"]
+    ), ("cold",))
+    before = copy.deepcopy(state.to_dict())
+    result = audit_split_variants_on_probes(state, [probe])
+    assert result["adopted_variants_failing_heldout"] == 1
+    assert result["rows"][0]["heldout_accuracy"] == 0.0
+    assert state.to_dict() == before
+    with pytest.raises(ValueError, match="overlap"):
+        audit_split_variants_on_probes(state, [probe], scoring_probe_ids={probe.id})
+    with pytest.raises(ValueError, match="unique"):
+        audit_split_variants_on_probes(state, [probe, probe])
+
+
+def test_split_variant_support_requires_exact_context_match() -> None:
+    state = RisaState()
+    split = StructuralPrimitive(
+        id="primitive:inspect->warm::context:indoor|regime:a",
+        relation_type="transition", role_signature="entity->process->state",
+        input_conditions={"process:inspect"}, output_state="warm",
+        context_tags={"indoor", "regime:a"}, support=5,
+        validation_score=1.0, adopted=True,
+    )
+    state.structural_primitives[split.id] = split
+    assert _primitive_support(state, "inspect", "warm", "indoor|regime:a") == 1.0
+    assert _primitive_support(state, "inspect", "warm", "indoor|regime:b") == 0.0
+    assert _matching_primitives(
+        state, "inspect", "warm", context_key="indoor|regime:b"
+    ) == []
+    assert predict_next_effect(state, PredictionQuery(
+        "actor", "inspect", context_tags=["indoor", "regime:B"]
+    )).predicted_effects == []
+    exact = predict_next_effect(state, PredictionQuery(
+        "actor", "inspect", context_tags=["indoor", "regime:A"]
+    ))
+    assert exact.predicted_effects == ["warm"]
+    assert any(split.id in path for path in exact.supporting_paths)
+    unsplit = replace(split, id="primitive:inspect->warm")
+    state.structural_primitives = {unsplit.id: unsplit}
+    assert _primitive_support(state, "inspect", "warm", "indoor|regime:b") == 0.5
+    assert _matching_primitives(
+        state, "inspect", "warm", context_key="indoor|regime:b"
+    ) == [unsplit]
 
 
 def test_contextual_split_proposal_does_not_split_fully_stable_world() -> None:

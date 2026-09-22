@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass, replace
+from dataclasses import asdict, dataclass, replace
+import json
 from typing import Callable
 
 from risa.core.models import Event, PredictionQuery, ReplaySummary
@@ -13,6 +14,7 @@ from risa.evaluation.drift_metrics import (
     adaptation_touch_counts,
     mechanism_delta,
     recovery_events,
+    retention_adaptation_audit,
     replay_cost,
     snapshot_mechanisms,
     snapshot_structures,
@@ -36,6 +38,35 @@ class ValidationStepResult:
 
 ValidationStep = Callable[[RisaState, int, Event, int | None], ValidationStepResult]
 PreUpdateDiagnostic = Callable[[RisaState, int, Event], dict[str, object]]
+
+
+def probe_return_identifiability(
+    a_probes: list[DriftProbe], b_probes: list[DriftProbe],
+) -> dict[str, object]:
+    """Audit contradictions at an unchanged state with the exact same query."""
+    if not a_probes or not b_probes:
+        raise ValueError("both A and B probe panels are required")
+
+    def key(probe: DriftProbe) -> str:
+        return json.dumps(asdict(probe.query), sort_keys=True, ensure_ascii=False)
+
+    b_targets: dict[str, set[tuple[str, ...]]] = {}
+    for probe in b_probes:
+        b_targets.setdefault(key(probe), set()).add(tuple(sorted(probe.expected_effects)))
+    b_consistent = all(len(targets) == 1 for targets in b_targets.values())
+    conflicts = sum(
+        key(probe) in b_targets
+        and tuple(sorted(probe.expected_effects)) not in b_targets[key(probe)]
+        for probe in a_probes
+    )
+    return {
+        "identical_query_conflicting_a_probes": conflicts,
+        "a_probe_count": len(a_probes),
+        "b_reference_internally_consistent": b_consistent,
+        "a_accuracy_ceiling_given_perfect_b": (
+            (len(a_probes) - conflicts) / len(a_probes) if b_consistent else None
+        ),
+    }
 
 
 def _assert_scoring_probes_unseen(state: RisaState, protected_ids: set[str]) -> None:
@@ -258,6 +289,11 @@ def run_aba(
         protected_probe_ids=protected,
     )
     a2_entry_accuracy = probe_success(state, a_probes)
+    retention_audit = retention_adaptation_audit(
+        a1_accuracy=a1_accuracy, b_exit_accuracy=b["exit_accuracy"],
+        a2_entry_accuracy=a2_entry_accuracy,
+        b_reference_accuracy=b_reference_accuracy,
+    )
     a2 = run_drift_phase(
         state, a2_observations, a_probes, options,
         reference_accuracy=a1_accuracy,
@@ -273,10 +309,8 @@ def run_aba(
     )
     return {
         "a1_accuracy": a1_accuracy,
-        "retention_after_return": (
-            a2_entry_accuracy / a1_accuracy if a1_accuracy else None
-        ),
-        "a2_entry_accuracy": a2_entry_accuracy,
+        **retention_audit,
+        "return_identifiability": probe_return_identifiability(a_probes, b_probes),
         "B": b,
         "A2": a2,
         "validation_labels_total": (
