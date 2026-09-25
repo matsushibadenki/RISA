@@ -1,6 +1,6 @@
 # RISA Roadmap / RISA ロードマップ / RISA 路线图
 
-Updated: 2026-09-16. [Design assessment / 設計評価 / 设计评估](RISA-Structural-AI-Assessment-2026-09-05.md)
+Updated: 2026-09-25. [Design assessment / 設計評価 / 设计评估](RISA-Structural-AI-Assessment-2026-09-05.md)
 
 ## Authority and objective / 位置付けと目的 / 定位与目标
 
@@ -267,6 +267,8 @@ G2.4已完成context schema闭环；G2.5的一hop结构role与外部role持平�
 - [Next] G3.2: 開発seedで機構機会とラベル予算を固定した後、同一worldの個別ablationと強いbaselineで回復・保持・局所更新・Replay量を独立評価 / Freeze mechanism opportunities and label budgets on development seeds, then compare one-factor ablations and strong baselines on the same independent drift worlds for recovery, retention, local updates and Replay work / 在开发seed固定机制机会与标签预算后，于相同独立漂移环境中比较单因素消融和强基线的恢复、保留、局部更新及重放工作量
 - [Later] G3.3: 1k→10k→100k Eventでingestion、graph更新、候補発見、凝縮、予測、計画、Replay、保存をend-to-end測定。1Mは先行する3規模の結果で判断 / Profile end-to-end ingestion through persistence at 1k, 10k and 100k Events; decide on 1M from those results / 在1千、1万及10万Event下端到端测量摄取至持久化；根据前三种规模决定是否测试100万
 - [Later] G3.4: Eventあたり保存量・active構造数・候補数・記述長とqueryあたり探索量の成長曲線を測る / Measure growth curves for bytes, active structures, candidates and description length per Event, and search work per query / 测量每Event的存储量、活跃结构数、候选数及描述长度，以及每query探索量的增长曲线
+- [Later] G3.5 RetNet由来の同値実行研究: 構造summaryに限り、offline並列・online逐次・chunk逐次の3経路を同一意味論から導出し、全`PredictionResult`・採用判断・永続化checkpointの完全一致を先に検証。逐次状態bytesと1 Eventあたり更新量が履歴長に依存しないか測る / RetNet-inspired equivalent execution: derive offline-parallel, online-recurrent and chunk-recurrent paths for structural summaries from one semantic contract; first require exact equality of every `PredictionResult`, adoption decision and persistence checkpoint, then test whether recurrent state bytes and per-Event update work are history-length invariant / RetNet启发的等价执行研究：仅针对结构摘要，从同一语义契约推导离线并行、在线递归及分块递归三条路径；先验证全部`PredictionResult`、采纳决定及持久化checkpoint完全一致，再测量递归状态字节数和每Event更新量是否不随历史长度增长
+- [Later] G3.6 多時間尺度保持ablation: 短期・中期・長期の固定減衰summaryを、減衰なし・単一減衰・現行Replay/休眠と同一予算で比較。G3.2の回復・保持・誤一般化・Replay費用に加え、各尺度の状態bytesと更新時間を報告し、学習済み構造や出典Eventを減衰summaryで置換しない / Multi-timescale retention ablation: compare fixed short-, medium- and long-decay summaries against no decay, one decay and current Replay/dormancy under matched budgets; report G3.2 recovery, retention, false generalization and Replay cost plus state bytes/update time per scale, without replacing learned structures or provenance Events / 多时间尺度保留消融：在相同预算下比较固定短、中、长期衰减摘要、无衰减、单一衰减及现有Replay/休眠；报告G3.2恢复、保留、错误泛化、重放成本及各尺度的状态字节数和更新时间，不用衰减摘要替代已学习结构或来源Event
 - [Later] score校正、unknownの区別、状態を含む探索重複判定 / Calibration, unknown states, state-aware search deduplication / 校准、未知状态及考虑状态的搜索去重
 
 日本語: G3.1の予測read modelとReplay選択は採用条件を通過した。合成fixtureは完全な学習・graph構築・候補発見・planner探索を含まないため、それらの100k性能は未評価として残す。G3.2で更新範囲、Replay件数、回復速度と忘却をdrift下で測る。
@@ -286,6 +288,16 @@ G3.2開発preflight: [機構機会監査 / Mechanism opportunity audit / 机制�
 G3.2 contract: the same four primary metrics separate recovery, retention, local rewrite scope and Replay work. G3.3 measures time, bytes, active structures and candidate generation per Event plus planner expanded nodes per query. G3.4 tests whether reusable structure grows while marginal storage/search work falls and independent held-out success rises; proportional growth triggers a reconsideration of condensation.
 
 G3.2协议：四项主要指标分别衡量恢复、保留、局部改写范围及重放工作量。G3.3测量每Event的时间、字节、活跃结构和候选生成，以及每query的规划器扩展节点。G3.4同时检验可复用结构是否增加、边际存储与搜索成本是否下降、独立留出成功率是否提高；若结构按Event数量成比例增长，应重新审视凝聚假设。
+
+### RetNet research note / RetNet研究ノート / RetNet研究说明
+
+[Later] Research reference: Sun et al., [*Retentive Network: A Successor to Transformer for Large Language Models*](https://arxiv.org/abs/2307.08621), [HTML](https://arxiv.org/html/2307.08621v4). RetNet derives parallel, recurrent and chunkwise-recurrent forms of one retention computation: parallel execution supports training, recurrent execution maintains a fixed-size state for constant-cost autoregressive inference, and chunkwise recurrence combines parallel work inside chunks with recurrent summaries across chunks. Its multi-scale heads use different fixed decay rates; the paper's ablations report worse language-modeling results when decay or multi-scale decay is removed. The reported evidence concerns neural sequence modeling and language-model cost, not symbolic graph learning, concept condensation, provenance-preserving memory or drift adaptation.
+
+日本語: 採用候補は「意味論を1つにしてbatch/online/chunk実行を同値化すること」「複数時間尺度を単一減衰・減衰なしと個別比較すること」「性能とmemory/throughput/latencyを同時に測ること」。RISAではEvent出典と検証済み構造を固定サイズ状態へ不可逆に畳み込まず、summaryは再構築可能な派生indexとして扱う。G3.1の完全一致原則を維持し、G3.2～G3.4の構造効果が成立する前にRetNetを本体へ組み込まない。
+
+English: Carry forward three ideas: one semantic operation with batch/online/chunk execution, explicit no-decay/single-decay/multi-scale ablations, and joint quality plus memory/throughput/latency measurement. In RISA, never irreversibly fold provenance Events or validated structures into fixed-size state; summaries remain rebuildable derived indexes. Preserve G3.1 exact equivalence, and do not integrate RetNet into the core before G3.2–G3.4 establish structural benefit.
+
+简体中文: 保留三项思路：同一语义操作具有batch、online及chunk三种执行形式；明确比较无衰减、单一衰减及多尺度衰减；同时测量质量、内存、吞吐量与延迟。RISA不得把来源Event或已验证结构不可逆地压入固定状态，摘要只能作为可重建派生索引。继续遵守G3.1完全一致原则，在G3.2至G3.4证明结构收益前不把RetNet并入核心。
 
 ## G4 — Recursive concept formation / 再帰的概念形成 / 递归概念形成
 
