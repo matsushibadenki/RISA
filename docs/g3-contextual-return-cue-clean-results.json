@@ -2054,7 +2054,7 @@
       "stored_entries": 4
     }
   ],
-  "manifest_sha256": "427e57b1b2a9e9c4432cbaabf2ce33f1a033b4334bc9222f0db4de3b9ec35e91",
+  "manifest_sha256": "977c0315558b3f43f51e57a11d9d92d9ea54912235e494a8f3b02ab66e0ed011",
   "rows": [
     {
       "A1_transfer_on_A_probes": {
@@ -5420,6 +5420,14 @@
         "model_events_reapplied": 50,
         "selection_events_examined": 50
       },
+      "B_split_heldout_validation": {
+        "adopted_variants_failing_heldout": 0,
+        "adopted_variants_passing_heldout": 0,
+        "available_labels": 16,
+        "consumed_labels": 0,
+        "rows": [],
+        "variant_evaluations": 0
+      },
       "B_split_variant_audit": {
         "B_scope_variants": 0,
         "adopted_off_rule_variants": 0,
@@ -9010,6 +9018,14 @@
         "model_events_reapplied": 50,
         "selection_events_examined": 50
       },
+      "B_split_heldout_validation": {
+        "adopted_variants_failing_heldout": 0,
+        "adopted_variants_passing_heldout": 0,
+        "available_labels": 16,
+        "consumed_labels": 0,
+        "rows": [],
+        "variant_evaluations": 0
+      },
       "B_split_variant_audit": {
         "B_scope_variants": 0,
         "adopted_off_rule_variants": 0,
@@ -12599,6 +12615,14 @@
         "deployment_events_reapplied": 50,
         "model_events_reapplied": 50,
         "selection_events_examined": 50
+      },
+      "B_split_heldout_validation": {
+        "adopted_variants_failing_heldout": 0,
+        "adopted_variants_passing_heldout": 0,
+        "available_labels": 16,
+        "consumed_labels": 0,
+        "rows": [],
+        "variant_evaluations": 0
       },
       "B_split_variant_audit": {
         "B_scope_variants": 0,
@@ -16190,6 +16214,14 @@
         "model_events_reapplied": 50,
         "selection_events_examined": 50
       },
+      "B_split_heldout_validation": {
+        "adopted_variants_failing_heldout": 0,
+        "adopted_variants_passing_heldout": 0,
+        "available_labels": 16,
+        "consumed_labels": 0,
+        "rows": [],
+        "variant_evaluations": 0
+      },
       "B_split_variant_audit": {
         "B_scope_variants": 0,
         "adopted_off_rule_variants": 0,
@@ -19780,6 +19812,14 @@
         "model_events_reapplied": 50,
         "selection_events_examined": 50
       },
+      "B_split_heldout_validation": {
+        "adopted_variants_failing_heldout": 0,
+        "adopted_variants_passing_heldout": 0,
+        "available_labels": 16,
+        "consumed_labels": 0,
+        "rows": [],
+        "variant_evaluations": 0
+      },
       "B_split_variant_audit": {
         "B_scope_variants": 0,
         "adopted_off_rule_variants": 0,
@@ -23369,6 +23409,14 @@
         "deployment_events_reapplied": 50,
         "model_events_reapplied": 50,
         "selection_events_examined": 50
+      },
+      "B_split_heldout_validation": {
+        "adopted_variants_failing_heldout": 0,
+        "adopted_variants_passing_heldout": 0,
+        "available_labels": 16,
+        "consumed_labels": 0,
+        "rows": [],
+        "variant_evaluations": 0
       },
       "B_split_variant_audit": {
         "B_scope_variants": 0,
@@ -26960,6 +27008,14 @@
         "model_events_reapplied": 65,
         "selection_events_examined": 65
       },
+      "B_split_heldout_validation": {
+        "adopted_variants_failing_heldout": 0,
+        "adopted_variants_passing_heldout": 0,
+        "available_labels": 16,
+        "consumed_labels": 0,
+        "rows": [],
+        "variant_evaluations": 0
+      },
       "B_split_variant_audit": {
         "B_scope_variants": 0,
         "adopted_off_rule_variants": 0,
@@ -30550,6 +30606,14 @@
         "model_events_reapplied": 65,
         "selection_events_examined": 65
       },
+      "B_split_heldout_validation": {
+        "adopted_variants_failing_heldout": 0,
+        "adopted_variants_passing_heldout": 0,
+        "available_labels": 16,
+        "consumed_labels": 0,
+        "rows": [],
+        "variant_evaluations": 0
+      },
       "B_split_variant_audit": {
         "B_scope_variants": 0,
         "adopted_off_rule_variants": 0,
@@ -34139,6 +34203,14 @@
         "deployment_events_reapplied": 65,
         "model_events_reapplied": 65,
         "selection_events_examined": 65
+      },
+      "B_split_heldout_validation": {
+        "adopted_variants_failing_heldout": 0,
+        "adopted_variants_passing_heldout": 0,
+        "available_labels": 16,
+        "consumed_labels": 0,
+        "rows": [],
+        "variant_evaluations": 0
       },
       "B_split_variant_audit": {
         "B_scope_variants": 0,
@@ -37729,6 +37801,14 @@
         "deployment_events_reapplied": 50,
         "model_events_reapplied": 50,
         "selection_events_examined": 50
+      },
+      "B_split_heldout_validation": {
+        "adopted_variants_failing_heldout": 0,
+        "adopted_variants_passing_heldout": 0,
+        "available_labels": 16,
+        "consumed_labels": 0,
+        "rows": [],
+        "variant_evaluations": 0
       },
       "B_split_variant_audit": {
         "B_scope_variants": 0,
@@ -41320,6 +41400,14 @@
         "model_events_reapplied": 50,
         "selection_events_examined": 50
       },
+      "B_split_heldout_validation": {
+        "adopted_variants_failing_heldout": 0,
+        "adopted_variants_passing_heldout": 0,
+        "available_labels": 16,
+        "consumed_labels": 0,
+        "rows": [],
+        "variant_evaluations": 0
+      },
       "B_split_variant_audit": {
         "B_scope_variants": 0,
         "adopted_off_rule_variants": 0,
@@ -44909,6 +44997,14 @@
         "deployment_events_reapplied": 50,
         "model_events_reapplied": 50,
         "selection_events_examined": 50
+      },
+      "B_split_heldout_validation": {
+        "adopted_variants_failing_heldout": 0,
+        "adopted_variants_passing_heldout": 0,
+        "available_labels": 16,
+        "consumed_labels": 0,
+        "rows": [],
+        "variant_evaluations": 0
       },
       "B_split_variant_audit": {
         "B_scope_variants": 0,
@@ -48499,6 +48595,14 @@
         "deployment_events_reapplied": 36,
         "model_events_reapplied": 36,
         "selection_events_examined": 36
+      },
+      "B_split_heldout_validation": {
+        "adopted_variants_failing_heldout": 0,
+        "adopted_variants_passing_heldout": 0,
+        "available_labels": 16,
+        "consumed_labels": 0,
+        "rows": [],
+        "variant_evaluations": 0
       },
       "B_split_variant_audit": {
         "B_scope_variants": 0,
@@ -52090,6 +52194,14 @@
         "model_events_reapplied": 36,
         "selection_events_examined": 36
       },
+      "B_split_heldout_validation": {
+        "adopted_variants_failing_heldout": 0,
+        "adopted_variants_passing_heldout": 0,
+        "available_labels": 16,
+        "consumed_labels": 0,
+        "rows": [],
+        "variant_evaluations": 0
+      },
       "B_split_variant_audit": {
         "B_scope_variants": 0,
         "adopted_off_rule_variants": 0,
@@ -55679,6 +55791,14 @@
         "deployment_events_reapplied": 36,
         "model_events_reapplied": 36,
         "selection_events_examined": 36
+      },
+      "B_split_heldout_validation": {
+        "adopted_variants_failing_heldout": 0,
+        "adopted_variants_passing_heldout": 0,
+        "available_labels": 16,
+        "consumed_labels": 0,
+        "rows": [],
+        "variant_evaluations": 0
       },
       "B_split_variant_audit": {
         "B_scope_variants": 0,

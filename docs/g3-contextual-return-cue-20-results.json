@@ -2054,7 +2054,7 @@
       "stored_entries": 4
     }
   ],
-  "manifest_sha256": "941f88fcdde6ba1972ba1ccd4432e6da15ace51a59ce476c23d680f187c91cf1",
+  "manifest_sha256": "5c4f2ecf415b5dc08c727bb5d622e8ff4e5f084e8eae8a737db05c8a8793e0c3",
   "rows": [
     {
       "A1_transfer_on_A_probes": {
@@ -5445,6 +5445,14 @@
         "deployment_events_reapplied": 50,
         "model_events_reapplied": 50,
         "selection_events_examined": 50
+      },
+      "B_split_heldout_validation": {
+        "adopted_variants_failing_heldout": 0,
+        "adopted_variants_passing_heldout": 0,
+        "available_labels": 16,
+        "consumed_labels": 0,
+        "rows": [],
+        "variant_evaluations": 0
       },
       "B_split_variant_audit": {
         "B_scope_variants": 0,
@@ -9062,6 +9070,75 @@
         "model_events_reapplied": 50,
         "selection_events_examined": 50
       },
+      "B_split_heldout_validation": {
+        "adopted_variants_failing_heldout": 2,
+        "adopted_variants_passing_heldout": 2,
+        "available_labels": 16,
+        "consumed_labels": 16,
+        "rows": [
+          {
+            "adopted": true,
+            "context_tags": [
+              "indoor",
+              "regime:b"
+            ],
+            "heldout_accuracy": 1.0,
+            "heldout_correct": 8,
+            "heldout_labels": 8,
+            "primitive_id": "primitive:transition:entity->process->state:inspect->cold::context:indoor|regime:b",
+            "produced_states": [
+              "cold"
+            ],
+            "training_support": 8
+          },
+          {
+            "adopted": true,
+            "context_tags": [
+              "outdoor",
+              "regime:b"
+            ],
+            "heldout_accuracy": 0.0,
+            "heldout_correct": 0,
+            "heldout_labels": 8,
+            "primitive_id": "primitive:transition:entity->process->state:inspect->cold::context:outdoor|regime:b",
+            "produced_states": [
+              "cold"
+            ],
+            "training_support": 2
+          },
+          {
+            "adopted": true,
+            "context_tags": [
+              "indoor",
+              "regime:b"
+            ],
+            "heldout_accuracy": 0.0,
+            "heldout_correct": 0,
+            "heldout_labels": 8,
+            "primitive_id": "primitive:transition:entity->process->state:inspect->warm::context:indoor|regime:b",
+            "produced_states": [
+              "warm"
+            ],
+            "training_support": 2
+          },
+          {
+            "adopted": true,
+            "context_tags": [
+              "outdoor",
+              "regime:b"
+            ],
+            "heldout_accuracy": 1.0,
+            "heldout_correct": 8,
+            "heldout_labels": 8,
+            "primitive_id": "primitive:transition:entity->process->state:inspect->warm::context:outdoor|regime:b",
+            "produced_states": [
+              "warm"
+            ],
+            "training_support": 8
+          }
+        ],
+        "variant_evaluations": 4
+      },
       "B_split_variant_audit": {
         "B_scope_variants": 4,
         "adopted_off_rule_variants": 2,
@@ -12748,6 +12825,14 @@
         "model_events_reapplied": 50,
         "selection_events_examined": 50
       },
+      "B_split_heldout_validation": {
+        "adopted_variants_failing_heldout": 0,
+        "adopted_variants_passing_heldout": 0,
+        "available_labels": 16,
+        "consumed_labels": 0,
+        "rows": [],
+        "variant_evaluations": 0
+      },
       "B_split_variant_audit": {
         "B_scope_variants": 0,
         "adopted_off_rule_variants": 0,
@@ -16364,6 +16449,14 @@
         "model_events_reapplied": 50,
         "selection_events_examined": 50
       },
+      "B_split_heldout_validation": {
+        "adopted_variants_failing_heldout": 0,
+        "adopted_variants_passing_heldout": 0,
+        "available_labels": 16,
+        "consumed_labels": 0,
+        "rows": [],
+        "variant_evaluations": 0
+      },
       "B_split_variant_audit": {
         "B_scope_variants": 0,
         "adopted_off_rule_variants": 0,
@@ -19979,6 +20072,75 @@
         "deployment_events_reapplied": 50,
         "model_events_reapplied": 50,
         "selection_events_examined": 50
+      },
+      "B_split_heldout_validation": {
+        "adopted_variants_failing_heldout": 1,
+        "adopted_variants_passing_heldout": 2,
+        "available_labels": 16,
+        "consumed_labels": 16,
+        "rows": [
+          {
+            "adopted": true,
+            "context_tags": [
+              "indoor",
+              "regime:b"
+            ],
+            "heldout_accuracy": 1.0,
+            "heldout_correct": 8,
+            "heldout_labels": 8,
+            "primitive_id": "primitive:transition:entity->process->state:inspect->cold::context:indoor|regime:b",
+            "produced_states": [
+              "cold"
+            ],
+            "training_support": 8
+          },
+          {
+            "adopted": true,
+            "context_tags": [
+              "outdoor",
+              "regime:b"
+            ],
+            "heldout_accuracy": 0.0,
+            "heldout_correct": 0,
+            "heldout_labels": 8,
+            "primitive_id": "primitive:transition:entity->process->state:inspect->cold::context:outdoor|regime:b",
+            "produced_states": [
+              "cold"
+            ],
+            "training_support": 2
+          },
+          {
+            "adopted": false,
+            "context_tags": [
+              "indoor",
+              "regime:b"
+            ],
+            "heldout_accuracy": 0.0,
+            "heldout_correct": 0,
+            "heldout_labels": 8,
+            "primitive_id": "primitive:transition:entity->process->state:inspect->warm::context:indoor|regime:b",
+            "produced_states": [
+              "warm"
+            ],
+            "training_support": 2
+          },
+          {
+            "adopted": true,
+            "context_tags": [
+              "outdoor",
+              "regime:b"
+            ],
+            "heldout_accuracy": 1.0,
+            "heldout_correct": 8,
+            "heldout_labels": 8,
+            "primitive_id": "primitive:transition:entity->process->state:inspect->warm::context:outdoor|regime:b",
+            "produced_states": [
+              "warm"
+            ],
+            "training_support": 8
+          }
+        ],
+        "variant_evaluations": 4
       },
       "B_split_variant_audit": {
         "B_scope_variants": 4,
@@ -23666,6 +23828,14 @@
         "model_events_reapplied": 50,
         "selection_events_examined": 50
       },
+      "B_split_heldout_validation": {
+        "adopted_variants_failing_heldout": 0,
+        "adopted_variants_passing_heldout": 0,
+        "available_labels": 16,
+        "consumed_labels": 0,
+        "rows": [],
+        "variant_evaluations": 0
+      },
       "B_split_variant_audit": {
         "B_scope_variants": 0,
         "adopted_off_rule_variants": 0,
@@ -27282,6 +27452,14 @@
         "model_events_reapplied": 65,
         "selection_events_examined": 65
       },
+      "B_split_heldout_validation": {
+        "adopted_variants_failing_heldout": 0,
+        "adopted_variants_passing_heldout": 0,
+        "available_labels": 16,
+        "consumed_labels": 0,
+        "rows": [],
+        "variant_evaluations": 0
+      },
       "B_split_variant_audit": {
         "B_scope_variants": 0,
         "adopted_off_rule_variants": 0,
@@ -30897,6 +31075,75 @@
         "deployment_events_reapplied": 65,
         "model_events_reapplied": 65,
         "selection_events_examined": 65
+      },
+      "B_split_heldout_validation": {
+        "adopted_variants_failing_heldout": 2,
+        "adopted_variants_passing_heldout": 2,
+        "available_labels": 16,
+        "consumed_labels": 16,
+        "rows": [
+          {
+            "adopted": true,
+            "context_tags": [
+              "indoor",
+              "regime:b"
+            ],
+            "heldout_accuracy": 1.0,
+            "heldout_correct": 8,
+            "heldout_labels": 8,
+            "primitive_id": "primitive:transition:entity->process->state:inspect->cold::context:indoor|regime:b",
+            "produced_states": [
+              "cold"
+            ],
+            "training_support": 8
+          },
+          {
+            "adopted": true,
+            "context_tags": [
+              "outdoor",
+              "regime:b"
+            ],
+            "heldout_accuracy": 0.0,
+            "heldout_correct": 0,
+            "heldout_labels": 8,
+            "primitive_id": "primitive:transition:entity->process->state:inspect->cold::context:outdoor|regime:b",
+            "produced_states": [
+              "cold"
+            ],
+            "training_support": 2
+          },
+          {
+            "adopted": true,
+            "context_tags": [
+              "indoor",
+              "regime:b"
+            ],
+            "heldout_accuracy": 0.0,
+            "heldout_correct": 0,
+            "heldout_labels": 8,
+            "primitive_id": "primitive:transition:entity->process->state:inspect->warm::context:indoor|regime:b",
+            "produced_states": [
+              "warm"
+            ],
+            "training_support": 2
+          },
+          {
+            "adopted": true,
+            "context_tags": [
+              "outdoor",
+              "regime:b"
+            ],
+            "heldout_accuracy": 1.0,
+            "heldout_correct": 8,
+            "heldout_labels": 8,
+            "primitive_id": "primitive:transition:entity->process->state:inspect->warm::context:outdoor|regime:b",
+            "produced_states": [
+              "warm"
+            ],
+            "training_support": 8
+          }
+        ],
+        "variant_evaluations": 4
       },
       "B_split_variant_audit": {
         "B_scope_variants": 4,
@@ -34584,6 +34831,14 @@
         "model_events_reapplied": 65,
         "selection_events_examined": 65
       },
+      "B_split_heldout_validation": {
+        "adopted_variants_failing_heldout": 0,
+        "adopted_variants_passing_heldout": 0,
+        "available_labels": 16,
+        "consumed_labels": 0,
+        "rows": [],
+        "variant_evaluations": 0
+      },
       "B_split_variant_audit": {
         "B_scope_variants": 0,
         "adopted_off_rule_variants": 0,
@@ -38200,6 +38455,14 @@
         "model_events_reapplied": 50,
         "selection_events_examined": 50
       },
+      "B_split_heldout_validation": {
+        "adopted_variants_failing_heldout": 0,
+        "adopted_variants_passing_heldout": 0,
+        "available_labels": 16,
+        "consumed_labels": 0,
+        "rows": [],
+        "variant_evaluations": 0
+      },
       "B_split_variant_audit": {
         "B_scope_variants": 0,
         "adopted_off_rule_variants": 0,
@@ -41815,6 +42078,75 @@
         "deployment_events_reapplied": 50,
         "model_events_reapplied": 50,
         "selection_events_examined": 50
+      },
+      "B_split_heldout_validation": {
+        "adopted_variants_failing_heldout": 1,
+        "adopted_variants_passing_heldout": 2,
+        "available_labels": 16,
+        "consumed_labels": 16,
+        "rows": [
+          {
+            "adopted": true,
+            "context_tags": [
+              "indoor",
+              "regime:b"
+            ],
+            "heldout_accuracy": 1.0,
+            "heldout_correct": 8,
+            "heldout_labels": 8,
+            "primitive_id": "primitive:transition:entity->process->state:inspect->cold::context:indoor|regime:b",
+            "produced_states": [
+              "cold"
+            ],
+            "training_support": 8
+          },
+          {
+            "adopted": true,
+            "context_tags": [
+              "outdoor",
+              "regime:b"
+            ],
+            "heldout_accuracy": 0.0,
+            "heldout_correct": 0,
+            "heldout_labels": 8,
+            "primitive_id": "primitive:transition:entity->process->state:inspect->cold::context:outdoor|regime:b",
+            "produced_states": [
+              "cold"
+            ],
+            "training_support": 2
+          },
+          {
+            "adopted": false,
+            "context_tags": [
+              "indoor",
+              "regime:b"
+            ],
+            "heldout_accuracy": 0.0,
+            "heldout_correct": 0,
+            "heldout_labels": 8,
+            "primitive_id": "primitive:transition:entity->process->state:inspect->warm::context:indoor|regime:b",
+            "produced_states": [
+              "warm"
+            ],
+            "training_support": 2
+          },
+          {
+            "adopted": true,
+            "context_tags": [
+              "outdoor",
+              "regime:b"
+            ],
+            "heldout_accuracy": 1.0,
+            "heldout_correct": 8,
+            "heldout_labels": 8,
+            "primitive_id": "primitive:transition:entity->process->state:inspect->warm::context:outdoor|regime:b",
+            "produced_states": [
+              "warm"
+            ],
+            "training_support": 8
+          }
+        ],
+        "variant_evaluations": 4
       },
       "B_split_variant_audit": {
         "B_scope_variants": 4,
@@ -45502,6 +45834,14 @@
         "model_events_reapplied": 50,
         "selection_events_examined": 50
       },
+      "B_split_heldout_validation": {
+        "adopted_variants_failing_heldout": 0,
+        "adopted_variants_passing_heldout": 0,
+        "available_labels": 16,
+        "consumed_labels": 0,
+        "rows": [],
+        "variant_evaluations": 0
+      },
       "B_split_variant_audit": {
         "B_scope_variants": 0,
         "adopted_off_rule_variants": 0,
@@ -49117,6 +49457,45 @@
         "deployment_events_reapplied": 36,
         "model_events_reapplied": 36,
         "selection_events_examined": 36
+      },
+      "B_split_heldout_validation": {
+        "adopted_variants_failing_heldout": 0,
+        "adopted_variants_passing_heldout": 1,
+        "available_labels": 16,
+        "consumed_labels": 16,
+        "rows": [
+          {
+            "adopted": true,
+            "context_tags": [
+              "indoor",
+              "regime:b"
+            ],
+            "heldout_accuracy": 1.0,
+            "heldout_correct": 8,
+            "heldout_labels": 8,
+            "primitive_id": "primitive:transition:entity->process->state:inspect->cold::context:indoor|regime:b",
+            "produced_states": [
+              "cold"
+            ],
+            "training_support": 8
+          },
+          {
+            "adopted": false,
+            "context_tags": [
+              "outdoor",
+              "regime:b"
+            ],
+            "heldout_accuracy": 0.0,
+            "heldout_correct": 0,
+            "heldout_labels": 8,
+            "primitive_id": "primitive:transition:entity->process->state:inspect->cold::context:outdoor|regime:b",
+            "produced_states": [
+              "cold"
+            ],
+            "training_support": 2
+          }
+        ],
+        "variant_evaluations": 2
       },
       "B_split_variant_audit": {
         "B_scope_variants": 2,
@@ -52770,6 +53149,75 @@
         "model_events_reapplied": 36,
         "selection_events_examined": 36
       },
+      "B_split_heldout_validation": {
+        "adopted_variants_failing_heldout": 0,
+        "adopted_variants_passing_heldout": 1,
+        "available_labels": 16,
+        "consumed_labels": 16,
+        "rows": [
+          {
+            "adopted": true,
+            "context_tags": [
+              "indoor",
+              "regime:b"
+            ],
+            "heldout_accuracy": 1.0,
+            "heldout_correct": 8,
+            "heldout_labels": 8,
+            "primitive_id": "primitive:transition:entity->process->state:inspect->cold::context:indoor|regime:b",
+            "produced_states": [
+              "cold"
+            ],
+            "training_support": 8
+          },
+          {
+            "adopted": false,
+            "context_tags": [
+              "outdoor",
+              "regime:b"
+            ],
+            "heldout_accuracy": 0.0,
+            "heldout_correct": 0,
+            "heldout_labels": 8,
+            "primitive_id": "primitive:transition:entity->process->state:inspect->cold::context:outdoor|regime:b",
+            "produced_states": [
+              "cold"
+            ],
+            "training_support": 2
+          },
+          {
+            "adopted": false,
+            "context_tags": [
+              "indoor",
+              "regime:b"
+            ],
+            "heldout_accuracy": 0.0,
+            "heldout_correct": 0,
+            "heldout_labels": 8,
+            "primitive_id": "primitive:transition:entity->process->state:inspect->warm::context:indoor|regime:b",
+            "produced_states": [
+              "warm"
+            ],
+            "training_support": 2
+          },
+          {
+            "adopted": false,
+            "context_tags": [
+              "outdoor",
+              "regime:b"
+            ],
+            "heldout_accuracy": 1.0,
+            "heldout_correct": 8,
+            "heldout_labels": 8,
+            "primitive_id": "primitive:transition:entity->process->state:inspect->warm::context:outdoor|regime:b",
+            "produced_states": [
+              "warm"
+            ],
+            "training_support": 8
+          }
+        ],
+        "variant_evaluations": 4
+      },
       "B_split_variant_audit": {
         "B_scope_variants": 4,
         "adopted_off_rule_variants": 0,
@@ -56455,6 +56903,14 @@
         "deployment_events_reapplied": 36,
         "model_events_reapplied": 36,
         "selection_events_examined": 36
+      },
+      "B_split_heldout_validation": {
+        "adopted_variants_failing_heldout": 0,
+        "adopted_variants_passing_heldout": 0,
+        "available_labels": 16,
+        "consumed_labels": 0,
+        "rows": [],
+        "variant_evaluations": 0
       },
       "B_split_variant_audit": {
         "B_scope_variants": 0,

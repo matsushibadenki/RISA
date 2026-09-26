@@ -64,5 +64,9 @@ def audit_split_variants_on_probes(
             row["adopted"] and row["heldout_correct"] < row["heldout_labels"]
             for row in rows
         ),
+        "adopted_variants_passing_heldout": sum(
+            row["adopted"] and row["heldout_correct"] == row["heldout_labels"]
+            for row in rows
+        ),
         "rows": rows,
     }

@@ -694,6 +694,7 @@ def test_noisy_return_cue_audits_adopted_off_rule_split_variants() -> None:
     assert heldout["available_labels"] == heldout["consumed_labels"] == 16
     assert heldout["variant_evaluations"] == 4
     assert heldout["adopted_variants_failing_heldout"] == 2
+    assert heldout["adopted_variants_passing_heldout"] == 2
     assert sorted(row["heldout_accuracy"] for row in heldout["rows"]) == [0.0, 0.0, 1.0, 1.0]
     assert rows["contextual_split"]["B_probe_accuracy_by_observed_events"] == (
         rows["split_off"]["B_probe_accuracy_by_observed_events"]
@@ -715,6 +716,7 @@ def test_split_variant_heldout_audit_is_read_only_and_rejects_label_overlap() ->
     before = copy.deepcopy(state.to_dict())
     result = audit_split_variants_on_probes(state, [probe])
     assert result["adopted_variants_failing_heldout"] == 1
+    assert result["adopted_variants_passing_heldout"] == 0
     assert result["rows"][0]["heldout_accuracy"] == 0.0
     assert state.to_dict() == before
     with pytest.raises(ValueError, match="overlap"):
