@@ -21,6 +21,7 @@ from risa.engine.runtime import TrainingOptions, train_events
 from risa.evaluation.candidate_adoption import evaluate_candidate_on_probes
 from risa.evaluation.drift_metrics import snapshot_mechanisms
 from risa.evaluation.drift_runner import ValidationStepResult, run_aba
+from risa.evaluation.readout_attribution import attribute_candidate_lifecycle_readout
 
 
 def _adopt_warm_candidates(
@@ -179,6 +180,9 @@ def run_candidate_primed_preflight(manifest: dict) -> dict:
                 bootstrap_samples=int(manifest["bootstrap_samples"]),
             )
             a1_mechanisms = snapshot_mechanisms(state)
+            a1_lifecycle_readout = attribute_candidate_lifecycle_readout(
+                state, a_probes
+            )
             online_schedule = tuple(manifest.get("online_validation_a2_events", []))
             online_cap = int(manifest.get("online_validation_label_budget", 0))
             if online_cap < 0 or any(
@@ -232,6 +236,7 @@ def run_candidate_primed_preflight(manifest: dict) -> dict:
                 "a1_merged_proposals": len(a1_mechanisms.merged_proposals),
                 "a1_dormant_candidates": len(a1_mechanisms.dormant_candidates),
                 "a1_supervised_adoption_labels": labels,
+                "a1_candidate_lifecycle_readout": a1_lifecycle_readout,
                 "online_validation_labels": outcome["validation_labels_total"],
                 "online_validation_decisions": (
                     outcome["B"]["validation_adoption_decisions"]

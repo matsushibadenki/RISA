@@ -44,11 +44,15 @@ from risa.evaluation.drift_runner import (
     run_drift_phase,
 )
 from risa.evaluation.replay_diagnostics import contextual_replay_errors
-from risa.evaluation.readout_attribution import attribute_prediction_readout
+from risa.evaluation.readout_attribution import (
+    attribute_candidate_lifecycle_readout, attribute_prediction_readout,
+)
 from risa.evaluation.grounded_role_baseline import (
     GroundedRoleCountBaseline, GroundedRoleTransitionBaseline,
 )
-from risa.evaluation.split_variant_validation import audit_split_variants_on_probes
+from risa.evaluation.split_variant_validation import (
+    audit_split_variants_on_probes, counterfactual_validation_gate_effect,
+)
 
 
 def test_touch_ratio_excludes_access_counters_and_counts_removal() -> None:
@@ -434,6 +438,20 @@ def test_candidate_primed_drift_records_online_validation_loss() -> None:
     assert full["a1_dormant_candidates"] == 2
     assert disabled["a1_dormant_candidates"] == 0
     assert full["a1_supervised_adoption_labels"] == 1200
+    full_readout = full["a1_candidate_lifecycle_readout"]
+    assert full_readout["adopted_merge_count"] == 1
+    assert full_readout["dormant_ancestor_count"] == 2
+    assert full_readout["variants"]["without_adopted_merges"] == {
+        "accuracy": 1.0,
+        "predictions_changed_vs_full": 0,
+        "mean_absolute_score_change_vs_full": 0.2,
+    }
+    assert full_readout["variants"]["reactivated_dormant_ancestors"] == {
+        "accuracy": 1.0,
+        "predictions_changed_vs_full": 0,
+        "mean_absolute_score_change_vs_full": 0.0,
+    }
+    assert disabled["a1_candidate_lifecycle_readout"]["dormant_ancestor_count"] == 0
     assert len(full["B_mechanism_trace"]) == 6
     assert full["B_mechanism_trace"][-1]["adopted_merges"] == 0
     assert full["final_merged_proposals"] == 0
@@ -696,6 +714,10 @@ def test_noisy_return_cue_audits_adopted_off_rule_split_variants() -> None:
     assert heldout["adopted_variants_failing_heldout"] == 2
     assert heldout["adopted_variants_passing_heldout"] == 2
     assert sorted(row["heldout_accuracy"] for row in heldout["rows"]) == [0.0, 0.0, 1.0, 1.0]
+    gate = rows["contextual_split"]["B_split_validation_gate_effect"]
+    assert len(gate["rejected_variant_ids"]) == 2
+    assert gate["predictions_changed"] == 0
+    assert gate["accuracy_before"] == gate["accuracy_after"] == 1.0
     assert rows["contextual_split"]["B_probe_accuracy_by_observed_events"] == (
         rows["split_off"]["B_probe_accuracy_by_observed_events"]
     )
@@ -723,6 +745,30 @@ def test_split_variant_heldout_audit_is_read_only_and_rejects_label_overlap() ->
         audit_split_variants_on_probes(state, [probe], scoring_probe_ids={probe.id})
     with pytest.raises(ValueError, match="unique"):
         audit_split_variants_on_probes(state, [probe, probe])
+
+
+def test_split_validation_gate_counterfactual_is_read_only_and_can_change_prediction() -> None:
+    state = RisaState()
+    primitive = StructuralPrimitive(
+        id="primitive:inspect->warm::context:indoor",
+        relation_type="transition", role_signature="entity->process->state",
+        input_conditions={"process:inspect"}, output_state="warm",
+        context_tags={"indoor"}, support=5, validation_score=1.0, adopted=True,
+    )
+    state.structural_primitives[primitive.id] = primitive
+    validation = [DriftProbe("validation", PredictionQuery(
+        "validation-actor", "inspect", context_tags=["indoor"]
+    ), ("cold",))]
+    scoring = [DriftProbe("scoring", PredictionQuery(
+        "scoring-actor", "inspect", context_tags=["indoor"]
+    ), ("cold",))]
+    before = copy.deepcopy(state.to_dict())
+    result = counterfactual_validation_gate_effect(state, validation, scoring)
+    assert result["rejected_variant_ids"] == [primitive.id]
+    assert result["predictions_changed"] == 1
+    assert result["accuracy_before"] == 0.0
+    assert result["accuracy_after"] == 0.0  # rejection abstains; abstention is a failure
+    assert state.to_dict() == before
 
 
 def test_split_variant_support_requires_exact_context_match() -> None:

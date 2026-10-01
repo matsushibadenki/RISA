@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 
+import copy
+
 from risa.core.state import RisaState
 from risa.engine.graph_builder import normalize_label
+from risa.engine.predictor import predict_next_effect
 from risa.evaluation.drift_runner import DriftProbe
 
 
@@ -69,4 +72,48 @@ def audit_split_variants_on_probes(
             for row in rows
         ),
         "rows": rows,
+    }
+
+
+def counterfactual_validation_gate_effect(
+    state: RisaState,
+    validation_probes: list[DriftProbe],
+    scoring_probes: list[DriftProbe],
+) -> dict[str, object]:
+    """Measure predictions after rejecting held-out failures on a disposable state copy."""
+    if not scoring_probes or len({probe.id for probe in scoring_probes}) != len(scoring_probes):
+        raise ValueError("nonempty scoring probes with unique IDs are required")
+    if {probe.id for probe in validation_probes} & {probe.id for probe in scoring_probes}:
+        raise ValueError("validation and scoring probes must be disjoint")
+    audit = audit_split_variants_on_probes(
+        state, validation_probes,
+        scoring_probe_ids={probe.id for probe in scoring_probes},
+    )
+    rejected = sorted(
+        row["primitive_id"] for row in audit["rows"]
+        if row["adopted"] and row["heldout_correct"] < row["heldout_labels"]
+    )
+    gated = copy.deepcopy(state)
+    for primitive_id in rejected:
+        gated.structural_primitives[primitive_id].adopted = False
+
+    before = [predict_next_effect(state, probe.query) for probe in scoring_probes]
+    after = [predict_next_effect(gated, probe.query) for probe in scoring_probes]
+    expected = [tuple(sorted(probe.expected_effects)) for probe in scoring_probes]
+    return {
+        "validation": audit,
+        "rejected_variant_ids": rejected,
+        "scoring_probe_count": len(scoring_probes),
+        "predictions_changed": sum(
+            tuple(sorted(left.predicted_effects)) != tuple(sorted(right.predicted_effects))
+            for left, right in zip(before, after)
+        ),
+        "accuracy_before": sum(
+            tuple(sorted(result.predicted_effects)) == target
+            for result, target in zip(before, expected)
+        ) / len(scoring_probes),
+        "accuracy_after": sum(
+            tuple(sorted(result.predicted_effects)) == target
+            for result, target in zip(after, expected)
+        ) / len(scoring_probes),
     }

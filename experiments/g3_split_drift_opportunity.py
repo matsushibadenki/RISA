@@ -20,7 +20,9 @@ from risa.evaluation.readout_attribution import attribute_prediction_readout
 from risa.evaluation.grounded_role_baseline import (
     GroundedRoleCountBaseline, run_grounded_role_aba,
 )
-from risa.evaluation.split_variant_validation import audit_split_variants_on_probes
+from risa.evaluation.split_variant_validation import (
+    audit_split_variants_on_probes, counterfactual_validation_gate_effect,
+)
 
 
 def _latent_effect(phase: str, tag: str, contextual_drift: bool) -> str:
@@ -232,12 +234,15 @@ def run_split_opportunity(manifest: dict) -> dict:
                  if "::context:" in primitive.id}
             )
             b_split_variant_audit = _b_split_variant_audit(state, contextual_drift)
+            split_validation_probes = _split_validation_probes(
+                seed, contextual_drift, phase_context_cue, split_validation_labels
+            )
             b_split_heldout_validation = audit_split_variants_on_probes(
-                state,
-                _split_validation_probes(
-                    seed, contextual_drift, phase_context_cue, split_validation_labels
-                ),
+                state, split_validation_probes,
                 scoring_probe_ids=protected,
+            )
+            b_split_validation_gate_effect = counterfactual_validation_gate_effect(
+                state, split_validation_probes, a_probes + b_probes,
             )
             b_readout_on_a = attribute_prediction_readout(state, a_probes)
             b_readout_on_b = attribute_prediction_readout(state, b_probes)
@@ -289,6 +294,7 @@ def run_split_opportunity(manifest: dict) -> dict:
                 "B_split_variant_contexts": [list(tags) for tags in b_split_variants],
                 "B_split_variant_audit": b_split_variant_audit,
                 "B_split_heldout_validation": b_split_heldout_validation,
+                "B_split_validation_gate_effect": b_split_validation_gate_effect,
                 "B_readout_on_A_probes": b_readout_on_a,
                 "B_readout_on_B_probes": b_readout_on_b,
                 "A2_readout_on_A_probes": a2_readout_on_a,

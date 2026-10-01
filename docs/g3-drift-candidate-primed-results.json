@@ -129,6 +129,7 @@
           "observed_events": 12
         }
       ],
+      "A2_online_validation_trace": [],
       "A2_postphase_revalidated_merges": 0,
       "A2_postphase_revalidation_labels": 0,
       "A2_recovery_events": 12,
@@ -234,6 +235,28 @@
       },
       "a1_accuracy": 1.0,
       "a1_adopted_merges": 1,
+      "a1_candidate_lifecycle_readout": {
+        "adopted_merge_count": 1,
+        "dormant_ancestor_count": 2,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.2,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
       "a1_dormant_candidates": 2,
       "a1_merged_proposals": 1,
       "a1_supervised_adoption_labels": 1200,
@@ -244,6 +267,8 @@
       "final_executed_context_splits": 0,
       "final_merged_proposals": 0,
       "merge_enabled": true,
+      "online_validation_decisions": 0,
+      "online_validation_labels": 0,
       "retention_after_return": 0.0,
       "seed": 11,
       "split_enabled": true
@@ -338,6 +363,7 @@
           "observed_events": 12
         }
       ],
+      "A2_online_validation_trace": [],
       "A2_postphase_revalidated_merges": 0,
       "A2_postphase_revalidation_labels": 0,
       "A2_recovery_events": 12,
@@ -443,6 +469,28 @@
       },
       "a1_accuracy": 1.0,
       "a1_adopted_merges": 0,
+      "a1_candidate_lifecycle_readout": {
+        "adopted_merge_count": 0,
+        "dormant_ancestor_count": 0,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
       "a1_dormant_candidates": 0,
       "a1_merged_proposals": 0,
       "a1_supervised_adoption_labels": 800,
@@ -453,6 +501,8 @@
       "final_executed_context_splits": 0,
       "final_merged_proposals": 0,
       "merge_enabled": false,
+      "online_validation_decisions": 0,
+      "online_validation_labels": 0,
       "retention_after_return": 0.0,
       "seed": 11,
       "split_enabled": true
@@ -547,6 +597,7 @@
           "observed_events": 12
         }
       ],
+      "A2_online_validation_trace": [],
       "A2_postphase_revalidated_merges": 1,
       "A2_postphase_revalidation_labels": 1200,
       "A2_recovery_events": 12,
@@ -652,6 +703,28 @@
       },
       "a1_accuracy": 1.0,
       "a1_adopted_merges": 1,
+      "a1_candidate_lifecycle_readout": {
+        "adopted_merge_count": 1,
+        "dormant_ancestor_count": 0,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
       "a1_dormant_candidates": 0,
       "a1_merged_proposals": 1,
       "a1_supervised_adoption_labels": 1200,
@@ -662,6 +735,8 @@
       "final_executed_context_splits": 0,
       "final_merged_proposals": 1,
       "merge_enabled": true,
+      "online_validation_decisions": 0,
+      "online_validation_labels": 0,
       "retention_after_return": 0.0,
       "seed": 11,
       "split_enabled": false
@@ -756,6 +831,7 @@
           "observed_events": 12
         }
       ],
+      "A2_online_validation_trace": [],
       "A2_postphase_revalidated_merges": 1,
       "A2_postphase_revalidation_labels": 1200,
       "A2_recovery_events": 12,
@@ -861,6 +937,28 @@
       },
       "a1_accuracy": 1.0,
       "a1_adopted_merges": 1,
+      "a1_candidate_lifecycle_readout": {
+        "adopted_merge_count": 1,
+        "dormant_ancestor_count": 2,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.2,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
       "a1_dormant_candidates": 2,
       "a1_merged_proposals": 1,
       "a1_supervised_adoption_labels": 1200,
@@ -871,6 +969,8 @@
       "final_executed_context_splits": 0,
       "final_merged_proposals": 1,
       "merge_enabled": true,
+      "online_validation_decisions": 0,
+      "online_validation_labels": 0,
       "retention_after_return": 0.0,
       "seed": 11,
       "split_enabled": false
@@ -965,6 +1065,7 @@
           "observed_events": 12
         }
       ],
+      "A2_online_validation_trace": [],
       "A2_postphase_revalidated_merges": 0,
       "A2_postphase_revalidation_labels": 0,
       "A2_recovery_events": 12,
@@ -1070,6 +1171,28 @@
       },
       "a1_accuracy": 1.0,
       "a1_adopted_merges": 0,
+      "a1_candidate_lifecycle_readout": {
+        "adopted_merge_count": 0,
+        "dormant_ancestor_count": 0,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
       "a1_dormant_candidates": 0,
       "a1_merged_proposals": 0,
       "a1_supervised_adoption_labels": 800,
@@ -1080,6 +1203,8 @@
       "final_executed_context_splits": 0,
       "final_merged_proposals": 0,
       "merge_enabled": false,
+      "online_validation_decisions": 0,
+      "online_validation_labels": 0,
       "retention_after_return": 0.0,
       "seed": 11,
       "split_enabled": true
@@ -1174,6 +1299,7 @@
           "observed_events": 12
         }
       ],
+      "A2_online_validation_trace": [],
       "A2_postphase_revalidated_merges": 0,
       "A2_postphase_revalidation_labels": 0,
       "A2_recovery_events": 12,
@@ -1279,6 +1405,28 @@
       },
       "a1_accuracy": 1.0,
       "a1_adopted_merges": 1,
+      "a1_candidate_lifecycle_readout": {
+        "adopted_merge_count": 1,
+        "dormant_ancestor_count": 0,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
       "a1_dormant_candidates": 0,
       "a1_merged_proposals": 1,
       "a1_supervised_adoption_labels": 1200,
@@ -1289,6 +1437,8 @@
       "final_executed_context_splits": 0,
       "final_merged_proposals": 0,
       "merge_enabled": true,
+      "online_validation_decisions": 0,
+      "online_validation_labels": 0,
       "retention_after_return": 0.0,
       "seed": 11,
       "split_enabled": true
@@ -1383,6 +1533,7 @@
           "observed_events": 12
         }
       ],
+      "A2_online_validation_trace": [],
       "A2_postphase_revalidated_merges": 0,
       "A2_postphase_revalidation_labels": 0,
       "A2_recovery_events": 12,
@@ -1488,6 +1639,28 @@
       },
       "a1_accuracy": 1.0,
       "a1_adopted_merges": 0,
+      "a1_candidate_lifecycle_readout": {
+        "adopted_merge_count": 0,
+        "dormant_ancestor_count": 0,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
       "a1_dormant_candidates": 0,
       "a1_merged_proposals": 0,
       "a1_supervised_adoption_labels": 800,
@@ -1498,6 +1671,8 @@
       "final_executed_context_splits": 0,
       "final_merged_proposals": 0,
       "merge_enabled": false,
+      "online_validation_decisions": 0,
+      "online_validation_labels": 0,
       "retention_after_return": 0.0,
       "seed": 11,
       "split_enabled": false
@@ -1592,6 +1767,7 @@
           "observed_events": 12
         }
       ],
+      "A2_online_validation_trace": [],
       "A2_postphase_revalidated_merges": 0,
       "A2_postphase_revalidation_labels": 0,
       "A2_recovery_events": 11,
@@ -1697,6 +1873,28 @@
       },
       "a1_accuracy": 1.0,
       "a1_adopted_merges": 1,
+      "a1_candidate_lifecycle_readout": {
+        "adopted_merge_count": 1,
+        "dormant_ancestor_count": 2,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.2,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
       "a1_dormant_candidates": 2,
       "a1_merged_proposals": 1,
       "a1_supervised_adoption_labels": 1200,
@@ -1707,6 +1905,8 @@
       "final_executed_context_splits": 0,
       "final_merged_proposals": 0,
       "merge_enabled": true,
+      "online_validation_decisions": 0,
+      "online_validation_labels": 0,
       "retention_after_return": 0.0,
       "seed": 23,
       "split_enabled": true
@@ -1801,6 +2001,7 @@
           "observed_events": 12
         }
       ],
+      "A2_online_validation_trace": [],
       "A2_postphase_revalidated_merges": 0,
       "A2_postphase_revalidation_labels": 0,
       "A2_recovery_events": 11,
@@ -1906,6 +2107,28 @@
       },
       "a1_accuracy": 1.0,
       "a1_adopted_merges": 0,
+      "a1_candidate_lifecycle_readout": {
+        "adopted_merge_count": 0,
+        "dormant_ancestor_count": 0,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
       "a1_dormant_candidates": 0,
       "a1_merged_proposals": 0,
       "a1_supervised_adoption_labels": 800,
@@ -1916,6 +2139,8 @@
       "final_executed_context_splits": 0,
       "final_merged_proposals": 0,
       "merge_enabled": false,
+      "online_validation_decisions": 0,
+      "online_validation_labels": 0,
       "retention_after_return": 0.0,
       "seed": 23,
       "split_enabled": true
@@ -2010,6 +2235,7 @@
           "observed_events": 12
         }
       ],
+      "A2_online_validation_trace": [],
       "A2_postphase_revalidated_merges": 1,
       "A2_postphase_revalidation_labels": 1200,
       "A2_recovery_events": 11,
@@ -2115,6 +2341,28 @@
       },
       "a1_accuracy": 1.0,
       "a1_adopted_merges": 1,
+      "a1_candidate_lifecycle_readout": {
+        "adopted_merge_count": 1,
+        "dormant_ancestor_count": 0,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
       "a1_dormant_candidates": 0,
       "a1_merged_proposals": 1,
       "a1_supervised_adoption_labels": 1200,
@@ -2125,6 +2373,8 @@
       "final_executed_context_splits": 0,
       "final_merged_proposals": 1,
       "merge_enabled": true,
+      "online_validation_decisions": 0,
+      "online_validation_labels": 0,
       "retention_after_return": 0.0,
       "seed": 23,
       "split_enabled": false
@@ -2219,6 +2469,7 @@
           "observed_events": 12
         }
       ],
+      "A2_online_validation_trace": [],
       "A2_postphase_revalidated_merges": 1,
       "A2_postphase_revalidation_labels": 1200,
       "A2_recovery_events": 11,
@@ -2324,6 +2575,28 @@
       },
       "a1_accuracy": 1.0,
       "a1_adopted_merges": 1,
+      "a1_candidate_lifecycle_readout": {
+        "adopted_merge_count": 1,
+        "dormant_ancestor_count": 2,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.2,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
       "a1_dormant_candidates": 2,
       "a1_merged_proposals": 1,
       "a1_supervised_adoption_labels": 1200,
@@ -2334,6 +2607,8 @@
       "final_executed_context_splits": 0,
       "final_merged_proposals": 1,
       "merge_enabled": true,
+      "online_validation_decisions": 0,
+      "online_validation_labels": 0,
       "retention_after_return": 0.0,
       "seed": 23,
       "split_enabled": false
@@ -2428,6 +2703,7 @@
           "observed_events": 12
         }
       ],
+      "A2_online_validation_trace": [],
       "A2_postphase_revalidated_merges": 0,
       "A2_postphase_revalidation_labels": 0,
       "A2_recovery_events": 11,
@@ -2533,6 +2809,28 @@
       },
       "a1_accuracy": 1.0,
       "a1_adopted_merges": 0,
+      "a1_candidate_lifecycle_readout": {
+        "adopted_merge_count": 0,
+        "dormant_ancestor_count": 0,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
       "a1_dormant_candidates": 0,
       "a1_merged_proposals": 0,
       "a1_supervised_adoption_labels": 800,
@@ -2543,6 +2841,8 @@
       "final_executed_context_splits": 0,
       "final_merged_proposals": 0,
       "merge_enabled": false,
+      "online_validation_decisions": 0,
+      "online_validation_labels": 0,
       "retention_after_return": 0.0,
       "seed": 23,
       "split_enabled": true
@@ -2637,6 +2937,7 @@
           "observed_events": 12
         }
       ],
+      "A2_online_validation_trace": [],
       "A2_postphase_revalidated_merges": 0,
       "A2_postphase_revalidation_labels": 0,
       "A2_recovery_events": 11,
@@ -2742,6 +3043,28 @@
       },
       "a1_accuracy": 1.0,
       "a1_adopted_merges": 1,
+      "a1_candidate_lifecycle_readout": {
+        "adopted_merge_count": 1,
+        "dormant_ancestor_count": 0,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
       "a1_dormant_candidates": 0,
       "a1_merged_proposals": 1,
       "a1_supervised_adoption_labels": 1200,
@@ -2752,6 +3075,8 @@
       "final_executed_context_splits": 0,
       "final_merged_proposals": 0,
       "merge_enabled": true,
+      "online_validation_decisions": 0,
+      "online_validation_labels": 0,
       "retention_after_return": 0.0,
       "seed": 23,
       "split_enabled": true
@@ -2846,6 +3171,7 @@
           "observed_events": 12
         }
       ],
+      "A2_online_validation_trace": [],
       "A2_postphase_revalidated_merges": 0,
       "A2_postphase_revalidation_labels": 0,
       "A2_recovery_events": 11,
@@ -2951,6 +3277,28 @@
       },
       "a1_accuracy": 1.0,
       "a1_adopted_merges": 0,
+      "a1_candidate_lifecycle_readout": {
+        "adopted_merge_count": 0,
+        "dormant_ancestor_count": 0,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
       "a1_dormant_candidates": 0,
       "a1_merged_proposals": 0,
       "a1_supervised_adoption_labels": 800,
@@ -2961,6 +3309,8 @@
       "final_executed_context_splits": 0,
       "final_merged_proposals": 0,
       "merge_enabled": false,
+      "online_validation_decisions": 0,
+      "online_validation_labels": 0,
       "retention_after_return": 0.0,
       "seed": 23,
       "split_enabled": false
@@ -3055,6 +3405,7 @@
           "observed_events": 12
         }
       ],
+      "A2_online_validation_trace": [],
       "A2_postphase_revalidated_merges": 0,
       "A2_postphase_revalidation_labels": 0,
       "A2_recovery_events": 10,
@@ -3160,6 +3511,28 @@
       },
       "a1_accuracy": 1.0,
       "a1_adopted_merges": 1,
+      "a1_candidate_lifecycle_readout": {
+        "adopted_merge_count": 1,
+        "dormant_ancestor_count": 2,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.2,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
       "a1_dormant_candidates": 2,
       "a1_merged_proposals": 1,
       "a1_supervised_adoption_labels": 1200,
@@ -3170,6 +3543,8 @@
       "final_executed_context_splits": 0,
       "final_merged_proposals": 0,
       "merge_enabled": true,
+      "online_validation_decisions": 0,
+      "online_validation_labels": 0,
       "retention_after_return": 0.0,
       "seed": 37,
       "split_enabled": true
@@ -3264,6 +3639,7 @@
           "observed_events": 12
         }
       ],
+      "A2_online_validation_trace": [],
       "A2_postphase_revalidated_merges": 0,
       "A2_postphase_revalidation_labels": 0,
       "A2_recovery_events": 10,
@@ -3369,6 +3745,28 @@
       },
       "a1_accuracy": 1.0,
       "a1_adopted_merges": 0,
+      "a1_candidate_lifecycle_readout": {
+        "adopted_merge_count": 0,
+        "dormant_ancestor_count": 0,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
       "a1_dormant_candidates": 0,
       "a1_merged_proposals": 0,
       "a1_supervised_adoption_labels": 800,
@@ -3379,6 +3777,8 @@
       "final_executed_context_splits": 0,
       "final_merged_proposals": 0,
       "merge_enabled": false,
+      "online_validation_decisions": 0,
+      "online_validation_labels": 0,
       "retention_after_return": 0.0,
       "seed": 37,
       "split_enabled": true
@@ -3473,6 +3873,7 @@
           "observed_events": 12
         }
       ],
+      "A2_online_validation_trace": [],
       "A2_postphase_revalidated_merges": 1,
       "A2_postphase_revalidation_labels": 1200,
       "A2_recovery_events": 10,
@@ -3578,6 +3979,28 @@
       },
       "a1_accuracy": 1.0,
       "a1_adopted_merges": 1,
+      "a1_candidate_lifecycle_readout": {
+        "adopted_merge_count": 1,
+        "dormant_ancestor_count": 0,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
       "a1_dormant_candidates": 0,
       "a1_merged_proposals": 1,
       "a1_supervised_adoption_labels": 1200,
@@ -3588,6 +4011,8 @@
       "final_executed_context_splits": 0,
       "final_merged_proposals": 1,
       "merge_enabled": true,
+      "online_validation_decisions": 0,
+      "online_validation_labels": 0,
       "retention_after_return": 0.0,
       "seed": 37,
       "split_enabled": false
@@ -3682,6 +4107,7 @@
           "observed_events": 12
         }
       ],
+      "A2_online_validation_trace": [],
       "A2_postphase_revalidated_merges": 1,
       "A2_postphase_revalidation_labels": 1200,
       "A2_recovery_events": 10,
@@ -3787,6 +4213,28 @@
       },
       "a1_accuracy": 1.0,
       "a1_adopted_merges": 1,
+      "a1_candidate_lifecycle_readout": {
+        "adopted_merge_count": 1,
+        "dormant_ancestor_count": 2,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.2,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
       "a1_dormant_candidates": 2,
       "a1_merged_proposals": 1,
       "a1_supervised_adoption_labels": 1200,
@@ -3797,6 +4245,8 @@
       "final_executed_context_splits": 0,
       "final_merged_proposals": 1,
       "merge_enabled": true,
+      "online_validation_decisions": 0,
+      "online_validation_labels": 0,
       "retention_after_return": 0.0,
       "seed": 37,
       "split_enabled": false
@@ -3891,6 +4341,7 @@
           "observed_events": 12
         }
       ],
+      "A2_online_validation_trace": [],
       "A2_postphase_revalidated_merges": 0,
       "A2_postphase_revalidation_labels": 0,
       "A2_recovery_events": 10,
@@ -3996,6 +4447,28 @@
       },
       "a1_accuracy": 1.0,
       "a1_adopted_merges": 0,
+      "a1_candidate_lifecycle_readout": {
+        "adopted_merge_count": 0,
+        "dormant_ancestor_count": 0,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
       "a1_dormant_candidates": 0,
       "a1_merged_proposals": 0,
       "a1_supervised_adoption_labels": 800,
@@ -4006,6 +4479,8 @@
       "final_executed_context_splits": 0,
       "final_merged_proposals": 0,
       "merge_enabled": false,
+      "online_validation_decisions": 0,
+      "online_validation_labels": 0,
       "retention_after_return": 0.0,
       "seed": 37,
       "split_enabled": true
@@ -4100,6 +4575,7 @@
           "observed_events": 12
         }
       ],
+      "A2_online_validation_trace": [],
       "A2_postphase_revalidated_merges": 0,
       "A2_postphase_revalidation_labels": 0,
       "A2_recovery_events": 10,
@@ -4205,6 +4681,28 @@
       },
       "a1_accuracy": 1.0,
       "a1_adopted_merges": 1,
+      "a1_candidate_lifecycle_readout": {
+        "adopted_merge_count": 1,
+        "dormant_ancestor_count": 0,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
       "a1_dormant_candidates": 0,
       "a1_merged_proposals": 1,
       "a1_supervised_adoption_labels": 1200,
@@ -4215,6 +4713,8 @@
       "final_executed_context_splits": 0,
       "final_merged_proposals": 0,
       "merge_enabled": true,
+      "online_validation_decisions": 0,
+      "online_validation_labels": 0,
       "retention_after_return": 0.0,
       "seed": 37,
       "split_enabled": true
@@ -4309,6 +4809,7 @@
           "observed_events": 12
         }
       ],
+      "A2_online_validation_trace": [],
       "A2_postphase_revalidated_merges": 0,
       "A2_postphase_revalidation_labels": 0,
       "A2_recovery_events": 10,
@@ -4414,6 +4915,28 @@
       },
       "a1_accuracy": 1.0,
       "a1_adopted_merges": 0,
+      "a1_candidate_lifecycle_readout": {
+        "adopted_merge_count": 0,
+        "dormant_ancestor_count": 0,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
       "a1_dormant_candidates": 0,
       "a1_merged_proposals": 0,
       "a1_supervised_adoption_labels": 800,
@@ -4424,6 +4947,8 @@
       "final_executed_context_splits": 0,
       "final_merged_proposals": 0,
       "merge_enabled": false,
+      "online_validation_decisions": 0,
+      "online_validation_labels": 0,
       "retention_after_return": 0.0,
       "seed": 37,
       "split_enabled": false
@@ -4518,6 +5043,7 @@
           "observed_events": 12
         }
       ],
+      "A2_online_validation_trace": [],
       "A2_postphase_revalidated_merges": 0,
       "A2_postphase_revalidation_labels": 0,
       "A2_recovery_events": 11,
@@ -4623,6 +5149,28 @@
       },
       "a1_accuracy": 1.0,
       "a1_adopted_merges": 1,
+      "a1_candidate_lifecycle_readout": {
+        "adopted_merge_count": 1,
+        "dormant_ancestor_count": 2,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.2,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
       "a1_dormant_candidates": 2,
       "a1_merged_proposals": 1,
       "a1_supervised_adoption_labels": 1200,
@@ -4633,6 +5181,8 @@
       "final_executed_context_splits": 0,
       "final_merged_proposals": 0,
       "merge_enabled": true,
+      "online_validation_decisions": 0,
+      "online_validation_labels": 0,
       "retention_after_return": 0.0,
       "seed": 53,
       "split_enabled": true
@@ -4727,6 +5277,7 @@
           "observed_events": 12
         }
       ],
+      "A2_online_validation_trace": [],
       "A2_postphase_revalidated_merges": 0,
       "A2_postphase_revalidation_labels": 0,
       "A2_recovery_events": 11,
@@ -4832,6 +5383,28 @@
       },
       "a1_accuracy": 1.0,
       "a1_adopted_merges": 0,
+      "a1_candidate_lifecycle_readout": {
+        "adopted_merge_count": 0,
+        "dormant_ancestor_count": 0,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
       "a1_dormant_candidates": 0,
       "a1_merged_proposals": 0,
       "a1_supervised_adoption_labels": 800,
@@ -4842,6 +5415,8 @@
       "final_executed_context_splits": 0,
       "final_merged_proposals": 0,
       "merge_enabled": false,
+      "online_validation_decisions": 0,
+      "online_validation_labels": 0,
       "retention_after_return": 0.0,
       "seed": 53,
       "split_enabled": true
@@ -4936,6 +5511,7 @@
           "observed_events": 12
         }
       ],
+      "A2_online_validation_trace": [],
       "A2_postphase_revalidated_merges": 1,
       "A2_postphase_revalidation_labels": 1200,
       "A2_recovery_events": 11,
@@ -5041,6 +5617,28 @@
       },
       "a1_accuracy": 1.0,
       "a1_adopted_merges": 1,
+      "a1_candidate_lifecycle_readout": {
+        "adopted_merge_count": 1,
+        "dormant_ancestor_count": 0,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
       "a1_dormant_candidates": 0,
       "a1_merged_proposals": 1,
       "a1_supervised_adoption_labels": 1200,
@@ -5051,6 +5649,8 @@
       "final_executed_context_splits": 0,
       "final_merged_proposals": 1,
       "merge_enabled": true,
+      "online_validation_decisions": 0,
+      "online_validation_labels": 0,
       "retention_after_return": 0.0,
       "seed": 53,
       "split_enabled": false
@@ -5145,6 +5745,7 @@
           "observed_events": 12
         }
       ],
+      "A2_online_validation_trace": [],
       "A2_postphase_revalidated_merges": 1,
       "A2_postphase_revalidation_labels": 1200,
       "A2_recovery_events": 11,
@@ -5250,6 +5851,28 @@
       },
       "a1_accuracy": 1.0,
       "a1_adopted_merges": 1,
+      "a1_candidate_lifecycle_readout": {
+        "adopted_merge_count": 1,
+        "dormant_ancestor_count": 2,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.2,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
       "a1_dormant_candidates": 2,
       "a1_merged_proposals": 1,
       "a1_supervised_adoption_labels": 1200,
@@ -5260,6 +5883,8 @@
       "final_executed_context_splits": 0,
       "final_merged_proposals": 1,
       "merge_enabled": true,
+      "online_validation_decisions": 0,
+      "online_validation_labels": 0,
       "retention_after_return": 0.0,
       "seed": 53,
       "split_enabled": false
@@ -5354,6 +5979,7 @@
           "observed_events": 12
         }
       ],
+      "A2_online_validation_trace": [],
       "A2_postphase_revalidated_merges": 0,
       "A2_postphase_revalidation_labels": 0,
       "A2_recovery_events": 11,
@@ -5459,6 +6085,28 @@
       },
       "a1_accuracy": 1.0,
       "a1_adopted_merges": 0,
+      "a1_candidate_lifecycle_readout": {
+        "adopted_merge_count": 0,
+        "dormant_ancestor_count": 0,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
       "a1_dormant_candidates": 0,
       "a1_merged_proposals": 0,
       "a1_supervised_adoption_labels": 800,
@@ -5469,6 +6117,8 @@
       "final_executed_context_splits": 0,
       "final_merged_proposals": 0,
       "merge_enabled": false,
+      "online_validation_decisions": 0,
+      "online_validation_labels": 0,
       "retention_after_return": 0.0,
       "seed": 53,
       "split_enabled": true
@@ -5563,6 +6213,7 @@
           "observed_events": 12
         }
       ],
+      "A2_online_validation_trace": [],
       "A2_postphase_revalidated_merges": 0,
       "A2_postphase_revalidation_labels": 0,
       "A2_recovery_events": 11,
@@ -5668,6 +6319,28 @@
       },
       "a1_accuracy": 1.0,
       "a1_adopted_merges": 1,
+      "a1_candidate_lifecycle_readout": {
+        "adopted_merge_count": 1,
+        "dormant_ancestor_count": 0,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
       "a1_dormant_candidates": 0,
       "a1_merged_proposals": 1,
       "a1_supervised_adoption_labels": 1200,
@@ -5678,6 +6351,8 @@
       "final_executed_context_splits": 0,
       "final_merged_proposals": 0,
       "merge_enabled": true,
+      "online_validation_decisions": 0,
+      "online_validation_labels": 0,
       "retention_after_return": 0.0,
       "seed": 53,
       "split_enabled": true
@@ -5772,6 +6447,7 @@
           "observed_events": 12
         }
       ],
+      "A2_online_validation_trace": [],
       "A2_postphase_revalidated_merges": 0,
       "A2_postphase_revalidation_labels": 0,
       "A2_recovery_events": 11,
@@ -5877,6 +6553,28 @@
       },
       "a1_accuracy": 1.0,
       "a1_adopted_merges": 0,
+      "a1_candidate_lifecycle_readout": {
+        "adopted_merge_count": 0,
+        "dormant_ancestor_count": 0,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
       "a1_dormant_candidates": 0,
       "a1_merged_proposals": 0,
       "a1_supervised_adoption_labels": 800,
@@ -5887,6 +6585,8 @@
       "final_executed_context_splits": 0,
       "final_merged_proposals": 0,
       "merge_enabled": false,
+      "online_validation_decisions": 0,
+      "online_validation_labels": 0,
       "retention_after_return": 0.0,
       "seed": 53,
       "split_enabled": false
@@ -5981,6 +6681,7 @@
           "observed_events": 12
         }
       ],
+      "A2_online_validation_trace": [],
       "A2_postphase_revalidated_merges": 0,
       "A2_postphase_revalidation_labels": 0,
       "A2_recovery_events": null,
@@ -6086,6 +6787,28 @@
       },
       "a1_accuracy": 1.0,
       "a1_adopted_merges": 1,
+      "a1_candidate_lifecycle_readout": {
+        "adopted_merge_count": 1,
+        "dormant_ancestor_count": 2,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.2,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
       "a1_dormant_candidates": 2,
       "a1_merged_proposals": 1,
       "a1_supervised_adoption_labels": 1200,
@@ -6096,6 +6819,8 @@
       "final_executed_context_splits": 0,
       "final_merged_proposals": 0,
       "merge_enabled": true,
+      "online_validation_decisions": 0,
+      "online_validation_labels": 0,
       "retention_after_return": 0.0,
       "seed": 71,
       "split_enabled": true
@@ -6190,6 +6915,7 @@
           "observed_events": 12
         }
       ],
+      "A2_online_validation_trace": [],
       "A2_postphase_revalidated_merges": 0,
       "A2_postphase_revalidation_labels": 0,
       "A2_recovery_events": null,
@@ -6295,6 +7021,28 @@
       },
       "a1_accuracy": 1.0,
       "a1_adopted_merges": 0,
+      "a1_candidate_lifecycle_readout": {
+        "adopted_merge_count": 0,
+        "dormant_ancestor_count": 0,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
       "a1_dormant_candidates": 0,
       "a1_merged_proposals": 0,
       "a1_supervised_adoption_labels": 800,
@@ -6305,6 +7053,8 @@
       "final_executed_context_splits": 0,
       "final_merged_proposals": 0,
       "merge_enabled": false,
+      "online_validation_decisions": 0,
+      "online_validation_labels": 0,
       "retention_after_return": 0.0,
       "seed": 71,
       "split_enabled": true
@@ -6399,6 +7149,7 @@
           "observed_events": 12
         }
       ],
+      "A2_online_validation_trace": [],
       "A2_postphase_revalidated_merges": 1,
       "A2_postphase_revalidation_labels": 1200,
       "A2_recovery_events": null,
@@ -6504,6 +7255,28 @@
       },
       "a1_accuracy": 1.0,
       "a1_adopted_merges": 1,
+      "a1_candidate_lifecycle_readout": {
+        "adopted_merge_count": 1,
+        "dormant_ancestor_count": 0,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
       "a1_dormant_candidates": 0,
       "a1_merged_proposals": 1,
       "a1_supervised_adoption_labels": 1200,
@@ -6514,6 +7287,8 @@
       "final_executed_context_splits": 0,
       "final_merged_proposals": 1,
       "merge_enabled": true,
+      "online_validation_decisions": 0,
+      "online_validation_labels": 0,
       "retention_after_return": 0.0,
       "seed": 71,
       "split_enabled": false
@@ -6608,6 +7383,7 @@
           "observed_events": 12
         }
       ],
+      "A2_online_validation_trace": [],
       "A2_postphase_revalidated_merges": 1,
       "A2_postphase_revalidation_labels": 1200,
       "A2_recovery_events": null,
@@ -6713,6 +7489,28 @@
       },
       "a1_accuracy": 1.0,
       "a1_adopted_merges": 1,
+      "a1_candidate_lifecycle_readout": {
+        "adopted_merge_count": 1,
+        "dormant_ancestor_count": 2,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.2,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
       "a1_dormant_candidates": 2,
       "a1_merged_proposals": 1,
       "a1_supervised_adoption_labels": 1200,
@@ -6723,6 +7521,8 @@
       "final_executed_context_splits": 0,
       "final_merged_proposals": 1,
       "merge_enabled": true,
+      "online_validation_decisions": 0,
+      "online_validation_labels": 0,
       "retention_after_return": 0.0,
       "seed": 71,
       "split_enabled": false
@@ -6817,6 +7617,7 @@
           "observed_events": 12
         }
       ],
+      "A2_online_validation_trace": [],
       "A2_postphase_revalidated_merges": 0,
       "A2_postphase_revalidation_labels": 0,
       "A2_recovery_events": null,
@@ -6922,6 +7723,28 @@
       },
       "a1_accuracy": 1.0,
       "a1_adopted_merges": 0,
+      "a1_candidate_lifecycle_readout": {
+        "adopted_merge_count": 0,
+        "dormant_ancestor_count": 0,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
       "a1_dormant_candidates": 0,
       "a1_merged_proposals": 0,
       "a1_supervised_adoption_labels": 800,
@@ -6932,6 +7755,8 @@
       "final_executed_context_splits": 0,
       "final_merged_proposals": 0,
       "merge_enabled": false,
+      "online_validation_decisions": 0,
+      "online_validation_labels": 0,
       "retention_after_return": 0.0,
       "seed": 71,
       "split_enabled": true
@@ -7026,6 +7851,7 @@
           "observed_events": 12
         }
       ],
+      "A2_online_validation_trace": [],
       "A2_postphase_revalidated_merges": 0,
       "A2_postphase_revalidation_labels": 0,
       "A2_recovery_events": null,
@@ -7131,6 +7957,28 @@
       },
       "a1_accuracy": 1.0,
       "a1_adopted_merges": 1,
+      "a1_candidate_lifecycle_readout": {
+        "adopted_merge_count": 1,
+        "dormant_ancestor_count": 0,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
       "a1_dormant_candidates": 0,
       "a1_merged_proposals": 1,
       "a1_supervised_adoption_labels": 1200,
@@ -7141,6 +7989,8 @@
       "final_executed_context_splits": 0,
       "final_merged_proposals": 0,
       "merge_enabled": true,
+      "online_validation_decisions": 0,
+      "online_validation_labels": 0,
       "retention_after_return": 0.0,
       "seed": 71,
       "split_enabled": true
@@ -7235,6 +8085,7 @@
           "observed_events": 12
         }
       ],
+      "A2_online_validation_trace": [],
       "A2_postphase_revalidated_merges": 0,
       "A2_postphase_revalidation_labels": 0,
       "A2_recovery_events": null,
@@ -7340,6 +8191,28 @@
       },
       "a1_accuracy": 1.0,
       "a1_adopted_merges": 0,
+      "a1_candidate_lifecycle_readout": {
+        "adopted_merge_count": 0,
+        "dormant_ancestor_count": 0,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
       "a1_dormant_candidates": 0,
       "a1_merged_proposals": 0,
       "a1_supervised_adoption_labels": 800,
@@ -7350,6 +8223,8 @@
       "final_executed_context_splits": 0,
       "final_merged_proposals": 0,
       "merge_enabled": false,
+      "online_validation_decisions": 0,
+      "online_validation_labels": 0,
       "retention_after_return": 0.0,
       "seed": 71,
       "split_enabled": false
