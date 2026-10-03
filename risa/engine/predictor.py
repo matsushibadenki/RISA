@@ -5,7 +5,8 @@ from risa.core.state import RisaState
 from risa.engine.candidate_discovery import matching_adopted_candidates
 from risa.engine.graph_builder import normalize_label
 from risa.engine.role_induction import (
-    effective_event_target_roles,
+    event_readout_target_roles,
+    query_readout_target_roles,
     effective_query_target_roles,
 )
 from risa.engine.evidence import matching_evidence_event_ids
@@ -16,16 +17,22 @@ def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionR
     actor = normalize_label(query.actor)
     action = normalize_label(query.action)
     target = normalize_label(query.target) if query.target else ""
-    target_roles = effective_query_target_roles(
+    candidate_roles = effective_query_target_roles(
         target=query.target,
         supplied_roles=query.target_roles,
         entity_bindings=query.entity_bindings,
         entity_relations=query.entity_relations,
         enable_role_induction=query.enable_role_induction,
     )
+    target_roles = query_readout_target_roles(
+        readout_hops=state.target_role_readout_hops,
+        target=query.target, supplied_roles=query.target_roles,
+        entity_bindings=query.entity_bindings, entity_relations=query.entity_relations,
+        enable_role_induction=query.enable_role_induction,
+    )
     adopted_candidates = (
         matching_adopted_candidates(
-            state, action, target_roles, query.context_tags
+            state, action, candidate_roles, query.context_tags
         )
         if query.enable_candidate_concepts
         else []
@@ -71,6 +78,12 @@ def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionR
         )
         for effect, count in role_scores.items():
             target_role_scores[effect] = target_role_scores.get(effect, 0) + count
+    scoped_readout = state.target_role_readout_hops == 2 and bool(target)
+    if scoped_readout:
+        # Identity aggregates span structural roles. Select supported role
+        # outcomes below rather than allowing identity to bypass the cue.
+        actor_target_scores = {}
+        target_scores = {}
     if (
         target
         and not actor_target_scores
@@ -113,6 +126,12 @@ def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionR
                 for effect in candidate.structural_schema.get("effects", [])
             }
         )
+    if target and scoped_readout:
+        candidate_effects = sorted(set(target_role_scores) or {
+            normalize_label(str(effect))
+            for candidate in adopted_candidates
+            for effect in candidate.structural_schema.get("effects", [])
+        })
     if not candidate_effects:
         return PredictionResult(
             predicted_effects=[],
@@ -412,7 +431,7 @@ def _event_supporting_paths(
             continue
         if effect not in [normalize_label(item) for item in event.observed_effects]:
             continue
-        event_roles = set(effective_event_target_roles(event))
+        event_roles = set(event_readout_target_roles(event, state.target_role_readout_hops))
         target_matches = normalize_label(event.target or "") == target
         role_matches = bool(set(target_roles).intersection(event_roles))
         if target and not target_matches and not role_matches:
@@ -621,7 +640,7 @@ def _target_grounded_outcome(
             normalize_label(event.action) == action
             and (
                 normalize_label(event.target or "") == target
-                or bool(set(target_roles).intersection(effective_event_target_roles(event)))
+                or bool(set(target_roles).intersection(event_readout_target_roles(event, state.target_role_readout_hops)))
             )
             and selected_effect in event_effects
             and event_context == context_key
@@ -674,7 +693,7 @@ def _recent_grounded_outcome(
         outcome = tuple(sorted({normalize_label(effect) for effect in event.observed_effects}))
         if normalize_label(event.target or "") == target:
             exact.append(outcome)
-        elif query_roles.intersection(effective_event_target_roles(event)):
+        elif query_roles.intersection(event_readout_target_roles(event, state.target_role_readout_hops)):
             role_bound.append(outcome)
     outcomes = exact or role_bound
     if len(outcomes) < minimum_run:

@@ -18,12 +18,13 @@ from risa.core.models import (
     UnnamedConceptCandidate,
 )
 
-CURRENT_SCHEMA_VERSION = 4
+CURRENT_SCHEMA_VERSION = 5
 
 
 @dataclass
 class RisaState:
     schema_version: int = CURRENT_SCHEMA_VERSION
+    target_role_readout_hops: int = 1
     graph: GraphStore = field(default_factory=GraphStore)
     patterns: dict[str, Pattern] = field(default_factory=dict)
     structural_patterns: dict[str, StructuralPattern] = field(default_factory=dict)
@@ -55,9 +56,14 @@ class RisaState:
     compacted_role_readouts: dict[str, str] = field(default_factory=dict)
     unnamed_concept_candidates: dict[str, UnnamedConceptCandidate] = field(default_factory=dict)
 
+    def __post_init__(self) -> None:
+        if type(self.target_role_readout_hops) is not int or self.target_role_readout_hops not in {1, 2}:
+            raise ValueError("target_role_readout_hops must be 1 or 2")
+
     def to_dict(self) -> dict:
         return {
             "schema_version": CURRENT_SCHEMA_VERSION,
+            "target_role_readout_hops": self.target_role_readout_hops,
             "graph": self.graph.to_compact_dict(),
             "patterns": {
                 key: _pattern_persistence_record(key, pattern)
@@ -119,7 +125,8 @@ class RisaState:
                 f"state schema version {schema_version} is newer than supported "
                 f"version {CURRENT_SCHEMA_VERSION}"
             )
-        state = cls(schema_version=CURRENT_SCHEMA_VERSION)
+        state = cls(schema_version=CURRENT_SCHEMA_VERSION,
+                    target_role_readout_hops=data.get("target_role_readout_hops", 1))
         state.graph = GraphStore.from_dict(data.get("graph", {}))
         for key, pattern_data in data.get("patterns", {}).items():
             state.patterns[key] = Pattern(

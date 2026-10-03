@@ -1,0 +1,967 @@
+{
+  "benchmark_version": "g3.2-candidate-context-transfer-development-v1",
+  "manifest_sha256": "67cbb5f3e564798445489ac1e4892bbf38affe2ed7dfc38c13cade55b1074cb0",
+  "rows": [
+    {
+      "candidate_changed_predictions": 0,
+      "conflict_guard_audit": {
+        "conflict_queries": 0,
+        "event_reads": 144,
+        "extra_supervised_labels": 0,
+        "indexed_event_reads": 0,
+        "indexed_scope_reads": 72,
+        "indexed_semantics_equal": true
+      },
+      "expected_behavior": "predict_effect",
+      "lifecycle_readout": {
+        "adopted_merge_count": 1,
+        "dormant_ancestor_count": 2,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.2,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
+      "models": {
+        "count_table": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 1.0
+        },
+        "latest_table": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 1.0
+        },
+        "risa": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 1.0
+        },
+        "risa_conflict_guard": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 1.0
+        },
+        "risa_no_candidate": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 1.0
+        },
+        "subset_table": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 1.0
+        }
+      },
+      "panel": "exact_context",
+      "probe_count": 24,
+      "seed": 11,
+      "supervised_adoption_labels": 1200
+    },
+    {
+      "candidate_changed_predictions": 16,
+      "conflict_guard_audit": {
+        "conflict_queries": 0,
+        "event_reads": 144,
+        "extra_supervised_labels": 0,
+        "indexed_event_reads": 0,
+        "indexed_scope_reads": 72,
+        "indexed_semantics_equal": true
+      },
+      "expected_behavior": "predict_effect",
+      "lifecycle_readout": {
+        "adopted_merge_count": 1,
+        "dormant_ancestor_count": 2,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 0.6666666666666666,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 0.6666666666666666,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 0.0,
+            "mean_absolute_score_change_vs_full": 0.389333,
+            "predictions_changed_vs_full": 16
+          }
+        }
+      },
+      "models": {
+        "count_table": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 0.0
+        },
+        "latest_table": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 0.0
+        },
+        "risa": {
+          "abstention_count": 8,
+          "expected_behavior_rate": 0.6666666666666666
+        },
+        "risa_conflict_guard": {
+          "abstention_count": 8,
+          "expected_behavior_rate": 0.6666666666666666
+        },
+        "risa_no_candidate": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 0.0
+        },
+        "subset_table": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 1.0
+        }
+      },
+      "panel": "unseen_nuisance",
+      "probe_count": 24,
+      "seed": 11,
+      "supervised_adoption_labels": 1200
+    },
+    {
+      "candidate_changed_predictions": 24,
+      "conflict_guard_audit": {
+        "conflict_queries": 24,
+        "event_reads": 144,
+        "extra_supervised_labels": 0,
+        "indexed_event_reads": 0,
+        "indexed_scope_reads": 72,
+        "indexed_semantics_equal": true
+      },
+      "expected_behavior": "abstain_on_conflict",
+      "lifecycle_readout": {
+        "adopted_merge_count": 1,
+        "dormant_ancestor_count": 2,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 0.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 0.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.584,
+            "predictions_changed_vs_full": 24
+          }
+        }
+      },
+      "models": {
+        "count_table": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 1.0
+        },
+        "latest_table": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 1.0
+        },
+        "risa": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 0.0
+        },
+        "risa_conflict_guard": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 1.0
+        },
+        "risa_no_candidate": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 1.0
+        },
+        "subset_table": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 1.0
+        }
+      },
+      "panel": "conflicting_context",
+      "probe_count": 24,
+      "seed": 11,
+      "supervised_adoption_labels": 1200
+    },
+    {
+      "candidate_changed_predictions": 0,
+      "conflict_guard_audit": {
+        "conflict_queries": 0,
+        "event_reads": 144,
+        "extra_supervised_labels": 0,
+        "indexed_event_reads": 0,
+        "indexed_scope_reads": 72,
+        "indexed_semantics_equal": true
+      },
+      "expected_behavior": "predict_effect",
+      "lifecycle_readout": {
+        "adopted_merge_count": 1,
+        "dormant_ancestor_count": 2,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.2,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
+      "models": {
+        "count_table": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 1.0
+        },
+        "latest_table": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 1.0
+        },
+        "risa": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 1.0
+        },
+        "risa_conflict_guard": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 1.0
+        },
+        "risa_no_candidate": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 1.0
+        },
+        "subset_table": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 1.0
+        }
+      },
+      "panel": "exact_context",
+      "probe_count": 24,
+      "seed": 23,
+      "supervised_adoption_labels": 1200
+    },
+    {
+      "candidate_changed_predictions": 16,
+      "conflict_guard_audit": {
+        "conflict_queries": 0,
+        "event_reads": 144,
+        "extra_supervised_labels": 0,
+        "indexed_event_reads": 0,
+        "indexed_scope_reads": 72,
+        "indexed_semantics_equal": true
+      },
+      "expected_behavior": "predict_effect",
+      "lifecycle_readout": {
+        "adopted_merge_count": 1,
+        "dormant_ancestor_count": 2,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 0.6666666666666666,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 0.6666666666666666,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 0.0,
+            "mean_absolute_score_change_vs_full": 0.389333,
+            "predictions_changed_vs_full": 16
+          }
+        }
+      },
+      "models": {
+        "count_table": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 0.0
+        },
+        "latest_table": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 0.0
+        },
+        "risa": {
+          "abstention_count": 8,
+          "expected_behavior_rate": 0.6666666666666666
+        },
+        "risa_conflict_guard": {
+          "abstention_count": 8,
+          "expected_behavior_rate": 0.6666666666666666
+        },
+        "risa_no_candidate": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 0.0
+        },
+        "subset_table": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 1.0
+        }
+      },
+      "panel": "unseen_nuisance",
+      "probe_count": 24,
+      "seed": 23,
+      "supervised_adoption_labels": 1200
+    },
+    {
+      "candidate_changed_predictions": 24,
+      "conflict_guard_audit": {
+        "conflict_queries": 24,
+        "event_reads": 144,
+        "extra_supervised_labels": 0,
+        "indexed_event_reads": 0,
+        "indexed_scope_reads": 72,
+        "indexed_semantics_equal": true
+      },
+      "expected_behavior": "abstain_on_conflict",
+      "lifecycle_readout": {
+        "adopted_merge_count": 1,
+        "dormant_ancestor_count": 2,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 0.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 0.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.584,
+            "predictions_changed_vs_full": 24
+          }
+        }
+      },
+      "models": {
+        "count_table": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 1.0
+        },
+        "latest_table": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 1.0
+        },
+        "risa": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 0.0
+        },
+        "risa_conflict_guard": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 1.0
+        },
+        "risa_no_candidate": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 1.0
+        },
+        "subset_table": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 1.0
+        }
+      },
+      "panel": "conflicting_context",
+      "probe_count": 24,
+      "seed": 23,
+      "supervised_adoption_labels": 1200
+    },
+    {
+      "candidate_changed_predictions": 0,
+      "conflict_guard_audit": {
+        "conflict_queries": 0,
+        "event_reads": 144,
+        "extra_supervised_labels": 0,
+        "indexed_event_reads": 0,
+        "indexed_scope_reads": 72,
+        "indexed_semantics_equal": true
+      },
+      "expected_behavior": "predict_effect",
+      "lifecycle_readout": {
+        "adopted_merge_count": 1,
+        "dormant_ancestor_count": 2,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.2,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
+      "models": {
+        "count_table": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 1.0
+        },
+        "latest_table": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 1.0
+        },
+        "risa": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 1.0
+        },
+        "risa_conflict_guard": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 1.0
+        },
+        "risa_no_candidate": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 1.0
+        },
+        "subset_table": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 1.0
+        }
+      },
+      "panel": "exact_context",
+      "probe_count": 24,
+      "seed": 37,
+      "supervised_adoption_labels": 1200
+    },
+    {
+      "candidate_changed_predictions": 16,
+      "conflict_guard_audit": {
+        "conflict_queries": 0,
+        "event_reads": 144,
+        "extra_supervised_labels": 0,
+        "indexed_event_reads": 0,
+        "indexed_scope_reads": 72,
+        "indexed_semantics_equal": true
+      },
+      "expected_behavior": "predict_effect",
+      "lifecycle_readout": {
+        "adopted_merge_count": 1,
+        "dormant_ancestor_count": 2,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 0.6666666666666666,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 0.6666666666666666,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 0.0,
+            "mean_absolute_score_change_vs_full": 0.389333,
+            "predictions_changed_vs_full": 16
+          }
+        }
+      },
+      "models": {
+        "count_table": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 0.0
+        },
+        "latest_table": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 0.0
+        },
+        "risa": {
+          "abstention_count": 8,
+          "expected_behavior_rate": 0.6666666666666666
+        },
+        "risa_conflict_guard": {
+          "abstention_count": 8,
+          "expected_behavior_rate": 0.6666666666666666
+        },
+        "risa_no_candidate": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 0.0
+        },
+        "subset_table": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 1.0
+        }
+      },
+      "panel": "unseen_nuisance",
+      "probe_count": 24,
+      "seed": 37,
+      "supervised_adoption_labels": 1200
+    },
+    {
+      "candidate_changed_predictions": 24,
+      "conflict_guard_audit": {
+        "conflict_queries": 24,
+        "event_reads": 144,
+        "extra_supervised_labels": 0,
+        "indexed_event_reads": 0,
+        "indexed_scope_reads": 72,
+        "indexed_semantics_equal": true
+      },
+      "expected_behavior": "abstain_on_conflict",
+      "lifecycle_readout": {
+        "adopted_merge_count": 1,
+        "dormant_ancestor_count": 2,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 0.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 0.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.584,
+            "predictions_changed_vs_full": 24
+          }
+        }
+      },
+      "models": {
+        "count_table": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 1.0
+        },
+        "latest_table": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 1.0
+        },
+        "risa": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 0.0
+        },
+        "risa_conflict_guard": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 1.0
+        },
+        "risa_no_candidate": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 1.0
+        },
+        "subset_table": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 1.0
+        }
+      },
+      "panel": "conflicting_context",
+      "probe_count": 24,
+      "seed": 37,
+      "supervised_adoption_labels": 1200
+    },
+    {
+      "candidate_changed_predictions": 0,
+      "conflict_guard_audit": {
+        "conflict_queries": 0,
+        "event_reads": 144,
+        "extra_supervised_labels": 0,
+        "indexed_event_reads": 0,
+        "indexed_scope_reads": 72,
+        "indexed_semantics_equal": true
+      },
+      "expected_behavior": "predict_effect",
+      "lifecycle_readout": {
+        "adopted_merge_count": 1,
+        "dormant_ancestor_count": 2,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.2,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
+      "models": {
+        "count_table": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 1.0
+        },
+        "latest_table": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 1.0
+        },
+        "risa": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 1.0
+        },
+        "risa_conflict_guard": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 1.0
+        },
+        "risa_no_candidate": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 1.0
+        },
+        "subset_table": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 1.0
+        }
+      },
+      "panel": "exact_context",
+      "probe_count": 24,
+      "seed": 53,
+      "supervised_adoption_labels": 1200
+    },
+    {
+      "candidate_changed_predictions": 16,
+      "conflict_guard_audit": {
+        "conflict_queries": 0,
+        "event_reads": 144,
+        "extra_supervised_labels": 0,
+        "indexed_event_reads": 0,
+        "indexed_scope_reads": 72,
+        "indexed_semantics_equal": true
+      },
+      "expected_behavior": "predict_effect",
+      "lifecycle_readout": {
+        "adopted_merge_count": 1,
+        "dormant_ancestor_count": 2,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 0.6666666666666666,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 0.6666666666666666,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 0.0,
+            "mean_absolute_score_change_vs_full": 0.389333,
+            "predictions_changed_vs_full": 16
+          }
+        }
+      },
+      "models": {
+        "count_table": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 0.0
+        },
+        "latest_table": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 0.0
+        },
+        "risa": {
+          "abstention_count": 8,
+          "expected_behavior_rate": 0.6666666666666666
+        },
+        "risa_conflict_guard": {
+          "abstention_count": 8,
+          "expected_behavior_rate": 0.6666666666666666
+        },
+        "risa_no_candidate": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 0.0
+        },
+        "subset_table": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 1.0
+        }
+      },
+      "panel": "unseen_nuisance",
+      "probe_count": 24,
+      "seed": 53,
+      "supervised_adoption_labels": 1200
+    },
+    {
+      "candidate_changed_predictions": 24,
+      "conflict_guard_audit": {
+        "conflict_queries": 24,
+        "event_reads": 144,
+        "extra_supervised_labels": 0,
+        "indexed_event_reads": 0,
+        "indexed_scope_reads": 72,
+        "indexed_semantics_equal": true
+      },
+      "expected_behavior": "abstain_on_conflict",
+      "lifecycle_readout": {
+        "adopted_merge_count": 1,
+        "dormant_ancestor_count": 2,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 0.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 0.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.584,
+            "predictions_changed_vs_full": 24
+          }
+        }
+      },
+      "models": {
+        "count_table": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 1.0
+        },
+        "latest_table": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 1.0
+        },
+        "risa": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 0.0
+        },
+        "risa_conflict_guard": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 1.0
+        },
+        "risa_no_candidate": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 1.0
+        },
+        "subset_table": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 1.0
+        }
+      },
+      "panel": "conflicting_context",
+      "probe_count": 24,
+      "seed": 53,
+      "supervised_adoption_labels": 1200
+    },
+    {
+      "candidate_changed_predictions": 0,
+      "conflict_guard_audit": {
+        "conflict_queries": 0,
+        "event_reads": 144,
+        "extra_supervised_labels": 0,
+        "indexed_event_reads": 0,
+        "indexed_scope_reads": 72,
+        "indexed_semantics_equal": true
+      },
+      "expected_behavior": "predict_effect",
+      "lifecycle_readout": {
+        "adopted_merge_count": 1,
+        "dormant_ancestor_count": 2,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.2,
+            "predictions_changed_vs_full": 0
+          }
+        }
+      },
+      "models": {
+        "count_table": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 1.0
+        },
+        "latest_table": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 1.0
+        },
+        "risa": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 1.0
+        },
+        "risa_conflict_guard": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 1.0
+        },
+        "risa_no_candidate": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 1.0
+        },
+        "subset_table": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 1.0
+        }
+      },
+      "panel": "exact_context",
+      "probe_count": 24,
+      "seed": 71,
+      "supervised_adoption_labels": 1200
+    },
+    {
+      "candidate_changed_predictions": 16,
+      "conflict_guard_audit": {
+        "conflict_queries": 0,
+        "event_reads": 144,
+        "extra_supervised_labels": 0,
+        "indexed_event_reads": 0,
+        "indexed_scope_reads": 72,
+        "indexed_semantics_equal": true
+      },
+      "expected_behavior": "predict_effect",
+      "lifecycle_readout": {
+        "adopted_merge_count": 1,
+        "dormant_ancestor_count": 2,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 0.6666666666666666,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 0.6666666666666666,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 0.0,
+            "mean_absolute_score_change_vs_full": 0.389333,
+            "predictions_changed_vs_full": 16
+          }
+        }
+      },
+      "models": {
+        "count_table": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 0.0
+        },
+        "latest_table": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 0.0
+        },
+        "risa": {
+          "abstention_count": 8,
+          "expected_behavior_rate": 0.6666666666666666
+        },
+        "risa_conflict_guard": {
+          "abstention_count": 8,
+          "expected_behavior_rate": 0.6666666666666666
+        },
+        "risa_no_candidate": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 0.0
+        },
+        "subset_table": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 1.0
+        }
+      },
+      "panel": "unseen_nuisance",
+      "probe_count": 24,
+      "seed": 71,
+      "supervised_adoption_labels": 1200
+    },
+    {
+      "candidate_changed_predictions": 24,
+      "conflict_guard_audit": {
+        "conflict_queries": 24,
+        "event_reads": 144,
+        "extra_supervised_labels": 0,
+        "indexed_event_reads": 0,
+        "indexed_scope_reads": 72,
+        "indexed_semantics_equal": true
+      },
+      "expected_behavior": "abstain_on_conflict",
+      "lifecycle_readout": {
+        "adopted_merge_count": 1,
+        "dormant_ancestor_count": 2,
+        "probe_count": 24,
+        "variants": {
+          "full": {
+            "accuracy": 0.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "reactivated_dormant_ancestors": {
+            "accuracy": 0.0,
+            "mean_absolute_score_change_vs_full": 0.0,
+            "predictions_changed_vs_full": 0
+          },
+          "without_adopted_merges": {
+            "accuracy": 1.0,
+            "mean_absolute_score_change_vs_full": 0.584,
+            "predictions_changed_vs_full": 24
+          }
+        }
+      },
+      "models": {
+        "count_table": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 1.0
+        },
+        "latest_table": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 1.0
+        },
+        "risa": {
+          "abstention_count": 0,
+          "expected_behavior_rate": 0.0
+        },
+        "risa_conflict_guard": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 1.0
+        },
+        "risa_no_candidate": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 1.0
+        },
+        "subset_table": {
+          "abstention_count": 24,
+          "expected_behavior_rate": 1.0
+        }
+      },
+      "panel": "conflicting_context",
+      "probe_count": 24,
+      "seed": 71,
+      "supervised_adoption_labels": 1200
+    }
+  ],
+  "status": "development_control_only"
+}

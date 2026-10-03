@@ -10,7 +10,7 @@ from risa.engine.evidence import index_event_evidence, matching_evidence_event_i
 from risa.engine.graph_builder import normalize_label
 from risa.engine.prediction_indexes import rebuild_prediction_indexes
 from risa.engine.predictor import predict_next_effect
-from risa.engine.role_induction import effective_query_target_roles
+from risa.engine.role_induction import query_readout_target_roles
 
 
 @dataclass(frozen=True)
@@ -75,7 +75,8 @@ def _candidate_event_ids(
         "|".join(sorted(normalize_label(tag) for tag in query.context_tags))
         or "__no_context__"
     )
-    target_roles = effective_query_target_roles(
+    target_roles = query_readout_target_roles(
+        readout_hops=state.target_role_readout_hops,
         target=query.target,
         supplied_roles=query.target_roles,
         entity_bindings=query.entity_bindings,

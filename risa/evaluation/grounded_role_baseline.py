@@ -78,6 +78,41 @@ class GroundedRoleCountBaseline:
         return len(json.dumps(payload, sort_keys=True).encode("utf-8"))
 
 
+class GroundedRoleSubsetTransitionBaseline(GroundedRoleTransitionBaseline):
+    """Latest outcomes per most-specific observed context subset.
+
+    Equally specific contexts must agree. All query tags are eligible; no
+    relevant-tag selector or supervised adoption labels are provided.
+    """
+
+    def predict(self, query: PredictionQuery) -> tuple[str, ...]:
+        action, roles, context = _key(query.action, query.target_roles, query.context_tags)
+        matches = [(key, outcome) for key, outcome in self._latest.items()
+                   if key[:2] == (action, roles) and set(key[2]).issubset(context)]
+        if not matches:
+            return ()
+        specificity = max(len(set(key[2])) for key, _ in matches)
+        outcomes = {outcome for key, outcome in matches
+                    if len(set(key[2])) == specificity}
+        return next(iter(outcomes)) if len(outcomes) == 1 else ()
+
+
+class GroundedRoleSubsetCountBaseline(GroundedRoleCountBaseline):
+    """Per-scope count votes with recency ties, then subset agreement."""
+
+    def predict(self, query: PredictionQuery) -> tuple[str, ...]:
+        action, roles, context = _key(query.action, query.target_roles, query.context_tags)
+        matches = [key for key in self._counts
+                   if key[:2] == (action, roles) and set(key[2]).issubset(context)]
+        if not matches:
+            return ()
+        specificity = max(len(set(key[2])) for key in matches)
+        outcomes = {max(self._counts[key], key=lambda outcome: (
+                        self._counts[key][outcome], self._last_seen[key][outcome]))
+                    for key in matches if len(set(key[2])) == specificity}
+        return next(iter(outcomes)) if len(outcomes) == 1 else ()
+
+
 class _GroundedRoleModel(Protocol):
     def observe(self, event: Event) -> None: ...
     def predict(self, query: PredictionQuery) -> tuple[str, ...]: ...

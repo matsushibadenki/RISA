@@ -1768,3 +1768,12 @@ MVP-1 の次は MVP-2 として、以下を追加するのが自然です。
 さらにその先では、映像・音・行動を統一的な状態遷移表現へ落とすマルチモーダル化が重要になります。この方針と論点は [RISA 概念形成とマルチモーダル学習メモ](RISA-Concept-Formation-and-Multimodal-Notes.md) に記録します。
 
 MVP-1 の価値は、RISA の全構想を一気に作ることではありません。**動的グラフだけで予測と抽象化が実用的に回り始めるかを、最小の機械で確かめること**にあります。
+
+
+## 2026-10-03 Role readout mode / Role readout設定 / Role readout设置
+
+日本語: 現行schema v5は`target_role_readout_hops`（既定1、任意2）を保存する。v4以前は既定1へ移行する。2ではEventの予測count・証拠indexとquery接地を最深構造roleへ揃え、identityだけで他scopeへ越境しない。raw Eventと候補/graph役割の意味論は維持する。派生indexは保存せずEventから再構築する。学習前にmodeを指定し、学習後の直接変更は未対応。plannerの役割対応は別評価とする。
+
+English: Current schema v5 persists `target_role_readout_hops` (default one, optional two). Legacy states default to one. Mode two aligns Event prediction counts, evidence indexes and query grounding to the deepest structural role and prevents identity-only cross-scope evidence. Raw Events and candidate/graph role semantics are preserved. Derived indexes rebuild from Events. Configure the mode before learning; in-place changes after ingestion are unsupported. Planner role alignment requires separate evaluation.
+
+简体中文: 当前schema v5保存`target_role_readout_hops`（默认一跳、可选两跳），旧state默认一跳。两跳模式对齐Event预测计数、证据索引及query接地至最深结构role，避免仅凭identity跨scope引用证据。保留原始Event及候选/graph角色语义，派生索引由Event重建。学习前配置模式，摄取后直接修改不受支持；planner角色对应需另行评估。

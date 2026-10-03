@@ -3,7 +3,7 @@ from __future__ import annotations
 from risa.core.models import Event
 from risa.core.state import RisaState
 from risa.engine.graph_builder import normalize_label
-from risa.engine.role_induction import effective_event_target_roles
+from risa.engine.role_induction import event_readout_target_roles
 
 
 def index_event_evidence(state: RisaState, event: Event) -> None:
@@ -15,7 +15,7 @@ def index_event_evidence(state: RisaState, event: Event) -> None:
     _append(state, f"actor:{actor}:action:{action}:context:{context}", event.id)
     if target:
         _append(state, f"target:{target}:action:{action}:context:{context}", event.id)
-    for role in effective_event_target_roles(event):
+    for role in event_readout_target_roles(event, state.target_role_readout_hops):
         _append(state, f"target_role:{role}:action:{action}:context:{context}", event.id)
     for effect in sorted({normalize_label(item) for item in event.observed_effects}):
         _append(state, f"action:{action}:effect:{effect}:context:{context}", event.id)
@@ -55,15 +55,19 @@ def matching_evidence_event_ids(
             context_key,
             exact_context,
         )
+        role_ids = set()
         for role in target_roles or []:
-            grounded_ids.update(
-                _lookup(
-                    state,
-                    f"target_role:{normalize_label(role)}:action:{action}:context:",
-                    context_key,
-                    exact_context,
-                )
-            )
+            role_ids.update(_lookup(
+                state,
+                f"target_role:{normalize_label(role)}:action:{action}:context:",
+                context_key, exact_context,
+            ))
+        if state.target_role_readout_hops == 2:
+            # A known entity may change structural roles; exact identity must
+            # not bypass the selected role scope, including an unknown scope.
+            grounded_ids = role_ids
+        else:
+            grounded_ids |= role_ids
         candidates &= grounded_ids
     return sorted(candidates)
 

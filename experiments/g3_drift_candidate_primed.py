@@ -137,6 +137,19 @@ def _online_validate_warm_candidates(
     return ValidationStepResult(tuple(used), decisions)
 
 
+def nuisance_transfer_probe_panels(seed: int, count: int):
+    """Paired A/B queries differ only in label, with held-out nuisance tags."""
+    a_probes = [replace(probe, id=f"transfer:A:{seed}:{index}",
+                        query=replace(probe.query, context_tags=probe.query.context_tags +
+                                      [f"nuisance:{seed}:{index}"]))
+                for index, probe in enumerate(_probes(seed, "A", count))]
+    b_probes = [replace(probe, id=f"transfer:B:{seed}:{index}",
+                        expected_effects=("cold" if probe.expected_effects == ("warm",)
+                                          else "warm",))
+                for index, probe in enumerate(a_probes)]
+    return a_probes, b_probes
+
+
 def run_candidate_primed_preflight(manifest: dict) -> dict:
     if set(manifest["arms"]) != set(ARMS):
         raise ValueError("all seven arms are required")
@@ -155,6 +168,10 @@ def run_candidate_primed_preflight(manifest: dict) -> dict:
         a2 = _events(seed, "A2", int(manifest["phase_observations"]))
         a_probes = _probes(seed, "A", int(manifest["probes_per_phase"]))
         b_probes = _probes(seed, "B", int(manifest["probes_per_phase"]))
+        if manifest.get("nuisance_context_probes", False):
+            a_probes, b_probes = nuisance_transfer_probe_panels(
+                seed, int(manifest["probes_per_phase"])
+            )
         for arm in manifest["arms"]:
             split, merge, dormancy = ARMS[arm]
             options = TrainingOptions(
@@ -229,6 +246,7 @@ def run_candidate_primed_preflight(manifest: dict) -> dict:
                     int(manifest.get("extra_a2_observations", 0)),
                 )
             rows.append({
+                **({"transfer_drift": outcome} if manifest.get("nuisance_context_probes", False) else {}),
                 "seed": seed, "arm": arm,
                 "split_enabled": split, "merge_enabled": merge,
                 "dormancy_enabled": dormancy,

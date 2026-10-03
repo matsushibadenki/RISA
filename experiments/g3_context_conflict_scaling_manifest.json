@@ -1,0 +1,5 @@
+{
+  "benchmark_version": "g3.2-context-conflict-audit-scaling-development-v1",
+  "seed": 11,
+  "event_counts": [1000, 10000, 100000]
+}

@@ -290,3 +290,33 @@ def _normalized_roles(roles: list[str]) -> list[str]:
 
 def _normalize_label(value: str) -> str:
     return value.strip().lower().replace(" ", "_")
+
+
+def event_readout_target_roles(event: Event, readout_hops: int) -> list[str]:
+    """Resolve the persisted readout scope; candidate/graph roles are separate."""
+    if readout_hops == 1:
+        return effective_event_target_roles(event)
+    if readout_hops != 2:
+        raise ValueError("readout_hops must be 1 or 2")
+    supplied = _normalized_roles(event.target_roles)
+    if supplied:
+        return supplied
+    hierarchy = induced_target_role_hierarchy(event)
+    return [hierarchy[-1][0]] if hierarchy else []
+
+
+def query_readout_target_roles(
+    *, readout_hops: int, target: str | None, supplied_roles: list[str],
+    entity_bindings: dict[str, str], entity_relations: list[dict[str, str]],
+    enable_role_induction: bool = True,
+) -> list[str]:
+    """Keep legacy hierarchical queries at depth one; scope depth two narrowly."""
+    if readout_hops not in {1, 2}:
+        raise ValueError("readout_hops must be 1 or 2")
+    roles = effective_query_target_roles(
+        target=target, supplied_roles=supplied_roles, entity_bindings=entity_bindings,
+        entity_relations=entity_relations, enable_role_induction=enable_role_induction,
+    )
+    if readout_hops == 1 or _normalized_roles(supplied_roles):
+        return roles
+    return roles[-1:]  # deepest available signature; no shallow fallback
