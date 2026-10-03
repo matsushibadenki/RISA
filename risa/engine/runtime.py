@@ -31,6 +31,7 @@ class TrainingOptions:
     enable_candidate_specialization: bool = True
     enable_candidate_merge: bool = True
     frozen_context_conditions: dict[str, tuple[tuple[str, ...], ...]] | None = None
+    reactivate_validated_orphaned_ancestors: bool = False
     retain_validated_on_consistent_extension: bool = False
     candidate_extension_validator: Callable[
         [RisaState, UnnamedConceptCandidate, UnnamedConceptCandidate], bool
@@ -95,6 +96,7 @@ def train_events(
         enable_specialization=options.enable_candidate_specialization,
         enable_merge=options.enable_candidate_merge,
         frozen_context_conditions=options.frozen_context_conditions,
+        reactivate_validated_orphaned_ancestors=options.reactivate_validated_orphaned_ancestors,
         retain_validated_on_consistent_extension=(
             options.retain_validated_on_consistent_extension
         ),

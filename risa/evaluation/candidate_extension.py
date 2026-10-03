@@ -5,9 +5,9 @@ from __future__ import annotations
 from dataclasses import dataclass
 import random
 
-from risa.core.models import UnnamedConceptCandidate
+from risa.core.models import PredictionQuery, UnnamedConceptCandidate
 from risa.core.state import RisaState
-from risa.engine.candidate_discovery import _candidate_context_matches
+from risa.evaluation.candidate_adoption import candidate_matches_probe
 
 
 @dataclass(frozen=True)
@@ -17,6 +17,7 @@ class ExtensionProbe:
     source: str
     context_tags: tuple[str, ...]
     expected_applicable: bool
+    query: PredictionQuery | None = None
 
 
 class CandidateExtensionValidator:
@@ -67,14 +68,14 @@ class CandidateExtensionValidator:
             return self._record(candidate.id, False, "evidence_overlap")
 
         proposed = [
-            int(_candidate_context_matches(candidate, list(probe.context_tags))
+            int(candidate_matches_probe(candidate, probe)
                 == probe.expected_applicable)
             for probe in self.probes
         ]
         baseline = [int(not probe.expected_applicable) for probe in self.probes]
         parent_rows = [
             [
-                int(_candidate_context_matches(parent, list(probe.context_tags))
+                int(candidate_matches_probe(parent, probe)
                     == probe.expected_applicable)
                 for probe in self.probes
             ]

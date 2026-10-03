@@ -1777,3 +1777,20 @@ MVP-1 の価値は、RISA の全構想を一気に作ることではありませ
 English: Current schema v5 persists `target_role_readout_hops` (default one, optional two). Legacy states default to one. Mode two aligns Event prediction counts, evidence indexes and query grounding to the deepest structural role and prevents identity-only cross-scope evidence. Raw Events and candidate/graph role semantics are preserved. Derived indexes rebuild from Events. Configure the mode before learning; in-place changes after ingestion are unsupported. Planner role alignment requires separate evaluation.
 
 简体中文: 当前schema v5保存`target_role_readout_hops`（默认一跳、可选两跳），旧state默认一跳。两跳模式对齐Event预测计数、证据索引及query接地至最深结构role，避免仅凭identity跨scope引用证据。保留原始Event及候选/graph角色语义，派生索引由Event重建。学习前配置模式，摄取后直接修改不受支持；planner角色对应需另行评估。
+
+
+## 2026-10-03 Context-conditioned role discovery / 文脈条件付きrole生成 / 情境条件role发现
+
+日本語: 現行schema v6は任意設定`context_conditioned_role_refinement`を保存し、v5以前の省略値はfalseへ移行する。生成方針の誤復元を防ぐため旧runtimeではv6を拒否する。trueではaction/role/context内の衝突を解き、context間の異なる結果を候補反例として保持する。readout depthとは独立した設定で、query付き適用probeによりrole/action/contextを検証する。学習前に指定する。
+
+English: Current schema v6 persists optional `context_conditioned_role_refinement`, defaulting absent legacy fields to false. Older runtimes reject v6 to prevent reconstructing candidates under the wrong policy. The opt-in resolves action/role/context collisions while retaining cross-context outcomes as counterexamples. It is independent of readout depth; query-backed applicability probes check role/action/context. Configure before learning.
+
+简体中文: 当前schema v6保存可选`context_conditioned_role_refinement`，旧版本缺省为false。旧runtime拒绝v6，避免以错误策略重建候选。可选策略解决action/role/context内冲突，同时将情境间不同结果保留为反例。该设置与readout深度独立，query支持的适用探针验证role/action/context；学习前配置。
+
+### Candidate dormancy fallback after validation expiry (2026-10-03)
+
+English: `TrainingOptions.reactivate_validated_orphaned_ancestors` defaults to false. After discovery reconstructs candidates and restores unchanged evaluation, the opt-in routine wakes previously replaced dormant ancestors only if their adopted status, nonempty final validation, schema, typed roles, evidence, validation IDs and parent IDs and semantics remain unchanged and no active adopted descendant replaces the same action/role/effects transition. It neither transfers validation across changed candidate IDs nor adopts proposed candidates. Inference indexes rebuild afterward. This training switch is not serialized; the resulting candidate dormant bits use the existing schema v6 serialization. The [paired development report](G3.2-Orphaned-Dormancy-2026-10-03.md) records transient recovery and its limits.
+
+日本語: discoveryが不変の検証を復元した後、`TrainingOptions.reactivate_validated_orphaned_ancestors`で以前に代替された親だけを再活性化できる。既定はfalse。採用・final検証・schema・役割・証拠・検証ID・親IDと意味論が不変で、有効な採用済み代替descendantがないことが必要。変更IDへの検証継承や未検証候補の採用は行わない。training switchは保存せず、結果の休眠bitは既存schema v6で保存する。
+
+简体中文: discovery恢复不变验证后，`TrainingOptions.reactivate_validated_orphaned_ancestors`可重新激活之前被替代的休眠祖先，默认false。需保持采纳、final验证、schema、角色、证据、验证ID及父ID及语义不变，且无活跃采纳替代后代。不向改变ID转移验证，不采纳未验证候选。training switch不保存，结果休眠bit按现有schema v6保存。

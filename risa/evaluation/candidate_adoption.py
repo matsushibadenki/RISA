@@ -6,6 +6,9 @@ from dataclasses import dataclass
 import random
 
 from risa.core.state import RisaState
+from risa.core.models import PredictionQuery, UnnamedConceptCandidate
+from risa.engine.graph_builder import normalize_label
+from risa.engine.role_induction import effective_query_target_roles
 from risa.engine.candidate_discovery import (
     _candidate_context_matches,
     evaluate_derived_candidate,
@@ -20,6 +23,28 @@ class ApplicabilityProbe:
     source: str
     context_tags: tuple[str, ...]
     expected_applicable: bool
+    query: PredictionQuery | None = None
+
+
+def candidate_matches_probe(candidate: UnnamedConceptCandidate, probe) -> bool:
+    """Match context-only legacy probes or grounded single-transition queries."""
+    query = probe.query
+    if query is not None:
+        if candidate.structural_schema.get("kind", "single_transition") != "single_transition":
+            raise ValueError("query-backed probes require single-transition candidates")
+        if {normalize_label(tag) for tag in query.context_tags} != {
+            normalize_label(tag) for tag in probe.context_tags
+        }:
+            raise ValueError("probe and query contexts differ")
+        roles = effective_query_target_roles(
+            target=query.target, supplied_roles=query.target_roles,
+            entity_bindings=query.entity_bindings, entity_relations=query.entity_relations,
+            enable_role_induction=query.enable_role_induction,
+        )
+        if (normalize_label(query.action) != normalize_label(str(candidate.structural_schema.get("action", "")))
+                or normalize_label(str(candidate.structural_schema.get("target_role", ""))) not in roles):
+            return False
+    return _candidate_context_matches(candidate, probe.context_tags)
 
 
 def evaluate_candidate_on_probes(
@@ -76,7 +101,7 @@ def evaluate_candidate_on_probes(
             or {probe.source for probe in probes} & {event.source for event in evidence}):
         raise ValueError("probe episodes and sources must be disjoint from candidate ancestry")
     candidate_output = [
-        _candidate_context_matches(candidate, probe.context_tags) for probe in probes
+        candidate_matches_probe(candidate, probe) for probe in probes
     ]
     expected = [probe.expected_applicable for probe in probes]
     candidate_correct = [int(value == truth) for value, truth in zip(candidate_output, expected)]
@@ -105,7 +130,7 @@ def evaluate_candidate_on_probes(
         if not parents:
             raise ValueError("derived candidate has no parents")
         parent_rows = [
-            [int(_candidate_context_matches(parent, probe.context_tags) == truth)
+            [int(candidate_matches_probe(parent, probe) == truth)
              for probe, truth in zip(probes, expected)]
             for parent in parents
         ]
@@ -116,7 +141,7 @@ def evaluate_candidate_on_probes(
         )
         # Derived false generalization is controlled against its strongest parent.
         parent_false = sum(
-            int(_candidate_context_matches(parents[strongest_index], probes[index].context_tags))
+            int(candidate_matches_probe(parents[strongest_index], probes[index]))
             for index in negatives
         )
         false_delta = (

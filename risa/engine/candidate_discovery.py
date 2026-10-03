@@ -21,6 +21,7 @@ from risa.engine.role_induction import (
 def discover_unnamed_candidates(
     state: RisaState, *, enable_specialization: bool = True, enable_merge: bool = True,
     frozen_context_conditions: dict[str, tuple[tuple[str, ...], ...]] | None = None,
+    reactivate_validated_orphaned_ancestors: bool = False,
     retain_validated_on_consistent_extension: bool = False,
     extension_validator: Callable[
         [RisaState, UnnamedConceptCandidate, UnnamedConceptCandidate], bool
@@ -39,7 +40,7 @@ def discover_unnamed_candidates(
         and not event.source.startswith(("derived:", "replay:"))
     ]
     event_roles, induced_role_metadata = _single_transition_role_assignments(
-        eligible_events
+        eligible_events, context_conditioned=state.context_conditioned_role_refinement
     )
     for event in eligible_events:
         action = normalize_label(event.action)
@@ -147,8 +148,77 @@ def discover_unnamed_candidates(
         ):
             candidates[candidate.id] = candidate
     state.unnamed_concept_candidates = candidates
+    if reactivate_validated_orphaned_ancestors:
+        _reactivate_validated_orphaned_ancestors(state, previous_candidates)
     rebuild_candidate_inference_index(state)
     return candidates
+
+
+def _reactivate_validated_orphaned_ancestors(
+    state: RisaState,
+    previous_candidates: dict[str, UnnamedConceptCandidate],
+) -> list[str]:
+    """Wake unchanged validated ancestors only after their replacement expires.
+
+    This does not validate new evidence or transfer adoption across candidate IDs.
+    Manual dormancy without a previously adopted replacement remains untouched.
+    """
+    keys = ("action", "target_role", "effects")
+
+    def ancestors(candidate, pool):
+        pending, visited = list(candidate.parent_candidate_ids), set()
+        while pending:
+            item = pending.pop()
+            if item in visited:
+                continue
+            visited.add(item)
+            parent = pool.get(item)
+            if parent is not None:
+                pending.extend(parent.parent_candidate_ids)
+        return visited
+
+    def same_transition(a, b):
+        return all(a.structural_schema.get(key) == b.structural_schema.get(key) for key in keys)
+
+    previous_replaced = set()
+    for child in previous_candidates.values():
+        if child.lifecycle_status != "adopted" or not child.final_evaluation_event_ids:
+            continue
+        for item in ancestors(child, previous_candidates):
+            parent = previous_candidates.get(item)
+            if parent is not None and same_transition(child, parent):
+                previous_replaced.add(item)
+
+    current = state.unnamed_concept_candidates
+    still_replaced = set()
+    for child in current.values():
+        if child.lifecycle_status != "adopted" or child.dormant:
+            continue
+        for item in ancestors(child, current):
+            parent = current.get(item)
+            if parent is not None and same_transition(child, parent):
+                still_replaced.add(item)
+
+    reactivated = []
+    for item in sorted(previous_replaced - still_replaced):
+        parent, old = current.get(item), previous_candidates.get(item)
+        if (parent is None or old is None or not old.dormant or not parent.dormant
+                or old.lifecycle_status != "adopted" or parent.lifecycle_status != "adopted"
+                or not parent.final_evaluation_event_ids
+                or parent.structural_schema != old.structural_schema
+                or parent.typed_role_variables != old.typed_role_variables
+                or parent.supporting_event_ids != old.supporting_event_ids
+                or parent.counterexample_event_ids != old.counterexample_event_ids
+                or parent.final_evaluation_event_ids != old.final_evaluation_event_ids
+                or parent.development_evaluation_event_ids != old.development_evaluation_event_ids
+                or parent.parent_candidate_ids != old.parent_candidate_ids
+                or not _matching_parent_semantics(old, previous_candidates, parent, current)):
+            continue
+        if not old.development_evaluation_event_ids:
+            continue
+        parent.dormant = False
+        reactivated.append(item)
+    return reactivated
 
 
 def _retain_validated_consistent_extensions(
@@ -228,9 +298,13 @@ def _matching_parent_semantics(
 
 
 def _single_transition_role_assignments(
-    events: list[Event],
+    events: list[Event], *, context_conditioned: bool = False,
 ) -> tuple[dict[str, list[str]], dict[str, dict[str, object]]]:
-    """Refine induced target roles only where one-hop outcomes collide."""
+    """Refine induced roles on global or opt-in within-context collisions.
+
+    Context variation still produces counterexamples in candidate discovery;
+    this only prevents resolved contextual variation from erasing role evidence.
+    """
     records: dict[
         str,
         tuple[
@@ -240,7 +314,8 @@ def _single_transition_role_assignments(
             list[tuple[str, tuple[str, ...]]],
         ],
     ] = {}
-    base_outcomes: dict[tuple[str, str], set[tuple[str, ...]]] = defaultdict(set)
+    contexts: dict[str, tuple[str, ...]] = {}
+    base_outcomes: dict[tuple[str, str, tuple[str, ...]], set[tuple[str, ...]]] = defaultdict(set)
     for event in events:
         action = normalize_label(event.action)
         outcome = _normalized_tuple(event.observed_effects)
@@ -249,22 +324,24 @@ def _single_transition_role_assignments(
         )
         hierarchy = [] if supplied else induced_target_role_hierarchy(event)
         records[event.id] = (action, outcome, supplied, hierarchy)
+        context = _normalized_tuple(event.context_tags) if context_conditioned else ()
+        contexts[event.id] = context
         if hierarchy:
-            base_outcomes[(action, hierarchy[0][0])].add(outcome)
+            base_outcomes[(action, hierarchy[0][0], context)].add(outcome)
 
-    collided = {
-        key: sorted(outcomes)
-        for key, outcomes in base_outcomes.items()
-        if len(outcomes) > 1
-    }
-    refined_outcomes: dict[tuple[str, str], set[tuple[str, ...]]] = defaultdict(set)
+    collision_sets: dict[tuple[str, str], set[tuple[str, ...]]] = defaultdict(set)
+    for (action, role, _), outcomes in base_outcomes.items():
+        if len(outcomes) > 1:
+            collision_sets[(action, role)].update(outcomes)
+    collided = {key: sorted(outcomes) for key, outcomes in collision_sets.items()}
+    refined_outcomes: dict[tuple[str, str], dict[tuple[str, ...], set[tuple[str, ...]]]] = defaultdict(lambda: defaultdict(set))
     refined_support: dict[tuple[str, str, str], int] = defaultdict(int)
-    for action, outcome, supplied, hierarchy in records.values():
+    for event_id, (action, outcome, supplied, hierarchy) in records.items():
         if supplied or len(hierarchy) < 2:
             continue
         base_role = hierarchy[0][0]
         if (action, base_role) in collided:
-            refined_outcomes[(action, hierarchy[1][0])].add(outcome)
+            refined_outcomes[(action, hierarchy[1][0])][contexts[event_id]].add(outcome)
             refined_support[(action, base_role, hierarchy[1][0])] += 1
 
     allowed_refinements: set[tuple[str, str, str]] = set()
@@ -276,7 +353,8 @@ def _single_transition_role_assignments(
                 in refined_support.items()
                 if candidate_action == action
                 and candidate_base == base_role
-                and len(refined_outcomes[(action, refined_role)]) == 1
+                and all(len(outcomes) == 1
+                        for outcomes in refined_outcomes[(action, refined_role)].values())
             ),
             key=lambda item: (-item[0], item[1]),
         )
@@ -302,6 +380,7 @@ def _single_transition_role_assignments(
                 "target_role_origin": "induced_structure",
                 "target_role_signature": list(base_signature),
                 "target_role_depth": 1,
+                **({"target_role_context_conditioned": True} if context_conditioned else {}),
             }
             continue
         if len(hierarchy) < 2:
@@ -316,6 +395,7 @@ def _single_transition_role_assignments(
             "target_role_origin": "induced_structure",
             "target_role_signature": list(refined_signature),
             "target_role_depth": 2,
+            **({"target_role_context_conditioned": True} if context_conditioned else {}),
             "target_role_parent": base_role,
             "target_role_collision_outcomes": [
                 list(colliding_outcome) for colliding_outcome in collision_outcomes

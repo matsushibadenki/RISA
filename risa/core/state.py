@@ -18,13 +18,14 @@ from risa.core.models import (
     UnnamedConceptCandidate,
 )
 
-CURRENT_SCHEMA_VERSION = 5
+CURRENT_SCHEMA_VERSION = 6
 
 
 @dataclass
 class RisaState:
     schema_version: int = CURRENT_SCHEMA_VERSION
     target_role_readout_hops: int = 1
+    context_conditioned_role_refinement: bool = False
     graph: GraphStore = field(default_factory=GraphStore)
     patterns: dict[str, Pattern] = field(default_factory=dict)
     structural_patterns: dict[str, StructuralPattern] = field(default_factory=dict)
@@ -57,6 +58,8 @@ class RisaState:
     unnamed_concept_candidates: dict[str, UnnamedConceptCandidate] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
+        if type(self.context_conditioned_role_refinement) is not bool:
+            raise ValueError("context_conditioned_role_refinement must be boolean")
         if type(self.target_role_readout_hops) is not int or self.target_role_readout_hops not in {1, 2}:
             raise ValueError("target_role_readout_hops must be 1 or 2")
 
@@ -64,6 +67,8 @@ class RisaState:
         return {
             "schema_version": CURRENT_SCHEMA_VERSION,
             "target_role_readout_hops": self.target_role_readout_hops,
+            **({"context_conditioned_role_refinement": True}
+               if self.context_conditioned_role_refinement else {}),
             "graph": self.graph.to_compact_dict(),
             "patterns": {
                 key: _pattern_persistence_record(key, pattern)
@@ -126,7 +131,8 @@ class RisaState:
                 f"version {CURRENT_SCHEMA_VERSION}"
             )
         state = cls(schema_version=CURRENT_SCHEMA_VERSION,
-                    target_role_readout_hops=data.get("target_role_readout_hops", 1))
+                    target_role_readout_hops=data.get("target_role_readout_hops", 1),
+                    context_conditioned_role_refinement=data.get("context_conditioned_role_refinement", False))
         state.graph = GraphStore.from_dict(data.get("graph", {}))
         for key, pattern_data in data.get("patterns", {}).items():
             state.patterns[key] = Pattern(

@@ -4465,7 +4465,7 @@ class TrainingAndPredictionTests(unittest.TestCase):
 
         restored = RisaState.from_dict(legacy)
 
-        self.assertEqual(restored.schema_version, 5)
+        self.assertEqual(restored.schema_version, 6)
         self.assertEqual(restored.structural_primitives["legacy"].produced_states, {"ready"})
 
     def test_schema_v4_compacts_derived_records_losslessly(self) -> None:
@@ -4544,7 +4544,7 @@ class TrainingAndPredictionTests(unittest.TestCase):
 
             self.assertIn("first", recovered.events_by_id)
             self.assertNotIn("second", recovered.events_by_id)
-            self.assertEqual(recovered.schema_version, 5)
+            self.assertEqual(recovered.schema_version, 6)
 
 
 if __name__ == "__main__":
