@@ -264,6 +264,7 @@ def run_aba(
     b_reference_accuracy: float = 1.0,
     replay_interval: int = 20,
     recovery_window: int = 5,
+    pre_update_diagnostic: PreUpdateDiagnostic | None = None,
     validation_step: ValidationStep | None = None,
     validation_label_budget: int | None = None,
 ) -> dict[str, object]:
@@ -284,6 +285,7 @@ def run_aba(
         state, b_observations, b_probes, options,
         reference_accuracy=b_reference_accuracy,
         replay_interval=replay_interval, recovery_window=recovery_window,
+        pre_update_diagnostic=pre_update_diagnostic,
         validation_step=validation_step,
         validation_label_budget=validation_label_budget,
         protected_probe_ids=protected,
@@ -299,6 +301,7 @@ def run_aba(
         reference_accuracy=a1_accuracy,
         replay_interval=replay_interval, recovery_window=recovery_window,
         replay_offset=len(b_observations),
+        pre_update_diagnostic=pre_update_diagnostic,
         validation_step=validation_step,
         validation_label_budget=(
             None if validation_label_budget is None

@@ -1,0 +1,6 @@
+{
+  "benchmark_version": "g3.2-scope-expiry-audit-v1",
+  "phase_observations": 12,
+  "probes_per_phase": 6,
+  "seeds": [11, 23, 37, 53, 71]
+}

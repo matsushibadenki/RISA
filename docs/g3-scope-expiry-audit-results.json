@@ -1,0 +1,112 @@
+{
+  "benchmark_version": "g3.2-scope-expiry-audit-v1",
+  "manifest_sha256": "e0af309e735b56eb770cb4eb88d841514f6e3fa61b0cda0d5b74162ec260b622",
+  "rows": [
+    {
+      "in_scope_mutations_rejected": {
+        "counterexample": true,
+        "lineage": true,
+        "role": true
+      },
+      "initial_adoption_labels": 1200,
+      "observed_events_to_unchanged_scope": 1,
+      "out_of_scope_revalidation_labels": 0,
+      "preserved": [
+        {
+          "candidate_id": "candidate:derived:0b24c962d70eda1d",
+          "own_evidence_unchanged": true,
+          "parent_digest_changed": true,
+          "validation_unchanged": true
+        }
+      ],
+      "reactivated_candidates": 1,
+      "seed": 11
+    },
+    {
+      "in_scope_mutations_rejected": {
+        "counterexample": true,
+        "lineage": true,
+        "role": true
+      },
+      "initial_adoption_labels": 1200,
+      "observed_events_to_unchanged_scope": 2,
+      "out_of_scope_revalidation_labels": 0,
+      "preserved": [
+        {
+          "candidate_id": "candidate:derived:185a89744b5b5d6e",
+          "own_evidence_unchanged": true,
+          "parent_digest_changed": true,
+          "validation_unchanged": true
+        }
+      ],
+      "reactivated_candidates": 1,
+      "seed": 23
+    },
+    {
+      "in_scope_mutations_rejected": {
+        "counterexample": true,
+        "lineage": true,
+        "role": true
+      },
+      "initial_adoption_labels": 1200,
+      "observed_events_to_unchanged_scope": 1,
+      "out_of_scope_revalidation_labels": 0,
+      "preserved": [
+        {
+          "candidate_id": "candidate:derived:047e2a83d7846808",
+          "own_evidence_unchanged": true,
+          "parent_digest_changed": true,
+          "validation_unchanged": true
+        }
+      ],
+      "reactivated_candidates": 1,
+      "seed": 37
+    },
+    {
+      "in_scope_mutations_rejected": {
+        "counterexample": true,
+        "lineage": true,
+        "role": true
+      },
+      "initial_adoption_labels": 1200,
+      "observed_events_to_unchanged_scope": 1,
+      "out_of_scope_revalidation_labels": 0,
+      "preserved": [
+        {
+          "candidate_id": "candidate:derived:65c8431ae9e040aa",
+          "own_evidence_unchanged": true,
+          "parent_digest_changed": true,
+          "validation_unchanged": true
+        }
+      ],
+      "reactivated_candidates": 1,
+      "seed": 53
+    },
+    {
+      "in_scope_mutations_rejected": {
+        "counterexample": true,
+        "lineage": true,
+        "role": true
+      },
+      "initial_adoption_labels": 1200,
+      "observed_events_to_unchanged_scope": 1,
+      "out_of_scope_revalidation_labels": 0,
+      "preserved": [
+        {
+          "candidate_id": "candidate:derived:7ef84f6a29a8a5bd",
+          "own_evidence_unchanged": true,
+          "parent_digest_changed": true,
+          "validation_unchanged": true
+        }
+      ],
+      "reactivated_candidates": 1,
+      "seed": 71
+    }
+  ],
+  "scope_contract": {
+    "in_scope_counterexample_role_or_lineage_change": "expire validation",
+    "labels_for_unchanged_scope": 0,
+    "out_of_scope_parent_update": "preserve unchanged scoped validation"
+  },
+  "status": "passed"
+}
