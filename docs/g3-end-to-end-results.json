@@ -1,0 +1,139 @@
+{
+  "benchmark_version": "g3.3-e2e-v1",
+  "decision": "scale_gate_incomplete",
+  "environment": {
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "python": "3.10.18"
+  },
+  "manifest": {
+    "chunk_size": 1000,
+    "event_scales": [
+      1000,
+      10000,
+      100000
+    ],
+    "million_event_policy": "do not attempt unless all scales complete with exact compaction and reload predictions",
+    "queries_per_scale": 12,
+    "replay_budget": 32,
+    "scale_time_budget_seconds": 45,
+    "seeds": [
+      17
+    ],
+    "training_policy": "default mechanisms enabled; fixed 1000-event chunks; Replay capped at 32 per chunk",
+    "workload": "bounded vocabulary; eight actors, four actions, three contexts, independent twelve-event episodes"
+  },
+  "manifest_sha256": "d4e7a68973a7a54a578d46735e5be16e19a5fa2dce843e459173fbad07486e3f",
+  "million_event_decision": "do_not_attempt",
+  "note": "Synthetic bounded-vocabulary workload; no structural-generalization claim.",
+  "rows": [
+    {
+      "active_candidates": 0,
+      "active_graph_nodes": 70,
+      "active_structures": 4,
+      "bytes_per_event": 1631.585,
+      "candidate_description_length_delta": 0,
+      "candidates": 0,
+      "candidates_per_event": 0.0,
+      "elapsed_seconds": 2.039535332998639,
+      "event_scale": 1000,
+      "graph_edges": 4304,
+      "graph_nodes": 1020,
+      "ingested_events": 1000,
+      "peak_rss_bytes": 47185920,
+      "planner_expanded_candidates": 2,
+      "prediction_correct": 12,
+      "prediction_mismatches_after_compaction": 0,
+      "prediction_mismatches_after_reload": 0,
+      "primitives": 4,
+      "query_count": 12,
+      "replayed_events": 32,
+      "seconds_per_event": 0.002039531040998554,
+      "seed": 17,
+      "stage_seconds": {
+        "adaptation": 2.7910009521292523e-06,
+        "candidate_discovery": 0.0016185830008907942,
+        "compaction": 0.02210216700041201,
+        "concept_rebuild": 0.0001683330010564532,
+        "graph_update": 0.03971641201133025,
+        "history_setup": 0.0006756249986210605,
+        "input_validation": 0.0005977919990982627,
+        "learning": 0.2356077149979683,
+        "load": 0.0443931670015445,
+        "metabolism": 0.5476339029683004,
+        "planning": 0.0002857920007954817,
+        "pre_update_prediction": 0.8536673140442872,
+        "prediction": 0.024443875001452398,
+        "replay": 0.07014416600031836,
+        "save": 0.12979216700114193,
+        "temporal_linking": 0.008581368012528401
+      },
+      "stage_seconds_per_event": {
+        "adaptation": 2.791000952129252e-09,
+        "candidate_discovery": 1.6185830008907943e-06,
+        "compaction": 2.210216700041201e-05,
+        "concept_rebuild": 1.6833300105645322e-07,
+        "graph_update": 3.971641201133025e-05,
+        "history_setup": 6.756249986210605e-07,
+        "input_validation": 5.977919990982627e-07,
+        "learning": 0.00023560771499796828,
+        "load": 4.43931670015445e-05,
+        "metabolism": 0.0005476339029683003,
+        "planning": 2.8579200079548175e-07,
+        "pre_update_prediction": 0.0008536673140442872,
+        "prediction": 2.4443875001452397e-05,
+        "replay": 7.014416600031836e-05,
+        "save": 0.00012979216700114194,
+        "temporal_linking": 8.581368012528401e-06
+      },
+      "status": "complete",
+      "stored_bytes": 1631585,
+      "worker_wall_seconds": 2.120951500000956
+    },
+    {
+      "elapsed_seconds": 39.118106291000004,
+      "event_scale": 10000,
+      "ingested_events": 4000,
+      "peak_rss_bytes": 52789248,
+      "progress_note": "Last completed chunk/stage; unfinished chunk work is excluded from stage totals.",
+      "seed": 17,
+      "stage_seconds": {
+        "adaptation": 6.250998922041617e-06,
+        "candidate_discovery": 0.003298249999716063,
+        "concept_rebuild": 0.0019915820012101904,
+        "graph_update": 0.23931325300691242,
+        "history_setup": 0.008256376000645105,
+        "input_validation": 0.006606416001886828,
+        "learning": 5.632844871026464,
+        "metabolism": 11.91996280899184,
+        "pre_update_prediction": 20.61209934902581,
+        "replay": 0.5266148340015206,
+        "temporal_linking": 0.06103854695720656
+      },
+      "status": "time_budget_exceeded",
+      "worker_wall_seconds": 45.006940125000256
+    },
+    {
+      "elapsed_seconds": 29.116332457999306,
+      "event_scale": 100000,
+      "ingested_events": 4000,
+      "peak_rss_bytes": 52805632,
+      "progress_note": "Last completed chunk/stage; unfinished chunk work is excluded from stage totals.",
+      "seed": 17,
+      "stage_seconds": {
+        "adaptation": 7.0829992182552814e-06,
+        "candidate_discovery": 0.0039383750008710194,
+        "concept_rebuild": 0.001998583000386134,
+        "graph_update": 0.17750010305826436,
+        "history_setup": 0.009179708000374376,
+        "input_validation": 0.006690580998110818,
+        "learning": 4.084952703993622,
+        "metabolism": 9.16942005097917,
+        "pre_update_prediction": 14.967014280968215,
+        "replay": 0.5824534149996907,
+        "temporal_linking": 0.04260998598510923
+      },
+      "status": "time_budget_exceeded",
+      "worker_wall_seconds": 45.004244292000294
+    }
+  ]
+}

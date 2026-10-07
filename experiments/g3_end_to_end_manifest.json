@@ -1,0 +1,11 @@
+{
+  "event_scales": [1000, 10000, 100000],
+  "seeds": [17],
+  "chunk_size": 1000,
+  "replay_budget": 32,
+  "queries_per_scale": 12,
+  "scale_time_budget_seconds": 45,
+  "workload": "bounded vocabulary; eight actors, four actions, three contexts, independent twelve-event episodes",
+  "training_policy": "default mechanisms enabled; fixed 1000-event chunks; Replay capped at 32 per chunk",
+  "million_event_policy": "do not attempt unless all scales complete with exact compaction and reload predictions"
+}

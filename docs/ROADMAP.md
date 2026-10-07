@@ -1,6 +1,6 @@
 # RISA Roadmap / RISA ロードマップ / RISA 路线图
 
-Updated: 2026-10-03. [Design assessment / 設計評価 / 设计评估](RISA-Structural-AI-Assessment-2026-09-05.md)
+Updated: 2026-10-07. [Design assessment / 設計評価 / 设计评估](RISA-Structural-AI-Assessment-2026-09-05.md)
 
 ## Authority and objective / 位置付けと目的 / 定位与目标
 
@@ -20,13 +20,13 @@ unseen objects and compositions, and adapts to change.
 - [Next] high-priority unfinished work / 最優先の未完了作業 / 高优先级未完成工作
 - [Later] planned, but not the closest next step / 依存段階通過後の予定 / 前置阶段通过后的计划
 
-日本語: [Done]は実装の存在を示し、研究仮説の実証とは区別する。G0、G1、G2.1〜G2.6とG3.1のEvent access scale検証まで完了し、直近はG3.2のdrift評価。
+日本語: [Done]は実装の存在を示し、研究仮説の実証とは区別する。G0、G1、G2.1〜G2.6とG3.1は完了。G3.2はdevelopmentで負の結果として終了し、直近はG3.3の全処理scale評価と性能改善。
 G4以降は重要でも[Later]とする。指標・閾値は評価前に固定し、結果を見て合格条件を緩めない。
 
-English: [Done] means implemented, not scientifically validated. G0, G1, G2.1–G2.6 and G3.1 Event-access scale validation are complete; G3.2 drift evaluation is next and G4 onward is [Later].
+English: [Done] means implemented, not scientifically validated. G0, G1, G2.1–G2.6 and G3.1 are complete; G3.2 development closed as a negative result. G3.3 end-to-end profiling and performance work are next; G4 onward is [Later].
 Freeze metrics and thresholds before evaluation; do not relax gates after seeing results.
 
-简体中文: [Done]表示已实现，不等于科学验证。G0、G1、G2.1至G2.6及G3.1 Event访问规模验证已完成，下一步是G3.2漂移评估；G4以后标为[Later]。
+简体中文: [Done]表示已实现，不等于科学验证。G0、G1、G2.1至G2.6及G3.1已完成；G3.2开发评估以负面结果结束。下一步是G3.3端到端测量及性能改进；G4以后标为[Later]。
 评估前固定指标与阈值，不根据结果放宽通过条件。
 
 ## Current baseline / 現在地 / 当前基础
@@ -37,7 +37,7 @@ Freeze metrics and thresholds before evaluation; do not relax gates after seeing
 | [Done] | 学習前予測、誤差履歴、共活性、代謝、Replay、文脈分裂の最小経路 | Minimal pre-update prediction, error history, coactivation, metabolism, replay, context splitting | 最小学前预测、误差历史、共激活、代谢、重放与上下文分裂 |
 | [Done] | 状態消費・排他更新・数値資源・単位と上下限の部品 | Consumption, exclusive replacement, numeric resources, units and bounds | 状态消耗、互斥替换、数值资源、单位与边界 |
 | [Done] | 分岐simulation、goal/constraint評価、what-if、AND/OR、偏序実行、threat検出 | Branch simulation, goal/constraint evaluation, what-if, AND/OR, partial-order execution, threats | 分支模拟、目标与约束评估、假设比较、AND/OR、偏序执行及冲突检测 |
-| [Done] | G0反例、G1/G2評価基盤、G2学習機構を回帰テスト化し、全94テストが通過 | G0 counterexamples, G1/G2 evaluation and G2 learning mechanisms covered; all 94 tests pass | G0反例、G1/G2评估及G2学习机制已纳入回归测试，全部94项测试通过 |
+| [Done] | G0反例、G1/G2評価基盤、G2学習機構を回帰テスト化し、全186テストが通過 | G0 counterexamples, G1/G2 evaluation and G2 learning mechanisms covered; all 186 tests pass | G0反例、G1/G2评估及G2学习机制已纳入回归测试，全部186项测试通过 |
 
 日本語: G0で意味論を修正し、G1で比較測定した。G2では型付き役割束縛、前提学習、変化適応を実装し、対象課題で改善した。
 明示済み前提のcompositionは具体遷移表と同率で、保存量と時間には大差が残るため、候補概念の実利用と効率をG2.4で改善する。
@@ -278,7 +278,10 @@ G2.4已完成context schema闭环；G2.5的一hop结构role与外部role持平�
 - [Done] G3.2再検証寿命・予算control: 5 seed・7条件・3方針・2上限の210実行。4,800上限の独立再採用で更新前正解168/1,440→552/1,440、full実消費22,000ラベル、no-mergeも552で14,000。強い部分集合表は0ラベルで1,440正解。1,200上限はfull再検証15回を停止。1,260保存checkpoint同値、独立final未実行 / 210 fixed-schedule runs measure re-adoption lifetime and cost: full improves 168→552/1,440 pre-update answers with 22,000 labels; no-merge matches with 14,000, while strong subset tables score 1,440 without labels. Low-cap full blocks all 15 refreshes; 1,260 reload checkpoints agree; no independent final / 210固定日程运行测量重新采纳寿命及成本：完整条件168→552/1,440，消耗22,000标签；无合并同分仅14,000，强子集表0标签全对。低预算完整条件停止十五次刷新，1,260重载checkpoint一致，未独立最终评估。 [Report / 結果 / 结果](G3.2-Revalidation-Budget-2026-10-05.md)
 - [Done] G3.2検証scope監査: 5 seedで範囲外の親更新後も不変候補の検証を0ラベルで維持し、範囲内counterexample・役割・lineage mutationは15/15拒否。既存固定予算controlではfullとno-mergeが552/1,440で同点、fullは8,000ラベル多く、強い部分集合表は0ラベルで1,440/1,440 / Across five seeds, unchanged scoped validation survives broader-parent updates with zero labels, while all 15 in-scope counterexample/role/lineage mutations are rejected. Full ties no-merge at 552/1,440 while spending 8,000 more labels; the strong subset table reaches 1,440/1,440 with zero labels / 五个seed中，不变作用域验证在宽父更新后以零标签保留，作用域内反例、角色及谱系的15项变更全部被拒绝；full与no-merge同为552/1,440但多耗8,000标签，强子集表零标签达到1,440/1,440。 [Report / 結果 / 结果](G3.2-Scope-Expiry-Audit-2026-10-05.md)
 - [Done] G3.2開発判断: 機構作動・識別可能性・readout・scope・再検証費用を分離したが、merge/split/dormancyは強いbaselineへの回復・保持優位を示さず、独立finalを消費せず負の結果として完了 / Close G3.2 development without spending an independent final: mechanism execution, identifiability, readout, scope and revalidation cost are isolated, but merge/split/dormancy do not beat strong baselines on recovery or retention / G3.2已分离机制触发、可识别性、读取、作用域及重新验证成本，但合并、分裂及休眠在恢复或保留上未超过强基线，因此不消耗独立最终集并以负面结果完成
-- [Next] G3.3: 1k→10k→100k Eventでingestion、graph更新、候補発見、凝縮、予測、計画、Replay、保存をend-to-end測定。1Mは先行する3規模の結果で判断 / Profile end-to-end ingestion through persistence at 1k, 10k and 100k Events; decide on 1M from those results / 在1千、1万及10万Event下端到端测量摄取至持久化；根据前三种规模决定是否测试100万
+- [Done] G3.3a 実学習経路のstage計測、process時間上限、予測・計画・凝縮・保存復元の再現runnerを実装 / Implement real-training stage profiling, bounded processes, prediction/planning/compaction/persistence checks / 已实现真实学习阶段计时、有界进程及预测/规划/压缩/持久化检查。[Protocol / 評価契約 / 协议](G3.3-End-to-End-Protocol.md)
+- [Done] G3.3b 変化検出で履歴全体のsortを除去し、時系列indexから直近runと直前Eventだけ参照。走査fallbackと全状態が一致 / Remove full-history sorting from change detection; read the recent run and predecessor through event order with exact scan-fallback state equality / 变化检测不再排序全部历史，利用时序索引读取最近序列及前一Event，与扫描回退的完整状态一致
+- [Done] G3.3c 固定45秒の実測で1k全経路・12/12予測・復元不一致0を確認。10k/100kは4k完了checkpointで時間上限、1Mは見送り / Measure 1k end-to-end with 12/12 correct predictions and zero reload mismatches; 10k/100k time out at a 4k completed checkpoint; defer 1M / 实测1千完整路径，12/12预测正确且恢复不一致为0；1万/10万在4千完成checkpoint达到预算，暂不测试100万。[Report / 評価報告 / 报告](G3.3-End-to-End-Evaluation-2026-10-07.md)
+- [Next] G3.3: 学習前予測・代謝・学習の履歴依存costを同値性を保って改善し、固定契約で10k/100kの全経路完了を再測定 / Improve history-dependent pre-update prediction, metabolism and learning with exact equivalence, then rerun complete 10k/100k paths under the fixed protocol / 保持精确等价，改善学前预测、代谢及学习的历史依赖成本，再按固定协议重测1万/10万完整路径
 - [Later] G3.2情報量を揃えた新world: 負例と直接cue controlを残し、履歴キーを直接選ばない復帰手掛かり、強い表baseline、固定ラベル予算を持つ新しい事前登録研究として再開 / Revisit an information-matched drift world only as a new preregistered study with a non-key-like return cue, strong table baselines and a fixed label budget / 仅作为新的预注册研究重新开展信息匹配漂移环境，使用不直接选择历史键的返回提示、强表基线及固定标签预算
 - [Later] G3.4: Eventあたり保存量・active構造数・候補数・記述長とqueryあたり探索量の成長曲線を測る / Measure growth curves for bytes, active structures, candidates and description length per Event, and search work per query / 测量每Event的存储量、活跃结构数、候选数及描述长度，以及每query探索量的增长曲线
 - [Later] G3.5 RetNet由来の同値実行研究: 構造summaryに限り、offline並列・online逐次・chunk逐次の3経路を同一意味論から導出し、全`PredictionResult`・採用判断・永続化checkpointの完全一致を先に検証。逐次状態bytesと1 Eventあたり更新量が履歴長に依存しないか測る / RetNet-inspired equivalent execution: derive offline-parallel, online-recurrent and chunk-recurrent paths for structural summaries from one semantic contract; first require exact equality of every `PredictionResult`, adoption decision and persistence checkpoint, then test whether recurrent state bytes and per-Event update work are history-length invariant / RetNet启发的等价执行研究：仅针对结构摘要，从同一语义契约推导离线并行、在线递归及分块递归三条路径；先验证全部`PredictionResult`、采纳决定及持久化checkpoint完全一致，再测量递归状态字节数和每Event更新量是否不随历史长度增长

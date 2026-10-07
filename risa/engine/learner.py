@@ -200,19 +200,24 @@ def _update_change_hypothesis(
 ) -> None:
     action = normalize_label(event.action)
     target = normalize_label(event.target or "")
-    relevant = [
-        candidate
-        for candidate in sorted(
-            state.events_by_id.values(), key=lambda item: (item.timestamp, item.id)
-        )
-        if normalize_label(candidate.action) == action
-        and normalize_label(candidate.target or "") == target
-        and (
-            "|".join(sorted(normalize_label(tag) for tag in candidate.context_tags))
-            or "__no_context__"
-        )
-        == context_key
-    ]
+    # Only the last run and its predecessor affect this hypothesis. Ingestion
+    # maintains event_order, so avoid sorting the entire history per observation.
+    if (len(state.event_order) == len(state.events_by_id)
+            and all(event_id in state.events_by_id for event_id in state.event_order[-1:])):
+        ordered = (state.events_by_id[event_id] for event_id in reversed(state.event_order))
+    else:
+        ordered = iter(sorted(state.events_by_id.values(),
+                              key=lambda item: (item.timestamp, item.id), reverse=True))
+    relevant = []
+    for candidate in ordered:
+        if (normalize_label(candidate.action) == action
+                and normalize_label(candidate.target or "") == target
+                and ("|".join(sorted(normalize_label(tag) for tag in candidate.context_tags))
+                     or "__no_context__") == context_key):
+            relevant.append(candidate)
+            if len(relevant) == minimum_run + 1:
+                break
+    relevant.reverse()
     if len(relevant) < minimum_run + 1:
         return
     current = tuple(outcome_effects)

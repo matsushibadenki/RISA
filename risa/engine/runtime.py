@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from contextlib import contextmanager
+from time import perf_counter
 from dataclasses import dataclass
 from typing import Callable
 
@@ -38,6 +40,7 @@ class TrainingOptions:
     ] | None = None
     replay_max_events: int | None = None
     replay_summaries: list[ReplaySummary] | None = None
+    stage_seconds: dict[str, float] | None = None
 
 
 def train_events(
@@ -48,71 +51,82 @@ def train_events(
     options = options or TrainingOptions()
     if options.retain_validated_on_consistent_extension and options.candidate_extension_validator is None:
         raise ValueError("candidate validation inheritance requires an extension validator")
-    new_events = _validate_and_filter_events(state, events)
+    with _measure_stage(options.stage_seconds, "input_validation"):
+        new_events = _validate_and_filter_events(state, events)
     if not new_events:
         return state
-    restore_compacted_readouts_for_learning(state)
-    state.state_variable_specs = merge_state_variable_specs(
-        state.state_variable_specs,
-        new_events,
-    )
-    existing_events = sorted(
-        state.events_by_id.values(),
-        key=lambda item: (item.timestamp, item.id),
-    )
-    previous_global_by_episode: dict[str, Event] = {}
-    previous_by_actor_episode: dict[tuple[str, str], Event] = {}
-    for event in existing_events:
-        episode_id = event.episode_id or "__default__"
-        previous_global_by_episode[episode_id] = event
-        previous_by_actor_episode[(episode_id, normalize_label(event.actor))] = event
+    with _measure_stage(options.stage_seconds, "history_setup"):
+        restore_compacted_readouts_for_learning(state)
+        state.state_variable_specs = merge_state_variable_specs(
+            state.state_variable_specs,
+            new_events,
+        )
+        existing_events = sorted(
+            state.events_by_id.values(),
+            key=lambda item: (item.timestamp, item.id),
+        )
+        previous_global_by_episode: dict[str, Event] = {}
+        previous_by_actor_episode: dict[tuple[str, str], Event] = {}
+        for event in existing_events:
+            episode_id = event.episode_id or "__default__"
+            previous_global_by_episode[episode_id] = event
+            previous_by_actor_episode[(episode_id, normalize_label(event.actor))] = event
 
     for event in sorted(new_events, key=lambda item: (item.timestamp, item.id)):
-        if options.enable_metabolism:
-            decay_nodes(state, event.timestamp)
-        validate_event_prediction(state, event)
-        ingest_event(state, event, enable_coactivation=options.enable_coactivation)
-        learn_from_event(state, event)
+        with _measure_stage(options.stage_seconds, "metabolism"):
+            if options.enable_metabolism:
+                decay_nodes(state, event.timestamp)
+        with _measure_stage(options.stage_seconds, "pre_update_prediction"):
+            validate_event_prediction(state, event)
+        with _measure_stage(options.stage_seconds, "graph_update"):
+            ingest_event(state, event, enable_coactivation=options.enable_coactivation)
+        with _measure_stage(options.stage_seconds, "learning"):
+            learn_from_event(state, event)
         actor = normalize_label(event.actor)
         episode_id = event.episode_id or "__default__"
         actor_episode = (episode_id, actor)
-        link_temporal_precedence(
-            state,
-            previous_by_actor_episode.get(actor_episode),
-            event,
-            "precedes",
-        )
-        link_temporal_precedence(
-            state,
-            previous_global_by_episode.get(episode_id),
-            event,
-            "globally_precedes",
-        )
+        with _measure_stage(options.stage_seconds, "temporal_linking"):
+            link_temporal_precedence(
+                state,
+                previous_by_actor_episode.get(actor_episode),
+                event,
+                "precedes",
+            )
+            link_temporal_precedence(
+                state,
+                previous_global_by_episode.get(episode_id),
+                event,
+                "globally_precedes",
+            )
         previous_by_actor_episode[actor_episode] = event
         previous_global_by_episode[episode_id] = event
-    rebuild_concepts(state)
-    discover_unnamed_candidates(
-        state,
-        enable_specialization=options.enable_candidate_specialization,
-        enable_merge=options.enable_candidate_merge,
-        frozen_context_conditions=options.frozen_context_conditions,
-        reactivate_validated_orphaned_ancestors=options.reactivate_validated_orphaned_ancestors,
-        retain_validated_on_consistent_extension=(
-            options.retain_validated_on_consistent_extension
-        ),
-        extension_validator=options.candidate_extension_validator,
-    )
-    if options.enable_replay:
-        summary = replay_structural_memory(
-            state, max_events=options.replay_max_events,
-            enable_contextual_split_proposal=options.enable_contextual_split_proposal,
+    with _measure_stage(options.stage_seconds, "concept_rebuild"):
+        rebuild_concepts(state)
+    with _measure_stage(options.stage_seconds, "candidate_discovery"):
+        discover_unnamed_candidates(
+            state,
+            enable_specialization=options.enable_candidate_specialization,
+            enable_merge=options.enable_candidate_merge,
+            frozen_context_conditions=options.frozen_context_conditions,
+            reactivate_validated_orphaned_ancestors=options.reactivate_validated_orphaned_ancestors,
+            retain_validated_on_consistent_extension=(
+                options.retain_validated_on_consistent_extension
+            ),
+            extension_validator=options.candidate_extension_validator,
         )
+    if options.enable_replay:
+        with _measure_stage(options.stage_seconds, "replay"):
+            summary = replay_structural_memory(
+                state, max_events=options.replay_max_events,
+                enable_contextual_split_proposal=options.enable_contextual_split_proposal,
+            )
         if options.replay_summaries is not None:
             options.replay_summaries.append(summary)
     if options.enable_adaptation:
-        execute_safe_adaptations(
-            state, enable_context_split=options.enable_context_split
-        )
+        with _measure_stage(options.stage_seconds, "adaptation"):
+            execute_safe_adaptations(
+                state, enable_context_split=options.enable_context_split
+            )
     return state
 
 
@@ -149,3 +163,16 @@ def _validate_and_filter_events(state: RisaState, events: list[Event]) -> list[E
         seen[event.id] = event
         latest_by_episode[episode_id] = (event.timestamp, event.id)
     return accepted
+
+
+@contextmanager
+def _measure_stage(timings: dict[str, float] | None, name: str):
+    """Optional cumulative wall-time diagnostics; never persisted in learned state."""
+    if timings is None:
+        yield
+        return
+    started = perf_counter()
+    try:
+        yield
+    finally:
+        timings[name] = timings.get(name, 0.0) + perf_counter() - started

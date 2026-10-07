@@ -93,13 +93,25 @@ python3 -m experiments.g3_drift_candidate_primed \
 
 The G3.2 preflights are **development diagnostics**. Their expected opportunity-gate result is `fail`; neither substitutes for an independent final experiment. The lifecycle pilot shows that validated specialized parents can become dormant after a validated merge. The candidate-primed drift preflight shows that this validation disappears during B observations. Postphase re-adoption needs new labels, and dynamic rediscovery needs more A2 Events. None of these diagnostics demonstrates a drift benefit. G3.1's 100k full-scan reference can take substantially longer than the other checks. The committed result artifacts and their manifests are linked from the corresponding reports.
 
+To profile the actual training-to-persistence path with fixed per-scale budgets:
+
+```bash
+python3 -m experiments.end_to_end_scale_evaluation \
+  --manifest experiments/g3_end_to_end_manifest.json \
+  --output /tmp/g3-end-to-end-results.json
+```
+
+A time-limited scale reports `scale_gate_incomplete`, with the last completed chunk and process wall time. It does not count as a completed large-scale run.
+
 ## Roadmap
 
 - [Done] G0–G2.6: structured-event semantics, targeted comparisons, candidate lifecycle, induced roles and persistence checks.
 - [Done] G3.1: indexed prediction access and bounded Replay selection measured through 100k synthetic events.
 - [Done] G3.2 groundwork: mechanism switches, drift metrics, online runner, probe-backed candidate adoption, and separate pilots that exercise split and merge/dormancy switches. The combined drift fixture still lacks these opportunities.
 - [Done] G3.2: closed the drift-development cycle as a documented negative result; the independent final set remains unused.
-- [Next] G3.3: measure ingestion through persistence at 1k, 10k and 100k events; decide whether to attempt 1M from those results.
+- [Done] G3.3 profiling runner: real training stages, bounded subprocesses, planning, compaction and save/load checks; chronological change detection now avoids full-history sorting. [Protocol](docs/G3.3-End-to-End-Protocol.md).
+- [Done] G3.3 initial capacity diagnostic: 1k completes with 12/12 correct predictions and exact reload results; 10k/100k exceed the fixed budget at a 4k completed checkpoint. [Report](docs/G3.3-End-to-End-Evaluation-2026-10-07.md).
+- [Next] G3.3: improve history-dependent prediction, metabolism and learning with exact equivalence, then complete the 10k/100k paths. Do not attempt 1M yet.
 - [Later] G3.4: measure structure growth, description length, storage per event, candidate generation and planner work per query.
 - [Later] G4: test second-generation concepts, self-formed hierarchy and transfer to a new small world using lineage-disjoint held-out evidence.
 
