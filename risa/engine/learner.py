@@ -139,11 +139,9 @@ def _refresh_applicability_hypotheses(
     action: str,
     minimum_successes: int = 2,
 ) -> None:
-    relevant = [
-        event
-        for event in state.events_by_id.values()
-        if normalize_label(event.action) == action
-    ]
+    # Unobserved before-states cannot contribute successes or failures.
+    relevant = [state.events_by_id[event_id]
+                for event_id in state.evidence_index.get(f"applicability:{action}", [])]
     failures = [
         event
         for event in relevant

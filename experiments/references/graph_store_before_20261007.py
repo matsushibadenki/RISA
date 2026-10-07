@@ -5,24 +5,6 @@ from collections import defaultdict
 from risa.core.models import Edge, Node
 
 
-def _restore_context_tags(values, pool: dict[tuple[str, ...], tuple[str, ...]]) -> tuple:
-    tags = tuple(values)
-    if not tags:
-        return tags
-    try:
-        cached = pool.get(tags)
-    except TypeError:
-        return tags
-    if cached is not None:
-        if len(tags) == 1:
-            return cached if type(tags[0]) is str else tags
-        return cached if all(type(tag) is str for tag in tags) else tags
-    # Only pool immutable strings, and bound temporary entries on diverse input.
-    if len(pool) < 128 and all(type(tag) is str for tag in tags):
-        pool[tags] = tags
-    return tags
-
-
 class GraphStore:
     def __init__(self) -> None:
         self.nodes_by_id: dict[str, Node] = {}
@@ -134,7 +116,6 @@ class GraphStore:
     @classmethod
     def from_dict(cls, data: dict) -> "GraphStore":
         store = cls()
-        context_tag_pool: dict[tuple[str, ...], tuple[str, ...]] = {}
         if data.get("format") == "compact-v1":
             for values in data.get("nodes", []):
                 store.add_or_update_node(
@@ -159,7 +140,7 @@ class GraphStore:
                         source=values[0],
                         target=values[1],
                         relation_type=values[2],
-                        context_tags=_restore_context_tags(values[3], context_tag_pool),
+                        context_tags=tuple(values[3]),
                         evidence_count=values[4],
                         reliability=values[5],
                         plasticity=values[6],
@@ -171,6 +152,6 @@ class GraphStore:
             store.add_or_update_node(Node(**node_data))
         for edge_data in data.get("edges", []):
             edge_data = dict(edge_data)
-            edge_data["context_tags"] = _restore_context_tags(edge_data.get("context_tags", []), context_tag_pool)
+            edge_data["context_tags"] = tuple(edge_data.get("context_tags", []))
             store.add_or_update_edge(Edge(**edge_data))
         return store

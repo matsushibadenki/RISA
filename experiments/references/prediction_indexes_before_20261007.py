@@ -15,8 +15,6 @@ def rebuild_prediction_indexes(state: RisaState) -> None:
     state.action_target_context_effect_counts.clear()
     state.action_target_role_context_effect_counts.clear()
     state.activation_index.clear()
-    # Temporary membership sets only for large buckets; discarded after rebuild.
-    activation_membership: dict[str, set[str]] = {}
 
     for event in sorted(
         state.events_by_id.values(), key=lambda item: (item.timestamp, item.id)
@@ -29,18 +27,6 @@ def rebuild_prediction_indexes(state: RisaState) -> None:
             or "__no_context__"
         )
         effects = sorted({normalize_label(effect) for effect in event.observed_effects})
-        if not effects:
-            continue
-        roles = event_readout_target_roles(event, state.target_role_readout_hops)
-        activation_keys = (
-            f"actor_action:{actor}:{action}",
-            f"actor:{actor}",
-            f"action:{action}",
-            f"context:{context}",
-        )
-        actor_target_key = _target_key(actor, action, target, context) if target else ""
-        action_target_key = _target_key("*", action, target, context) if target else ""
-        role_keys = [_target_key("role", action, role, context) for role in roles]
         for effect in effects:
             _increment_nested(state.actor_action_effect_counts, (actor, action), effect)
             _increment_nested(state.action_effect_counts, (action,), effect)
@@ -57,33 +43,29 @@ def rebuild_prediction_indexes(state: RisaState) -> None:
             if target:
                 _increment_nested(
                     state.actor_action_target_context_effect_counts,
-                    (actor_target_key,),
+                    (_target_key(actor, action, target, context),),
                     effect,
                 )
                 _increment_nested(
                     state.action_target_context_effect_counts,
-                    (action_target_key,),
+                    (_target_key("*", action, target, context),),
                     effect,
                 )
-            for role_key in role_keys:
+            for role in event_readout_target_roles(event, state.target_role_readout_hops):
                 _increment_nested(
                     state.action_target_role_context_effect_counts,
-                    (role_key,),
+                    (_target_key("role", action, role, context),),
                     effect,
                 )
-            for key in activation_keys:
+            for key in (
+                f"actor_action:{actor}:{action}",
+                f"actor:{actor}",
+                f"action:{action}",
+                f"context:{context}",
+            ):
                 values = state.activation_index.setdefault(key, [])
-                if len(values) < 16:
-                    if effect not in values:
-                        values.append(effect)
-                    continue
-                membership = activation_membership.get(key)
-                if membership is None:
-                    membership = set(values)
-                    activation_membership[key] = membership
-                if effect not in membership:
+                if effect not in values:
                     values.append(effect)
-                    membership.add(effect)
 
 
 def _increment_nested(

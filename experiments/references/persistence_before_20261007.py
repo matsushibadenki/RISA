@@ -8,15 +8,12 @@ import tempfile
 from risa.core.state import RisaState
 
 
-def save_state(state: RisaState, output_dir: str | Path, *, pretty: bool = False) -> None:
+def save_state(state: RisaState, output_dir: str | Path) -> None:
     path = Path(output_dir)
     path.mkdir(parents=True, exist_ok=True)
     state_path = path / "state.json"
     backup_path = path / "state.json.bak"
-    # Compact output avoids per-fragment Python formatting and enables the
-    # standard encoder's optimized path. Preserve pretty output on request.
-    formatting = {"indent": 2} if pretty else {"separators": (",", ":")}
-    encoded = json.dumps(state.to_dict(), sort_keys=True, **formatting)
+    encoded = json.dumps(state.to_dict(), indent=2, sort_keys=True)
     RisaState.from_dict(json.loads(encoded))
 
     if state_path.exists():

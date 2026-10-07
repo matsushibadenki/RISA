@@ -61,6 +61,7 @@ def _materialize_event_scan_state(state: RisaState) -> RisaState:
     scan_state.action_target_role_context_effect_counts = {}
     scan_state.activation_index = {}
     scan_state.evidence_index = {}
+    scan_state.evidence_membership = {}
     rebuild_prediction_indexes(scan_state)
     for event in scan_state.events_by_id.values():
         index_event_evidence(scan_state, event)

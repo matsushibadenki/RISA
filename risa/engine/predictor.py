@@ -14,6 +14,17 @@ from risa.engine.validator import competition_penalty, validation_support
 
 
 def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionResult:
+    return _predict_next_effect(state, query, include_evidence=True)
+
+
+def predict_effects_for_validation(state: RisaState, query: PredictionQuery) -> list[str]:
+    """Use the same selection rules without constructing unused provenance output."""
+    return _predict_next_effect(state, query, include_evidence=False).predicted_effects
+
+
+def _predict_next_effect(
+    state: RisaState, query: PredictionQuery, *, include_evidence: bool,
+) -> PredictionResult:
     actor = normalize_label(query.actor)
     action = normalize_label(query.action)
     target = normalize_label(query.target) if query.target else ""
@@ -278,6 +289,8 @@ def predict_next_effect(state: RisaState, query: PredictionQuery) -> PredictionR
         predicted_effects = sorted(best_outcome.produced_states)
     else:
         predicted_effects = [best_effect]
+    if not include_evidence:
+        return PredictionResult(predicted_effects=predicted_effects, score=round(best_score, 4))
     supporting_paths: list[list[str]] = []
     if _find_edge(state, actor_id, action_id, "participates_in") is not None:
         supporting_paths.append(
@@ -456,6 +469,8 @@ def _event_supporting_paths(
             path.append(f"entity:{normalize_label(event.target)}")
         path.append(f"state:{effect}")
         paths.append(path)
+        if len(paths) >= 3:
+            return paths[:3]
         for edge in state.graph.incoming(event_id):
             if edge.relation_type == "event_precedes":
                 temporal_path = [edge.source, "event_precedes", event_id]
@@ -463,6 +478,8 @@ def _event_supporting_paths(
                     temporal_path.append(f"entity:{normalize_label(event.target)}")
                 temporal_path.append(f"state:{effect}")
                 paths.append(temporal_path)
+                if len(paths) >= 3:
+                    return paths[:3]
     return paths[:3]
 
 
@@ -566,14 +583,10 @@ def _coactivation_candidate_effects(state: RisaState, node_id: str, max_depth: i
 
     for _ in range(max_depth):
         next_frontier: set[str] = set()
-        for edge in state.graph.edges_by_key.values():
-            if edge.relation_type != "co_activates_with":
-                continue
-
-            if edge.source in frontier and edge.target not in visited:
-                next_frontier.add(edge.target)
-            if edge.target in frontier and edge.source not in visited:
-                next_frontier.add(edge.source)
+        for current in frontier:
+            for other in state.graph.coactivation_neighbors.get(current, ()):
+                if other not in visited and _has_coactivation_edge(state, current, other):
+                    next_frontier.add(other)
 
         if not next_frontier:
             break

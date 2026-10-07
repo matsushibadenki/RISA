@@ -18,6 +18,7 @@ def activate_nodes(
         node = state.graph.get_node(node_id)
         if node is None:
             continue
+        state.graph.metabolism_pending[node.id] = None
         _activate_node(node, timestamp, energy_gain=energy_gain, activity_gain=activity_gain)
 
 
@@ -28,8 +29,17 @@ def decay_nodes(
     connection_cost_rate: float = 0.015,
     dormancy_energy_threshold: float = 0.12,
     dormancy_idle_threshold: int = 50,
+    indexed: bool = False,
 ) -> None:
-    for node in state.graph.nodes_by_id.values():
+    # Saturated dormant nodes are fixed points under nonnegative decay. Keep
+    # the full scan available for callers using arbitrary parameter settings.
+    indexed = indexed and decay_rate >= 0 and connection_cost_rate >= 0
+    node_ids = list(state.graph.metabolism_pending) if indexed else list(state.graph.nodes_by_id)
+    for node_id in node_ids:
+        node = state.graph.get_node(node_id)
+        if node is None:
+            state.graph.metabolism_pending.pop(node_id, None)
+            continue
         if node.last_activated_at == 0:
             idle_steps = max(0, current_timestamp - node.created_at)
         else:
@@ -44,6 +54,18 @@ def decay_nodes(
 
         if node.energy <= dormancy_energy_threshold and idle_steps >= dormancy_idle_threshold:
             node.dormant = True
+        if node.dormant and node.energy == 0.0 and node.recent_activity == 0.0:
+            state.graph.metabolism_pending.pop(node.id, None)
+        else:
+            state.graph.metabolism_pending[node.id] = None
+
+
+def rebuild_metabolism_index(state: RisaState) -> None:
+    """Reconcile external node edits at training boundaries without changing nodes."""
+    state.graph.metabolism_pending = {
+        node.id: None for node in state.graph.nodes_by_id.values()
+        if not (node.dormant and node.energy == 0.0 and node.recent_activity == 0.0)
+    }
 
 
 def reward_concept_cell(
@@ -57,6 +79,7 @@ def reward_concept_cell(
     if node is None:
         return
 
+    state.graph.metabolism_pending[node.id] = None
     node.dormant = False
     node.recent_activity = min(10.0, node.recent_activity + min(3.0, support / 2.0))
     node.energy = min(
@@ -103,6 +126,8 @@ def reinforce_coactivation(
         edge.plasticity = max(0.1, edge.plasticity - plasticity_decay)
         edge.last_updated = timestamp
 
+        state.graph.metabolism_pending[left_node.id] = None
+        state.graph.metabolism_pending[right_node.id] = None
         _activate_node(
             left_node,
             timestamp,

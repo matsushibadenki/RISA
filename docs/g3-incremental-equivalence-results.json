@@ -1,0 +1,169 @@
+{
+  "decision": "exact",
+  "note": "Frozen prediction/validation/learning/evidence/metabolism/runtime functions; shared graph storage and discovery.",
+  "reference_revision": "ce189ff6a6f6b031308ac7d0dafb500b583a74e7",
+  "rows": [
+    {
+      "events": 12,
+      "prediction_mismatches": 0,
+      "query_count": 6,
+      "readout_hops": 1,
+      "reload_prediction_mismatches": 0,
+      "state_equal": true,
+      "state_sha256": "6cceec937c63c3b34aef26c6dc881816e7605111ecbc92cf52d0dc2257a20da9"
+    },
+    {
+      "events": 24,
+      "prediction_mismatches": 0,
+      "query_count": 6,
+      "readout_hops": 1,
+      "reload_prediction_mismatches": 0,
+      "state_equal": true,
+      "state_sha256": "305d51af81cc601cf8237792fda6b5dc248ffe85114972ba5d4091a4e55fe0b2"
+    },
+    {
+      "events": 36,
+      "prediction_mismatches": 0,
+      "query_count": 6,
+      "readout_hops": 1,
+      "reload_prediction_mismatches": 0,
+      "state_equal": true,
+      "state_sha256": "700e15b5719159d1f75dd5e16b1a9002ca6efc0b680d0ed637298ba378de5e6c"
+    },
+    {
+      "events": 48,
+      "prediction_mismatches": 0,
+      "query_count": 6,
+      "readout_hops": 1,
+      "reload_prediction_mismatches": 0,
+      "state_equal": true,
+      "state_sha256": "ef8efe5763d30fcf5720291049fc18da0a8f0b5a1e3e48786597ee8ab4b8b07e"
+    },
+    {
+      "events": 60,
+      "prediction_mismatches": 0,
+      "query_count": 6,
+      "readout_hops": 1,
+      "reload_prediction_mismatches": 0,
+      "state_equal": true,
+      "state_sha256": "4e64ef56d34daa36ffd5d395336eb349cd43d471c0b11b6613636610f669bd97"
+    },
+    {
+      "events": 72,
+      "prediction_mismatches": 0,
+      "query_count": 6,
+      "readout_hops": 1,
+      "reload_prediction_mismatches": 0,
+      "state_equal": true,
+      "state_sha256": "3d49b6c67b52deab3064e48634fe4a33c595e79ff3050eb0efe846926d06156f"
+    },
+    {
+      "events": 84,
+      "prediction_mismatches": 0,
+      "query_count": 6,
+      "readout_hops": 1,
+      "reload_prediction_mismatches": 0,
+      "state_equal": true,
+      "state_sha256": "9a6aa4d57e8a9b7c946d2bb68458cd2386b5bfe7fbb977c337172076e1a45df8"
+    },
+    {
+      "events": 96,
+      "prediction_mismatches": 0,
+      "query_count": 6,
+      "readout_hops": 1,
+      "reload_prediction_mismatches": 0,
+      "state_equal": true,
+      "state_sha256": "43cd235655a44e78991c33c59647801fcf17b35eb4e20c81628669f488c0366b"
+    },
+    {
+      "events": 108,
+      "prediction_mismatches": 0,
+      "query_count": 6,
+      "readout_hops": 1,
+      "reload_prediction_mismatches": 0,
+      "state_equal": true,
+      "state_sha256": "561352e4084c5b4738d2a18bbe75948a1ba991abdf2b90fcc8c48e0fe152da19"
+    },
+    {
+      "events": 12,
+      "prediction_mismatches": 0,
+      "query_count": 6,
+      "readout_hops": 2,
+      "reload_prediction_mismatches": 0,
+      "state_equal": true,
+      "state_sha256": "37bbc866de9ce8af4572d0e64298918bb7e758fa97bf38089ca4fb02f24bbe42"
+    },
+    {
+      "events": 24,
+      "prediction_mismatches": 0,
+      "query_count": 6,
+      "readout_hops": 2,
+      "reload_prediction_mismatches": 0,
+      "state_equal": true,
+      "state_sha256": "02a520129980b7488e35d1c37f902a160a3e81a746266cb65026d7612a534022"
+    },
+    {
+      "events": 36,
+      "prediction_mismatches": 0,
+      "query_count": 6,
+      "readout_hops": 2,
+      "reload_prediction_mismatches": 0,
+      "state_equal": true,
+      "state_sha256": "96f2672608a058dc4da5ab58804168678c3332280c530f8ae885b3eda9074367"
+    },
+    {
+      "events": 48,
+      "prediction_mismatches": 0,
+      "query_count": 6,
+      "readout_hops": 2,
+      "reload_prediction_mismatches": 0,
+      "state_equal": true,
+      "state_sha256": "95c3ee227002f2f21f29bb8d1d63a71a68770ad9eb10d4092d11e2c736919074"
+    },
+    {
+      "events": 60,
+      "prediction_mismatches": 0,
+      "query_count": 6,
+      "readout_hops": 2,
+      "reload_prediction_mismatches": 0,
+      "state_equal": true,
+      "state_sha256": "1506261ec6ffdba8d961f3cfd5184fca0f9c76effa9ffb9899567965d81040a0"
+    },
+    {
+      "events": 72,
+      "prediction_mismatches": 0,
+      "query_count": 6,
+      "readout_hops": 2,
+      "reload_prediction_mismatches": 0,
+      "state_equal": true,
+      "state_sha256": "b4f7c924b709eb18a4a9939808243ca70382edced3be7ec4ffceab92cfa41f7a"
+    },
+    {
+      "events": 84,
+      "prediction_mismatches": 0,
+      "query_count": 6,
+      "readout_hops": 2,
+      "reload_prediction_mismatches": 0,
+      "state_equal": true,
+      "state_sha256": "c114a1b26fffc7134f767e6b04924c9b20574546eba2963bd46b1feabb22e6b9"
+    },
+    {
+      "events": 96,
+      "prediction_mismatches": 0,
+      "query_count": 6,
+      "readout_hops": 2,
+      "reload_prediction_mismatches": 0,
+      "state_equal": true,
+      "state_sha256": "3f4b6b0373bd44b22e3effbbc75b707996050719f75fe8c590e60c0f648af6aa"
+    },
+    {
+      "events": 108,
+      "prediction_mismatches": 0,
+      "query_count": 6,
+      "readout_hops": 2,
+      "reload_prediction_mismatches": 0,
+      "state_equal": true,
+      "state_sha256": "e3ed3a90d41bed5f5e441db241b9142c6af395bb9d7d872e66444fb325b54cfd"
+    }
+  ]
+}

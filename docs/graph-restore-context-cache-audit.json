@@ -1,0 +1,17 @@
+{
+  "fixture": "/tmp/risa-optimization-fixtures/10000",
+  "edges": 42554,
+  "counters": {
+    "hits": 42513,
+    "misses": 5,
+    "empty_bypasses": 36,
+    "unhashable_bypasses": 0,
+    "invalidations": 0,
+    "rebuilds": 1,
+    "evictions": 0,
+    "peak_entries": 5,
+    "peak_shallow_pool_bytes": 496,
+    "hit_ratio": 0.9998824027470719
+  },
+  "note": "Separate instrumented audit; shallow pool bytes include canonical tuples shared with Edges but exclude strings. Pool dictionary is released after graph restoration. No cumulative allocation count or energy measurement."
+}

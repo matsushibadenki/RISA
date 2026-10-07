@@ -1,0 +1,361 @@
+{
+  "environment": {
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "python": "3.10.18",
+    "python_debug_build": false
+  },
+  "implementation": "after",
+  "note": "Fresh subprocess per sample; percentiles over 5 samples are empirical order statistics, not robust production tail estimates. Three-sample p95/p99 equal maxima. CPU time is an energy proxy only; no direct energy measurement.",
+  "rows": [
+    {
+      "cpu_seconds": 0.572146,
+      "events": 10000,
+      "file_bytes": 8509735,
+      "file_sha256": "96f8b9acebe939f0feb85050f64dfe2bfd650061955de690e5ec22f2ea6b7399",
+      "fixture": "/tmp/risa-optimization-fixtures/10000",
+      "implementation": "after",
+      "instrumented": false,
+      "live_allocation_blocks": null,
+      "operation": "fresh",
+      "peak_rss_bytes": 246153216,
+      "rss_before_save_bytes": 159858688,
+      "sample": 0,
+      "state_equal": true,
+      "traced_current_bytes": null,
+      "traced_peak_bytes": null,
+      "wall_seconds": 0.5768447920008839
+    },
+    {
+      "cpu_seconds": 0.584358,
+      "events": 10000,
+      "file_bytes": 8509735,
+      "file_sha256": "96f8b9acebe939f0feb85050f64dfe2bfd650061955de690e5ec22f2ea6b7399",
+      "fixture": "/tmp/risa-optimization-fixtures/10000",
+      "implementation": "after",
+      "instrumented": false,
+      "live_allocation_blocks": null,
+      "operation": "fresh",
+      "peak_rss_bytes": 245235712,
+      "rss_before_save_bytes": 159793152,
+      "sample": 1,
+      "state_equal": true,
+      "traced_current_bytes": null,
+      "traced_peak_bytes": null,
+      "wall_seconds": 0.5899113329996908
+    },
+    {
+      "cpu_seconds": 0.6110820000000001,
+      "events": 10000,
+      "file_bytes": 8509735,
+      "file_sha256": "96f8b9acebe939f0feb85050f64dfe2bfd650061955de690e5ec22f2ea6b7399",
+      "fixture": "/tmp/risa-optimization-fixtures/10000",
+      "implementation": "after",
+      "instrumented": false,
+      "live_allocation_blocks": null,
+      "operation": "fresh",
+      "peak_rss_bytes": 245153792,
+      "rss_before_save_bytes": 159760384,
+      "sample": 2,
+      "state_equal": true,
+      "traced_current_bytes": null,
+      "traced_peak_bytes": null,
+      "wall_seconds": 0.6195073749995572
+    },
+    {
+      "cpu_seconds": 0.605548,
+      "events": 10000,
+      "file_bytes": 8509735,
+      "file_sha256": "96f8b9acebe939f0feb85050f64dfe2bfd650061955de690e5ec22f2ea6b7399",
+      "fixture": "/tmp/risa-optimization-fixtures/10000",
+      "implementation": "after",
+      "instrumented": false,
+      "live_allocation_blocks": null,
+      "operation": "fresh",
+      "peak_rss_bytes": 245219328,
+      "rss_before_save_bytes": 159891456,
+      "sample": 3,
+      "state_equal": true,
+      "traced_current_bytes": null,
+      "traced_peak_bytes": null,
+      "wall_seconds": 0.6170495420001316
+    },
+    {
+      "cpu_seconds": 0.595919,
+      "events": 10000,
+      "file_bytes": 8509735,
+      "file_sha256": "96f8b9acebe939f0feb85050f64dfe2bfd650061955de690e5ec22f2ea6b7399",
+      "fixture": "/tmp/risa-optimization-fixtures/10000",
+      "implementation": "after",
+      "instrumented": false,
+      "live_allocation_blocks": null,
+      "operation": "fresh",
+      "peak_rss_bytes": 245792768,
+      "rss_before_save_bytes": 160055296,
+      "sample": 4,
+      "state_equal": true,
+      "traced_current_bytes": null,
+      "traced_peak_bytes": null,
+      "wall_seconds": 0.599316292000367
+    },
+    {
+      "cpu_seconds": 1.074497,
+      "events": 10000,
+      "file_bytes": 8509735,
+      "file_sha256": "96f8b9acebe939f0feb85050f64dfe2bfd650061955de690e5ec22f2ea6b7399",
+      "fixture": "/tmp/risa-optimization-fixtures/10000",
+      "implementation": "after",
+      "instrumented": false,
+      "live_allocation_blocks": null,
+      "operation": "overwrite",
+      "peak_rss_bytes": 261062656,
+      "rss_before_save_bytes": 160759808,
+      "sample": 0,
+      "state_equal": true,
+      "traced_current_bytes": null,
+      "traced_peak_bytes": null,
+      "wall_seconds": 1.0785652080003274
+    },
+    {
+      "cpu_seconds": 1.066064,
+      "events": 10000,
+      "file_bytes": 8509735,
+      "file_sha256": "96f8b9acebe939f0feb85050f64dfe2bfd650061955de690e5ec22f2ea6b7399",
+      "fixture": "/tmp/risa-optimization-fixtures/10000",
+      "implementation": "after",
+      "instrumented": false,
+      "live_allocation_blocks": null,
+      "operation": "overwrite",
+      "peak_rss_bytes": 261242880,
+      "rss_before_save_bytes": 160907264,
+      "sample": 1,
+      "state_equal": true,
+      "traced_current_bytes": null,
+      "traced_peak_bytes": null,
+      "wall_seconds": 1.0732531670000753
+    },
+    {
+      "cpu_seconds": 1.065359,
+      "events": 10000,
+      "file_bytes": 8509735,
+      "file_sha256": "96f8b9acebe939f0feb85050f64dfe2bfd650061955de690e5ec22f2ea6b7399",
+      "fixture": "/tmp/risa-optimization-fixtures/10000",
+      "implementation": "after",
+      "instrumented": false,
+      "live_allocation_blocks": null,
+      "operation": "overwrite",
+      "peak_rss_bytes": 261832704,
+      "rss_before_save_bytes": 160972800,
+      "sample": 2,
+      "state_equal": true,
+      "traced_current_bytes": null,
+      "traced_peak_bytes": null,
+      "wall_seconds": 1.0852499999991778
+    },
+    {
+      "cpu_seconds": 1.046613,
+      "events": 10000,
+      "file_bytes": 8509735,
+      "file_sha256": "96f8b9acebe939f0feb85050f64dfe2bfd650061955de690e5ec22f2ea6b7399",
+      "fixture": "/tmp/risa-optimization-fixtures/10000",
+      "implementation": "after",
+      "instrumented": false,
+      "live_allocation_blocks": null,
+      "operation": "overwrite",
+      "peak_rss_bytes": 261111808,
+      "rss_before_save_bytes": 160759808,
+      "sample": 3,
+      "state_equal": true,
+      "traced_current_bytes": null,
+      "traced_peak_bytes": null,
+      "wall_seconds": 1.0502391250001892
+    },
+    {
+      "cpu_seconds": 0.9968450000000001,
+      "events": 10000,
+      "file_bytes": 8509735,
+      "file_sha256": "96f8b9acebe939f0feb85050f64dfe2bfd650061955de690e5ec22f2ea6b7399",
+      "fixture": "/tmp/risa-optimization-fixtures/10000",
+      "implementation": "after",
+      "instrumented": false,
+      "live_allocation_blocks": null,
+      "operation": "overwrite",
+      "peak_rss_bytes": 261062656,
+      "rss_before_save_bytes": 160841728,
+      "sample": 4,
+      "state_equal": true,
+      "traced_current_bytes": null,
+      "traced_peak_bytes": null,
+      "wall_seconds": 1.000610959000369
+    },
+    {
+      "cpu_seconds": 2.118408,
+      "events": 10000,
+      "file_bytes": 8509735,
+      "file_sha256": "96f8b9acebe939f0feb85050f64dfe2bfd650061955de690e5ec22f2ea6b7399",
+      "fixture": "/tmp/risa-optimization-fixtures/10000",
+      "implementation": "after",
+      "instrumented": true,
+      "live_allocation_blocks": 7046,
+      "operation": "fresh",
+      "peak_rss_bytes": 365494272,
+      "profile": [
+        {
+          "calls": 1,
+          "cumulative_seconds": 2.177258042,
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/persistence.py:11:save_state",
+          "primitive_calls": 1,
+          "self_seconds": 0.203842041
+        },
+        {
+          "calls": 1,
+          "cumulative_seconds": 0.848556375,
+          "function": "/Users/Shared/Program/python310/RISA/risa/core/state.py:126:from_dict",
+          "primitive_calls": 1,
+          "self_seconds": 0.049394632
+        },
+        {
+          "calls": 1,
+          "cumulative_seconds": 0.655582583,
+          "function": "/Users/Shared/Program/python310/RISA/risa/core/state.py:67:to_dict",
+          "primitive_calls": 1,
+          "self_seconds": 5.6380000000000006e-05
+        },
+        {
+          "calls": 1,
+          "cumulative_seconds": 0.580706041,
+          "function": "/Users/Shared/Program/python310/RISA/risa/core/state.py:98:<dictcomp>",
+          "primitive_calls": 1,
+          "self_seconds": 0.003213823
+        },
+        {
+          "calls": 10000,
+          "cumulative_seconds": 0.5774922180000001,
+          "function": "/Users/Shared/Program/python310/RISA/risa/core/state.py:450:_event_persistence_record",
+          "primitive_calls": 10000,
+          "self_seconds": 0.032016117000000004
+        },
+        {
+          "calls": 10000,
+          "cumulative_seconds": 0.535208362,
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/dataclasses.py:1217:asdict",
+          "primitive_calls": 10000,
+          "self_seconds": 0.004466127
+        },
+        {
+          "calls": 180000,
+          "cumulative_seconds": 0.529422799,
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/dataclasses.py:1241:_asdict_inner",
+          "primitive_calls": 10000,
+          "self_seconds": 0.133532755
+        },
+        {
+          "calls": 80000,
+          "cumulative_seconds": 0.46808683900000003,
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/dataclasses.py:1275:<genexpr>",
+          "primitive_calls": 80000,
+          "self_seconds": 0.038289455
+        },
+        {
+          "calls": 1,
+          "cumulative_seconds": 0.415313708,
+          "function": "/Users/Shared/Program/python310/RISA/risa/core/graph_store.py:116:from_dict",
+          "primitive_calls": 1,
+          "self_seconds": 0.05868817900000001
+        },
+        {
+          "calls": 1,
+          "cumulative_seconds": 0.262211291,
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/__init__.py:299:loads",
+          "primitive_calls": 1,
+          "self_seconds": 1.629e-05
+        },
+        {
+          "calls": 1,
+          "cumulative_seconds": 0.26219179200000003,
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/decoder.py:332:decode",
+          "primitive_calls": 1,
+          "self_seconds": 1.9543000000000002e-05
+        },
+        {
+          "calls": 1,
+          "cumulative_seconds": 0.262164583,
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/decoder.py:343:raw_decode",
+          "primitive_calls": 1,
+          "self_seconds": 0.262164583
+        },
+        {
+          "calls": 42554,
+          "cumulative_seconds": 0.228382242,
+          "function": "/Users/Shared/Program/python310/RISA/risa/core/graph_store.py:31:add_or_update_edge",
+          "primitive_calls": 42554,
+          "self_seconds": 0.20236479200000002
+        },
+        {
+          "calls": 140000,
+          "cumulative_seconds": 0.218872591,
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/copy.py:128:deepcopy",
+          "primitive_calls": 140000,
+          "self_seconds": 0.18731144100000002
+        },
+        {
+          "calls": 1,
+          "cumulative_seconds": 0.20395654200000002,
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/__init__.py:183:dumps",
+          "primitive_calls": 1,
+          "self_seconds": 3.4626000000000004e-05
+        },
+        {
+          "calls": 1,
+          "cumulative_seconds": 0.20391941600000002,
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/encoder.py:182:encode",
+          "primitive_calls": 1,
+          "self_seconds": 2.9499000000000003e-05
+        },
+        {
+          "calls": 1,
+          "cumulative_seconds": 0.20261325000000002,
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/encoder.py:204:iterencode",
+          "primitive_calls": 1,
+          "self_seconds": 0.20261325000000002
+        },
+        {
+          "calls": 1,
+          "cumulative_seconds": 0.195988084,
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/prediction_indexes.py:8:rebuild_prediction_indexes",
+          "primitive_calls": 1,
+          "self_seconds": 0.070098851
+        }
+      ],
+      "rss_before_save_bytes": 159809536,
+      "state_equal": true,
+      "total_calls": 3653585,
+      "traced_current_bytes": 430596,
+      "traced_peak_bytes": 101661907,
+      "wall_seconds": 2.1772729589993105
+    }
+  ],
+  "summary": [
+    {
+      "events": 10000,
+      "maximum_rss_bytes": 246153216,
+      "maximum_seconds": 0.6195073749995572,
+      "median_cpu_seconds": 0.595919,
+      "median_seconds": 0.599316292000367,
+      "operation": "fresh",
+      "p95_seconds": 0.6195073749995572,
+      "p99_seconds": 0.6195073749995572,
+      "sample_count": 5
+    },
+    {
+      "events": 10000,
+      "maximum_rss_bytes": 261832704,
+      "maximum_seconds": 1.0852499999991778,
+      "median_cpu_seconds": 1.065359,
+      "median_seconds": 1.0732531670000753,
+      "operation": "overwrite",
+      "p95_seconds": 1.0852499999991778,
+      "p99_seconds": 1.0852499999991778,
+      "sample_count": 5
+    }
+  ]
+}

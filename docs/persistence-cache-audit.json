@@ -1,0 +1,13 @@
+{
+  "cache_hit_ratio": 0.9984,
+  "cache_hits": 29952,
+  "cache_misses": 48,
+  "cache_shallow_bytes": 1588192,
+  "calls": 30000,
+  "duplicate_membership_hits": 0,
+  "events": 10000,
+  "evictions": 0,
+  "invalidations": 0,
+  "note": "Evidence-membership cache during one cold reload. Shallow bytes exclude shared Event-ID strings and evidence lists. Hits reuse per-bucket membership sets during reconstruction, not across CLI invocations. No eviction mechanism.",
+  "rebuilds": 48
+}

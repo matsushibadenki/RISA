@@ -1,0 +1,531 @@
+{
+  "environment": {
+    "python": "3.10.18",
+    "platform": "macOS-27.0.1-arm64-arm-64bit"
+  },
+  "rows": [
+    {
+      "case": "cold-load",
+      "implementation": "before",
+      "events": 10000,
+      "operation": "cold-load",
+      "wall_seconds": 0.31522687500000757,
+      "cpu_seconds": 0.310724,
+      "peak_rss_bytes": 159727616,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "indexes_equal": true
+    },
+    {
+      "case": "cold-load",
+      "implementation": "before",
+      "events": 10000,
+      "operation": "cold-load",
+      "wall_seconds": 0.3211766250005894,
+      "cpu_seconds": 0.319662,
+      "peak_rss_bytes": 159776768,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "indexes_equal": true
+    },
+    {
+      "case": "cold-load",
+      "implementation": "before",
+      "events": 10000,
+      "operation": "cold-load",
+      "wall_seconds": 0.35591637499965145,
+      "cpu_seconds": 0.35102,
+      "peak_rss_bytes": 159711232,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "indexes_equal": true
+    },
+    {
+      "case": "cold-load",
+      "implementation": "before",
+      "events": 10000,
+      "operation": "cold-load",
+      "wall_seconds": 0.3178627500001312,
+      "cpu_seconds": 0.316799,
+      "peak_rss_bytes": 159875072,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "indexes_equal": true
+    },
+    {
+      "case": "cold-load",
+      "implementation": "before",
+      "events": 10000,
+      "operation": "cold-load",
+      "wall_seconds": 0.3119735419995777,
+      "cpu_seconds": 0.311159,
+      "peak_rss_bytes": 159580160,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "indexes_equal": true
+    },
+    {
+      "case": "cold-load",
+      "implementation": "before",
+      "events": 10000,
+      "operation": "cold-load",
+      "wall_seconds": 0.2989951250001468,
+      "cpu_seconds": 0.29827299999999995,
+      "peak_rss_bytes": 159744000,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "indexes_equal": true
+    },
+    {
+      "case": "cold-load",
+      "implementation": "before",
+      "events": 10000,
+      "operation": "cold-load",
+      "wall_seconds": 0.34788899999966816,
+      "cpu_seconds": 0.343161,
+      "peak_rss_bytes": 159596544,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "indexes_equal": true
+    },
+    {
+      "case": "cold-load",
+      "implementation": "before",
+      "events": 10000,
+      "operation": "cold-load",
+      "wall_seconds": 0.854716207999445,
+      "cpu_seconds": 0.848596,
+      "peak_rss_bytes": 279003136,
+      "instrumented": true,
+      "traced_peak_bytes": 93152727,
+      "indexes_equal": true,
+      "total_calls": 1393394,
+      "profile": [
+        {
+          "function": "/Users/Shared/Program/python310/RISA/experiments/reconstruction_optimization.py:29:<lambda>",
+          "calls": 1,
+          "self_seconds": 5.249e-06,
+          "cumulative_seconds": 0.854706791
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/persistence.py:33:load_state",
+          "calls": 1,
+          "self_seconds": 0.01150554,
+          "cumulative_seconds": 0.854701542
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/core/state.py:126:from_dict",
+          "calls": 1,
+          "self_seconds": 0.094440572,
+          "cumulative_seconds": 0.688045042
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/core/graph_store.py:116:from_dict",
+          "calls": 1,
+          "self_seconds": 0.052194809,
+          "cumulative_seconds": 0.26498725
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/core/graph_store.py:31:add_or_update_edge",
+          "calls": 42554,
+          "self_seconds": 0.133838666,
+          "cumulative_seconds": 0.16283455500000002
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/experiments/references/prediction_indexes_before_20261007.py:8:rebuild_prediction_indexes",
+          "calls": 1,
+          "self_seconds": 0.053710407,
+          "cumulative_seconds": 0.159960666
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/__init__.py:299:loads",
+          "calls": 1,
+          "self_seconds": 1.1416e-05,
+          "cumulative_seconds": 0.151242292
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/decoder.py:332:decode",
+          "calls": 1,
+          "self_seconds": 1.396e-05,
+          "cumulative_seconds": 0.151230042
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/decoder.py:343:raw_decode",
+          "calls": 1,
+          "self_seconds": 0.151205958,
+          "cumulative_seconds": 0.151205958
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/evidence.py:9:index_event_evidence",
+          "calls": 10000,
+          "self_seconds": 0.024453890000000002,
+          "cumulative_seconds": 0.13698153500000002
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/graph_builder.py:10:normalize_label",
+          "calls": 100000,
+          "self_seconds": 0.049738546,
+          "cumulative_seconds": 0.065592332
+        },
+        {
+          "function": "~:0:<built-in method builtins.sorted>",
+          "calls": 60008,
+          "self_seconds": 0.024173714000000002,
+          "cumulative_seconds": 0.046150217
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/evidence.py:97:_append",
+          "calls": 30000,
+          "self_seconds": 0.030122675,
+          "cumulative_seconds": 0.04070787
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/role_induction.py:295:event_readout_target_roles",
+          "calls": 20000,
+          "self_seconds": 0.003039906,
+          "cumulative_seconds": 0.037774847
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/experiments/references/prediction_indexes_before_20261007.py:71:_increment_nested",
+          "calls": 40000,
+          "self_seconds": 0.03183436,
+          "cumulative_seconds": 0.036516879
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/role_induction.py:14:effective_event_target_roles",
+          "calls": 20000,
+          "self_seconds": 0.007785040000000001,
+          "cumulative_seconds": 0.034734941000000005
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/core/graph_store.py:18:add_or_update_node",
+          "calls": 10020,
+          "self_seconds": 0.031183312,
+          "cumulative_seconds": 0.031551914
+        },
+        {
+          "function": "~:0:<built-in method builtins.max>",
+          "calls": 42556,
+          "self_seconds": 0.020798009000000003,
+          "cumulative_seconds": 0.020801175
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/evidence.py:108:_context_key",
+          "calls": 10000,
+          "self_seconds": 0.00626694,
+          "cumulative_seconds": 0.019607639
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/role_induction.py:287:_normalized_roles",
+          "calls": 20000,
+          "self_seconds": 0.009169855000000001,
+          "cumulative_seconds": 0.01767803
+        },
+        {
+          "function": "~:0:<method 'lower' of 'str' objects>",
+          "calls": 100000,
+          "self_seconds": 0.009521455,
+          "cumulative_seconds": 0.009521455
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/evidence.py:21:<setcomp>",
+          "calls": 10000,
+          "self_seconds": 0.002403394,
+          "cumulative_seconds": 0.009503208
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/role_induction.py:168:induced_entity_role",
+          "calls": 20000,
+          "self_seconds": 0.008332137,
+          "cumulative_seconds": 0.009271871000000001
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/experiments/references/prediction_indexes_before_20261007.py:29:<setcomp>",
+          "calls": 10000,
+          "self_seconds": 0.002420165,
+          "cumulative_seconds": 0.009058298000000001
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/evidence.py:109:<genexpr>",
+          "calls": 20000,
+          "self_seconds": 0.001861409,
+          "cumulative_seconds": 0.008776968000000001
+        }
+      ]
+    },
+    {
+      "case": "diverse-index",
+      "implementation": "before",
+      "events": 10000,
+      "operation": "diverse-index",
+      "wall_seconds": 2.6024227499992776,
+      "cpu_seconds": 2.582395,
+      "peak_rss_bytes": 48791552,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "indexes_equal": true
+    },
+    {
+      "case": "diverse-index",
+      "implementation": "before",
+      "events": 10000,
+      "operation": "diverse-index",
+      "wall_seconds": 5.7401920000002065,
+      "cpu_seconds": 4.40461,
+      "peak_rss_bytes": 48971776,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "indexes_equal": true
+    },
+    {
+      "case": "diverse-index",
+      "implementation": "before",
+      "events": 10000,
+      "operation": "diverse-index",
+      "wall_seconds": 3.0285640000001877,
+      "cpu_seconds": 2.939387,
+      "peak_rss_bytes": 48791552,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "indexes_equal": true
+    },
+    {
+      "case": "diverse-index",
+      "implementation": "before",
+      "events": 10000,
+      "operation": "diverse-index",
+      "wall_seconds": 3.5417768750003233,
+      "cpu_seconds": 2.815071,
+      "peak_rss_bytes": 48693248,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "indexes_equal": true
+    },
+    {
+      "case": "diverse-index",
+      "implementation": "before",
+      "events": 10000,
+      "operation": "diverse-index",
+      "wall_seconds": 2.848384041999452,
+      "cpu_seconds": 2.827904,
+      "peak_rss_bytes": 49168384,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "indexes_equal": true
+    },
+    {
+      "case": "diverse-index",
+      "implementation": "before",
+      "events": 10000,
+      "operation": "diverse-index",
+      "wall_seconds": 2.7668344590001652,
+      "cpu_seconds": 2.5893610000000002,
+      "peak_rss_bytes": 48611328,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "indexes_equal": true
+    },
+    {
+      "case": "diverse-index",
+      "implementation": "before",
+      "events": 10000,
+      "operation": "diverse-index",
+      "wall_seconds": 2.5871484589997635,
+      "cpu_seconds": 2.581261,
+      "peak_rss_bytes": 48791552,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "indexes_equal": true
+    },
+    {
+      "case": "diverse-index",
+      "implementation": "before",
+      "events": 10000,
+      "operation": "diverse-index",
+      "wall_seconds": 2.9584662500001286,
+      "cpu_seconds": 2.943146,
+      "peak_rss_bytes": 49627136,
+      "instrumented": true,
+      "traced_peak_bytes": 3203989,
+      "indexes_equal": true,
+      "total_calls": 1780026,
+      "profile": [
+        {
+          "function": "/Users/Shared/Program/python310/RISA/experiments/reconstruction_optimization.py:36:<lambda>",
+          "calls": 1,
+          "self_seconds": 4.625000000000001e-06,
+          "cumulative_seconds": 2.9584523750000002
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/experiments/references/prediction_indexes_before_20261007.py:8:rebuild_prediction_indexes",
+          "calls": 1,
+          "self_seconds": 2.614460641,
+          "cumulative_seconds": 2.9584477500000004
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/experiments/references/prediction_indexes_before_20261007.py:71:_increment_nested",
+          "calls": 210000,
+          "self_seconds": 0.126952589,
+          "cumulative_seconds": 0.158771941
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/role_induction.py:295:event_readout_target_roles",
+          "calls": 30000,
+          "self_seconds": 0.005736974000000001,
+          "cumulative_seconds": 0.087158815
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/role_induction.py:14:effective_event_target_roles",
+          "calls": 30000,
+          "self_seconds": 0.005637599,
+          "cumulative_seconds": 0.08142184100000001
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/role_induction.py:287:_normalized_roles",
+          "calls": 30000,
+          "self_seconds": 0.014251733,
+          "cumulative_seconds": 0.075784242
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/role_induction.py:288:<setcomp>",
+          "calls": 30000,
+          "self_seconds": 0.011143099,
+          "cumulative_seconds": 0.051028781
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/graph_builder.py:10:normalize_label",
+          "calls": 60000,
+          "self_seconds": 0.030367646,
+          "cumulative_seconds": 0.040688516
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/role_induction.py:291:_normalize_label",
+          "calls": 60000,
+          "self_seconds": 0.029826656000000003,
+          "cumulative_seconds": 0.039885682000000006
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/experiments/references/prediction_indexes_before_20261007.py:82:_target_key",
+          "calls": 90000,
+          "self_seconds": 0.019060312000000003,
+          "cumulative_seconds": 0.030812087000000002
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/experiments/references/prediction_indexes_before_20261007.py:29:<setcomp>",
+          "calls": 10000,
+          "self_seconds": 0.004864129,
+          "cumulative_seconds": 0.025024177
+        },
+        {
+          "function": "~:0:<built-in method builtins.sorted>",
+          "calls": 50001,
+          "self_seconds": 0.021750042,
+          "cumulative_seconds": 0.02501211
+        },
+        {
+          "function": "~:0:<method 'setdefault' of 'dict' objects>",
+          "calls": 450000,
+          "self_seconds": 0.020178754,
+          "cumulative_seconds": 0.020178754
+        },
+        {
+          "function": "~:0:<method 'get' of 'dict' objects>",
+          "calls": 210000,
+          "self_seconds": 0.017163517,
+          "cumulative_seconds": 0.017163517
+        },
+        {
+          "function": "~:0:<method 'lower' of 'str' objects>",
+          "calls": 120000,
+          "self_seconds": 0.013080191000000001,
+          "cumulative_seconds": 0.013080191000000001
+        },
+        {
+          "function": "~:0:<method 'join' of 'str' objects>",
+          "calls": 100000,
+          "self_seconds": 0.012148289000000001,
+          "cumulative_seconds": 0.012148289000000001
+        },
+        {
+          "function": "~:0:<method 'replace' of 'str' objects>",
+          "calls": 120000,
+          "self_seconds": 0.00407727,
+          "cumulative_seconds": 0.00407727
+        },
+        {
+          "function": "~:0:<method 'strip' of 'str' objects>",
+          "calls": 120000,
+          "self_seconds": 0.003222435,
+          "cumulative_seconds": 0.003222435
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/experiments/references/prediction_indexes_before_20261007.py:20:<lambda>",
+          "calls": 10000,
+          "self_seconds": 0.0026171410000000003,
+          "cumulative_seconds": 0.0026171410000000003
+        },
+        {
+          "function": "~:0:<method 'append' of 'list' objects>",
+          "calls": 40008,
+          "self_seconds": 0.0012632630000000001,
+          "cumulative_seconds": 0.0012632630000000001
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/experiments/references/prediction_indexes_before_20261007.py:26:<genexpr>",
+          "calls": 10000,
+          "self_seconds": 0.000644927,
+          "cumulative_seconds": 0.000644927
+        },
+        {
+          "function": "~:0:<built-in method time.process_time>",
+          "calls": 2,
+          "self_seconds": 6.5000000000000004e-06,
+          "cumulative_seconds": 6.5000000000000004e-06
+        },
+        {
+          "function": "~:0:<built-in method resource.getrusage>",
+          "calls": 1,
+          "self_seconds": 3.917e-06,
+          "cumulative_seconds": 3.917e-06
+        },
+        {
+          "function": "~:0:<built-in method time.perf_counter>",
+          "calls": 2,
+          "self_seconds": 1.041e-06,
+          "cumulative_seconds": 1.041e-06
+        },
+        {
+          "function": "~:0:<method 'disable' of '_lsprof.Profiler' objects>",
+          "calls": 1,
+          "self_seconds": 3.75e-07,
+          "cumulative_seconds": 3.75e-07
+        }
+      ]
+    }
+  ],
+  "summary": [
+    {
+      "events": 10000,
+      "operation": "cold-load",
+      "sample_count": 7,
+      "median_seconds": 0.3178627500001312,
+      "p95_seconds": 0.35591637499965145,
+      "p99_seconds": 0.35591637499965145,
+      "maximum_seconds": 0.35591637499965145,
+      "median_cpu_seconds": 0.316799,
+      "maximum_rss_bytes": 159875072
+    },
+    {
+      "events": 10000,
+      "operation": "diverse-index",
+      "sample_count": 7,
+      "median_seconds": 2.848384041999452,
+      "p95_seconds": 5.7401920000002065,
+      "p99_seconds": 5.7401920000002065,
+      "maximum_seconds": 5.7401920000002065,
+      "median_cpu_seconds": 2.815071,
+      "maximum_rss_bytes": 49168384
+    }
+  ],
+  "note": "Normal timings and instrumentation are separate; seven-sample tails are not production guarantees. Diverse-index is an isolated synthetic stress case, not trained quality evidence."
+}

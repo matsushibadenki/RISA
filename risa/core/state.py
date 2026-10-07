@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field, fields
 import hashlib
 import json
 
@@ -53,6 +53,7 @@ class RisaState:
     change_hypotheses: dict[str, ChangeHypothesis] = field(default_factory=dict)
     applicability_hypotheses: dict[str, ApplicabilityHypothesis] = field(default_factory=dict)
     evidence_index: dict[str, list[str]] = field(default_factory=dict)
+    evidence_membership: dict[str, tuple[list[str], set[str]]] = field(default_factory=dict, repr=False)
     candidate_inference_index: dict[str, list[str]] = field(default_factory=dict)
     compacted_role_readouts: dict[str, str] = field(default_factory=dict)
     unnamed_concept_candidates: dict[str, UnnamedConceptCandidate] = field(default_factory=dict)
@@ -438,15 +439,28 @@ _PRIMITIVE_PERSISTENCE_DEFAULTS: dict[str, object] = {
 }
 
 
+@dataclass
+class _EventPersistenceValues:
+    values: dict[str, object]
+
+
+_EVENT_PERSISTENCE_FIELDS = tuple(item.name for item in fields(Event) if item.name != "id")
+
+
 def _event_persistence_record(event: Event) -> dict[str, object]:
-    record = event.to_dict()
-    record.pop("id", None)
-    return {
-        key: value
-        for key, value in record.items()
-        if key not in _EVENT_PERSISTENCE_DEFAULTS
-        or value != _EVENT_PERSISTENCE_DEFAULTS[key]
-    }
+    # Preserve custom export implementations on Event subclasses.
+    if type(event) is not Event or "to_dict" in event.__dict__:
+        record = event.to_dict()
+        record.pop("id", None)
+        return _without_default_values(record, _EVENT_PERSISTENCE_DEFAULTS)
+    values = {}
+    for name in _EVENT_PERSISTENCE_FIELDS:
+        value = getattr(event, name)
+        if name not in _EVENT_PERSISTENCE_DEFAULTS or value != _EVENT_PERSISTENCE_DEFAULTS[name]:
+            values[name] = value
+    # Use the standard recursive dataclass conversion only for retained fields.
+    # This preserves nested dataclasses and independent mutable output containers.
+    return asdict(_EventPersistenceValues(values))["values"]
 
 
 def _pattern_persistence_record(key: str, pattern: Pattern) -> dict[str, object]:

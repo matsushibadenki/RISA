@@ -11,6 +11,7 @@ def index_event_evidence(state: RisaState, event: Event) -> None:
     actor = normalize_label(event.actor)
     target = normalize_label(event.target or "")
     context = _context_key(event.context_tags)
+    index_applicability_evidence(state, event)
     _append(state, f"action:{action}:context:{context}", event.id)
     _append(state, f"actor:{actor}:action:{action}:context:{context}", event.id)
     if target:
@@ -19,6 +20,11 @@ def index_event_evidence(state: RisaState, event: Event) -> None:
         _append(state, f"target_role:{role}:action:{action}:context:{context}", event.id)
     for effect in sorted({normalize_label(item) for item in event.observed_effects}):
         _append(state, f"action:{action}:effect:{effect}:context:{context}", event.id)
+
+
+def index_applicability_evidence(state: RisaState, event: Event) -> None:
+    if event.before_state_observed:
+        _append(state, f"applicability:{normalize_label(event.action)}", event.id)
 
 
 def matching_evidence_event_ids(
@@ -90,8 +96,13 @@ def _lookup(
 
 def _append(state: RisaState, key: str, event_id: str) -> None:
     values = state.evidence_index.setdefault(key, [])
-    if event_id not in values:
+    cached = state.evidence_membership.get(key)
+    if cached is None or cached[0] is not values or len(cached[1]) != len(values):
+        cached = (values, set(values))
+        state.evidence_membership[key] = cached
+    if event_id not in cached[1]:
         values.append(event_id)
+        cached[1].add(event_id)
 
 
 def _context_key(context_tags: list[str]) -> str:

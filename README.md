@@ -103,6 +103,8 @@ python3 -m experiments.end_to_end_scale_evaluation \
 
 A time-limited scale reports `scale_gate_incomplete`, with the last completed chunk and process wall time. It does not count as a completed large-scale run.
 
+State files use compact JSON by default. The schema and values are unchanged; Python callers can use `save_state(state, path, pretty=True)` for the previous readable formatting. Measured save work and output size are lower; see the [optimization report](docs/Software-Optimization-2026-10-07.md) for before/after results and limitations.
+
 ## Roadmap
 
 - [Done] G0–G2.6: structured-event semantics, targeted comparisons, candidate lifecycle, induced roles and persistence checks.
@@ -111,8 +113,9 @@ A time-limited scale reports `scale_gate_incomplete`, with the last completed ch
 - [Done] G3.2: closed the drift-development cycle as a documented negative result; the independent final set remains unused.
 - [Done] G3.3 profiling runner: real training stages, bounded subprocesses, planning, compaction and save/load checks; chronological change detection now avoids full-history sorting. [Protocol](docs/G3.3-End-to-End-Protocol.md).
 - [Done] G3.3 initial capacity diagnostic: 1k completes with 12/12 correct predictions and exact reload results; 10k/100k exceed the fixed budget at a 4k completed checkpoint. [Report](docs/G3.3-End-to-End-Evaluation-2026-10-07.md).
-- [Next] G3.3: improve history-dependent prediction, metabolism and learning with exact equivalence, then complete the 10k/100k paths. Do not attempt 1M yet.
-- [Later] G3.4: measure structure growth, description length, storage per event, candidate generation and planner work per query.
+- [Done] G3.3: optimized prediction, metabolism and learning complete 1k/10k/100k under the unchanged 45-second cap, in 0.274/2.781/40.314 seconds. All scales have 12/12 correct predictions and exact compaction/reload results; 18 persisted checkpoints match frozen Git functions. [Report](docs/G3.3-Incremental-Scale-Evaluation-2026-10-07.md).
+- [Later] 1M capacity: review the 2.045GiB peak RSS at 100k and persistence costs first.
+- [Next] G3.4: measure structure growth, description length, storage per event, candidate generation and planner work per query.
 - [Later] G4: test second-generation concepts, self-formed hierarchy and transfer to a new small world using lineage-disjoint held-out evidence.
 
 The long-term test is whether more experience produces more reusable structure, lower marginal storage and search cost, and higher success on unseen problems **at the same time**. If structure counts and costs grow roughly with the event log while only accuracy improves, the condensation hypothesis needs revision. The [roadmap](docs/ROADMAP.md) defines the evidence gates and later research options.
@@ -129,3 +132,9 @@ The long-term test is whether more experience produces more reusable structure, 
 ## License
 
 MIT License.
+
+Event persistence now filters omitted defaults before recursive copying while preserving saved bytes. 日本語: Event保存時の不要な既定値コピーを削減し、保存バイト列を維持します。简体中文: Event保存前排除无需保存的默认字段，保持保存字节不变。[Measured results / 計測結果 / 测量结果](docs/Event-Export-Optimization-2026-10-07.md).
+
+Prediction index rebuilding now bounds duplicate-list scans for large effect buckets and reuses per-Event role/key work. 日本語: 大きな効果バケットの重複確認とEventごとの役割・キー再計算を削減します。简体中文: 减少大型效果桶的重复检查及每Event角色与键的重复计算。[Results and measured tradeoffs / 結果と交換条件 / 结果与实测成本](docs/Index-Reconstruction-Optimization-2026-10-07.md).
+
+Graph restoration shares repeated immutable context tuples with a bounded temporary pool. 日本語: Graph復元で不変context tupleを共有し、保持メモリと読み込み・保存時間を削減します。简体中文: Graph恢复使用有上限的临时池共享不可变context元组，减少保留内存及加载、保存时间。[Measurements, cache audit and limitations / 計測・cache監査・制限 / 测量、缓存审计及限制](docs/Graph-Restoration-Optimization-2026-10-07.md).

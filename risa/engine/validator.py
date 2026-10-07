@@ -7,7 +7,7 @@ from risa.engine.metabolism import apply_competition_inhibition, apply_predictio
 
 
 def validate_event_prediction(state: RisaState, event: Event) -> None:
-    from risa.engine.predictor import predict_next_effect
+    from risa.engine.predictor import predict_effects_for_validation
 
     query = PredictionQuery(
         actor=event.actor,
@@ -19,11 +19,11 @@ def validate_event_prediction(state: RisaState, event: Event) -> None:
         entity_bindings=event.entity_bindings,
         entity_relations=event.entity_relations,
     )
-    result = predict_next_effect(state, query)
-    if not result.predicted_effects:
+    predicted_effects = predict_effects_for_validation(state, query)
+    if not predicted_effects:
         return
 
-    predicted_effect = normalize_label(result.predicted_effects[0])
+    predicted_effect = normalize_label(predicted_effects[0])
     observed_effects = {normalize_label(effect) for effect in event.observed_effects}
     matched = predicted_effect in observed_effects
 

@@ -22,6 +22,10 @@ def ingest_event(
 ) -> None:
     state.events_by_id[event.id] = event
     index_event_order(state, event)
+    if event.before_state_observed:
+        from risa.engine.evidence import index_applicability_evidence
+
+        index_applicability_evidence(state, event)
 
     actor_id = _node_id("entity", event.actor)
     action_id = _node_id("process", event.action)

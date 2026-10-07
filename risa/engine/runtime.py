@@ -13,7 +13,7 @@ from risa.engine.candidate_discovery import discover_unnamed_candidates
 from risa.engine.graph_builder import ingest_event
 from risa.engine.graph_builder import normalize_label
 from risa.engine.learner import learn_from_event, link_temporal_precedence
-from risa.engine.metabolism import decay_nodes
+from risa.engine.metabolism import decay_nodes, rebuild_metabolism_index
 from risa.engine.replay import replay_structural_memory
 from risa.engine.readout_compaction import restore_compacted_readouts_for_learning
 from risa.engine.state_variables import merge_state_variable_specs
@@ -41,6 +41,7 @@ class TrainingOptions:
     replay_max_events: int | None = None
     replay_summaries: list[ReplaySummary] | None = None
     stage_seconds: dict[str, float] | None = None
+    enable_indexed_metabolism: bool = True
 
 
 def train_events(
@@ -56,6 +57,8 @@ def train_events(
     if not new_events:
         return state
     with _measure_stage(options.stage_seconds, "history_setup"):
+        if options.enable_metabolism and options.enable_indexed_metabolism:
+            rebuild_metabolism_index(state)
         restore_compacted_readouts_for_learning(state)
         state.state_variable_specs = merge_state_variable_specs(
             state.state_variable_specs,
@@ -75,7 +78,7 @@ def train_events(
     for event in sorted(new_events, key=lambda item: (item.timestamp, item.id)):
         with _measure_stage(options.stage_seconds, "metabolism"):
             if options.enable_metabolism:
-                decay_nodes(state, event.timestamp)
+                decay_nodes(state, event.timestamp, indexed=options.enable_indexed_metabolism)
         with _measure_stage(options.stage_seconds, "pre_update_prediction"):
             validate_event_prediction(state, event)
         with _measure_stage(options.stage_seconds, "graph_update"):
