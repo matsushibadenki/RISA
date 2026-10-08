@@ -138,3 +138,11 @@ Event persistence now filters omitted defaults before recursive copying while pr
 Prediction index rebuilding now bounds duplicate-list scans for large effect buckets and reuses per-Event role/key work. 日本語: 大きな効果バケットの重複確認とEventごとの役割・キー再計算を削減します。简体中文: 减少大型效果桶的重复检查及每Event角色与键的重复计算。[Results and measured tradeoffs / 結果と交換条件 / 结果与实测成本](docs/Index-Reconstruction-Optimization-2026-10-07.md).
 
 Graph restoration shares repeated immutable context tuples with a bounded temporary pool. 日本語: Graph復元で不変context tupleを共有し、保持メモリと読み込み・保存時間を削減します。简体中文: Graph恢复使用有上限的临时池共享不可变context元组，减少保留内存及加载、保存时间。[Measurements, cache audit and limitations / 計測・cache監査・制限 / 测量、缓存审计及限制](docs/Graph-Restoration-Optimization-2026-10-07.md).
+
+Clean Replay now shares the effects-only prediction path and avoids unused provenance construction. 日本語: Replayの正誤判定では不要な出典生成を省き、公開予測の出典は維持します。简体中文: Replay正误判断省略未使用的来源生成，公开预测仍保留来源。[Measurements and Pending conditions / 計測と保留条件 / 测量及暂缓条件](docs/Replay-Optimization-2026-10-08.md).
+
+学習履歴の選択処理を最適化しました。測定結果と単一episodeでの負荷増は[評価報告](docs/History-Setup-Optimization-2026-10-08.md)に記載しています。
+
+English: Training history selection now avoids unused sorting/grouping; the report includes measured gains and the single-episode cost.
+
+简体中文: 学习历史选择减少无用排序与分组；报告记录收益及单episode开销。

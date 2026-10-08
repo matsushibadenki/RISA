@@ -1,0 +1,1915 @@
+{
+  "baseline": "event-restore-20261008",
+  "environment": {
+    "python": "3.10.18",
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "python_debug_build": false
+  },
+  "rows": [
+    {
+      "implementation": "before",
+      "operation": "load",
+      "events": 10000,
+      "wall_seconds": 0.8018547089995991,
+      "cpu_seconds": 0.49960099999999996,
+      "peak_rss_bytes": 157941760,
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 1229,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 0
+    },
+    {
+      "implementation": "after",
+      "operation": "load",
+      "events": 10000,
+      "wall_seconds": 0.8001015420004478,
+      "cpu_seconds": 0.510159,
+      "peak_rss_bytes": 157990912,
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 2501,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 0
+    },
+    {
+      "implementation": "after",
+      "operation": "load",
+      "events": 10000,
+      "wall_seconds": 0.5053080000006958,
+      "cpu_seconds": 0.43599099999999996,
+      "peak_rss_bytes": 158072832,
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 2993,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 1
+    },
+    {
+      "implementation": "before",
+      "operation": "load",
+      "events": 10000,
+      "wall_seconds": 0.5496919580000394,
+      "cpu_seconds": 0.49298299999999995,
+      "peak_rss_bytes": 158040064,
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 2341,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 1
+    },
+    {
+      "implementation": "before",
+      "operation": "load",
+      "events": 10000,
+      "wall_seconds": 0.6034726669995507,
+      "cpu_seconds": 0.48450200000000004,
+      "peak_rss_bytes": 157941760,
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 826,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 2
+    },
+    {
+      "implementation": "after",
+      "operation": "load",
+      "events": 10000,
+      "wall_seconds": 0.8845182920003936,
+      "cpu_seconds": 0.48,
+      "peak_rss_bytes": 158040064,
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 1660,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 2
+    },
+    {
+      "implementation": "after",
+      "operation": "load",
+      "events": 10000,
+      "wall_seconds": 0.8401805000003151,
+      "cpu_seconds": 0.510161,
+      "peak_rss_bytes": 157908992,
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 2113,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 3
+    },
+    {
+      "implementation": "before",
+      "operation": "load",
+      "events": 10000,
+      "wall_seconds": 0.8188664589997643,
+      "cpu_seconds": 0.511914,
+      "peak_rss_bytes": 158646272,
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 1268,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 3
+    },
+    {
+      "implementation": "before",
+      "operation": "load",
+      "events": 10000,
+      "wall_seconds": 0.9645787079998627,
+      "cpu_seconds": 0.532469,
+      "peak_rss_bytes": 158040064,
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 1250,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 4
+    },
+    {
+      "implementation": "after",
+      "operation": "load",
+      "events": 10000,
+      "wall_seconds": 1.233550875000219,
+      "cpu_seconds": 0.503612,
+      "peak_rss_bytes": 158777344,
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 1701,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 4
+    },
+    {
+      "implementation": "after",
+      "operation": "load",
+      "events": 10000,
+      "wall_seconds": 0.3223317499996483,
+      "cpu_seconds": 0.32200999999999996,
+      "peak_rss_bytes": 157958144,
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 61,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 5
+    },
+    {
+      "implementation": "before",
+      "operation": "load",
+      "events": 10000,
+      "wall_seconds": 0.39577208300033817,
+      "cpu_seconds": 0.387263,
+      "peak_rss_bytes": 158121984,
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 902,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 5
+    },
+    {
+      "implementation": "before",
+      "operation": "load",
+      "events": 10000,
+      "wall_seconds": 0.6497140419996867,
+      "cpu_seconds": 0.507734,
+      "peak_rss_bytes": 158089216,
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 3035,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 6
+    },
+    {
+      "implementation": "after",
+      "operation": "load",
+      "events": 10000,
+      "wall_seconds": 0.31962149999981193,
+      "cpu_seconds": 0.316809,
+      "peak_rss_bytes": 157777920,
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 439,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 6
+    },
+    {
+      "implementation": "after",
+      "operation": "load",
+      "events": 10000,
+      "wall_seconds": 0.43777379200037103,
+      "cpu_seconds": 0.40037100000000003,
+      "peak_rss_bytes": 158285824,
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 3697,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 7
+    },
+    {
+      "implementation": "before",
+      "operation": "load",
+      "events": 10000,
+      "wall_seconds": 0.6838439590001144,
+      "cpu_seconds": 0.51978,
+      "peak_rss_bytes": 158646272,
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 4014,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 7
+    },
+    {
+      "implementation": "before",
+      "operation": "load",
+      "events": 10000,
+      "wall_seconds": 0.4872343749993888,
+      "cpu_seconds": 0.448044,
+      "peak_rss_bytes": 157958144,
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 1526,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 8
+    },
+    {
+      "implementation": "after",
+      "operation": "load",
+      "events": 10000,
+      "wall_seconds": 1.081892125000195,
+      "cpu_seconds": 0.5531969999999999,
+      "peak_rss_bytes": 158154752,
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 3029,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 8
+    },
+    {
+      "implementation": "before",
+      "operation": "load",
+      "events": 10000,
+      "wall_seconds": 1.6082707499999742,
+      "cpu_seconds": 1.481231,
+      "peak_rss_bytes": 275087360,
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 4929,
+      "instrumented": true,
+      "traced_peak_bytes": 91140507,
+      "state_equal": true,
+      "traced_retained_bytes": 70728063,
+      "live_allocation_blocks": 1014147,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "total_calls": 1571254,
+      "profile": [
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/persistence.py:33:load_state",
+          "calls": 1,
+          "self_seconds": 0.01358204,
+          "cumulative_seconds": 1.6082550830000002
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/experiments/references/state_before_event_restore_20261008.py:126:from_dict",
+          "calls": 1,
+          "self_seconds": 0.18471136600000002,
+          "cumulative_seconds": 1.233023417
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/core/graph_store.py:134:from_dict",
+          "calls": 1,
+          "self_seconds": 0.152302227,
+          "cumulative_seconds": 0.455268916
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/__init__.py:299:loads",
+          "calls": 1,
+          "self_seconds": 8.332000000000001e-06,
+          "cumulative_seconds": 0.35619100000000004
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/decoder.py:332:decode",
+          "calls": 1,
+          "self_seconds": 1.7083000000000002e-05,
+          "cumulative_seconds": 0.35618129200000004
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/decoder.py:343:raw_decode",
+          "calls": 1,
+          "self_seconds": 0.35615245900000003,
+          "cumulative_seconds": 0.35615245900000003
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/prediction_indexes.py:8:rebuild_prediction_indexes",
+          "calls": 1,
+          "self_seconds": 0.104508735,
+          "cumulative_seconds": 0.28294629200000004
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/evidence.py:9:index_event_evidence",
+          "calls": 10000,
+          "self_seconds": 0.043167078000000005,
+          "cumulative_seconds": 0.240360071
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/core/graph_store.py:49:add_or_update_edge",
+          "calls": 42554,
+          "self_seconds": 0.11577945,
+          "cumulative_seconds": 0.224718982
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/graph_builder.py:10:normalize_label",
+          "calls": 100000,
+          "self_seconds": 0.084009159,
+          "cumulative_seconds": 0.110910802
+        },
+        {
+          "function": "~:0:<built-in method builtins.max>",
+          "calls": 42558,
+          "self_seconds": 0.09048458100000001,
+          "cumulative_seconds": 0.09049270400000001
+        },
+        {
+          "function": "~:0:<built-in method builtins.sorted>",
+          "calls": 60008,
+          "self_seconds": 0.042657263,
+          "cumulative_seconds": 0.080952173
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/evidence.py:97:_append",
+          "calls": 30000,
+          "self_seconds": 0.05252499,
+          "cumulative_seconds": 0.070965549
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/role_induction.py:295:event_readout_target_roles",
+          "calls": 20000,
+          "self_seconds": 0.005328884000000001,
+          "cumulative_seconds": 0.065207346
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/role_induction.py:14:effective_event_target_roles",
+          "calls": 20000,
+          "self_seconds": 0.013856322,
+          "cumulative_seconds": 0.059878462
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/prediction_indexes.py:89:_increment_nested",
+          "calls": 40000,
+          "self_seconds": 0.051108471,
+          "cumulative_seconds": 0.059235003
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/evidence.py:108:_context_key",
+          "calls": 10000,
+          "self_seconds": 0.010881004000000001,
+          "cumulative_seconds": 0.034193944000000004
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/core/graph_store.py:8:_restore_context_tags",
+          "calls": 42554,
+          "self_seconds": 0.027364128,
+          "cumulative_seconds": 0.034019221
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/role_induction.py:287:_normalized_roles",
+          "calls": 20000,
+          "self_seconds": 0.015713785,
+          "cumulative_seconds": 0.030183010000000003
+        },
+        {
+          "function": "~:0:<method 'get' of 'dict' objects>",
+          "calls": 175322,
+          "self_seconds": 0.021579380000000002,
+          "cumulative_seconds": 0.021579380000000002
+        }
+      ]
+    },
+    {
+      "implementation": "after",
+      "operation": "load",
+      "events": 10000,
+      "wall_seconds": 1.459668999999849,
+      "cpu_seconds": 1.346431,
+      "peak_rss_bytes": 275791872,
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 5032,
+      "instrumented": true,
+      "traced_peak_bytes": 91139145,
+      "state_equal": true,
+      "traced_retained_bytes": 70727173,
+      "live_allocation_blocks": 1014137,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "total_calls": 1531257,
+      "profile": [
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/persistence.py:33:load_state",
+          "calls": 1,
+          "self_seconds": 0.013484708000000001,
+          "cumulative_seconds": 1.459651167
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/core/state.py:126:from_dict",
+          "calls": 1,
+          "self_seconds": 0.037218274,
+          "cumulative_seconds": 1.1532224580000001
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/core/graph_store.py:134:from_dict",
+          "calls": 1,
+          "self_seconds": 0.145437709,
+          "cumulative_seconds": 0.40836862500000004
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/evidence.py:9:index_event_evidence",
+          "calls": 10000,
+          "self_seconds": 0.054921857000000004,
+          "cumulative_seconds": 0.298643402
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/prediction_indexes.py:8:rebuild_prediction_indexes",
+          "calls": 1,
+          "self_seconds": 0.10897901400000001,
+          "cumulative_seconds": 0.29399475
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/__init__.py:299:loads",
+          "calls": 1,
+          "self_seconds": 9.083000000000001e-06,
+          "cumulative_seconds": 0.286345542
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/decoder.py:332:decode",
+          "calls": 1,
+          "self_seconds": 1.8626e-05,
+          "cumulative_seconds": 0.28633545800000004
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/decoder.py:343:raw_decode",
+          "calls": 1,
+          "self_seconds": 0.286306291,
+          "cumulative_seconds": 0.286306291
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/core/graph_store.py:49:add_or_update_edge",
+          "calls": 42554,
+          "self_seconds": 0.094063137,
+          "cumulative_seconds": 0.183299752
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/graph_builder.py:10:normalize_label",
+          "calls": 100000,
+          "self_seconds": 0.092842144,
+          "cumulative_seconds": 0.123292232
+        },
+        {
+          "function": "~:0:<built-in method builtins.sorted>",
+          "calls": 60008,
+          "self_seconds": 0.047449555000000004,
+          "cumulative_seconds": 0.08896332400000001
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/evidence.py:97:_append",
+          "calls": 30000,
+          "self_seconds": 0.065426885,
+          "cumulative_seconds": 0.08749793600000001
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/role_induction.py:295:event_readout_target_roles",
+          "calls": 20000,
+          "self_seconds": 0.006378900000000001,
+          "cumulative_seconds": 0.07819185000000001
+        },
+        {
+          "function": "~:0:<built-in method builtins.max>",
+          "calls": 42558,
+          "self_seconds": 0.07346011200000001,
+          "cumulative_seconds": 0.073470031
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/role_induction.py:14:effective_event_target_roles",
+          "calls": 20000,
+          "self_seconds": 0.016680956,
+          "cumulative_seconds": 0.07181295
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/prediction_indexes.py:89:_increment_nested",
+          "calls": 40000,
+          "self_seconds": 0.052130087000000006,
+          "cumulative_seconds": 0.060527124
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/evidence.py:108:_context_key",
+          "calls": 10000,
+          "self_seconds": 0.013167529,
+          "cumulative_seconds": 0.041884087
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/role_induction.py:287:_normalized_roles",
+          "calls": 20000,
+          "self_seconds": 0.017957082000000003,
+          "cumulative_seconds": 0.034632446000000004
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/core/graph_store.py:8:_restore_context_tags",
+          "calls": 42554,
+          "self_seconds": 0.023731662,
+          "cumulative_seconds": 0.02923711
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/evidence.py:21:<setcomp>",
+          "calls": 10000,
+          "self_seconds": 0.005141414,
+          "cumulative_seconds": 0.020667452000000003
+        }
+      ]
+    },
+    {
+      "implementation": "before",
+      "operation": "fresh",
+      "events": 10000,
+      "wall_seconds": 1.3344767499993395,
+      "cpu_seconds": 1.1242929999999998,
+      "peak_rss_bytes": 238796800,
+      "voluntary_context_switches": 5,
+      "involuntary_context_switches": 5321,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 0
+    },
+    {
+      "implementation": "after",
+      "operation": "fresh",
+      "events": 10000,
+      "wall_seconds": 1.9243774579999808,
+      "cpu_seconds": 1.185427,
+      "peak_rss_bytes": 239222784,
+      "voluntary_context_switches": 5,
+      "involuntary_context_switches": 3672,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 0
+    },
+    {
+      "implementation": "after",
+      "operation": "fresh",
+      "events": 10000,
+      "wall_seconds": 1.3465759999999136,
+      "cpu_seconds": 0.989,
+      "peak_rss_bytes": 240992256,
+      "voluntary_context_switches": 5,
+      "involuntary_context_switches": 1743,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 1
+    },
+    {
+      "implementation": "before",
+      "operation": "fresh",
+      "events": 10000,
+      "wall_seconds": 1.8783459579999544,
+      "cpu_seconds": 1.1983670000000002,
+      "peak_rss_bytes": 239730688,
+      "voluntary_context_switches": 6,
+      "involuntary_context_switches": 2655,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 1
+    },
+    {
+      "implementation": "before",
+      "operation": "fresh",
+      "events": 10000,
+      "wall_seconds": 1.5231467499997962,
+      "cpu_seconds": 1.03098,
+      "peak_rss_bytes": 238977024,
+      "voluntary_context_switches": 2,
+      "involuntary_context_switches": 2222,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 2
+    },
+    {
+      "implementation": "after",
+      "operation": "fresh",
+      "events": 10000,
+      "wall_seconds": 0.654175708999901,
+      "cpu_seconds": 0.643562,
+      "peak_rss_bytes": 239370240,
+      "voluntary_context_switches": 5,
+      "involuntary_context_switches": 1063,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 2
+    },
+    {
+      "implementation": "after",
+      "operation": "fresh",
+      "events": 10000,
+      "wall_seconds": 0.9046832089998134,
+      "cpu_seconds": 0.870811,
+      "peak_rss_bytes": 242745344,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 2171,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 3
+    },
+    {
+      "implementation": "before",
+      "operation": "fresh",
+      "events": 10000,
+      "wall_seconds": 1.376474749999943,
+      "cpu_seconds": 1.0871650000000002,
+      "peak_rss_bytes": 238354432,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 7132,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 3
+    },
+    {
+      "implementation": "before",
+      "operation": "fresh",
+      "events": 10000,
+      "wall_seconds": 0.8806071670005622,
+      "cpu_seconds": 0.85088,
+      "peak_rss_bytes": 239468544,
+      "voluntary_context_switches": 2,
+      "involuntary_context_switches": 2060,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 4
+    },
+    {
+      "implementation": "after",
+      "operation": "fresh",
+      "events": 10000,
+      "wall_seconds": 1.1055085409998355,
+      "cpu_seconds": 0.9919650000000001,
+      "peak_rss_bytes": 240386048,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 8627,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 4
+    },
+    {
+      "implementation": "after",
+      "operation": "fresh",
+      "events": 10000,
+      "wall_seconds": 1.0422765829998752,
+      "cpu_seconds": 0.8628649999999999,
+      "peak_rss_bytes": 239583232,
+      "voluntary_context_switches": 2,
+      "involuntary_context_switches": 8796,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 5
+    },
+    {
+      "implementation": "before",
+      "operation": "fresh",
+      "events": 10000,
+      "wall_seconds": 1.0036445409996304,
+      "cpu_seconds": 0.8305740000000001,
+      "peak_rss_bytes": 238993408,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 8711,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 5
+    },
+    {
+      "implementation": "before",
+      "operation": "fresh",
+      "events": 10000,
+      "wall_seconds": 0.6528699999998935,
+      "cpu_seconds": 0.6418550000000001,
+      "peak_rss_bytes": 238534656,
+      "voluntary_context_switches": 2,
+      "involuntary_context_switches": 456,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 6
+    },
+    {
+      "implementation": "after",
+      "operation": "fresh",
+      "events": 10000,
+      "wall_seconds": 0.5453711250002016,
+      "cpu_seconds": 0.5439670000000001,
+      "peak_rss_bytes": 238272512,
+      "voluntary_context_switches": 2,
+      "involuntary_context_switches": 37,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 6
+    },
+    {
+      "implementation": "after",
+      "operation": "fresh",
+      "events": 10000,
+      "wall_seconds": 0.5232220829993821,
+      "cpu_seconds": 0.5219480000000001,
+      "peak_rss_bytes": 238190592,
+      "voluntary_context_switches": 2,
+      "involuntary_context_switches": 19,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 7
+    },
+    {
+      "implementation": "before",
+      "operation": "fresh",
+      "events": 10000,
+      "wall_seconds": 0.5409262499997567,
+      "cpu_seconds": 0.539701,
+      "peak_rss_bytes": 238272512,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 7,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 7
+    },
+    {
+      "implementation": "before",
+      "operation": "fresh",
+      "events": 10000,
+      "wall_seconds": 0.5384234170005584,
+      "cpu_seconds": 0.5350140000000001,
+      "peak_rss_bytes": 238354432,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 324,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 8
+    },
+    {
+      "implementation": "after",
+      "operation": "fresh",
+      "events": 10000,
+      "wall_seconds": 0.5067275419996804,
+      "cpu_seconds": 0.505368,
+      "peak_rss_bytes": 238206976,
+      "voluntary_context_switches": 2,
+      "involuntary_context_switches": 28,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 8
+    },
+    {
+      "implementation": "before",
+      "operation": "fresh",
+      "events": 10000,
+      "wall_seconds": 1.6108130000002348,
+      "cpu_seconds": 1.607108,
+      "peak_rss_bytes": 355958784,
+      "voluntary_context_switches": 2,
+      "involuntary_context_switches": 555,
+      "instrumented": true,
+      "traced_peak_bytes": 99621305,
+      "state_equal": true,
+      "traced_retained_bytes": 335207,
+      "live_allocation_blocks": 5062,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "total_calls": 3781261,
+      "profile": [
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/persistence.py:11:save_state",
+          "calls": 1,
+          "self_seconds": 0.081757667,
+          "cumulative_seconds": 1.610800542
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/experiments/references/state_before_event_restore_20261008.py:126:from_dict",
+          "calls": 1,
+          "self_seconds": 0.10919824700000001,
+          "cumulative_seconds": 0.596047834
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/experiments/references/state_before_event_restore_20261008.py:67:to_dict",
+          "calls": 1,
+          "self_seconds": 4.1083e-05,
+          "cumulative_seconds": 0.523055708
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/experiments/references/state_before_event_restore_20261008.py:98:<dictcomp>",
+          "calls": 1,
+          "self_seconds": 0.002935806,
+          "cumulative_seconds": 0.478459083
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/experiments/references/state_before_event_restore_20261008.py:450:_event_persistence_record",
+          "calls": 10000,
+          "self_seconds": 0.029365443,
+          "cumulative_seconds": 0.475523277
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/dataclasses.py:1217:asdict",
+          "calls": 10000,
+          "self_seconds": 0.0041473130000000006,
+          "cumulative_seconds": 0.437491881
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/dataclasses.py:1241:_asdict_inner",
+          "calls": 180000,
+          "self_seconds": 0.12187669100000001,
+          "cumulative_seconds": 0.432119164
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/dataclasses.py:1275:<genexpr>",
+          "calls": 80000,
+          "self_seconds": 0.035623222,
+          "cumulative_seconds": 0.376445682
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/__init__.py:299:loads",
+          "calls": 1,
+          "self_seconds": 9.875000000000001e-06,
+          "cumulative_seconds": 0.22033870800000002
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/decoder.py:332:decode",
+          "calls": 1,
+          "self_seconds": 1.2585e-05,
+          "cumulative_seconds": 0.220327875
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/decoder.py:343:raw_decode",
+          "calls": 1,
+          "self_seconds": 0.22030887500000002,
+          "cumulative_seconds": 0.22030887500000002
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/__init__.py:183:dumps",
+          "calls": 1,
+          "self_seconds": 1.3834e-05,
+          "cumulative_seconds": 0.186461709
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/encoder.py:182:encode",
+          "calls": 1,
+          "self_seconds": 1.4791000000000001e-05,
+          "cumulative_seconds": 0.18644612500000002
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/encoder.py:204:iterencode",
+          "calls": 1,
+          "self_seconds": 0.18618837500000002,
+          "cumulative_seconds": 0.18618837500000002
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/prediction_indexes.py:8:rebuild_prediction_indexes",
+          "calls": 1,
+          "self_seconds": 0.059305213,
+          "cumulative_seconds": 0.164812958
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/core/graph_store.py:134:from_dict",
+          "calls": 1,
+          "self_seconds": 0.049942854,
+          "cumulative_seconds": 0.160329875
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/evidence.py:9:index_event_evidence",
+          "calls": 10000,
+          "self_seconds": 0.022243331,
+          "cumulative_seconds": 0.131840081
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/copy.py:128:deepcopy",
+          "calls": 140000,
+          "self_seconds": 0.08854516400000001,
+          "cumulative_seconds": 0.117200067
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/dataclasses.py:1205:_is_dataclass_instance",
+          "calls": 190000,
+          "self_seconds": 0.015285629,
+          "cumulative_seconds": 0.08784077200000001
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/dataclasses.py:1273:<genexpr>",
+          "calls": 40000,
+          "self_seconds": 0.041905124,
+          "cumulative_seconds": 0.08400320600000001
+        }
+      ]
+    },
+    {
+      "implementation": "after",
+      "operation": "fresh",
+      "events": 10000,
+      "wall_seconds": 2.3425380000007863,
+      "cpu_seconds": 2.301223,
+      "peak_rss_bytes": 356843520,
+      "voluntary_context_switches": 2,
+      "involuntary_context_switches": 1008,
+      "instrumented": true,
+      "traced_peak_bytes": 99620779,
+      "state_equal": true,
+      "traced_retained_bytes": 335039,
+      "live_allocation_blocks": 5060,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "total_calls": 3731265,
+      "profile": [
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/persistence.py:11:save_state",
+          "calls": 1,
+          "self_seconds": 0.11474050000000001,
+          "cumulative_seconds": 2.3425226670000003
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/core/state.py:126:from_dict",
+          "calls": 1,
+          "self_seconds": 0.02595733,
+          "cumulative_seconds": 0.8629070830000001
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/core/state.py:67:to_dict",
+          "calls": 1,
+          "self_seconds": 5.1791000000000006e-05,
+          "cumulative_seconds": 0.7520840830000001
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/core/state.py:98:<dictcomp>",
+          "calls": 1,
+          "self_seconds": 0.003961058,
+          "cumulative_seconds": 0.6966683330000001
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/core/state.py:456:_event_persistence_record",
+          "calls": 10000,
+          "self_seconds": 0.044072775,
+          "cumulative_seconds": 0.6927072750000001
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/dataclasses.py:1217:asdict",
+          "calls": 10000,
+          "self_seconds": 0.006003465,
+          "cumulative_seconds": 0.6357309800000001
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/dataclasses.py:1241:_asdict_inner",
+          "calls": 180000,
+          "self_seconds": 0.18239222900000002,
+          "cumulative_seconds": 0.6280209320000001
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/dataclasses.py:1275:<genexpr>",
+          "calls": 80000,
+          "self_seconds": 0.052047584,
+          "cumulative_seconds": 0.54707097
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/__init__.py:299:loads",
+          "calls": 1,
+          "self_seconds": 1.075e-05,
+          "cumulative_seconds": 0.312465333
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/decoder.py:332:decode",
+          "calls": 1,
+          "self_seconds": 1.6377000000000003e-05,
+          "cumulative_seconds": 0.312453709
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/decoder.py:343:raw_decode",
+          "calls": 1,
+          "self_seconds": 0.31242962500000004,
+          "cumulative_seconds": 0.31242962500000004
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/__init__.py:183:dumps",
+          "calls": 1,
+          "self_seconds": 1.4958000000000001e-05,
+          "cumulative_seconds": 0.296226458
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/encoder.py:182:encode",
+          "calls": 1,
+          "self_seconds": 1.6959e-05,
+          "cumulative_seconds": 0.296209
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/encoder.py:204:iterencode",
+          "calls": 1,
+          "self_seconds": 0.295963291,
+          "cumulative_seconds": 0.295963291
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/prediction_indexes.py:8:rebuild_prediction_indexes",
+          "calls": 1,
+          "self_seconds": 0.09748820400000001,
+          "cumulative_seconds": 0.27259975000000003
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/core/graph_store.py:134:from_dict",
+          "calls": 1,
+          "self_seconds": 0.074248191,
+          "cumulative_seconds": 0.24068962500000002
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/evidence.py:9:index_event_evidence",
+          "calls": 10000,
+          "self_seconds": 0.034680983000000006,
+          "cumulative_seconds": 0.206906204
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/copy.py:128:deepcopy",
+          "calls": 140000,
+          "self_seconds": 0.131961034,
+          "cumulative_seconds": 0.17428721500000002
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/dataclasses.py:1205:_is_dataclass_instance",
+          "calls": 190000,
+          "self_seconds": 0.021650932,
+          "cumulative_seconds": 0.128619765
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/dataclasses.py:1273:<genexpr>",
+          "calls": 40000,
+          "self_seconds": 0.050070380000000005,
+          "cumulative_seconds": 0.11189949800000001
+        }
+      ]
+    },
+    {
+      "implementation": "before",
+      "operation": "overwrite",
+      "events": 10000,
+      "wall_seconds": 1.3329484999994747,
+      "cpu_seconds": 1.3075700000000001,
+      "peak_rss_bytes": 254558208,
+      "voluntary_context_switches": 10,
+      "involuntary_context_switches": 618,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 0
+    },
+    {
+      "implementation": "after",
+      "operation": "overwrite",
+      "events": 10000,
+      "wall_seconds": 1.1177205419999154,
+      "cpu_seconds": 1.103963,
+      "peak_rss_bytes": 254590976,
+      "voluntary_context_switches": 11,
+      "involuntary_context_switches": 1047,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 0
+    },
+    {
+      "implementation": "after",
+      "operation": "overwrite",
+      "events": 10000,
+      "wall_seconds": 1.378193000000465,
+      "cpu_seconds": 1.348004,
+      "peak_rss_bytes": 255541248,
+      "voluntary_context_switches": 15,
+      "involuntary_context_switches": 1221,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 1
+    },
+    {
+      "implementation": "before",
+      "operation": "overwrite",
+      "events": 10000,
+      "wall_seconds": 1.2674725839997336,
+      "cpu_seconds": 1.257001,
+      "peak_rss_bytes": 254541824,
+      "voluntary_context_switches": 11,
+      "involuntary_context_switches": 550,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 1
+    },
+    {
+      "implementation": "before",
+      "operation": "overwrite",
+      "events": 10000,
+      "wall_seconds": 1.7291893330002495,
+      "cpu_seconds": 1.642519,
+      "peak_rss_bytes": 255410176,
+      "voluntary_context_switches": 15,
+      "involuntary_context_switches": 3745,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 2
+    },
+    {
+      "implementation": "after",
+      "operation": "overwrite",
+      "events": 10000,
+      "wall_seconds": 2.036687582999548,
+      "cpu_seconds": 1.7761649999999998,
+      "peak_rss_bytes": 255492096,
+      "voluntary_context_switches": 11,
+      "involuntary_context_switches": 12261,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 2
+    },
+    {
+      "implementation": "after",
+      "operation": "overwrite",
+      "events": 10000,
+      "wall_seconds": 1.3984310410005492,
+      "cpu_seconds": 1.371019,
+      "peak_rss_bytes": 255033344,
+      "voluntary_context_switches": 11,
+      "involuntary_context_switches": 2251,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 3
+    },
+    {
+      "implementation": "before",
+      "operation": "overwrite",
+      "events": 10000,
+      "wall_seconds": 1.3880657919999067,
+      "cpu_seconds": 1.3275540000000001,
+      "peak_rss_bytes": 255475712,
+      "voluntary_context_switches": 24,
+      "involuntary_context_switches": 1834,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 3
+    },
+    {
+      "implementation": "before",
+      "operation": "overwrite",
+      "events": 10000,
+      "wall_seconds": 1.338782750000064,
+      "cpu_seconds": 1.299436,
+      "peak_rss_bytes": 255442944,
+      "voluntary_context_switches": 37,
+      "involuntary_context_switches": 2150,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 4
+    },
+    {
+      "implementation": "after",
+      "operation": "overwrite",
+      "events": 10000,
+      "wall_seconds": 1.0699143339998045,
+      "cpu_seconds": 1.066571,
+      "peak_rss_bytes": 255000576,
+      "voluntary_context_switches": 11,
+      "involuntary_context_switches": 68,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 4
+    },
+    {
+      "implementation": "after",
+      "operation": "overwrite",
+      "events": 10000,
+      "wall_seconds": 1.043445833000078,
+      "cpu_seconds": 1.0396239999999999,
+      "peak_rss_bytes": 254689280,
+      "voluntary_context_switches": 13,
+      "involuntary_context_switches": 124,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 5
+    },
+    {
+      "implementation": "before",
+      "operation": "overwrite",
+      "events": 10000,
+      "wall_seconds": 0.9666774580000492,
+      "cpu_seconds": 0.9618499999999999,
+      "peak_rss_bytes": 254476288,
+      "voluntary_context_switches": 20,
+      "involuntary_context_switches": 330,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 5
+    },
+    {
+      "implementation": "before",
+      "operation": "overwrite",
+      "events": 10000,
+      "wall_seconds": 0.9213138750001235,
+      "cpu_seconds": 0.917954,
+      "peak_rss_bytes": 254279680,
+      "voluntary_context_switches": 11,
+      "involuntary_context_switches": 52,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 6
+    },
+    {
+      "implementation": "after",
+      "operation": "overwrite",
+      "events": 10000,
+      "wall_seconds": 0.9104610000003959,
+      "cpu_seconds": 0.900083,
+      "peak_rss_bytes": 254476288,
+      "voluntary_context_switches": 24,
+      "involuntary_context_switches": 24,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 6
+    },
+    {
+      "implementation": "after",
+      "operation": "overwrite",
+      "events": 10000,
+      "wall_seconds": 0.9381455000002461,
+      "cpu_seconds": 0.926642,
+      "peak_rss_bytes": 254427136,
+      "voluntary_context_switches": 26,
+      "involuntary_context_switches": 13,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 7
+    },
+    {
+      "implementation": "before",
+      "operation": "overwrite",
+      "events": 10000,
+      "wall_seconds": 1.0212053330005801,
+      "cpu_seconds": 0.9856879999999999,
+      "peak_rss_bytes": 254689280,
+      "voluntary_context_switches": 45,
+      "involuntary_context_switches": 1917,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 7
+    },
+    {
+      "implementation": "before",
+      "operation": "overwrite",
+      "events": 10000,
+      "wall_seconds": 0.935206707999896,
+      "cpu_seconds": 0.929831,
+      "peak_rss_bytes": 254771200,
+      "voluntary_context_switches": 11,
+      "involuntary_context_switches": 407,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 8
+    },
+    {
+      "implementation": "after",
+      "operation": "overwrite",
+      "events": 10000,
+      "wall_seconds": 0.9562670839995917,
+      "cpu_seconds": 0.948745,
+      "peak_rss_bytes": 255098880,
+      "voluntary_context_switches": 12,
+      "involuntary_context_switches": 695,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "state_equal": true,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "sample": 8
+    },
+    {
+      "implementation": "before",
+      "operation": "overwrite",
+      "events": 10000,
+      "wall_seconds": 3.446210584000255,
+      "cpu_seconds": 3.407687,
+      "peak_rss_bytes": 384303104,
+      "voluntary_context_switches": 11,
+      "involuntary_context_switches": 5144,
+      "instrumented": true,
+      "traced_peak_bytes": 115707496,
+      "state_equal": true,
+      "traced_retained_bytes": 336539,
+      "live_allocation_blocks": 5084,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "total_calls": 5352214,
+      "profile": [
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/persistence.py:11:save_state",
+          "calls": 1,
+          "self_seconds": 0.17967754000000002,
+          "cumulative_seconds": 3.446195416
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/experiments/references/state_before_event_restore_20261008.py:126:from_dict",
+          "calls": 2,
+          "self_seconds": 0.20075800900000002,
+          "cumulative_seconds": 1.5683888750000001
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/experiments/references/state_before_event_restore_20261008.py:67:to_dict",
+          "calls": 1,
+          "self_seconds": 6.5122e-05,
+          "cumulative_seconds": 0.742752583
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/experiments/references/state_before_event_restore_20261008.py:98:<dictcomp>",
+          "calls": 1,
+          "self_seconds": 0.003945075,
+          "cumulative_seconds": 0.683926208
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/experiments/references/state_before_event_restore_20261008.py:450:_event_persistence_record",
+          "calls": 10000,
+          "self_seconds": 0.042816335000000004,
+          "cumulative_seconds": 0.6799811330000001
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/dataclasses.py:1217:asdict",
+          "calls": 10000,
+          "self_seconds": 0.006084537,
+          "cumulative_seconds": 0.6236346660000001
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/dataclasses.py:1241:_asdict_inner",
+          "calls": 180000,
+          "self_seconds": 0.17588951600000002,
+          "cumulative_seconds": 0.615799771
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/__init__.py:299:loads",
+          "calls": 2,
+          "self_seconds": 1.7e-05,
+          "cumulative_seconds": 0.5847442500000001
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/decoder.py:332:decode",
+          "calls": 2,
+          "self_seconds": 2.2666000000000003e-05,
+          "cumulative_seconds": 0.584724708
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/decoder.py:343:raw_decode",
+          "calls": 2,
+          "self_seconds": 0.584686625,
+          "cumulative_seconds": 0.584686625
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/dataclasses.py:1275:<genexpr>",
+          "calls": 80000,
+          "self_seconds": 0.051314417,
+          "cumulative_seconds": 0.534790371
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/core/graph_store.py:134:from_dict",
+          "calls": 2,
+          "self_seconds": 0.12921850000000001,
+          "cumulative_seconds": 0.518546666
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/prediction_indexes.py:8:rebuild_prediction_indexes",
+          "calls": 2,
+          "self_seconds": 0.15182535,
+          "cumulative_seconds": 0.42145237500000005
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/__init__.py:183:dumps",
+          "calls": 1,
+          "self_seconds": 2.3167e-05,
+          "cumulative_seconds": 0.358385958
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/encoder.py:182:encode",
+          "calls": 1,
+          "self_seconds": 2.1541000000000003e-05,
+          "cumulative_seconds": 0.358359083
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/encoder.py:204:iterencode",
+          "calls": 1,
+          "self_seconds": 0.35799000000000003,
+          "cumulative_seconds": 0.35799000000000003
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/evidence.py:9:index_event_evidence",
+          "calls": 20000,
+          "self_seconds": 0.059150188000000006,
+          "cumulative_seconds": 0.348615265
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/core/graph_store.py:49:add_or_update_edge",
+          "calls": 85108,
+          "self_seconds": 0.217662669,
+          "cumulative_seconds": 0.274842534
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/graph_builder.py:10:normalize_label",
+          "calls": 200000,
+          "self_seconds": 0.128662358,
+          "cumulative_seconds": 0.16973426800000002
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/copy.py:128:deepcopy",
+          "calls": 140000,
+          "self_seconds": 0.128143568,
+          "cumulative_seconds": 0.169536779
+        }
+      ]
+    },
+    {
+      "implementation": "after",
+      "operation": "overwrite",
+      "events": 10000,
+      "wall_seconds": 2.8811207090002426,
+      "cpu_seconds": 2.877289,
+      "peak_rss_bytes": 380715008,
+      "voluntary_context_switches": 11,
+      "involuntary_context_switches": 100,
+      "instrumented": true,
+      "traced_peak_bytes": 115706727,
+      "state_equal": true,
+      "traced_retained_bytes": 336166,
+      "live_allocation_blocks": 5077,
+      "snapshot_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "file_bytes": 8509735,
+      "file_sha256": "97b5e3f0fa9bf0f7b1d3b39a8e04837f5158e23b140fc118956af3ec26d80749",
+      "total_calls": 5262222,
+      "profile": [
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/persistence.py:11:save_state",
+          "calls": 1,
+          "self_seconds": 0.169249127,
+          "cumulative_seconds": 2.8811058330000003
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/core/state.py:126:from_dict",
+          "calls": 2,
+          "self_seconds": 0.042310416,
+          "cumulative_seconds": 1.360137541
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/core/state.py:67:to_dict",
+          "calls": 1,
+          "self_seconds": 4.5956000000000005e-05,
+          "cumulative_seconds": 0.6412547080000001
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/core/state.py:98:<dictcomp>",
+          "calls": 1,
+          "self_seconds": 0.003254785,
+          "cumulative_seconds": 0.5876025420000001
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/core/state.py:456:_event_persistence_record",
+          "calls": 10000,
+          "self_seconds": 0.036924603,
+          "cumulative_seconds": 0.5843477570000001
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/dataclasses.py:1217:asdict",
+          "calls": 10000,
+          "self_seconds": 0.005059378000000001,
+          "cumulative_seconds": 0.536362199
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/dataclasses.py:1241:_asdict_inner",
+          "calls": 180000,
+          "self_seconds": 0.152340214,
+          "cumulative_seconds": 0.529790508
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/__init__.py:299:loads",
+          "calls": 2,
+          "self_seconds": 1.3166e-05,
+          "cumulative_seconds": 0.478981292
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/decoder.py:332:decode",
+          "calls": 2,
+          "self_seconds": 2.1585e-05,
+          "cumulative_seconds": 0.478966
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/decoder.py:343:raw_decode",
+          "calls": 2,
+          "self_seconds": 0.47893275,
+          "cumulative_seconds": 0.47893275
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/dataclasses.py:1275:<genexpr>",
+          "calls": 80000,
+          "self_seconds": 0.044223389,
+          "cumulative_seconds": 0.46025855000000004
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/core/graph_store.py:134:from_dict",
+          "calls": 2,
+          "self_seconds": 0.123815647,
+          "cumulative_seconds": 0.452437083
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/prediction_indexes.py:8:rebuild_prediction_indexes",
+          "calls": 2,
+          "self_seconds": 0.144929062,
+          "cumulative_seconds": 0.406501791
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/evidence.py:9:index_event_evidence",
+          "calls": 20000,
+          "self_seconds": 0.055753445000000006,
+          "cumulative_seconds": 0.32490021900000005
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/core/graph_store.py:49:add_or_update_edge",
+          "calls": 85108,
+          "self_seconds": 0.189943834,
+          "cumulative_seconds": 0.23654068700000003
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/__init__.py:183:dumps",
+          "calls": 1,
+          "self_seconds": 1.2458e-05,
+          "cumulative_seconds": 0.21943162500000002
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/encoder.py:182:encode",
+          "calls": 1,
+          "self_seconds": 1.5043000000000001e-05,
+          "cumulative_seconds": 0.21941733400000002
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/json/encoder.py:204:iterencode",
+          "calls": 1,
+          "self_seconds": 0.219092333,
+          "cumulative_seconds": 0.219092333
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/graph_builder.py:10:normalize_label",
+          "calls": 200000,
+          "self_seconds": 0.12448437000000001,
+          "cumulative_seconds": 0.162513398
+        },
+        {
+          "function": "/Users/littlebuddha/.local/share/uv/python/cpython-3.10.18-macos-aarch64-none/lib/python3.10/copy.py:128:deepcopy",
+          "calls": 140000,
+          "self_seconds": 0.11035146200000001,
+          "cumulative_seconds": 0.146068435
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "before": [
+      {
+        "events": 10000,
+        "operation": "load",
+        "sample_count": 9,
+        "median_seconds": 0.6497140419996867,
+        "p95_seconds": 0.9645787079998627,
+        "p99_seconds": 0.9645787079998627,
+        "maximum_seconds": 0.9645787079998627,
+        "median_cpu_seconds": 0.49960099999999996,
+        "maximum_rss_bytes": 158646272
+      },
+      {
+        "events": 10000,
+        "operation": "fresh",
+        "sample_count": 9,
+        "median_seconds": 1.0036445409996304,
+        "p95_seconds": 1.8783459579999544,
+        "p99_seconds": 1.8783459579999544,
+        "maximum_seconds": 1.8783459579999544,
+        "median_cpu_seconds": 0.85088,
+        "maximum_rss_bytes": 239730688
+      },
+      {
+        "events": 10000,
+        "operation": "overwrite",
+        "sample_count": 9,
+        "median_seconds": 1.2674725839997336,
+        "p95_seconds": 1.7291893330002495,
+        "p99_seconds": 1.7291893330002495,
+        "maximum_seconds": 1.7291893330002495,
+        "median_cpu_seconds": 1.257001,
+        "maximum_rss_bytes": 255475712
+      }
+    ],
+    "after": [
+      {
+        "events": 10000,
+        "operation": "load",
+        "sample_count": 9,
+        "median_seconds": 0.8001015420004478,
+        "p95_seconds": 1.233550875000219,
+        "p99_seconds": 1.233550875000219,
+        "maximum_seconds": 1.233550875000219,
+        "median_cpu_seconds": 0.48,
+        "maximum_rss_bytes": 158777344
+      },
+      {
+        "events": 10000,
+        "operation": "fresh",
+        "sample_count": 9,
+        "median_seconds": 0.9046832089998134,
+        "p95_seconds": 1.9243774579999808,
+        "p99_seconds": 1.9243774579999808,
+        "maximum_seconds": 1.9243774579999808,
+        "median_cpu_seconds": 0.8628649999999999,
+        "maximum_rss_bytes": 242745344
+      },
+      {
+        "events": 10000,
+        "operation": "overwrite",
+        "sample_count": 9,
+        "median_seconds": 1.0699143339998045,
+        "p95_seconds": 2.036687582999548,
+        "p99_seconds": 2.036687582999548,
+        "maximum_seconds": 2.036687582999548,
+        "median_cpu_seconds": 1.066571,
+        "maximum_rss_bytes": 255541248
+      }
+    ]
+  },
+  "note": "Alternating order per pair, fresh subprocesses, normal timings separate from instrumentation. Empirical tails are not production guarantees. Context switches exclude setup and correctness checks; traced allocation peaks are not cumulative allocation counts."
+}

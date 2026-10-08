@@ -1,0 +1,821 @@
+{
+  "environment": {
+    "python": "3.10.18",
+    "platform": "macOS-27.0.1-arm64-arm-64bit"
+  },
+  "rows": [
+    {
+      "implementation": "before",
+      "events": 1000,
+      "operation": "replay",
+      "wall_seconds": 0.0030992920001153834,
+      "cpu_seconds": 0.0030659999999999993,
+      "peak_rss_bytes": 39616512,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "state_equal": true,
+      "summary": {
+        "selection_events_examined": 32,
+        "replayed_events": 32,
+        "successful_events": 32,
+        "failed_events": 0,
+        "deployment_replayed_events": 32,
+        "deployment_successful_events": 32,
+        "deployment_failed_events": 0,
+        "perturbed_events": 8,
+        "perturbation_survived_events": 8,
+        "perturbation_failed_events": 0
+      },
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 5,
+      "snapshot_sha256": "08b2de505c1703fda2a8ae76e2b33718e372d887ed4b777cdaa002f36b6cf231",
+      "sample": 0
+    },
+    {
+      "implementation": "after",
+      "events": 1000,
+      "operation": "replay",
+      "wall_seconds": 0.0016422090002379264,
+      "cpu_seconds": 0.0016359999999999986,
+      "peak_rss_bytes": 39829504,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "state_equal": true,
+      "summary": {
+        "selection_events_examined": 32,
+        "replayed_events": 32,
+        "successful_events": 32,
+        "failed_events": 0,
+        "deployment_replayed_events": 32,
+        "deployment_successful_events": 32,
+        "deployment_failed_events": 0,
+        "perturbed_events": 8,
+        "perturbation_survived_events": 8,
+        "perturbation_failed_events": 0
+      },
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 0,
+      "snapshot_sha256": "08b2de505c1703fda2a8ae76e2b33718e372d887ed4b777cdaa002f36b6cf231",
+      "sample": 0
+    },
+    {
+      "implementation": "after",
+      "events": 1000,
+      "operation": "replay",
+      "wall_seconds": 0.0016115829994305386,
+      "cpu_seconds": 0.0016089999999999993,
+      "peak_rss_bytes": 39845888,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "state_equal": true,
+      "summary": {
+        "selection_events_examined": 32,
+        "replayed_events": 32,
+        "successful_events": 32,
+        "failed_events": 0,
+        "deployment_replayed_events": 32,
+        "deployment_successful_events": 32,
+        "deployment_failed_events": 0,
+        "perturbed_events": 8,
+        "perturbation_survived_events": 8,
+        "perturbation_failed_events": 0
+      },
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 0,
+      "snapshot_sha256": "08b2de505c1703fda2a8ae76e2b33718e372d887ed4b777cdaa002f36b6cf231",
+      "sample": 1
+    },
+    {
+      "implementation": "before",
+      "events": 1000,
+      "operation": "replay",
+      "wall_seconds": 0.002358499999900232,
+      "cpu_seconds": 0.002356000000000011,
+      "peak_rss_bytes": 39616512,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "state_equal": true,
+      "summary": {
+        "selection_events_examined": 32,
+        "replayed_events": 32,
+        "successful_events": 32,
+        "failed_events": 0,
+        "deployment_replayed_events": 32,
+        "deployment_successful_events": 32,
+        "deployment_failed_events": 0,
+        "perturbed_events": 8,
+        "perturbation_survived_events": 8,
+        "perturbation_failed_events": 0
+      },
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 0,
+      "snapshot_sha256": "08b2de505c1703fda2a8ae76e2b33718e372d887ed4b777cdaa002f36b6cf231",
+      "sample": 1
+    },
+    {
+      "implementation": "before",
+      "events": 1000,
+      "operation": "replay",
+      "wall_seconds": 0.0024980420002975734,
+      "cpu_seconds": 0.0024919999999999942,
+      "peak_rss_bytes": 39763968,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "state_equal": true,
+      "summary": {
+        "selection_events_examined": 32,
+        "replayed_events": 32,
+        "successful_events": 32,
+        "failed_events": 0,
+        "deployment_replayed_events": 32,
+        "deployment_successful_events": 32,
+        "deployment_failed_events": 0,
+        "perturbed_events": 8,
+        "perturbation_survived_events": 8,
+        "perturbation_failed_events": 0
+      },
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 1,
+      "snapshot_sha256": "08b2de505c1703fda2a8ae76e2b33718e372d887ed4b777cdaa002f36b6cf231",
+      "sample": 2
+    },
+    {
+      "implementation": "after",
+      "events": 1000,
+      "operation": "replay",
+      "wall_seconds": 0.0015952909998304676,
+      "cpu_seconds": 0.0015909999999999952,
+      "peak_rss_bytes": 39895040,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "state_equal": true,
+      "summary": {
+        "selection_events_examined": 32,
+        "replayed_events": 32,
+        "successful_events": 32,
+        "failed_events": 0,
+        "deployment_replayed_events": 32,
+        "deployment_successful_events": 32,
+        "deployment_failed_events": 0,
+        "perturbed_events": 8,
+        "perturbation_survived_events": 8,
+        "perturbation_failed_events": 0
+      },
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 0,
+      "snapshot_sha256": "08b2de505c1703fda2a8ae76e2b33718e372d887ed4b777cdaa002f36b6cf231",
+      "sample": 2
+    },
+    {
+      "implementation": "after",
+      "events": 1000,
+      "operation": "replay",
+      "wall_seconds": 0.001600249999683001,
+      "cpu_seconds": 0.0015970000000000012,
+      "peak_rss_bytes": 39632896,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "state_equal": true,
+      "summary": {
+        "selection_events_examined": 32,
+        "replayed_events": 32,
+        "successful_events": 32,
+        "failed_events": 0,
+        "deployment_replayed_events": 32,
+        "deployment_successful_events": 32,
+        "deployment_failed_events": 0,
+        "perturbed_events": 8,
+        "perturbation_survived_events": 8,
+        "perturbation_failed_events": 0
+      },
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 0,
+      "snapshot_sha256": "08b2de505c1703fda2a8ae76e2b33718e372d887ed4b777cdaa002f36b6cf231",
+      "sample": 3
+    },
+    {
+      "implementation": "before",
+      "events": 1000,
+      "operation": "replay",
+      "wall_seconds": 0.0023996660002012504,
+      "cpu_seconds": 0.0023979999999999974,
+      "peak_rss_bytes": 39862272,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "state_equal": true,
+      "summary": {
+        "selection_events_examined": 32,
+        "replayed_events": 32,
+        "successful_events": 32,
+        "failed_events": 0,
+        "deployment_replayed_events": 32,
+        "deployment_successful_events": 32,
+        "deployment_failed_events": 0,
+        "perturbed_events": 8,
+        "perturbation_survived_events": 8,
+        "perturbation_failed_events": 0
+      },
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 0,
+      "snapshot_sha256": "08b2de505c1703fda2a8ae76e2b33718e372d887ed4b777cdaa002f36b6cf231",
+      "sample": 3
+    },
+    {
+      "implementation": "before",
+      "events": 1000,
+      "operation": "replay",
+      "wall_seconds": 0.0022567079995496897,
+      "cpu_seconds": 0.002253000000000005,
+      "peak_rss_bytes": 39829504,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "state_equal": true,
+      "summary": {
+        "selection_events_examined": 32,
+        "replayed_events": 32,
+        "successful_events": 32,
+        "failed_events": 0,
+        "deployment_replayed_events": 32,
+        "deployment_successful_events": 32,
+        "deployment_failed_events": 0,
+        "perturbed_events": 8,
+        "perturbation_survived_events": 8,
+        "perturbation_failed_events": 0
+      },
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 0,
+      "snapshot_sha256": "08b2de505c1703fda2a8ae76e2b33718e372d887ed4b777cdaa002f36b6cf231",
+      "sample": 4
+    },
+    {
+      "implementation": "after",
+      "events": 1000,
+      "operation": "replay",
+      "wall_seconds": 0.0016900420005185879,
+      "cpu_seconds": 0.001687000000000008,
+      "peak_rss_bytes": 39714816,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "state_equal": true,
+      "summary": {
+        "selection_events_examined": 32,
+        "replayed_events": 32,
+        "successful_events": 32,
+        "failed_events": 0,
+        "deployment_replayed_events": 32,
+        "deployment_successful_events": 32,
+        "deployment_failed_events": 0,
+        "perturbed_events": 8,
+        "perturbation_survived_events": 8,
+        "perturbation_failed_events": 0
+      },
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 0,
+      "snapshot_sha256": "08b2de505c1703fda2a8ae76e2b33718e372d887ed4b777cdaa002f36b6cf231",
+      "sample": 4
+    },
+    {
+      "implementation": "after",
+      "events": 1000,
+      "operation": "replay",
+      "wall_seconds": 0.0016172079995158128,
+      "cpu_seconds": 0.0016129999999999894,
+      "peak_rss_bytes": 39714816,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "state_equal": true,
+      "summary": {
+        "selection_events_examined": 32,
+        "replayed_events": 32,
+        "successful_events": 32,
+        "failed_events": 0,
+        "deployment_replayed_events": 32,
+        "deployment_successful_events": 32,
+        "deployment_failed_events": 0,
+        "perturbed_events": 8,
+        "perturbation_survived_events": 8,
+        "perturbation_failed_events": 0
+      },
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 0,
+      "snapshot_sha256": "08b2de505c1703fda2a8ae76e2b33718e372d887ed4b777cdaa002f36b6cf231",
+      "sample": 5
+    },
+    {
+      "implementation": "before",
+      "events": 1000,
+      "operation": "replay",
+      "wall_seconds": 0.0024706249996597762,
+      "cpu_seconds": 0.002467999999999998,
+      "peak_rss_bytes": 39698432,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "state_equal": true,
+      "summary": {
+        "selection_events_examined": 32,
+        "replayed_events": 32,
+        "successful_events": 32,
+        "failed_events": 0,
+        "deployment_replayed_events": 32,
+        "deployment_successful_events": 32,
+        "deployment_failed_events": 0,
+        "perturbed_events": 8,
+        "perturbation_survived_events": 8,
+        "perturbation_failed_events": 0
+      },
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 0,
+      "snapshot_sha256": "08b2de505c1703fda2a8ae76e2b33718e372d887ed4b777cdaa002f36b6cf231",
+      "sample": 5
+    },
+    {
+      "implementation": "before",
+      "events": 1000,
+      "operation": "replay",
+      "wall_seconds": 0.0023869169999670703,
+      "cpu_seconds": 0.0023829999999999962,
+      "peak_rss_bytes": 39682048,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "state_equal": true,
+      "summary": {
+        "selection_events_examined": 32,
+        "replayed_events": 32,
+        "successful_events": 32,
+        "failed_events": 0,
+        "deployment_replayed_events": 32,
+        "deployment_successful_events": 32,
+        "deployment_failed_events": 0,
+        "perturbed_events": 8,
+        "perturbation_survived_events": 8,
+        "perturbation_failed_events": 0
+      },
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 0,
+      "snapshot_sha256": "08b2de505c1703fda2a8ae76e2b33718e372d887ed4b777cdaa002f36b6cf231",
+      "sample": 6
+    },
+    {
+      "implementation": "after",
+      "events": 1000,
+      "operation": "replay",
+      "wall_seconds": 0.0016192920002140454,
+      "cpu_seconds": 0.0016160000000000063,
+      "peak_rss_bytes": 39845888,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "state_equal": true,
+      "summary": {
+        "selection_events_examined": 32,
+        "replayed_events": 32,
+        "successful_events": 32,
+        "failed_events": 0,
+        "deployment_replayed_events": 32,
+        "deployment_successful_events": 32,
+        "deployment_failed_events": 0,
+        "perturbed_events": 8,
+        "perturbation_survived_events": 8,
+        "perturbation_failed_events": 0
+      },
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 0,
+      "snapshot_sha256": "08b2de505c1703fda2a8ae76e2b33718e372d887ed4b777cdaa002f36b6cf231",
+      "sample": 6
+    },
+    {
+      "implementation": "after",
+      "events": 1000,
+      "operation": "replay",
+      "wall_seconds": 0.0016504579998581903,
+      "cpu_seconds": 0.0016479999999999967,
+      "peak_rss_bytes": 39845888,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "state_equal": true,
+      "summary": {
+        "selection_events_examined": 32,
+        "replayed_events": 32,
+        "successful_events": 32,
+        "failed_events": 0,
+        "deployment_replayed_events": 32,
+        "deployment_successful_events": 32,
+        "deployment_failed_events": 0,
+        "perturbed_events": 8,
+        "perturbation_survived_events": 8,
+        "perturbation_failed_events": 0
+      },
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 0,
+      "snapshot_sha256": "08b2de505c1703fda2a8ae76e2b33718e372d887ed4b777cdaa002f36b6cf231",
+      "sample": 7
+    },
+    {
+      "implementation": "before",
+      "events": 1000,
+      "operation": "replay",
+      "wall_seconds": 0.002388790999248158,
+      "cpu_seconds": 0.0023859999999999992,
+      "peak_rss_bytes": 39682048,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "state_equal": true,
+      "summary": {
+        "selection_events_examined": 32,
+        "replayed_events": 32,
+        "successful_events": 32,
+        "failed_events": 0,
+        "deployment_replayed_events": 32,
+        "deployment_successful_events": 32,
+        "deployment_failed_events": 0,
+        "perturbed_events": 8,
+        "perturbation_survived_events": 8,
+        "perturbation_failed_events": 0
+      },
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 0,
+      "snapshot_sha256": "08b2de505c1703fda2a8ae76e2b33718e372d887ed4b777cdaa002f36b6cf231",
+      "sample": 7
+    },
+    {
+      "implementation": "before",
+      "events": 1000,
+      "operation": "replay",
+      "wall_seconds": 0.0024292079997394467,
+      "cpu_seconds": 0.0024259999999999976,
+      "peak_rss_bytes": 40173568,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "state_equal": true,
+      "summary": {
+        "selection_events_examined": 32,
+        "replayed_events": 32,
+        "successful_events": 32,
+        "failed_events": 0,
+        "deployment_replayed_events": 32,
+        "deployment_successful_events": 32,
+        "deployment_failed_events": 0,
+        "perturbed_events": 8,
+        "perturbation_survived_events": 8,
+        "perturbation_failed_events": 0
+      },
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 0,
+      "snapshot_sha256": "08b2de505c1703fda2a8ae76e2b33718e372d887ed4b777cdaa002f36b6cf231",
+      "sample": 8
+    },
+    {
+      "implementation": "after",
+      "events": 1000,
+      "operation": "replay",
+      "wall_seconds": 0.0016585840003244812,
+      "cpu_seconds": 0.0016540000000000027,
+      "peak_rss_bytes": 39862272,
+      "instrumented": false,
+      "traced_peak_bytes": null,
+      "traced_retained_bytes": null,
+      "live_allocation_blocks": null,
+      "state_equal": true,
+      "summary": {
+        "selection_events_examined": 32,
+        "replayed_events": 32,
+        "successful_events": 32,
+        "failed_events": 0,
+        "deployment_replayed_events": 32,
+        "deployment_successful_events": 32,
+        "deployment_failed_events": 0,
+        "perturbed_events": 8,
+        "perturbation_survived_events": 8,
+        "perturbation_failed_events": 0
+      },
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 0,
+      "snapshot_sha256": "08b2de505c1703fda2a8ae76e2b33718e372d887ed4b777cdaa002f36b6cf231",
+      "sample": 8
+    },
+    {
+      "implementation": "before",
+      "events": 1000,
+      "operation": "replay",
+      "wall_seconds": 0.014242666999962239,
+      "cpu_seconds": 0.013912000000000008,
+      "peak_rss_bytes": 39796736,
+      "instrumented": true,
+      "traced_peak_bytes": 97837,
+      "traced_retained_bytes": 79858,
+      "live_allocation_blocks": 679,
+      "state_equal": true,
+      "summary": {
+        "selection_events_examined": 32,
+        "replayed_events": 32,
+        "successful_events": 32,
+        "failed_events": 0,
+        "deployment_replayed_events": 32,
+        "deployment_successful_events": 32,
+        "deployment_failed_events": 0,
+        "perturbed_events": 8,
+        "perturbation_survived_events": 8,
+        "perturbation_failed_events": 0
+      },
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 103,
+      "snapshot_sha256": "08b2de505c1703fda2a8ae76e2b33718e372d887ed4b777cdaa002f36b6cf231",
+      "total_calls": 26111,
+      "profile": [
+        {
+          "function": "/Users/Shared/Program/python310/RISA/experiments/references/replay_before_20261008.py:18:replay_structural_memory",
+          "calls": 1,
+          "cumulative_seconds": 0.014232083000000001
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/predictor.py:16:predict_next_effect",
+          "calls": 32,
+          "cumulative_seconds": 0.010485877000000001
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/predictor.py:25:_predict_next_effect",
+          "calls": 32,
+          "cumulative_seconds": 0.010448873000000001
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/experiments/references/replay_before_20261008.py:87:_replay_deployment_trajectory",
+          "calls": 1,
+          "cumulative_seconds": 0.003322208
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/composer.py:25:forecast_next_effects",
+          "calls": 40,
+          "cumulative_seconds": 0.00253929
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/predictor.py:423:_event_supporting_paths",
+          "calls": 32,
+          "cumulative_seconds": 0.001849163
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/predictor.py:389:_collect_local_candidates",
+          "calls": 32,
+          "cumulative_seconds": 0.001738041
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/transitions.py:11:apply_primitive_transition",
+          "calls": 80,
+          "cumulative_seconds": 0.001337918
+        },
+        {
+          "function": "~:0:<built-in method builtins.sorted>",
+          "calls": 1200,
+          "cumulative_seconds": 0.0013169730000000001
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/predictor.py:579:_coactivation_candidate_effects",
+          "calls": 128,
+          "cumulative_seconds": 0.001058544
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/composer.py:501:_adopted_primitives_for_action",
+          "calls": 40,
+          "cumulative_seconds": 0.000989291
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/graph_builder.py:10:normalize_label",
+          "calls": 1116,
+          "cumulative_seconds": 0.0008790660000000001
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/composer.py:512:<listcomp>",
+          "calls": 40,
+          "cumulative_seconds": 0.0007884130000000001
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/evidence.py:30:matching_evidence_event_ids",
+          "calls": 64,
+          "cumulative_seconds": 0.000642255
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/predictor.py:536:_matching_primitives",
+          "calls": 224,
+          "cumulative_seconds": 0.000564878
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/predictor.py:513:_primitive_support",
+          "calls": 128,
+          "cumulative_seconds": 0.000557668
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/predictor.py:491:_coactivation_support",
+          "calls": 128,
+          "cumulative_seconds": 0.0005380820000000001
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/predictor.py:718:_find_edge",
+          "calls": 896,
+          "cumulative_seconds": 0.000495759
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/predictor.py:561:_edge_strength",
+          "calls": 416,
+          "cumulative_seconds": 0.000485247
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/role_induction.py:27:effective_query_target_roles",
+          "calls": 104,
+          "cumulative_seconds": 0.000415331
+        }
+      ]
+    },
+    {
+      "implementation": "after",
+      "events": 1000,
+      "operation": "replay",
+      "wall_seconds": 0.012042958999700204,
+      "cpu_seconds": 0.011970000000000008,
+      "peak_rss_bytes": 40140800,
+      "instrumented": true,
+      "traced_peak_bytes": 90632,
+      "traced_retained_bytes": 75176,
+      "live_allocation_blocks": 651,
+      "state_equal": true,
+      "summary": {
+        "selection_events_examined": 32,
+        "replayed_events": 32,
+        "successful_events": 32,
+        "failed_events": 0,
+        "deployment_replayed_events": 32,
+        "deployment_successful_events": 32,
+        "deployment_failed_events": 0,
+        "perturbed_events": 8,
+        "perturbation_survived_events": 8,
+        "perturbation_failed_events": 0
+      },
+      "voluntary_context_switches": 0,
+      "involuntary_context_switches": 20,
+      "snapshot_sha256": "08b2de505c1703fda2a8ae76e2b33718e372d887ed4b777cdaa002f36b6cf231",
+      "total_calls": 19987,
+      "profile": [
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/replay.py:18:replay_structural_memory",
+          "calls": 1,
+          "cumulative_seconds": 0.012035125
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/predictor.py:20:predict_effects_for_validation",
+          "calls": 32,
+          "cumulative_seconds": 0.00861575
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/predictor.py:25:_predict_next_effect",
+          "calls": 32,
+          "cumulative_seconds": 0.008563040000000001
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/replay.py:87:_replay_deployment_trajectory",
+          "calls": 1,
+          "cumulative_seconds": 0.002959583
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/composer.py:25:forecast_next_effects",
+          "calls": 40,
+          "cumulative_seconds": 0.002294916
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/predictor.py:389:_collect_local_candidates",
+          "calls": 32,
+          "cumulative_seconds": 0.002003454
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/transitions.py:11:apply_primitive_transition",
+          "calls": 80,
+          "cumulative_seconds": 0.0012111650000000002
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/predictor.py:579:_coactivation_candidate_effects",
+          "calls": 128,
+          "cumulative_seconds": 0.001153577
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/composer.py:501:_adopted_primitives_for_action",
+          "calls": 40,
+          "cumulative_seconds": 0.0009091230000000001
+        },
+        {
+          "function": "~:0:<built-in method builtins.sorted>",
+          "calls": 936,
+          "cumulative_seconds": 0.0008018340000000001
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/composer.py:512:<listcomp>",
+          "calls": 40,
+          "cumulative_seconds": 0.0007282110000000001
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/predictor.py:491:_coactivation_support",
+          "calls": 128,
+          "cumulative_seconds": 0.000629834
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/predictor.py:513:_primitive_support",
+          "calls": 128,
+          "cumulative_seconds": 0.000605748
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/predictor.py:561:_edge_strength",
+          "calls": 416,
+          "cumulative_seconds": 0.000574205
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/predictor.py:536:_matching_primitives",
+          "calls": 192,
+          "cumulative_seconds": 0.00056459
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/predictor.py:718:_find_edge",
+          "calls": 800,
+          "cumulative_seconds": 0.0004928420000000001
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/role_induction.py:27:effective_query_target_roles",
+          "calls": 104,
+          "cumulative_seconds": 0.00045016500000000004
+        },
+        {
+          "function": "/Users/Shared/Program/python310/RISA/risa/engine/graph_builder.py:10:normalize_label",
+          "calls": 440,
+          "cumulative_seconds": 0.00040388500000000004
+        },
+        {
+          "function": "~:0:<built-in method builtins.sum>",
+          "calls": 1032,
+          "cumulative_seconds": 0.000396901
+        },
+        {
+          "function": "~:0:<built-in method builtins.max>",
+          "calls": 488,
+          "cumulative_seconds": 0.00037233300000000003
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "before": [
+      {
+        "events": 1000,
+        "operation": "replay",
+        "sample_count": 9,
+        "median_seconds": 0.0023996660002012504,
+        "p95_seconds": 0.0030992920001153834,
+        "p99_seconds": 0.0030992920001153834,
+        "maximum_seconds": 0.0030992920001153834,
+        "median_cpu_seconds": 0.0023979999999999974,
+        "maximum_rss_bytes": 40173568
+      }
+    ],
+    "after": [
+      {
+        "events": 1000,
+        "operation": "replay",
+        "sample_count": 9,
+        "median_seconds": 0.0016192920002140454,
+        "p95_seconds": 0.0016900420005185879,
+        "p99_seconds": 0.0016900420005185879,
+        "maximum_seconds": 0.0016900420005185879,
+        "median_cpu_seconds": 0.0016160000000000063,
+        "maximum_rss_bytes": 39895040
+      }
+    ]
+  },
+  "note": "Alternating paired fresh subprocesses; Replay bound fixed at 32. Instrumentation separate; snapshots compared outside timing. Empirical tails only, no cumulative-allocation or direct-energy claim."
+}

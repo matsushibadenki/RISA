@@ -3,7 +3,7 @@ from __future__ import annotations
 from contextlib import contextmanager
 from time import perf_counter
 from dataclasses import dataclass
-from typing import Callable, Iterable
+from typing import Callable
 
 from risa.core.models import Event, ReplaySummary, UnnamedConceptCandidate
 from risa.core.state import RisaState
@@ -44,32 +44,6 @@ class TrainingOptions:
     enable_indexed_metabolism: bool = True
 
 
-def _previous_events(
-    history: Iterable[Event], incoming: list[Event],
-) -> tuple[dict[str, Event], dict[tuple[str, str], Event]]:
-    """Select the same latest predecessors without sorting unrelated episodes."""
-    episodes = {event.episode_id or "__default__" for event in incoming}
-    actors = {(event.episode_id or "__default__", normalize_label(event.actor))
-              for event in incoming}
-    global_previous: dict[str, Event] = {}
-    actor_previous: dict[tuple[str, str], Event] = {}
-    for event in history:
-        episode = event.episode_id or "__default__"
-        if episode not in episodes:
-            continue
-        key = (event.timestamp, event.id)
-        previous = global_previous.get(episode)
-        # >= preserves the last insertion when stable sorting finds equal keys.
-        if previous is None or key >= (previous.timestamp, previous.id):
-            global_previous[episode] = event
-        actor_episode = (episode, normalize_label(event.actor))
-        if actor_episode in actors:
-            previous = actor_previous.get(actor_episode)
-            if previous is None or key >= (previous.timestamp, previous.id):
-                actor_previous[actor_episode] = event
-    return global_previous, actor_previous
-
-
 def train_events(
     state: RisaState,
     events: list[Event],
@@ -90,9 +64,16 @@ def train_events(
             state.state_variable_specs,
             new_events,
         )
-        previous_global_by_episode, previous_by_actor_episode = _previous_events(
-            state.events_by_id.values(), new_events,
+        existing_events = sorted(
+            state.events_by_id.values(),
+            key=lambda item: (item.timestamp, item.id),
         )
+        previous_global_by_episode: dict[str, Event] = {}
+        previous_by_actor_episode: dict[tuple[str, str], Event] = {}
+        for event in existing_events:
+            episode_id = event.episode_id or "__default__"
+            previous_global_by_episode[episode_id] = event
+            previous_by_actor_episode[(episode_id, normalize_label(event.actor))] = event
 
     for event in sorted(new_events, key=lambda item: (item.timestamp, item.id)):
         with _measure_stage(options.stage_seconds, "metabolism"):

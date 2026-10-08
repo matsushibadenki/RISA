@@ -12,7 +12,7 @@ from risa.engine.composer import forecast_next_effects
 from risa.engine.event_order import replay_event_window
 from risa.engine.graph_builder import normalize_label
 from risa.engine.learner import refresh_primitive_adoption
-from risa.engine.predictor import predict_effects_for_validation
+from risa.engine.predictor import predict_next_effect
 
 
 def replay_structural_memory(
@@ -32,7 +32,7 @@ def replay_structural_memory(
         if not primitive_ids or not event.observed_effects:
             continue
 
-        predicted_effects = predict_effects_for_validation(
+        prediction = predict_next_effect(
             state,
             PredictionQuery(
                 actor=event.actor,
@@ -45,7 +45,7 @@ def replay_structural_memory(
                 entity_relations=event.entity_relations,
             ),
         )
-        predicted = {normalize_label(effect) for effect in predicted_effects}
+        predicted = {normalize_label(effect) for effect in prediction.predicted_effects}
         observed = {normalize_label(effect) for effect in event.observed_effects}
         success = predicted == observed
 

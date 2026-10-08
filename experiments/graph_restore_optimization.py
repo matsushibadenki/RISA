@@ -19,6 +19,7 @@ import tracemalloc
 from risa.core import state as state_module
 from risa.core.graph_store import GraphStore
 from risa.engine.persistence import load_state, save_state
+from risa.engine import persistence
 from experiments.references.graph_store_before_20261007 import GraphStore as BeforeGraphStore
 from experiments.persistence_optimization import summarize
 
@@ -65,6 +66,11 @@ def worker(args):
     if not path.is_file():
         raise ValueError('prepare the fixture first')
     graph_class = BeforeGraphStore if args.implementation == 'before' else GraphStore
+    if args.event_baseline:
+        from experiments.references.state_before_event_restore_20261008 import RisaState as BeforeState
+
+        graph_class = GraphStore
+        persistence.RisaState = BeforeState if args.implementation == 'before' else state_module.RisaState
     state_module.GraphStore = graph_class
     raw = json.loads(path.read_text()) if args.operation == 'graph' else None
     state = load_state(args.fixture) if args.operation in ('fresh', 'overwrite') else None
@@ -133,6 +139,7 @@ def worker(args):
 def main():
     p=argparse.ArgumentParser()
     p.add_argument('--worker',action='store_true')
+    p.add_argument('--event-baseline',action='store_true', help='compare Event restoration, keeping graph restoration fixed')
     p.add_argument('--profile',action='store_true')
     p.add_argument('--audit-cache',action='store_true')
     p.add_argument('--implementation',choices=['before','after'],default='before')
@@ -157,12 +164,16 @@ def main():
             for implementation in (('before','after') if sample%2==0 else ('after','before')):
                 command=[sys.executable,'-m','experiments.graph_restore_optimization','--worker',
                          '--implementation',implementation,'--operation',operation,'--fixture',str(args.fixture)]
+                if args.event_baseline:
+                    command.append('--event-baseline')
                 row=json.loads(subprocess.run(command,check=True,capture_output=True,text=True,timeout=180).stdout)
                 row['sample']=sample
                 rows.append(row)
         for implementation in ('before','after'):
             command=[sys.executable,'-m','experiments.graph_restore_optimization','--worker','--profile',
                      '--implementation',implementation,'--operation',operation,'--fixture',str(args.fixture)]
+            if args.event_baseline:
+                command.append('--event-baseline')
             rows.append(json.loads(subprocess.run(command,check=True,capture_output=True,text=True,timeout=180).stdout))
         print(json.dumps({'operation':operation,'pairs':args.samples}),flush=True)
     for operation in args.operations:
@@ -171,7 +182,8 @@ def main():
             assert pair[0]['snapshot_sha256']==pair[1]['snapshot_sha256']
             if operation in ('fresh','overwrite'):
                 assert pair[0]['file_sha256']==pair[1]['file_sha256']
-    args.output.write_text(json.dumps({'environment':{'python':platform.python_version(),'platform':platform.platform(),
+    args.output.write_text(json.dumps({'baseline': 'event-restore-20261008' if args.event_baseline else 'graph-restore-20261007',
+                           'environment':{'python':platform.python_version(),'platform':platform.platform(),
                                        'python_debug_build':bool(sysconfig.get_config_var('Py_DEBUG'))},
                            'rows':rows,'summary':{impl:summarize([r for r in rows if r['implementation']==impl],
                                      args.operations) for impl in ('before','after')},

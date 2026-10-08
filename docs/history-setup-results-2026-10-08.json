@@ -1,0 +1,2907 @@
+{
+  "environment": {
+    "python": "3.10.18",
+    "platform": "macOS-27.0.1-arm64-arm-64bit"
+  },
+  "rows": [
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 5.04200033901725e-06,
+      "cpu_seconds": 3.0000000000030003e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 3.417000698391348e-06,
+      "cpu_seconds": 3.9999999999901226e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 2.2500007617054507e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 1.4170000213198364e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 1.2500004231696948e-06,
+      "cpu_seconds": 1.000000000001e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 2.1249998098937795e-06,
+      "cpu_seconds": 1.9999999999881224e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 1.9170001905877143e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 1.2499986041802913e-06,
+      "cpu_seconds": 1.000000000001e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 1.207999957841821e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 2.0000006770715117e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 1.9170001905877143e-06,
+      "cpu_seconds": 1.9999999999881224e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 1.1669999366858974e-06,
+      "cpu_seconds": 1.000000000001e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 1.207999957841821e-06,
+      "cpu_seconds": 1.000000000001e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 2.0420011423993856e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 1.958000211743638e-06,
+      "cpu_seconds": 1.000000000001e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 1.3329990906640887e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 1.1669999366858974e-06,
+      "cpu_seconds": 1.000000000001e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 2.0410006982274354e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 1.8749997252598405e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 1.1669999366858974e-06,
+      "cpu_seconds": 1.000000000001e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 1.167001755675301e-06,
+      "cpu_seconds": 1.000000000001e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 2.0829993445659056e-06,
+      "cpu_seconds": 1.9999999999881224e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 1.8330010789213702e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 1.1659994925139472e-06,
+      "cpu_seconds": 1.000000000001e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 1.1669999366858974e-06,
+      "cpu_seconds": 1.000000000001e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 1.959000655915588e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 1.8749997252598405e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 1.1669999366858974e-06,
+      "cpu_seconds": 1.000000000001e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 1.2090004020137712e-06,
+      "cpu_seconds": 1.000000000001e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 1.958000211743638e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "before",
+      "instrumented": true,
+      "traced_peak_bytes": 2264,
+      "traced_retained_bytes": 2014,
+      "total_calls": 23,
+      "profile": [
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/experiments/history_setup_optimization.py', 14, 'before')",
+          "calls": 1,
+          "cumulative_seconds": 1.4959e-05
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/graph_builder.py', 10, 'normalize_label')",
+          "calls": 4,
+          "cumulative_seconds": 8.000000000000001e-06
+        },
+        {
+          "function": "('~', 0, '<built-in method builtins.sorted>')",
+          "calls": 1,
+          "cumulative_seconds": 1.7080000000000002e-06
+        },
+        {
+          "function": "('~', 0, \"<method 'lower' of 'str' objects>\")",
+          "calls": 4,
+          "cumulative_seconds": 9.59e-07
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/experiments/history_setup_optimization.py', 16, '<lambda>')",
+          "calls": 4,
+          "cumulative_seconds": 5.02e-07
+        },
+        {
+          "function": "('~', 0, \"<method 'replace' of 'str' objects>\")",
+          "calls": 4,
+          "cumulative_seconds": 2.5000000000000004e-07
+        },
+        {
+          "function": "('~', 0, \"<method 'strip' of 'str' objects>\")",
+          "calls": 4,
+          "cumulative_seconds": 1.2500000000000002e-07
+        },
+        {
+          "function": "('~', 0, \"<method 'disable' of '_lsprof.Profiler' objects>\")",
+          "calls": 1,
+          "cumulative_seconds": 4.2000000000000006e-08
+        }
+      ]
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "after",
+      "instrumented": true,
+      "traced_peak_bytes": 2713,
+      "traced_retained_bytes": 2026,
+      "total_calls": 40,
+      "profile": [
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/runtime.py', 47, '_previous_events')",
+          "calls": 1,
+          "cumulative_seconds": 1.8791e-05
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/graph_builder.py', 10, 'normalize_label')",
+          "calls": 8,
+          "cumulative_seconds": 9.625e-06
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/runtime.py', 52, '<setcomp>')",
+          "calls": 1,
+          "cumulative_seconds": 8.417000000000001e-06
+        },
+        {
+          "function": "('~', 0, \"<method 'lower' of 'str' objects>\")",
+          "calls": 8,
+          "cumulative_seconds": 1.04e-06
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/runtime.py', 51, '<setcomp>')",
+          "calls": 1,
+          "cumulative_seconds": 6.25e-07
+        },
+        {
+          "function": "('~', 0, \"<method 'strip' of 'str' objects>\")",
+          "calls": 8,
+          "cumulative_seconds": 3.35e-07
+        },
+        {
+          "function": "('~', 0, \"<method 'replace' of 'str' objects>\")",
+          "calls": 8,
+          "cumulative_seconds": 3.34e-07
+        },
+        {
+          "function": "('~', 0, \"<method 'get' of 'dict' objects>\")",
+          "calls": 4,
+          "cumulative_seconds": 1.67e-07
+        }
+      ]
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 1.9169983715983108e-06,
+      "cpu_seconds": 1.000000000001e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 2.6670004444895312e-06,
+      "cpu_seconds": 2.9999999999891225e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 2.0420011423993856e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 1.2499986041802913e-06,
+      "cpu_seconds": 1.000000000001e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 1.167001755675301e-06,
+      "cpu_seconds": 1.000000000001e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 2.041999323409982e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 1.958000211743638e-06,
+      "cpu_seconds": 1.9999999999881224e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 1.2090004020137712e-06,
+      "cpu_seconds": 1.000000000001e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 1.2090004020137712e-06,
+      "cpu_seconds": 1.000000000001e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 2.0420011423993856e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 1.959000655915588e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 1.1659994925139472e-06,
+      "cpu_seconds": 9.999999999871223e-07,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 1.1669999366858974e-06,
+      "cpu_seconds": 1.000000000001e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 8.457998774247244e-06,
+      "cpu_seconds": 8.000000000008e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 1.958000211743638e-06,
+      "cpu_seconds": 2.9999999999891225e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 1.3340013538254425e-06,
+      "cpu_seconds": 1.000000000001e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 1.2090004020137712e-06,
+      "cpu_seconds": 1.000000000001e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 2.0840016077272594e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 1.9170001905877143e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 1.1669999366858974e-06,
+      "cpu_seconds": 1.000000000001e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 1.207999957841821e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 2.041999323409982e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 1.9170001905877143e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 1.1660013115033507e-06,
+      "cpu_seconds": 1.000000000001e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 1.1669999366858974e-06,
+      "cpu_seconds": 1.000000000001e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 1.959000655915588e-06,
+      "cpu_seconds": 1.9999999999881224e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 1.8749997252598405e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 1.1659994925139472e-06,
+      "cpu_seconds": 1.000000000001e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 1.207999957841821e-06,
+      "cpu_seconds": 1.000000000001e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 1.9169983715983108e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "instrumented": true,
+      "traced_peak_bytes": 2264,
+      "traced_retained_bytes": 2014,
+      "total_calls": 23,
+      "profile": [
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/experiments/history_setup_optimization.py', 14, 'before')",
+          "calls": 1,
+          "cumulative_seconds": 9.958e-06
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/graph_builder.py', 10, 'normalize_label')",
+          "calls": 4,
+          "cumulative_seconds": 5.3330000000000004e-06
+        },
+        {
+          "function": "('~', 0, '<built-in method builtins.sorted>')",
+          "calls": 1,
+          "cumulative_seconds": 1.209e-06
+        },
+        {
+          "function": "('~', 0, \"<method 'lower' of 'str' objects>\")",
+          "calls": 4,
+          "cumulative_seconds": 7.91e-07
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/experiments/history_setup_optimization.py', 16, '<lambda>')",
+          "calls": 4,
+          "cumulative_seconds": 2.9300000000000004e-07
+        },
+        {
+          "function": "('~', 0, \"<method 'replace' of 'str' objects>\")",
+          "calls": 4,
+          "cumulative_seconds": 1.65e-07
+        },
+        {
+          "function": "('~', 0, \"<method 'strip' of 'str' objects>\")",
+          "calls": 4,
+          "cumulative_seconds": 1.2600000000000002e-07
+        },
+        {
+          "function": "('~', 0, \"<method 'disable' of '_lsprof.Profiler' objects>\")",
+          "calls": 1,
+          "cumulative_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "instrumented": true,
+      "traced_peak_bytes": 2713,
+      "traced_retained_bytes": 2026,
+      "total_calls": 40,
+      "profile": [
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/runtime.py', 47, '_previous_events')",
+          "calls": 1,
+          "cumulative_seconds": 1.7125e-05
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/graph_builder.py', 10, 'normalize_label')",
+          "calls": 8,
+          "cumulative_seconds": 7.958e-06
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/runtime.py', 52, '<setcomp>')",
+          "calls": 1,
+          "cumulative_seconds": 6.375000000000001e-06
+        },
+        {
+          "function": "('~', 0, \"<method 'lower' of 'str' objects>\")",
+          "calls": 8,
+          "cumulative_seconds": 9.570000000000001e-07
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/runtime.py', 51, '<setcomp>')",
+          "calls": 1,
+          "cumulative_seconds": 4.16e-07
+        },
+        {
+          "function": "('~', 0, \"<method 'strip' of 'str' objects>\")",
+          "calls": 8,
+          "cumulative_seconds": 2.91e-07
+        },
+        {
+          "function": "('~', 0, \"<method 'replace' of 'str' objects>\")",
+          "calls": 8,
+          "cumulative_seconds": 2.5000000000000004e-07
+        },
+        {
+          "function": "('~', 0, \"<method 'get' of 'dict' objects>\")",
+          "calls": 4,
+          "cumulative_seconds": 1.2600000000000002e-07
+        }
+      ]
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.0002083750005112961,
+      "cpu_seconds": 0.00020799999999999985,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.00019962499936809763,
+      "cpu_seconds": 0.00020000000000000573,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.00018341699978918768,
+      "cpu_seconds": 0.00018399999999998973,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.00020616599977074657,
+      "cpu_seconds": 0.00020599999999999785,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.000216958000237355,
+      "cpu_seconds": 0.00021600000000000785,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.00019091700050921645,
+      "cpu_seconds": 0.0001900000000000096,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.00018408299911243375,
+      "cpu_seconds": 0.00018399999999998973,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.00020629199934774078,
+      "cpu_seconds": 0.00020699999999999885,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.0002140830001735594,
+      "cpu_seconds": 0.00021300000000000485,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.00019145800069964025,
+      "cpu_seconds": 0.00019099999999999673,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.0001830000001064036,
+      "cpu_seconds": 0.00018299999999998873,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.00021104199913679622,
+      "cpu_seconds": 0.00021100000000000285,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.00021329199989850167,
+      "cpu_seconds": 0.00021400000000000585,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.0001885840010800166,
+      "cpu_seconds": 0.0001880000000000076,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.0001842499987105839,
+      "cpu_seconds": 0.00018399999999998973,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.00020487499932642095,
+      "cpu_seconds": 0.00020500000000001073,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.00021429200023703743,
+      "cpu_seconds": 0.00021499999999999297,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.00018954099869006313,
+      "cpu_seconds": 0.00018899999999999473,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.00018575000103737693,
+      "cpu_seconds": 0.0001850000000000046,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.00020545799998217262,
+      "cpu_seconds": 0.00020599999999999785,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.000210457999855862,
+      "cpu_seconds": 0.00021100000000000285,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.00019499999871186446,
+      "cpu_seconds": 0.00019500000000000073,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.00018295800146006513,
+      "cpu_seconds": 0.0001830000000000026,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.0002087499997287523,
+      "cpu_seconds": 0.00020900000000000085,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.0002096660009556217,
+      "cpu_seconds": 0.00021000000000000185,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.00019212500046705827,
+      "cpu_seconds": 0.00019199999999999773,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.00018570800057204906,
+      "cpu_seconds": 0.00018499999999999073,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.00020570799824781716,
+      "cpu_seconds": 0.00020499999999999685,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.00021229199955996592,
+      "cpu_seconds": 0.00021200000000000385,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.00018975000057253055,
+      "cpu_seconds": 0.00018999999999999573,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "instrumented": true,
+      "traced_peak_bytes": 67861,
+      "traced_retained_bytes": 59862,
+      "total_calls": 5003,
+      "profile": [
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/experiments/history_setup_optimization.py', 14, 'before')",
+          "calls": 1,
+          "cumulative_seconds": 0.00084975
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/graph_builder.py', 10, 'normalize_label')",
+          "calls": 1000,
+          "cumulative_seconds": 0.0005532520000000001
+        },
+        {
+          "function": "('~', 0, \"<method 'lower' of 'str' objects>\")",
+          "calls": 1000,
+          "cumulative_seconds": 0.000105341
+        },
+        {
+          "function": "('~', 0, '<built-in method builtins.sorted>')",
+          "calls": 1,
+          "cumulative_seconds": 9.8375e-05
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/experiments/history_setup_optimization.py', 16, '<lambda>')",
+          "calls": 1000,
+          "cumulative_seconds": 4.7343000000000004e-05
+        },
+        {
+          "function": "('~', 0, \"<method 'replace' of 'str' objects>\")",
+          "calls": 1000,
+          "cumulative_seconds": 2.5747000000000003e-05
+        },
+        {
+          "function": "('~', 0, \"<method 'strip' of 'str' objects>\")",
+          "calls": 1000,
+          "cumulative_seconds": 2.0038e-05
+        },
+        {
+          "function": "('~', 0, \"<method 'disable' of '_lsprof.Profiler' objects>\")",
+          "calls": 1,
+          "cumulative_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "instrumented": true,
+      "traced_peak_bytes": 81361,
+      "traced_retained_bytes": 2418,
+      "total_calls": 4028,
+      "profile": [
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/runtime.py', 47, '_previous_events')",
+          "calls": 1,
+          "cumulative_seconds": 0.000786083
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/runtime.py', 52, '<setcomp>')",
+          "calls": 1,
+          "cumulative_seconds": 0.0007155000000000001
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/graph_builder.py', 10, 'normalize_label')",
+          "calls": 1004,
+          "cumulative_seconds": 0.000560135
+        },
+        {
+          "function": "('~', 0, \"<method 'lower' of 'str' objects>\")",
+          "calls": 1004,
+          "cumulative_seconds": 0.000107714
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/runtime.py', 51, '<setcomp>')",
+          "calls": 1,
+          "cumulative_seconds": 2.9334e-05
+        },
+        {
+          "function": "('~', 0, \"<method 'replace' of 'str' objects>\")",
+          "calls": 1004,
+          "cumulative_seconds": 2.4455000000000002e-05
+        },
+        {
+          "function": "('~', 0, \"<method 'strip' of 'str' objects>\")",
+          "calls": 1004,
+          "cumulative_seconds": 1.9958e-05
+        },
+        {
+          "function": "('~', 0, \"<method 'get' of 'dict' objects>\")",
+          "calls": 8,
+          "cumulative_seconds": 3.35e-07
+        }
+      ]
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.00020187500012980308,
+      "cpu_seconds": 0.00020200000000000773,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0004905000005237525,
+      "cpu_seconds": 0.0004909999999999914,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.00049458300054539,
+      "cpu_seconds": 0.0004949999999999954,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.0002013749999605352,
+      "cpu_seconds": 0.00020100000000000673,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.00020016700000269338,
+      "cpu_seconds": 0.00019999999999999185,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0004965829994034721,
+      "cpu_seconds": 0.0004969999999999974,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0004882499997620471,
+      "cpu_seconds": 0.0004880000000000023,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.00019912499919882976,
+      "cpu_seconds": 0.00019900000000000473,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.00019854200036206748,
+      "cpu_seconds": 0.00019800000000000373,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0004904170000372687,
+      "cpu_seconds": 0.0004900000000000043,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0004909159997623647,
+      "cpu_seconds": 0.0004909999999999914,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.000210457999855862,
+      "cpu_seconds": 0.00021000000000000185,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.00020212500021443702,
+      "cpu_seconds": 0.00020199999999999385,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0004882499997620471,
+      "cpu_seconds": 0.0004880000000000023,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.000512332999278442,
+      "cpu_seconds": 0.0005119999999999986,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.00021470799947564956,
+      "cpu_seconds": 0.00021499999999999297,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.00020508300076471642,
+      "cpu_seconds": 0.00020499999999999685,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0004974589992343681,
+      "cpu_seconds": 0.0004969999999999974,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0004908749997412087,
+      "cpu_seconds": 0.0004910000000000053,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.00020020899864903186,
+      "cpu_seconds": 0.00020099999999999285,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.00019950000023527537,
+      "cpu_seconds": 0.00020000000000000573,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0004911249998258427,
+      "cpu_seconds": 0.0004909999999999914,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0004890829986834433,
+      "cpu_seconds": 0.0004890000000000033,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.0002037919985014014,
+      "cpu_seconds": 0.00020399999999999585,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.0001973329999600537,
+      "cpu_seconds": 0.00019700000000000273,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.00048762500045995694,
+      "cpu_seconds": 0.0004870000000000013,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.00048633299957145937,
+      "cpu_seconds": 0.0004860000000000003,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.0002010829994105734,
+      "cpu_seconds": 0.00020100000000000673,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.00020191700059513096,
+      "cpu_seconds": 0.00020199999999999385,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0004866250001214212,
+      "cpu_seconds": 0.0004860000000000003,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "instrumented": true,
+      "traced_peak_bytes": 16897,
+      "traced_retained_bytes": 2534,
+      "total_calls": 5003,
+      "profile": [
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/experiments/history_setup_optimization.py', 14, 'before')",
+          "calls": 1,
+          "cumulative_seconds": 0.000814833
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/graph_builder.py', 10, 'normalize_label')",
+          "calls": 1000,
+          "cumulative_seconds": 0.000526608
+        },
+        {
+          "function": "('~', 0, '<built-in method builtins.sorted>')",
+          "calls": 1,
+          "cumulative_seconds": 9.925e-05
+        },
+        {
+          "function": "('~', 0, \"<method 'lower' of 'str' objects>\")",
+          "calls": 1000,
+          "cumulative_seconds": 8.7953e-05
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/experiments/history_setup_optimization.py', 16, '<lambda>')",
+          "calls": 1000,
+          "cumulative_seconds": 5.0712000000000005e-05
+        },
+        {
+          "function": "('~', 0, \"<method 'replace' of 'str' objects>\")",
+          "calls": 1000,
+          "cumulative_seconds": 2.2544000000000003e-05
+        },
+        {
+          "function": "('~', 0, \"<method 'strip' of 'str' objects>\")",
+          "calls": 1000,
+          "cumulative_seconds": 1.894e-05
+        },
+        {
+          "function": "('~', 0, \"<method 'disable' of '_lsprof.Profiler' objects>\")",
+          "calls": 1,
+          "cumulative_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "instrumented": true,
+      "traced_peak_bytes": 4361,
+      "traced_retained_bytes": 2938,
+      "total_calls": 10004,
+      "profile": [
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/runtime.py', 47, '_previous_events')",
+          "calls": 1,
+          "cumulative_seconds": 0.002032583
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/graph_builder.py', 10, 'normalize_label')",
+          "calls": 2000,
+          "cumulative_seconds": 0.001069883
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/runtime.py', 52, '<setcomp>')",
+          "calls": 1,
+          "cumulative_seconds": 0.000689541
+        },
+        {
+          "function": "('~', 0, \"<method 'lower' of 'str' objects>\")",
+          "calls": 2000,
+          "cumulative_seconds": 0.00017483600000000002
+        },
+        {
+          "function": "('~', 0, \"<method 'get' of 'dict' objects>\")",
+          "calls": 2000,
+          "cumulative_seconds": 6.3148e-05
+        },
+        {
+          "function": "('~', 0, \"<method 'replace' of 'str' objects>\")",
+          "calls": 2000,
+          "cumulative_seconds": 4.8513e-05
+        },
+        {
+          "function": "('~', 0, \"<method 'strip' of 'str' objects>\")",
+          "calls": 2000,
+          "cumulative_seconds": 3.8457e-05
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/runtime.py', 51, '<setcomp>')",
+          "calls": 1,
+          "cumulative_seconds": 2.2417000000000002e-05
+        }
+      ]
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.003011624999999185,
+      "cpu_seconds": 0.0030120000000000147,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.0006279999997786945,
+      "cpu_seconds": 0.0006270000000000164,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.0004197920006845379,
+      "cpu_seconds": 0.00041899999999997495,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.0024461670000164304,
+      "cpu_seconds": 0.0024460000000000037,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.0025181670007441426,
+      "cpu_seconds": 0.0025179999999999925,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.000616082999840728,
+      "cpu_seconds": 0.0006160000000000054,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.0004304169997340068,
+      "cpu_seconds": 0.0004300000000000137,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.002494832999218488,
+      "cpu_seconds": 0.002494000000000024,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.0025415830004931195,
+      "cpu_seconds": 0.0025420000000000165,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.0005375829987315228,
+      "cpu_seconds": 0.0005379999999999829,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.000412583000070299,
+      "cpu_seconds": 0.0004139999999999977,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.002779958000246552,
+      "cpu_seconds": 0.002736000000000016,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.002951667000161251,
+      "cpu_seconds": 0.00295200000000001,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.000687250001647044,
+      "cpu_seconds": 0.0006879999999999942,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.0004274579987395555,
+      "cpu_seconds": 0.00042799999999998395,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.0024320830016222317,
+      "cpu_seconds": 0.0024330000000000185,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.0024435840005025966,
+      "cpu_seconds": 0.0024430000000000007,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.0005528330002562143,
+      "cpu_seconds": 0.0005529999999999979,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.00040062500011117663,
+      "cpu_seconds": 0.0003999999999999837,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.0023368750007648487,
+      "cpu_seconds": 0.0023370000000000057,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.002398833001279854,
+      "cpu_seconds": 0.0023989999999999845,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.0004845830007980112,
+      "cpu_seconds": 0.0004850000000000132,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.0004035420006403001,
+      "cpu_seconds": 0.0004039999999999877,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.0023440409986505983,
+      "cpu_seconds": 0.0023440000000000127,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.002421457998934784,
+      "cpu_seconds": 0.0024219999999999797,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.0005247500012046658,
+      "cpu_seconds": 0.0005239999999999967,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.00042225000106554944,
+      "cpu_seconds": 0.0004230000000000067,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.0023517500012530945,
+      "cpu_seconds": 0.002351999999999993,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.002456000000165659,
+      "cpu_seconds": 0.0024550000000000127,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.0005483330005517928,
+      "cpu_seconds": 0.0005489999999999939,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "instrumented": true,
+      "traced_peak_bytes": 1060949,
+      "traced_retained_bytes": 968662,
+      "total_calls": 50003,
+      "profile": [
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/experiments/history_setup_optimization.py', 14, 'before')",
+          "calls": 1,
+          "cumulative_seconds": 0.009728541
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/graph_builder.py', 10, 'normalize_label')",
+          "calls": 10000,
+          "cumulative_seconds": 0.0056358450000000004
+        },
+        {
+          "function": "('~', 0, '<built-in method builtins.sorted>')",
+          "calls": 1,
+          "cumulative_seconds": 0.0017722920000000002
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/experiments/history_setup_optimization.py', 16, '<lambda>')",
+          "calls": 10000,
+          "cumulative_seconds": 0.001094554
+        },
+        {
+          "function": "('~', 0, \"<method 'lower' of 'str' objects>\")",
+          "calls": 10000,
+          "cumulative_seconds": 0.00099844
+        },
+        {
+          "function": "('~', 0, \"<method 'replace' of 'str' objects>\")",
+          "calls": 10000,
+          "cumulative_seconds": 0.00023706600000000002
+        },
+        {
+          "function": "('~', 0, \"<method 'strip' of 'str' objects>\")",
+          "calls": 10000,
+          "cumulative_seconds": 0.000191854
+        },
+        {
+          "function": "('~', 0, \"<method 'disable' of '_lsprof.Profiler' objects>\")",
+          "calls": 1,
+          "cumulative_seconds": 1.66e-07
+        }
+      ]
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "instrumented": true,
+      "traced_peak_bytes": 118825,
+      "traced_retained_bytes": 39938,
+      "total_calls": 4028,
+      "profile": [
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/runtime.py', 47, '_previous_events')",
+          "calls": 1,
+          "cumulative_seconds": 0.0011984580000000001
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/runtime.py', 52, '<setcomp>')",
+          "calls": 1,
+          "cumulative_seconds": 0.000765708
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/graph_builder.py', 10, 'normalize_label')",
+          "calls": 1004,
+          "cumulative_seconds": 0.0005689810000000001
+        },
+        {
+          "function": "('~', 0, \"<method 'lower' of 'str' objects>\")",
+          "calls": 1004,
+          "cumulative_seconds": 9.800700000000001e-05
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/runtime.py', 51, '<setcomp>')",
+          "calls": 1,
+          "cumulative_seconds": 6.1042e-05
+        },
+        {
+          "function": "('~', 0, \"<method 'replace' of 'str' objects>\")",
+          "calls": 1004,
+          "cumulative_seconds": 2.421e-05
+        },
+        {
+          "function": "('~', 0, \"<method 'strip' of 'str' objects>\")",
+          "calls": 1004,
+          "cumulative_seconds": 1.8378000000000003e-05
+        },
+        {
+          "function": "('~', 0, \"<method 'get' of 'dict' objects>\")",
+          "calls": 8,
+          "cumulative_seconds": 5.000000000000001e-07
+        }
+      ]
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.0029247090005810605,
+      "cpu_seconds": 0.002925000000000011,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.003660624999611173,
+      "cpu_seconds": 0.0036609999999999976,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0036130830012552906,
+      "cpu_seconds": 0.003613000000000005,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.002237624999906984,
+      "cpu_seconds": 0.002236999999999989,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.002206875000410946,
+      "cpu_seconds": 0.0022059999999999858,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.003647625000667176,
+      "cpu_seconds": 0.0036480000000000123,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.00358720800068113,
+      "cpu_seconds": 0.003586999999999979,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.0023058330007188488,
+      "cpu_seconds": 0.0023060000000000025,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.0022043749995646067,
+      "cpu_seconds": 0.0022050000000000125,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0036227500004315516,
+      "cpu_seconds": 0.0036229999999999873,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.003622207999796956,
+      "cpu_seconds": 0.003622000000000014,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.002257541998915258,
+      "cpu_seconds": 0.0022579999999999822,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.0021762079995824024,
+      "cpu_seconds": 0.0021769999999999845,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0036310420000518207,
+      "cpu_seconds": 0.0036299999999999666,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.003582666000511381,
+      "cpu_seconds": 0.003583000000000003,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.002202916999522131,
+      "cpu_seconds": 0.0022030000000000105,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.0023342499989666976,
+      "cpu_seconds": 0.0023339999999999472,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0036639999998442363,
+      "cpu_seconds": 0.0036650000000000293,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0037762909996672533,
+      "cpu_seconds": 0.003774999999999973,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.0025023750004038448,
+      "cpu_seconds": 0.0025029999999999775,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.002211792001617141,
+      "cpu_seconds": 0.0022110000000000185,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.003629249998994055,
+      "cpu_seconds": 0.0036289999999999933,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.003680583000459592,
+      "cpu_seconds": 0.003679999999999961,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.0023081670005922206,
+      "cpu_seconds": 0.0023079999999999767,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.0023585829985677265,
+      "cpu_seconds": 0.0023580000000000267,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0036854589998256415,
+      "cpu_seconds": 0.0036860000000000226,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0036296670004958287,
+      "cpu_seconds": 0.0036309999999999953,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.002333249998628162,
+      "cpu_seconds": 0.0023340000000000027,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.0022805829994467786,
+      "cpu_seconds": 0.0022809999999999775,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0037131250010133954,
+      "cpu_seconds": 0.003713000000000022,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "instrumented": true,
+      "traced_peak_bytes": 609065,
+      "traced_retained_bytes": 2702,
+      "total_calls": 50003,
+      "profile": [
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/experiments/history_setup_optimization.py', 14, 'before')",
+          "calls": 1,
+          "cumulative_seconds": 0.009101042
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/graph_builder.py', 10, 'normalize_label')",
+          "calls": 10000,
+          "cumulative_seconds": 0.005229103000000001
+        },
+        {
+          "function": "('~', 0, '<built-in method builtins.sorted>')",
+          "calls": 1,
+          "cumulative_seconds": 0.0018215420000000002
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/experiments/history_setup_optimization.py', 16, '<lambda>')",
+          "calls": 10000,
+          "cumulative_seconds": 0.001105215
+        },
+        {
+          "function": "('~', 0, \"<method 'lower' of 'str' objects>\")",
+          "calls": 10000,
+          "cumulative_seconds": 0.0008466200000000001
+        },
+        {
+          "function": "('~', 0, \"<method 'replace' of 'str' objects>\")",
+          "calls": 10000,
+          "cumulative_seconds": 0.00022835500000000002
+        },
+        {
+          "function": "('~', 0, \"<method 'strip' of 'str' objects>\")",
+          "calls": 10000,
+          "cumulative_seconds": 0.000196414
+        },
+        {
+          "function": "('~', 0, \"<method 'disable' of '_lsprof.Profiler' objects>\")",
+          "calls": 1,
+          "cumulative_seconds": 1.67e-07
+        }
+      ]
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "instrumented": true,
+      "traced_peak_bytes": 4361,
+      "traced_retained_bytes": 2938,
+      "total_calls": 64004,
+      "profile": [
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/runtime.py', 47, '_previous_events')",
+          "calls": 1,
+          "cumulative_seconds": 0.01402575
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/graph_builder.py', 10, 'normalize_label')",
+          "calls": 11000,
+          "cumulative_seconds": 0.006013377
+        },
+        {
+          "function": "('~', 0, \"<method 'lower' of 'str' objects>\")",
+          "calls": 11000,
+          "cumulative_seconds": 0.0009923570000000001
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/runtime.py', 52, '<setcomp>')",
+          "calls": 1,
+          "cumulative_seconds": 0.000730583
+        },
+        {
+          "function": "('~', 0, \"<method 'get' of 'dict' objects>\")",
+          "calls": 20000,
+          "cumulative_seconds": 0.0006004970000000001
+        },
+        {
+          "function": "('~', 0, \"<method 'replace' of 'str' objects>\")",
+          "calls": 11000,
+          "cumulative_seconds": 0.000270356
+        },
+        {
+          "function": "('~', 0, \"<method 'strip' of 'str' objects>\")",
+          "calls": 11000,
+          "cumulative_seconds": 0.000222501
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/runtime.py', 51, '<setcomp>')",
+          "calls": 1,
+          "cumulative_seconds": 5.8875e-05
+        }
+      ]
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.03928233299848216,
+      "cpu_seconds": 0.03928299999999996,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.013797584000712959,
+      "cpu_seconds": 0.013796999999999948,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.01183850000052189,
+      "cpu_seconds": 0.011839000000000044,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.03925741700004437,
+      "cpu_seconds": 0.03924800000000006,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.04352666700106056,
+      "cpu_seconds": 0.04352700000000009,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.014195708001352614,
+      "cpu_seconds": 0.014195999999999986,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.011928249999982654,
+      "cpu_seconds": 0.011927999999999939,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.04054174999873794,
+      "cpu_seconds": 0.040542999999999996,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.04405866699926264,
+      "cpu_seconds": 0.04405899999999996,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.01441220799824805,
+      "cpu_seconds": 0.014411000000000063,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.012318458000663668,
+      "cpu_seconds": 0.012318999999999969,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.03953545900003519,
+      "cpu_seconds": 0.039536000000000016,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.043619209000098635,
+      "cpu_seconds": 0.043619000000000074,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.01416708299984748,
+      "cpu_seconds": 0.01416700000000004,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.011874042000272311,
+      "cpu_seconds": 0.01187500000000008,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.04077241699997103,
+      "cpu_seconds": 0.04077300000000017,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.045310208000955754,
+      "cpu_seconds": 0.045167999999999875,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.016005040999516496,
+      "cpu_seconds": 0.01600299999999999,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.013415667001027032,
+      "cpu_seconds": 0.01337199999999994,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.04289420799977961,
+      "cpu_seconds": 0.04287300000000016,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.047415832999831764,
+      "cpu_seconds": 0.04725299999999999,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.015511375000642147,
+      "cpu_seconds": 0.01543899999999998,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.01324916699923051,
+      "cpu_seconds": 0.013229999999999853,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.04427845800091745,
+      "cpu_seconds": 0.04420500000000005,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.047271292000004905,
+      "cpu_seconds": 0.04716200000000015,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.01593124999999418,
+      "cpu_seconds": 0.015862000000000043,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.012915708000946324,
+      "cpu_seconds": 0.012906000000000084,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.04010441699938383,
+      "cpu_seconds": 0.04006200000000004,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.04401345800033596,
+      "cpu_seconds": 0.043974999999999875,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.01469100000031176,
+      "cpu_seconds": 0.014677000000000051,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "instrumented": true,
+      "traced_peak_bytes": 11073125,
+      "traced_retained_bytes": 10273238,
+      "total_calls": 500003,
+      "profile": [
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/experiments/history_setup_optimization.py', 14, 'before')",
+          "calls": 1,
+          "cumulative_seconds": 0.116241042
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/graph_builder.py', 10, 'normalize_label')",
+          "calls": 100000,
+          "cumulative_seconds": 0.056016422
+        },
+        {
+          "function": "('~', 0, '<built-in method builtins.sorted>')",
+          "calls": 1,
+          "cumulative_seconds": 0.030844417000000002
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/experiments/history_setup_optimization.py', 16, '<lambda>')",
+          "calls": 100000,
+          "cumulative_seconds": 0.019419723
+        },
+        {
+          "function": "('~', 0, \"<method 'lower' of 'str' objects>\")",
+          "calls": 100000,
+          "cumulative_seconds": 0.010501588000000001
+        },
+        {
+          "function": "('~', 0, \"<method 'replace' of 'str' objects>\")",
+          "calls": 100000,
+          "cumulative_seconds": 0.0023003380000000003
+        },
+        {
+          "function": "('~', 0, \"<method 'strip' of 'str' objects>\")",
+          "calls": 100000,
+          "cumulative_seconds": 0.0018491890000000002
+        },
+        {
+          "function": "('~', 0, \"<method 'disable' of '_lsprof.Profiler' objects>\")",
+          "calls": 1,
+          "cumulative_seconds": 5.830000000000001e-07
+        }
+      ]
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "instrumented": true,
+      "traced_peak_bytes": 118825,
+      "traced_retained_bytes": 39938,
+      "total_calls": 4028,
+      "profile": [
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/runtime.py', 47, '_previous_events')",
+          "calls": 1,
+          "cumulative_seconds": 0.013815584
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/runtime.py', 52, '<setcomp>')",
+          "calls": 1,
+          "cumulative_seconds": 0.00078775
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/graph_builder.py', 10, 'normalize_label')",
+          "calls": 1004,
+          "cumulative_seconds": 0.0005781520000000001
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/runtime.py', 51, '<setcomp>')",
+          "calls": 1,
+          "cumulative_seconds": 0.000128334
+        },
+        {
+          "function": "('~', 0, \"<method 'lower' of 'str' objects>\")",
+          "calls": 1004,
+          "cumulative_seconds": 0.000100826
+        },
+        {
+          "function": "('~', 0, \"<method 'replace' of 'str' objects>\")",
+          "calls": 1004,
+          "cumulative_seconds": 2.3465e-05
+        },
+        {
+          "function": "('~', 0, \"<method 'strip' of 'str' objects>\")",
+          "calls": 1004,
+          "cumulative_seconds": 1.9762e-05
+        },
+        {
+          "function": "('~', 0, \"<method 'get' of 'dict' objects>\")",
+          "calls": 8,
+          "cumulative_seconds": 4.1500000000000005e-07
+        }
+      ]
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.0420155829997384,
+      "cpu_seconds": 0.042004000000000374,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.037962374999551685,
+      "cpu_seconds": 0.03795700000000002,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.037741250000181026,
+      "cpu_seconds": 0.03773099999999996,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.0417723329992441,
+      "cpu_seconds": 0.04158200000000001,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.042399083000418614,
+      "cpu_seconds": 0.04203899999999994,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.04019808299926808,
+      "cpu_seconds": 0.039902000000000104,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.03958233299999847,
+      "cpu_seconds": 0.039449999999999985,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.040633375001561944,
+      "cpu_seconds": 0.04037399999999991,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.04233191599996644,
+      "cpu_seconds": 0.041541999999999746,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.04051016700032051,
+      "cpu_seconds": 0.03980200000000034,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.039000165999823366,
+      "cpu_seconds": 0.03895099999999996,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.03857462499945541,
+      "cpu_seconds": 0.03856999999999999,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.03799770799923863,
+      "cpu_seconds": 0.037997999999999976,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.03715362500042829,
+      "cpu_seconds": 0.03714800000000018,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.03863854199880734,
+      "cpu_seconds": 0.0381149999999999,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.04201104099956865,
+      "cpu_seconds": 0.04110799999999992,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.04137600000103703,
+      "cpu_seconds": 0.040604000000000084,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.039019208001263905,
+      "cpu_seconds": 0.038588999999999984,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.03900454200083914,
+      "cpu_seconds": 0.03861099999999995,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.03860458400049538,
+      "cpu_seconds": 0.038605,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.0373725409990584,
+      "cpu_seconds": 0.0373730000000001,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.03630329199950211,
+      "cpu_seconds": 0.036303000000000196,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.036684250000689644,
+      "cpu_seconds": 0.036677999999999766,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.03729833400029747,
+      "cpu_seconds": 0.03729899999999997,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.03756791699925088,
+      "cpu_seconds": 0.037568999999999964,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.036017041999002686,
+      "cpu_seconds": 0.03601799999999988,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.03632570799891255,
+      "cpu_seconds": 0.03632599999999986,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.03694724999877508,
+      "cpu_seconds": 0.0369480000000002,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.03652520800096681,
+      "cpu_seconds": 0.036525999999999836,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.03577812500043365,
+      "cpu_seconds": 0.03577800000000009,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "instrumented": true,
+      "traced_peak_bytes": 7089065,
+      "traced_retained_bytes": 2702,
+      "total_calls": 500003,
+      "profile": [
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/experiments/history_setup_optimization.py', 14, 'before')",
+          "calls": 1,
+          "cumulative_seconds": 0.101269334
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/graph_builder.py', 10, 'normalize_label')",
+          "calls": 100000,
+          "cumulative_seconds": 0.051773375
+        },
+        {
+          "function": "('~', 0, '<built-in method builtins.sorted>')",
+          "calls": 1,
+          "cumulative_seconds": 0.028960541000000003
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/experiments/history_setup_optimization.py', 16, '<lambda>')",
+          "calls": 100000,
+          "cumulative_seconds": 0.017813622
+        },
+        {
+          "function": "('~', 0, \"<method 'lower' of 'str' objects>\")",
+          "calls": 100000,
+          "cumulative_seconds": 0.008467311
+        },
+        {
+          "function": "('~', 0, \"<method 'replace' of 'str' objects>\")",
+          "calls": 100000,
+          "cumulative_seconds": 0.0022917050000000002
+        },
+        {
+          "function": "('~', 0, \"<method 'strip' of 'str' objects>\")",
+          "calls": 100000,
+          "cumulative_seconds": 0.001935744
+        },
+        {
+          "function": "('~', 0, \"<method 'disable' of '_lsprof.Profiler' objects>\")",
+          "calls": 1,
+          "cumulative_seconds": 5.830000000000001e-07
+        }
+      ]
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "instrumented": true,
+      "traced_peak_bytes": 4361,
+      "traced_retained_bytes": 2938,
+      "total_calls": 604004,
+      "profile": [
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/runtime.py', 47, '_previous_events')",
+          "calls": 1,
+          "cumulative_seconds": 0.131653041
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/graph_builder.py', 10, 'normalize_label')",
+          "calls": 101000,
+          "cumulative_seconds": 0.054335853
+        },
+        {
+          "function": "('~', 0, \"<method 'lower' of 'str' objects>\")",
+          "calls": 101000,
+          "cumulative_seconds": 0.009196850000000001
+        },
+        {
+          "function": "('~', 0, \"<method 'get' of 'dict' objects>\")",
+          "calls": 200000,
+          "cumulative_seconds": 0.005935515000000001
+        },
+        {
+          "function": "('~', 0, \"<method 'replace' of 'str' objects>\")",
+          "calls": 101000,
+          "cumulative_seconds": 0.0024472770000000003
+        },
+        {
+          "function": "('~', 0, \"<method 'strip' of 'str' objects>\")",
+          "calls": 101000,
+          "cumulative_seconds": 0.00200137
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/runtime.py', 52, '<setcomp>')",
+          "calls": 1,
+          "cumulative_seconds": 0.0007391250000000001
+        },
+        {
+          "function": "('/Users/Shared/Program/python310/RISA/risa/engine/runtime.py', 51, '<setcomp>')",
+          "calls": 1,
+          "cumulative_seconds": 9.65e-05
+        }
+      ]
+    }
+  ],
+  "summary": [
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "before",
+      "median_seconds": 1.207999957841821e-06,
+      "p95_seconds": 5.04200033901725e-06,
+      "p99_seconds": 5.04200033901725e-06,
+      "max_seconds": 5.04200033901725e-06,
+      "cpu_median_seconds": 1.000000000001e-06
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "after",
+      "median_seconds": 1.959000655915588e-06,
+      "p95_seconds": 3.417000698391348e-06,
+      "p99_seconds": 3.417000698391348e-06,
+      "max_seconds": 3.417000698391348e-06,
+      "cpu_median_seconds": 2.000000000002e-06
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "median_seconds": 1.207999957841821e-06,
+      "p95_seconds": 1.9169983715983108e-06,
+      "p99_seconds": 1.9169983715983108e-06,
+      "max_seconds": 1.9169983715983108e-06,
+      "cpu_median_seconds": 1.000000000001e-06
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "median_seconds": 1.959000655915588e-06,
+      "p95_seconds": 8.457998774247244e-06,
+      "p99_seconds": 8.457998774247244e-06,
+      "max_seconds": 8.457998774247244e-06,
+      "cpu_median_seconds": 2.000000000002e-06
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "median_seconds": 0.0002096660009556217,
+      "p95_seconds": 0.000216958000237355,
+      "p99_seconds": 0.000216958000237355,
+      "max_seconds": 0.000216958000237355,
+      "cpu_median_seconds": 0.00021000000000000185
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "median_seconds": 0.0001885840010800166,
+      "p95_seconds": 0.00019962499936809763,
+      "p99_seconds": 0.00019962499936809763,
+      "max_seconds": 0.00019962499936809763,
+      "cpu_median_seconds": 0.0001880000000000076
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "median_seconds": 0.0002013749999605352,
+      "p95_seconds": 0.00021470799947564956,
+      "p99_seconds": 0.00021470799947564956,
+      "max_seconds": 0.00021470799947564956,
+      "cpu_median_seconds": 0.00020100000000000673
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "median_seconds": 0.0004905000005237525,
+      "p95_seconds": 0.000512332999278442,
+      "p99_seconds": 0.000512332999278442,
+      "max_seconds": 0.000512332999278442,
+      "cpu_median_seconds": 0.0004909999999999914
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "median_seconds": 0.0024461670000164304,
+      "p95_seconds": 0.003011624999999185,
+      "p99_seconds": 0.003011624999999185,
+      "max_seconds": 0.003011624999999185,
+      "cpu_median_seconds": 0.0024460000000000037
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "median_seconds": 0.0004845830007980112,
+      "p95_seconds": 0.000687250001647044,
+      "p99_seconds": 0.000687250001647044,
+      "max_seconds": 0.000687250001647044,
+      "cpu_median_seconds": 0.0004850000000000132
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "median_seconds": 0.0022805829994467786,
+      "p95_seconds": 0.0029247090005810605,
+      "p99_seconds": 0.0029247090005810605,
+      "max_seconds": 0.0029247090005810605,
+      "cpu_median_seconds": 0.0022809999999999775
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "median_seconds": 0.0036310420000518207,
+      "p95_seconds": 0.0037762909996672533,
+      "p99_seconds": 0.0037762909996672533,
+      "max_seconds": 0.0037762909996672533,
+      "cpu_median_seconds": 0.0036309999999999953
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "median_seconds": 0.04352666700106056,
+      "p95_seconds": 0.047415832999831764,
+      "p99_seconds": 0.047415832999831764,
+      "max_seconds": 0.047415832999831764,
+      "cpu_median_seconds": 0.04352700000000009
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "median_seconds": 0.013797584000712959,
+      "p95_seconds": 0.016005040999516496,
+      "p99_seconds": 0.016005040999516496,
+      "max_seconds": 0.016005040999516496,
+      "cpu_median_seconds": 0.013796999999999948
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "median_seconds": 0.03860458400049538,
+      "p95_seconds": 0.042399083000418614,
+      "p99_seconds": 0.042399083000418614,
+      "max_seconds": 0.042399083000418614,
+      "cpu_median_seconds": 0.038605
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "median_seconds": 0.037962374999551685,
+      "p95_seconds": 0.04051016700032051,
+      "p99_seconds": 0.04051016700032051,
+      "max_seconds": 0.04051016700032051,
+      "cpu_median_seconds": 0.03795700000000002
+    }
+  ],
+  "note": "15 alternating in-process pairs; objects prepared outside timing; profiles separate; empirical tails only."
+}

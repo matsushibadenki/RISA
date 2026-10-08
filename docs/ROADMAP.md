@@ -1,6 +1,6 @@
 # RISA Roadmap / RISA ロードマップ / RISA 路线图
 
-Updated: 2026-10-07. [Design assessment / 設計評価 / 设计评估](RISA-Structural-AI-Assessment-2026-09-05.md)
+Updated: 2026-10-08. [Design assessment / 設計評価 / 设计评估](RISA-Structural-AI-Assessment-2026-09-05.md)
 
 ## Authority and objective / 位置付けと目的 / 定位与目标
 
@@ -19,6 +19,7 @@ unseen objects and compositions, and adapts to change.
 - [Done] implemented in the current codebase / 現行コードに実装済み / 当前代码已实现
 - [Next] high-priority unfinished work / 最優先の未完了作業 / 高优先级未完成工作
 - [Later] planned, but not the closest next step / 依存段階通過後の予定 / 前置阶段通过后的计划
+- [Pending] cannot be verified in the current development environment / 現在の開発環境で検証できないため保留 / 当前开发环境无法验证，因此暂缓
 
 日本語: [Done]は実装の存在を示し、研究仮説の実証とは区別する。G0、G1、G2.1〜G2.6とG3.1は完了。G3.2はdevelopmentで負の結果として終了し、G3.3は100kの全処理scale評価まで完了し、直近はG3.4の成長曲線と独立held-out評価。
 G4以降は重要でも[Later]とする。指標・閾値は評価前に固定し、結果を見て合格条件を緩めない。
@@ -37,7 +38,7 @@ Freeze metrics and thresholds before evaluation; do not relax gates after seeing
 | [Done] | 学習前予測、誤差履歴、共活性、代謝、Replay、文脈分裂の最小経路 | Minimal pre-update prediction, error history, coactivation, metabolism, replay, context splitting | 最小学前预测、误差历史、共激活、代谢、重放与上下文分裂 |
 | [Done] | 状態消費・排他更新・数値資源・単位と上下限の部品 | Consumption, exclusive replacement, numeric resources, units and bounds | 状态消耗、互斥替换、数值资源、单位与边界 |
 | [Done] | 分岐simulation、goal/constraint評価、what-if、AND/OR、偏序実行、threat検出 | Branch simulation, goal/constraint evaluation, what-if, AND/OR, partial-order execution, threats | 分支模拟、目标与约束评估、假设比较、AND/OR、偏序执行及冲突检测 |
-| [Done] | G0反例、G1/G2評価基盤、G2学習機構を回帰テスト化し、全218テストが通過 | G0 counterexamples, G1/G2 evaluation and G2 learning mechanisms covered; all 218 tests pass | G0反例、G1/G2评估及G2学习机制已纳入回归测试，全部218项测试通过 |
+| [Done] | G0反例、G1/G2評価基盤、G2学習機構を回帰テスト化し、全245テストが通過 | G0 counterexamples, G1/G2 evaluation and G2 learning mechanisms covered; all 245 tests pass | G0反例、G1/G2评估及G2学习机制已纳入回归测试，全部245项测试通过 |
 
 日本語: G0で意味論を修正し、G1で比較測定した。G2では型付き役割束縛、前提学習、変化適応を実装し、対象課題で改善した。
 明示済み前提のcompositionは具体遷移表と同率で、保存量と時間には大差が残るため、候補概念の実利用と効率をG2.4で改善する。
@@ -383,4 +384,16 @@ translation. Adopt modules only after controlled gains. Current scale does not j
 
 - [Done] 復元時のcontext共有により1万Eventの読み込み中央値8.5%、新規保存10.7%、上書き11.8%短縮、保持メモリ約4.5MB削減。共有表のhit率99.9882%、128件に制限し復元後破棄。小規模・共有なしの負荷増加も記録 / Context sharing improves 10k median loading 8.5%, fresh save 10.7%, overwrite 11.8%, and retained memory about 4.5MB; audited hit ratio 99.9882%, local pool capped at 128, with measured small/no-reuse overhead / context共享使1万Event加载中位数缩短8.5%、新建保存10.7%、覆盖11.8%，保留内存减少约4.5MB；审计命中率99.9882%，临时池上限128项，并记录小规模及无复用成本。[Report / 報告 / 报告](Graph-Restoration-Optimization-2026-10-07.md)
 - [Done] 現行コードでG3.3全経路を再確認し、10万Eventを37.693秒、各規模12/12正解・復元差0で完了 / Recheck current G3.3 full paths: 100k completes in 37.693s, all scales 12/12 correct with zero restoration differences / 重新验证当前G3.3完整流程：10万Event为37.693秒，全部规模12/12正确且恢复差异为零。単発容量確認 / Single-run capacity check / 单次容量检查。
-- [Next] Event復元の一時辞書コピーと学習・Replay・候補探索の残る負荷を個別評価 / Evaluate transient Event dictionary copying and remaining learning/Replay/discovery costs separately / 分别评估Event临时字典复制及学习、重放、候选发现的剩余成本。
+- [Next] 学習・候補探索・Planningの残る負荷を個別評価 / Evaluate remaining learning/discovery/planning costs separately / 分别评估学习、候选发现及规划的剩余成本。
+
+- [Done] Event復元コピー削減の比較を完了し、安定した効果がない案を撤回 / Evaluate Event restoration copy reduction and revert the inconsistent trial / 完成Event恢复复制优化比较，撤回收益不稳定的方案。
+- [Done] Replayの未使用出典生成を省略し、1万Event中央値9.995→2.997ms、全238テストで状態・summary・公開予測互換性を確認 / Skip unused Replay provenance: 10k median 9.995→2.997ms, all 238 tests verify state, summary and public prediction compatibility / 省略Replay未使用的来源生成：1万Event中位数9.995→2.997ms，238项测试验证状态、summary及公开预测兼容性。[Report / 報告 / 报告](Replay-Optimization-2026-10-08.md)
+- [Later] Event復元のさらなる変更は、今後のprofileで費用対効果が確認された場合に再検討 / Revisit Event hydration only if later profiles justify it / 后续分析证明收益时再考虑Event恢复优化。
+- [Pending] 実運用corpusでのtail評価：対象データ未提供 / Deployment-corpus tails: no deployment dataset supplied / 实际语料尾延迟：尚未提供运行数据。
+- [Pending] ネイティブ累積allocation・コピー量の計測：xctraceが権限外のcache作成で起動失敗。許可された計測環境で再開 / Native cumulative allocations/copy telemetry: xctrace fails creating its out-of-workspace cache; resume in an authorized measurement environment / 原生累计分配及复制量：xctrace创建权限外缓存失败，待具备授权测量环境后恢复。
+- [Pending] 直接消費電力：プロセス単位のjoule計測条件未整備 / Direct energy: calibrated process-level joule measurement is not configured / 直接能耗：尚未配置进程级焦耳测量条件。
+
+- [Done] Replay変更後のG3.3を同じ45秒条件で再確認。同条件retryは10万Eventを43.438秒・各規模12/12正解・復元差0で完了し、初回timeoutも保存 / Recheck G3.3 under unchanged 45s budgets: retry completes 100k in 43.438s, all scales 12/12 correct with zero restore differences; first timeout retained / 在原45秒预算下复查G3.3：重测10万Event为43.438秒，各组12/12正确且恢复差异为零，保留首次超时结果。
+- [Next] 10万Event全経路の予算余裕とtailを安定化。開発環境で測定済みの不安定性であり[Pending]にはしない / Stabilize full-path 100k budget margin and tails; observed instability is testable, not Pending / 稳定10万Event完整流程的预算余量与尾延迟；这是已测量的可验证不稳定性，不归为Pending。
+
+- [Done] 学習履歴の全体sortと不要なepisode集計を削減。10万Event履歴選択中央値43.527→13.798ms、全経路30.390秒・12/12正解・復元差0。単一episodeの1万Eventは1.350ms遅延 / Remove history sorting and unrelated episode grouping: 100k selection median 43.527→13.798ms, full path 30.390s with 12/12 correct and zero restore differences; 10k single-episode selection adds 1.350ms / 减少历史排序及无关episode分组：10万Event选择中位数43.527→13.798ms，完整流程30.390秒、12/12正确且恢复差异为零；单episode的1万Event增加1.350ms。[Report / 報告 / 报告](History-Setup-Optimization-2026-10-08.md)
