@@ -155,10 +155,13 @@ def train_events(
 def _validate_and_filter_events(state: RisaState, events: list[Event]) -> list[Event]:
     """Make ingestion idempotent and reject ambiguous history rewrites."""
     accepted: list[Event] = []
-    seen: dict[str, Event] = dict(state.events_by_id)
+    seen: dict[str, Event] = {}
+    incoming_episodes = {event.episode_id or "__default__" for event in events}
     latest_by_episode: dict[str, tuple[int, str]] = {}
     for existing in state.events_by_id.values():
         episode_id = existing.episode_id or "__default__"
+        if episode_id not in incoming_episodes:
+            continue
         latest_by_episode[episode_id] = max(
             latest_by_episode.get(episode_id, (existing.timestamp, existing.id)),
             (existing.timestamp, existing.id),
@@ -166,6 +169,8 @@ def _validate_and_filter_events(state: RisaState, events: list[Event]) -> list[E
 
     for event in sorted(events, key=lambda item: (item.timestamp, item.id)):
         existing = seen.get(event.id)
+        if existing is None:
+            existing = state.events_by_id.get(event.id)
         if existing is not None:
             if existing.to_dict() == event.to_dict():
                 continue

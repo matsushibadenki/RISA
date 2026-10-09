@@ -1,4 +1,5 @@
 from copy import deepcopy
+import json
 
 import pytest
 
@@ -36,6 +37,9 @@ def test_real_profile_roundtrip_and_bounded_replay(tmp_path):
     assert row['planner_expanded_candidates'] > 0
     assert row['stored_bytes'] > 0
     assert {'save', 'load', 'compaction', 'planning'} <= row['stage_seconds'].keys()
+    for key in ('process_cpu_seconds', 'voluntary_context_switches', 'involuntary_context_switches'):
+        assert row[key] >= 0
+        assert json.loads((tmp_path / 'progress.json').read_text())[key] == row[key]
 
 
 def test_timeout_is_not_completion():

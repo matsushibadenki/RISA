@@ -44,3 +44,23 @@ def test_custom_event_export_is_preserved():
             return {**super().to_dict(), 'custom': ['value']}
     event = CustomEvent('e', 1, 'robot', 'charge')
     assert _event_persistence_record(event) == legacy(event)
+
+
+def test_flat_event_lists_are_copied_and_exact_bytes_match():
+    import json
+    event = Event('e', 1, 'ロボット', '开关', observed_effects=['done'], context_tags=['inside'])
+    exported = _event_persistence_record(event)
+    assert json.dumps(exported, sort_keys=True) == json.dumps(legacy(event), sort_keys=True)
+    exported['observed_effects'].append('changed')
+    exported['context_tags'].clear()
+    assert event.observed_effects == ['done']
+    assert event.context_tags == ['inside']
+
+
+def test_scalar_subclass_deepcopy_hook_is_preserved():
+    class CustomString(str):
+        def __deepcopy__(self, memo):
+            return 'copied-value'
+    event = Event('e', 1, CustomString('robot'), 'go')
+    assert _event_persistence_record(event) == legacy(event)
+    assert _event_persistence_record(event)['actor'] == 'copied-value'

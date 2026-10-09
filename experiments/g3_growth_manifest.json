@@ -1,0 +1,12 @@
+{
+  "seeds": [13, 29, 47],
+  "event_checkpoints": [48, 96, 192, 384],
+  "chunk_size": 12,
+  "replay_budget": 12,
+  "cases_per_partition": 60,
+  "worker_budget_seconds": 45,
+  "minimum_prediction_gain": 0.05,
+  "maximum_false_generalization_delta": 0.0,
+  "minimum_marginal_bytes_reduction": 0.10,
+  "policy": "Exploratory G3.4 pilot; fixed supplied-role world; no parameter tuning or candidate adoption from held-out labels; development and final entity namespaces disjoint from training. Planner search reported separately from target transfer."
+}

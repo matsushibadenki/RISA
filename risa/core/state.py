@@ -460,7 +460,16 @@ def _event_persistence_record(event: Event) -> dict[str, object]:
             values[name] = value
     # Use the standard recursive dataclass conversion only for retained fields.
     # This preserves nested dataclasses and independent mutable output containers.
-    return asdict(_EventPersistenceValues(values))["values"]
+    copied: dict[str, object] = {}
+    for key, value in values.items():
+        if type(value) in (str, int, float, bool, type(None)):
+            copied[key] = value
+        elif type(value) is list and all(type(item) is str for item in value):
+            copied[key] = value.copy()
+        else:
+            # Preserve recursive dataclass conversion and custom deepcopy hooks.
+            return asdict(_EventPersistenceValues(values))["values"]
+    return copied
 
 
 def _pattern_persistence_record(key: str, pattern: Pattern) -> dict[str, object]:

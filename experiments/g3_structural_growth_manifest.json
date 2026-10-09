@@ -1,0 +1,11 @@
+{
+  "seeds": [13, 29, 47],
+  "episode_checkpoints": [8, 16, 32],
+  "episodes_per_chunk": 4,
+  "cases_per_partition": 24,
+  "replay_budget": 12,
+  "worker_budget_seconds": 45,
+  "minimum_quality_gain": 0.05,
+  "minimum_marginal_bytes_reduction": 0.10,
+  "policy": "Separate training-template and held-out Cartesian generators; relation-induced roles only, no supplied target roles; candidate-on/off ablation without forced adoption. Freeze parameters before final inspection. Exploratory pilot, not full G3.4 acceptance."
+}

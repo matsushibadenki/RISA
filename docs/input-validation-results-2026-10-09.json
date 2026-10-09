@@ -1,0 +1,2235 @@
+{
+  "environment": {
+    "python": "3.10.18",
+    "platform": "macOS-27.0.1-arm64-arm-64bit"
+  },
+  "rows": [
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 1.9832999896607362e-05,
+      "cpu_seconds": 5.0000000000050004e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 3.958999513997696e-06,
+      "cpu_seconds": 3.9999999999901226e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 2.666000000317581e-06,
+      "cpu_seconds": 3.0000000000030003e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 2.2089998310548253e-06,
+      "cpu_seconds": 3.0000000000030003e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 2.0409997887327336e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 2.3749998945277184e-06,
+      "cpu_seconds": 1.9999999999881224e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 2.3749998945277184e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 2.0829993445659056e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 2.0830002540606074e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 2.2920003175386228e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 2.2909998733666725e-06,
+      "cpu_seconds": 2.9999999999891225e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 2.1249998098937795e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 2.0829993445659056e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 2.249999852210749e-06,
+      "cpu_seconds": 3.0000000000030003e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 2.249999852210749e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 2.041999323409982e-06,
+      "cpu_seconds": 1.9999999999881224e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 2.042000232904684e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 2.2920003175386228e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 2.3329994291998446e-06,
+      "cpu_seconds": 4.000000000004e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 2.0830002540606074e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 1.9170001905877143e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 2.2920003175386228e-06,
+      "cpu_seconds": 1.9999999999881224e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 2.2920003175386228e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 2.1670002752216533e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 1.99999976757681e-06,
+      "cpu_seconds": 1.000000000001e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 2.2920003175386228e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 2.2920003175386228e-06,
+      "cpu_seconds": 1.9999999999881224e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 2.042000232904684e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 1.99999976757681e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 2.3749998945277184e-06,
+      "cpu_seconds": 3.0000000000030003e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "before",
+      "instrumented": true,
+      "traced_peak_bytes": 2530,
+      "traced_retained_bytes": 2280,
+      "total_calls": 28
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "after",
+      "instrumented": true,
+      "traced_peak_bytes": 2442,
+      "traced_retained_bytes": 2192,
+      "total_calls": 33
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 3.3340002119075507e-06,
+      "cpu_seconds": 3.0000000000030003e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 2.8340000426396728e-06,
+      "cpu_seconds": 3.0000000000030003e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 2.2920003175386228e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 2.165999831049703e-06,
+      "cpu_seconds": 1.9999999999881224e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 1.99999976757681e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 2.333999873371795e-06,
+      "cpu_seconds": 3.0000000000030003e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 2.165999831049703e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 2.0410006982274354e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 2.0000006770715117e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 2.2500007617054507e-06,
+      "cpu_seconds": 3.9999999999901226e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 2.208000296377577e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 2.042000232904684e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 1.958000211743638e-06,
+      "cpu_seconds": 1.000000000001e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 2.249999852210749e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 2.1670002752216533e-06,
+      "cpu_seconds": 1.9999999999881224e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 2.083999788737856e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 1.99999976757681e-06,
+      "cpu_seconds": 3.0000000000030003e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 2.2089998310548253e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 2.249999852210749e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 2.042000232904684e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 1.958000211743638e-06,
+      "cpu_seconds": 2.9999999999891225e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 2.2909998733666725e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 2.1670002752216533e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 2.0000006770715117e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 1.9170001905877143e-06,
+      "cpu_seconds": 3.0000000000030003e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 2.165999831049703e-06,
+      "cpu_seconds": 1.9999999999881224e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 2.165999831049703e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 1.99999976757681e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 1.9169992810930125e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 2.1670002752216533e-06,
+      "cpu_seconds": 2.000000000002e-06,
+      "equal": true
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "instrumented": true,
+      "traced_peak_bytes": 2530,
+      "traced_retained_bytes": 2280,
+      "total_calls": 28
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "instrumented": true,
+      "traced_peak_bytes": 2442,
+      "traced_retained_bytes": 2192,
+      "total_calls": 33
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.0004420830000526621,
+      "cpu_seconds": 0.00044099999999999695,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.00039966700023796875,
+      "cpu_seconds": 0.0003999999999999976,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.0004627919997801655,
+      "cpu_seconds": 0.00044399999999999995,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.0006962500001463923,
+      "cpu_seconds": 0.0006619999999999959,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.00045758400028717006,
+      "cpu_seconds": 0.0004580000000000001,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.00040050000006885966,
+      "cpu_seconds": 0.0003949999999999926,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.0003589999996620463,
+      "cpu_seconds": 0.0003589999999999982,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.00042416700034664245,
+      "cpu_seconds": 0.0004240000000000077,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.0004264999997758423,
+      "cpu_seconds": 0.0004249999999999948,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.0003677080003399169,
+      "cpu_seconds": 0.00036899999999999433,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.0003592910006773309,
+      "cpu_seconds": 0.0003589999999999982,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.00042129200028284686,
+      "cpu_seconds": 0.0004220000000000057,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.0004180409996479284,
+      "cpu_seconds": 0.0004179999999999878,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.00036733399974764325,
+      "cpu_seconds": 0.0003670000000000062,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.0003583749994504615,
+      "cpu_seconds": 0.0003579999999999972,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.0004259170000295853,
+      "cpu_seconds": 0.0004259999999999958,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.00042050000047311187,
+      "cpu_seconds": 0.0004210000000000047,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.0003555410003173165,
+      "cpu_seconds": 0.0003559999999999952,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.00035024999942834256,
+      "cpu_seconds": 0.0003510000000000041,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.0004203750004307949,
+      "cpu_seconds": 0.0004200000000000037,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.0004272090000085882,
+      "cpu_seconds": 0.0004269999999999968,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.00036008299957757117,
+      "cpu_seconds": 0.0003599999999999992,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.00037841700032004155,
+      "cpu_seconds": 0.00037600000000000133,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.0004354999991846853,
+      "cpu_seconds": 0.00043599999999999195,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.0004210420001982129,
+      "cpu_seconds": 0.0004210000000000047,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.0003660419997686404,
+      "cpu_seconds": 0.00036699999999999233,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.00035724999997910345,
+      "cpu_seconds": 0.0003569999999999962,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.0004214170003251638,
+      "cpu_seconds": 0.0004210000000000047,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.0004208749996905681,
+      "cpu_seconds": 0.0004210000000000047,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.0003554580007403274,
+      "cpu_seconds": 0.0003549999999999942,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "instrumented": true,
+      "traced_peak_bytes": 128575,
+      "traced_retained_bytes": 11048,
+      "total_calls": 6004
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "instrumented": true,
+      "traced_peak_bytes": 82055,
+      "traced_retained_bytes": 10960,
+      "total_calls": 5013
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.0005267500000627479,
+      "cpu_seconds": 0.0005269999999999997,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0004437499992491212,
+      "cpu_seconds": 0.00044399999999999995,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.00044504200013761874,
+      "cpu_seconds": 0.00044500000000000095,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.00038099999983387534,
+      "cpu_seconds": 0.00038100000000000633,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.0004088750001756125,
+      "cpu_seconds": 0.00040000000000001146,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0004636249996110564,
+      "cpu_seconds": 0.0004640000000000061,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0004410839992488036,
+      "cpu_seconds": 0.00044099999999999695,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.00037929200061626034,
+      "cpu_seconds": 0.00037900000000000433,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.00037783300012961263,
+      "cpu_seconds": 0.00037700000000000233,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0004308340003262856,
+      "cpu_seconds": 0.0004310000000000008,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0004387920007502544,
+      "cpu_seconds": 0.00043999999999999595,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.0003798749994530226,
+      "cpu_seconds": 0.00037900000000000433,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.00038262500038399594,
+      "cpu_seconds": 0.00038299999999999446,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0004422920001161401,
+      "cpu_seconds": 0.00044199999999999795,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.00044462499954533996,
+      "cpu_seconds": 0.00044500000000000095,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.0003822089993263944,
+      "cpu_seconds": 0.00038199999999999346,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.0003846670006169006,
+      "cpu_seconds": 0.00038499999999999646,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0004822920000151498,
+      "cpu_seconds": 0.0004810000000000092,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.00045812500047759386,
+      "cpu_seconds": 0.0004580000000000001,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.0003880419999404694,
+      "cpu_seconds": 0.00038699999999999846,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.0003898329996445682,
+      "cpu_seconds": 0.00038900000000000046,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.000450542000180576,
+      "cpu_seconds": 0.0004509999999999931,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.00045037499967293115,
+      "cpu_seconds": 0.0004509999999999931,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.0003942080002161674,
+      "cpu_seconds": 0.00039400000000000546,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.00038933399991947226,
+      "cpu_seconds": 0.00038900000000000046,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0004486660000111442,
+      "cpu_seconds": 0.00044799999999999007,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0004502910005612648,
+      "cpu_seconds": 0.00045000000000000595,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.00039566699979332043,
+      "cpu_seconds": 0.0003959999999999936,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.00039391700011037756,
+      "cpu_seconds": 0.00039400000000000546,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0004471670008570072,
+      "cpu_seconds": 0.00044799999999999007,
+      "equal": true
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "instrumented": true,
+      "traced_peak_bytes": 123775,
+      "traced_retained_bytes": 10880,
+      "total_calls": 6004
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "instrumented": true,
+      "traced_peak_bytes": 71655,
+      "traced_retained_bytes": 10960,
+      "total_calls": 7005
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.002578290999736055,
+      "cpu_seconds": 0.0025239999999999985,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.0012798329998986446,
+      "cpu_seconds": 0.0012800000000000034,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.0007654999999431311,
+      "cpu_seconds": 0.0007669999999999899,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.0024546249997001723,
+      "cpu_seconds": 0.0024480000000000057,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.0023696250000284635,
+      "cpu_seconds": 0.002345999999999987,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.0011621250005191541,
+      "cpu_seconds": 0.0011619999999999964,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.0007778749995850376,
+      "cpu_seconds": 0.0007780000000000009,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.0023833750001358567,
+      "cpu_seconds": 0.0023839999999999972,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.0020010830003229785,
+      "cpu_seconds": 0.0020010000000000028,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.0007825000002412708,
+      "cpu_seconds": 0.0007840000000000069,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.0007849999992686207,
+      "cpu_seconds": 0.0007629999999999859,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.002434750000247732,
+      "cpu_seconds": 0.0023980000000000112,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.0019791670001723105,
+      "cpu_seconds": 0.0019799999999999818,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.0009538329995848471,
+      "cpu_seconds": 0.0009550000000000114,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.0007420410001941491,
+      "cpu_seconds": 0.0007419999999999927,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.0021945000007690396,
+      "cpu_seconds": 0.0021940000000000015,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.001953416999640467,
+      "cpu_seconds": 0.0019539999999999835,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.0007797090001986362,
+      "cpu_seconds": 0.0007800000000000029,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.0006939579998288536,
+      "cpu_seconds": 0.0006940000000000002,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.0019701250002981396,
+      "cpu_seconds": 0.0019699999999999995,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.0018362920000072336,
+      "cpu_seconds": 0.0018360000000000043,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.000599791000240657,
+      "cpu_seconds": 0.0005989999999999884,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.0009268750000046566,
+      "cpu_seconds": 0.0008789999999999909,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.00211116700029379,
+      "cpu_seconds": 0.0021110000000000018,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.0021210830000200076,
+      "cpu_seconds": 0.0021210000000000118,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.000841250000121363,
+      "cpu_seconds": 0.0008409999999999807,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.0007519580003645387,
+      "cpu_seconds": 0.0007360000000000144,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.00223691700011841,
+      "cpu_seconds": 0.0022370000000000168,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.0019642500001282315,
+      "cpu_seconds": 0.0019639999999999935,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.0009222919998137513,
+      "cpu_seconds": 0.0009230000000000071,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "instrumented": true,
+      "traced_peak_bytes": 939559,
+      "traced_retained_bytes": 11048,
+      "total_calls": 24004
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "instrumented": true,
+      "traced_peak_bytes": 82055,
+      "traced_retained_bytes": 10960,
+      "total_calls": 5013
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.002207833000284154,
+      "cpu_seconds": 0.0022079999999999878,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.002012334000028204,
+      "cpu_seconds": 0.0020120000000000138,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0020389589999467717,
+      "cpu_seconds": 0.0020180000000000198,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.0019415420001678285,
+      "cpu_seconds": 0.0019419999999999993,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.0019514579998940462,
+      "cpu_seconds": 0.0019509999999999805,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0019405829998504487,
+      "cpu_seconds": 0.0019409999999999983,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0019202089997634175,
+      "cpu_seconds": 0.001921000000000006,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.001983083000595798,
+      "cpu_seconds": 0.0019810000000000105,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.0022977089993219124,
+      "cpu_seconds": 0.0022979999999999945,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0019148330002281,
+      "cpu_seconds": 0.001913999999999999,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0018189580005127937,
+      "cpu_seconds": 0.0018189999999999873,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.0018307909995201044,
+      "cpu_seconds": 0.0018289999999999973,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.00185574999977689,
+      "cpu_seconds": 0.0018529999999999935,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0019222920000174781,
+      "cpu_seconds": 0.001922000000000007,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.001931499999955122,
+      "cpu_seconds": 0.0019319999999999893,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.0017802500005927868,
+      "cpu_seconds": 0.0017800000000000038,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.001766749999660533,
+      "cpu_seconds": 0.0017670000000000186,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0018217500000901055,
+      "cpu_seconds": 0.0018209999999999893,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.00181129099928512,
+      "cpu_seconds": 0.001812000000000008,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.001750207999975828,
+      "cpu_seconds": 0.0017500000000000016,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.001937916999850131,
+      "cpu_seconds": 0.001919000000000004,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0018870840003728517,
+      "cpu_seconds": 0.0018880000000000008,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.001832542000556714,
+      "cpu_seconds": 0.001832000000000028,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.0018049580003207666,
+      "cpu_seconds": 0.0018059999999999743,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.001786875000107102,
+      "cpu_seconds": 0.0017860000000000098,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0017635419999351143,
+      "cpu_seconds": 0.001764999999999961,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0017695409997031675,
+      "cpu_seconds": 0.0017690000000000206,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.0016847080005391035,
+      "cpu_seconds": 0.0016840000000000188,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.0017564170002515311,
+      "cpu_seconds": 0.001756999999999953,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.0019135000002279412,
+      "cpu_seconds": 0.0019000000000000128,
+      "equal": true
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "instrumented": true,
+      "traced_peak_bytes": 902663,
+      "traced_retained_bytes": 11048,
+      "total_calls": 24004
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "instrumented": true,
+      "traced_peak_bytes": 71655,
+      "traced_retained_bytes": 10960,
+      "total_calls": 25005
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.021215707999544975,
+      "cpu_seconds": 0.021199999999999997,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.012653875000069092,
+      "cpu_seconds": 0.012647999999999993,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.012597625000125845,
+      "cpu_seconds": 0.012585999999999986,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.021564708000369137,
+      "cpu_seconds": 0.021541000000000032,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.02174645800005237,
+      "cpu_seconds": 0.02168800000000004,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.01326062499992986,
+      "cpu_seconds": 0.013255000000000017,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.013440917000480113,
+      "cpu_seconds": 0.013433999999999946,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.023310832999413833,
+      "cpu_seconds": 0.02321799999999996,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.023333457999797247,
+      "cpu_seconds": 0.02306000000000008,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.013750250000157394,
+      "cpu_seconds": 0.013587000000000016,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.013030875000367814,
+      "cpu_seconds": 0.013013000000000052,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.022538791999977548,
+      "cpu_seconds": 0.022426000000000057,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.02150741600053152,
+      "cpu_seconds": 0.021453999999999973,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.013619708999613067,
+      "cpu_seconds": 0.013565999999999967,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.013319000000592496,
+      "cpu_seconds": 0.013282000000000016,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.022209249999832537,
+      "cpu_seconds": 0.022156999999999982,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.02246829199975764,
+      "cpu_seconds": 0.02244399999999991,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.013088832999528677,
+      "cpu_seconds": 0.013087999999999989,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.013476874999469146,
+      "cpu_seconds": 0.013438000000000061,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.0233412910001789,
+      "cpu_seconds": 0.02305199999999996,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.0222387499998149,
+      "cpu_seconds": 0.022117000000000053,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.01416975000029197,
+      "cpu_seconds": 0.014162000000000008,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.01318437499958236,
+      "cpu_seconds": 0.013135000000000008,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.021616291999634996,
+      "cpu_seconds": 0.021572000000000036,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.02138258400009363,
+      "cpu_seconds": 0.021357999999999988,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.014278457999353122,
+      "cpu_seconds": 0.014248000000000038,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.012890707999758888,
+      "cpu_seconds": 0.012889999999999846,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.022024791999683657,
+      "cpu_seconds": 0.022001999999999855,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "wall_seconds": 0.02168012499987526,
+      "cpu_seconds": 0.021678000000000086,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "wall_seconds": 0.013675917000000481,
+      "cpu_seconds": 0.013641999999999932,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "instrumented": true,
+      "traced_peak_bytes": 5967511,
+      "traced_retained_bytes": 62120,
+      "total_calls": 204004
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "instrumented": true,
+      "traced_peak_bytes": 82055,
+      "traced_retained_bytes": 10960,
+      "total_calls": 5013
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.020303541000430414,
+      "cpu_seconds": 0.020302000000000042,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.018878957999731938,
+      "cpu_seconds": 0.018874999999999975,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.01922595799987903,
+      "cpu_seconds": 0.019225999999999965,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.02127474999997503,
+      "cpu_seconds": 0.02121700000000004,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.021047917000032612,
+      "cpu_seconds": 0.021041000000000087,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.01888095800040901,
+      "cpu_seconds": 0.018880999999999926,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.01880216700010351,
+      "cpu_seconds": 0.01879900000000001,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.019489374999466236,
+      "cpu_seconds": 0.019488000000000172,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.019256125000538304,
+      "cpu_seconds": 0.01925000000000021,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.018806250000125146,
+      "cpu_seconds": 0.018786999999999887,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.019224708000365354,
+      "cpu_seconds": 0.01922299999999999,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.02119333300015569,
+      "cpu_seconds": 0.021166000000000018,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.020869709000180592,
+      "cpu_seconds": 0.02084100000000011,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.019749250000131724,
+      "cpu_seconds": 0.01972700000000005,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.019503083000017796,
+      "cpu_seconds": 0.01950200000000013,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.020705249999991793,
+      "cpu_seconds": 0.020702999999999916,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.020548499999677006,
+      "cpu_seconds": 0.02054699999999987,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.01953316600065591,
+      "cpu_seconds": 0.019531999999999883,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.019041083999582042,
+      "cpu_seconds": 0.019040999999999864,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.019989999999779684,
+      "cpu_seconds": 0.019989000000000035,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.02053650000016205,
+      "cpu_seconds": 0.02052900000000002,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.01915195799938374,
+      "cpu_seconds": 0.019150999999999918,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.019851500000186206,
+      "cpu_seconds": 0.01982499999999998,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.021260917000290647,
+      "cpu_seconds": 0.021260000000000057,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.01978970800064417,
+      "cpu_seconds": 0.019787,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.01921775000027992,
+      "cpu_seconds": 0.01915599999999973,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.021976250000079744,
+      "cpu_seconds": 0.02171499999999993,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.02075074999993376,
+      "cpu_seconds": 0.020725000000000104,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "wall_seconds": 0.02127466700039804,
+      "cpu_seconds": 0.021178000000000363,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "wall_seconds": 0.022049000000151864,
+      "cpu_seconds": 0.021951000000000054,
+      "equal": true
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "instrumented": true,
+      "traced_peak_bytes": 5261871,
+      "traced_retained_bytes": 11048,
+      "total_calls": 204004
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "instrumented": true,
+      "traced_peak_bytes": 71655,
+      "traced_retained_bytes": 10960,
+      "total_calls": 205005
+    }
+  ],
+  "summary": [
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "before",
+      "median_seconds": 2.0829993445659056e-06,
+      "p95_seconds": 1.9832999896607362e-05,
+      "p99_seconds": 1.9832999896607362e-05,
+      "max_seconds": 1.9832999896607362e-05,
+      "cpu_median_seconds": 2.000000000002e-06
+    },
+    {
+      "scale": 4,
+      "scenario": "episodes",
+      "implementation": "after",
+      "median_seconds": 2.2920003175386228e-06,
+      "p95_seconds": 3.958999513997696e-06,
+      "p99_seconds": 3.958999513997696e-06,
+      "max_seconds": 3.958999513997696e-06,
+      "cpu_median_seconds": 2.000000000002e-06
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "median_seconds": 2.0000006770715117e-06,
+      "p95_seconds": 3.3340002119075507e-06,
+      "p99_seconds": 3.3340002119075507e-06,
+      "max_seconds": 3.3340002119075507e-06,
+      "cpu_median_seconds": 2.000000000002e-06
+    },
+    {
+      "scale": 4,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "median_seconds": 2.2089998310548253e-06,
+      "p95_seconds": 2.8340000426396728e-06,
+      "p99_seconds": 2.8340000426396728e-06,
+      "max_seconds": 2.8340000426396728e-06,
+      "cpu_median_seconds": 2.000000000002e-06
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "median_seconds": 0.00042416700034664245,
+      "p95_seconds": 0.0006962500001463923,
+      "p99_seconds": 0.0006962500001463923,
+      "max_seconds": 0.0006962500001463923,
+      "cpu_median_seconds": 0.0004240000000000077
+    },
+    {
+      "scale": 1000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "median_seconds": 0.00036008299957757117,
+      "p95_seconds": 0.0004627919997801655,
+      "p99_seconds": 0.0004627919997801655,
+      "max_seconds": 0.0004627919997801655,
+      "cpu_median_seconds": 0.0003599999999999992
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "median_seconds": 0.0003880419999404694,
+      "p95_seconds": 0.0005267500000627479,
+      "p99_seconds": 0.0005267500000627479,
+      "max_seconds": 0.0005267500000627479,
+      "cpu_median_seconds": 0.00038699999999999846
+    },
+    {
+      "scale": 1000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "median_seconds": 0.0004471670008570072,
+      "p95_seconds": 0.0004822920000151498,
+      "p99_seconds": 0.0004822920000151498,
+      "max_seconds": 0.0004822920000151498,
+      "cpu_median_seconds": 0.00044799999999999007
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "median_seconds": 0.0021210830000200076,
+      "p95_seconds": 0.002578290999736055,
+      "p99_seconds": 0.002578290999736055,
+      "max_seconds": 0.002578290999736055,
+      "cpu_median_seconds": 0.0021210000000000118
+    },
+    {
+      "scale": 10000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "median_seconds": 0.0007825000002412708,
+      "p95_seconds": 0.0012798329998986446,
+      "p99_seconds": 0.0012798329998986446,
+      "max_seconds": 0.0012798329998986446,
+      "cpu_median_seconds": 0.0007800000000000029
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "median_seconds": 0.0018307909995201044,
+      "p95_seconds": 0.0022977089993219124,
+      "p99_seconds": 0.0022977089993219124,
+      "max_seconds": 0.0022977089993219124,
+      "cpu_median_seconds": 0.0018289999999999973
+    },
+    {
+      "scale": 10000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "median_seconds": 0.0019135000002279412,
+      "p95_seconds": 0.0020389589999467717,
+      "p99_seconds": 0.0020389589999467717,
+      "max_seconds": 0.0020389589999467717,
+      "cpu_median_seconds": 0.0019000000000000128
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "before",
+      "median_seconds": 0.022024791999683657,
+      "p95_seconds": 0.0233412910001789,
+      "p99_seconds": 0.0233412910001789,
+      "max_seconds": 0.0233412910001789,
+      "cpu_median_seconds": 0.022001999999999855
+    },
+    {
+      "scale": 100000,
+      "scenario": "episodes",
+      "implementation": "after",
+      "median_seconds": 0.013319000000592496,
+      "p95_seconds": 0.014278457999353122,
+      "p99_seconds": 0.014278457999353122,
+      "max_seconds": 0.014278457999353122,
+      "cpu_median_seconds": 0.013282000000000016
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "before",
+      "median_seconds": 0.020705249999991793,
+      "p95_seconds": 0.02127474999997503,
+      "p99_seconds": 0.02127474999997503,
+      "max_seconds": 0.02127474999997503,
+      "cpu_median_seconds": 0.020702999999999916
+    },
+    {
+      "scale": 100000,
+      "scenario": "single-episode",
+      "implementation": "after",
+      "median_seconds": 0.019224708000365354,
+      "p95_seconds": 0.022049000000151864,
+      "p99_seconds": 0.022049000000151864,
+      "max_seconds": 0.022049000000151864,
+      "cpu_median_seconds": 0.01922299999999999
+    }
+  ],
+  "note": "15 alternating in-process pairs; preparation/equality outside timing; separate profiling. Synthetic fixtures, empirical tails."
+}

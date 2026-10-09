@@ -146,3 +146,39 @@ Clean Replay now shares the effects-only prediction path and avoids unused prove
 English: Training history selection now avoids unused sorting/grouping; the report includes measured gains and the single-episode cost.
 
 简体中文: 学习历史选择减少无用排序与分组；报告记录收益及单episode开销。
+
+全経路の反復測定では10万Eventが45秒制限を超えました。安定性は未達です。[測定報告](docs/Scale-Stability-2026-10-09.md)。
+
+English: Repeated full-path 100k runs exceed the 45s budget; stability remains unfinished. The report retains every outcome and a separate CPU diagnostic.
+
+简体中文: 重复完整流程时10万Event超过45秒预算，稳定性尚未完成。报告保留所有结果及单独的CPU诊断。
+
+入力検証の履歴コピー・集計を削減しました。[評価報告](docs/Input-Validation-Optimization-2026-10-09.md)には互換性検証、小規模の負荷増、全経路timeoutも記録しています。
+
+English: Input validation reduces history copying/grouping; the report records compatibility, small-case overhead and the remaining full-path timeout.
+
+简体中文: 输入验证减少历史复制与分组；报告记录兼容性、小规模开销及仍存在的完整流程超时。
+
+通常Eventの保存コピーを軽量化しました。[評価報告](docs/Event-Flat-Export-Optimization-2026-10-09.md)に保存速度、完全互換性、全経路の単発結果を記載しています。
+
+English: Flat Event export uses lightweight copying; the report covers saving performance, exact compatibility and the single full-path result.
+
+简体中文: 普通Event保存使用轻量复制；报告记录保存性能、完整兼容性及单次完整流程结果。
+
+Event保存変更後の全経路3回は、10万Eventを最大30.1秒で完了しました。[再現確認](docs/Post-Export-Stability-2026-10-09.md)。
+
+English: All three post-export full-path checks complete 100k within 30.1 seconds; longer tails and held-out quality remain unfinished.
+
+简体中文: Event保存修改后三次完整流程的10万Event均在30.1秒以内完成；长期尾延迟及留出质量仍未完成。
+
+G3.4の成長・未知entity転移pilotを追加しました。精度は飽和し保存量の増分はほぼ線形でした。[評価報告](docs/G3.4-Growth-Pilot-2026-10-09.md)。
+
+English: The G3.4 growth/novel-entity pilot shows saturated accuracy and approximately linear marginal storage; the joint growth hypothesis is not supported in this fixture.
+
+简体中文: G3.4增长及未知entity迁移pilot显示精度饱和、边际存储近似线性；该负载不支持联合增长假设。
+
+系列・誘導roleのG3.4b pilotは候補を発見できましたが、合成のrelation適用範囲に誤受理がありました。[評価報告](docs/G3.4-Structural-Growth-2026-10-09.md)。
+
+English: The G3.4b sequence/induced-role pilot discovers candidates and exposes unsupported/reversed-relation composition false accepts.
+
+简体中文: G3.4b序列及诱导role pilot发现候选，也发现合成错误接受非支持及反向relation的情况。

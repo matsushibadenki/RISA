@@ -10,7 +10,7 @@ import resource
 import subprocess
 import sys
 import tempfile
-from time import perf_counter
+from time import perf_counter, process_time
 
 from risa.core.models import Event, GoalSpecification, PredictionQuery
 from risa.core.state import RisaState
@@ -40,12 +40,18 @@ def profile_scale(manifest, seed, scale, progress_path=None):
     row = {'seed': seed, 'event_scale': scale, 'ingested_events': 0,
            'status': 'running', 'stage_seconds': stages}
     started = perf_counter()
+    cpu_started = process_time()
+    usage_started = resource.getrusage(resource.RUSAGE_SELF)
     summaries = []
     options = TrainingOptions(stage_seconds=stages, replay_max_events=manifest['replay_budget'],
                               replay_summaries=summaries)
     def checkpoint():
         row['elapsed_seconds'] = perf_counter() - started
-        row['peak_rss_bytes'] = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss * (1 if sys.platform == 'darwin' else 1024)
+        row['process_cpu_seconds'] = process_time() - cpu_started
+        usage = resource.getrusage(resource.RUSAGE_SELF)
+        row['voluntary_context_switches'] = usage.ru_nvcsw - usage_started.ru_nvcsw
+        row['involuntary_context_switches'] = usage.ru_nivcsw - usage_started.ru_nivcsw
+        row['peak_rss_bytes'] = usage.ru_maxrss * (1 if sys.platform == 'darwin' else 1024)
         if progress_path:
             Path(progress_path).write_text(json.dumps(row), encoding='utf-8')
     for offset in range(0, scale, manifest['chunk_size']):
