@@ -18,6 +18,8 @@ from risa.engine.validator import validation_effect_support
 
 
 def learn_from_event(state: RisaState, event: Event) -> None:
+    from risa.engine.primitive_grounding import invalidate_primitive_grounding
+    invalidate_primitive_grounding(state)
     index_event_evidence(state, event)
     actor = normalize_label(event.actor)
     action = normalize_label(event.action)

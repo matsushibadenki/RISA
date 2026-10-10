@@ -1,0 +1,9 @@
+{
+  "benchmark_version": "g3.4-actor-binding-repair-regression-v1",
+  "seeds": [11, 23, 37, 53, 71],
+  "development_episodes_per_seed": 20,
+  "final_episodes_per_seed": 40,
+  "minimum_gain": 0.05,
+  "bootstrap_samples": 200,
+  "actor_target_role_binding": true
+}

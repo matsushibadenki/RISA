@@ -1,0 +1,8 @@
+{
+  "benchmark_version": "g3.4-grounding-index-development-v1",
+  "seeds": [419, 523, 631],
+  "training_episode_checkpoints": [4, 8, 16, 64, 256],
+  "heldout_partition": "grounding-index-regression-v1",
+  "cases_per_seed": 40,
+  "policy": "Exact complete CompositionResult parity against full evidence for candidate on/off, append checkpoints and reload. Build reads/cost measured separately from warmed query access. No adoption or quality threshold change; opt-in only."
+}

@@ -1,0 +1,10 @@
+{
+  "benchmark_version": "g3.4-compositional-holdout-development-v1",
+  "seeds": [701, 809, 907],
+  "worlds": ["independent", "coupled"],
+  "training_episode_checkpoints": [8, 16, 32],
+  "max_steps": 3,
+  "minimum_advantage": 0.05,
+  "maximum_false_accepts": 0,
+  "policy": "Development fixture, frozen before first execution; not an untouched final. Seeds change identities only. Train diagonal prepare/finish paths; hold out crossed complete paths while every adjacent action pair is observed. Coupled world requires matching tickets. Supplied roles, state/resource contracts and atomic effects are identical for all systems. No adoption labels, forced adoption, threshold tuning or paper-reproduction claim. Record every failure."
+}

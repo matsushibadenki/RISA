@@ -1,6 +1,6 @@
 # RISA Roadmap / RISA ロードマップ / RISA 路线图
 
-Updated: 2026-10-09. [Design assessment / 設計評価 / 设计评估](RISA-Structural-AI-Assessment-2026-09-05.md)
+Updated: 2026-10-10. [Design assessment / 設計評価 / 设计评估](RISA-Structural-AI-Assessment-2026-09-05.md)
 
 ## Authority and objective / 位置付けと目的 / 定位与目标
 
@@ -38,7 +38,7 @@ Freeze metrics and thresholds before evaluation; do not relax gates after seeing
 | 🟢 [Done] | 学習前予測、誤差履歴、共活性、代謝、Replay、文脈分裂の最小経路 | Minimal pre-update prediction, error history, coactivation, metabolism, replay, context splitting | 最小学前预测、误差历史、共激活、代谢、重放与上下文分裂 |
 | 🟢 [Done] | 状態消費・排他更新・数値資源・単位と上下限の部品 | Consumption, exclusive replacement, numeric resources, units and bounds | 状态消耗、互斥替换、数值资源、单位与边界 |
 | 🟢 [Done] | 分岐simulation、goal/constraint評価、what-if、AND/OR、偏序実行、threat検出 | Branch simulation, goal/constraint evaluation, what-if, AND/OR, partial-order execution, threats | 分支模拟、目标与约束评估、假设比较、AND/OR、偏序执行及冲突检测 |
-| 🟢 [Done] | G0反例、G1/G2評価基盤、G2学習機構を回帰テスト化し、全268テストが通過 | G0 counterexamples, G1/G2 evaluation and G2 learning mechanisms covered; all 268 tests pass | G0反例、G1/G2评估及G2学习机制已纳入回归测试，全部268项测试通过 |
+| 🟢 [Done] | G0反例、G1/G2評価基盤、G2学習機構を回帰テスト化し、全284テストが通過 | G0 counterexamples, G1/G2 evaluation and G2 learning mechanisms covered; all 284 tests pass | G0反例、G1/G2评估及G2学习机制已纳入回归测试，全部284项测试通过 |
 
 日本語: G0で意味論を修正し、G1で比較測定した。G2では型付き役割束縛、前提学習、変化適応を実装し、対象課題で改善した。
 明示済み前提のcompositionは具体遷移表と同率で、保存量と時間には大差が残るため、候補概念の実利用と効率をG2.4で改善する。
@@ -414,4 +414,39 @@ translation. Adopt modules only after controlled gains. Current scale does not j
 - 🟢 [Done] G3.4b 系列・誘導role・候補成長pilotの条件を事前固定し実行。G3.4全体は未完了 / Predeclare and run the sequence/induced-role/candidate-growth pilot; G3.4 remains unfinished / 预先固定并执行序列、诱导role及候选增长pilot；G3.4整体未完成。
 
 - 🟢 [Done] G3.4bは3 seedすべて候補10（時間2・関係2）を発見、全予測・合成の復元一致。構造は4、採用候補0で成長・凝縮条件は不成立 / G3.4b discovers10 candidates per seed, including2 temporal/2 relational, with exact full prediction/composition reloads; primitives4/adopted candidates0 fail growth/condensation signals / G3.4b每seed发现10个候选（时间2、关系2），完整预测及合成恢复一致；结构4、采纳候选0，未满足增长及凝聚条件。[Report / 報告 / 报告](G3.4-Structural-Growth-2026-10-09.md)
-- 🟠 [Next] 合成が非対応・逆向きrelationの対象を誤受理する問題を修正。各24case中8誤受理、候補on/offとも同じ / Fix composition accepting unsupported/reversed-relation targets:8 false accepts per24 cases, both candidate modes / 修复合成错误接受非支持及反向relation target：每24case中8次误受理，两个候选模式均如此。
+- 🟢 [Done] G3.4合成の対象役割接地: 通常Primitiveを支持Eventの役割と照合し、未対応・逆向き対象の誤受理を8/24→0に修正。3 seed全checkpoint、候補on/offとも24/24、完全復元差0。修正回帰であり新規独立finalではない / Ground ordinary Primitives by supporting Event roles; false accepts fall 8/24→0 over all three-seed checkpoints, both candidate modes score24/24 with exact reloads. Repair regression, not new independent final / 普通Primitive按支持Event角色接地，误受理8/24→0，三个seed所有checkpoint两候选模式24/24及精确重载；修复回归而非新独立最终评估。 [Report / 結果 / 结果](G3.4-Composition-Grounding-2026-10-09.md)
+- 🟢 [Done] 強化した合成baselineで旧候補回帰を再確認: role時間系列（seed23）は既存100%で候補利得0・冗長として拒否。actor/target関係（seed29）は候補100%・既存60%で40pt利得、既存の誤一般化率0.5は残存 / Stronger composition baseline makes the role-temporal regression redundant (seed23,100% ordinary success); actor/target relational regression retains100% versus60% candidate gain, with ordinary false-generalization0.5 unresolved / 强合成基线使role时间回归冗余（seed23普通100%）；actor/target关系回归候选100%对普通60%，普通误泛化0.5未解决
+- 🟢 [Done] G3.4通常合成のactor/target接地: 同じ支持Eventでactor/target役割と具体identity等値を照合。5 seed・development100/final200件で候補/通常とも100%、誤一般化0、候補利得0で既存gateは冗長として拒否。joint witness・等値学習・抽象合成を回帰確認 / Ordinary joint actor/target grounding scores100% in both paths over100 development/200 final cases across five seeds, with zero false generalization and zero candidate gain; the unchanged gate rejects redundancy. Joint-witness/equality/abstract regression tests cover contracts / 普通joint actor/target接地在五seed开发100/最终200case中两路径100%、误泛化0、候选增益0，原gate拒绝冗余；joint witness、等值及抽象合成回归验证。 [Report / 結果 / 结果](G3.4-Actor-Binding-2026-10-09.md)
+- 🟢 [Done] G3.4 joint品質v2: 新seed/entity・source均等化、役割/identity/状態/資源反例でRISA候補on/offと学習joint表＋simple BFSが全40/40、誤受理0。提案6・採用0、構造2固定・保存ほぼ線形で候補優位/凝縮gateは未達。v1 source交絡の失敗を保持 / New entity/source-balanced joint fixture ties learned-table/simple-BFS at40/40 across all checkpoints, zero false accepts; six proposed/zero adopted candidates and constant two primitives fail advantage/condensation gates. V1 source-confounding failure retained / 新entity及source平衡joint fixture所有checkpoint与学得表/simple BFS同为40/40，误受理0；提案六/采纳零、Primitive二固定，优越性/凝聚gate未通过，保留v1 source交络失败。 [Report / 結果 / 结果](G3.4-Independent-Joint-Quality-2026-10-10.md)
+- 🟢 [Done] G3.4合成仕事量を直接計測: 診断あり/なしの完全結果同値。固定fixtureでnode48・Primitive検査96は一定だが、8/16/32 Eventの接地参照288/576/1,152は線形増加。macroのstep/kernelも別計測し、node0を仕事量0としない / Direct composition counters preserve complete results; node48/Primitive scans96 stay constant while grounding reads288/576/1,152 grow with8/16/32 Events. Macro step/kernel work is counted separately / 直接合成计量完整结果同值，node48/Primitive检查96固定，而8/16/32 Event接地访问288/576/1,152线性增长，macro step/kernel另计。 [Report / 結果 / 结果](G3.4-Composition-Search-Work-2026-10-10.md)
+- 🟢 [Done] G3.4接地read model: opt-in joint役割/identity indexを実装。3 seed×5 checkpointで全走査/復元の完全結果一致、1,200/1,200正解。512 Eventでは構築512参照、80 queryの参照36,864→0 / Opt-in lossless grounding index preserves complete results across append/reload; 1,200/1,200 correct. At512 Events, build512 reads and warm query reads36,864→0 / 实现opt-in无损接地index，增量/重载完整结果同值，1,200/1,200正确；512 Event构建512访问，预热query访问36,864→0。 [Report / 結果 / 结果](G3.4-Primitive-Grounding-Index-2026-10-10.md)
+
+### Memory Mosaics-inspired G3.4 controls — 2026-10-10
+
+- 🟢 [Done] 予測に役立つ分解と依存条件保持を[設計契約](RISA-Structural-Factorization-and-Compositional-Reasoning.md#7-predictive-factorization-with-dependency-guards--2026-10-10)へ追加。論文再現・潜在因子発見・凝縮実証とは区別 / Document predictive factorization with dependency guards, distinct from paper reproduction, latent-factor discovery or condensation evidence / 将预测分解与依赖保持写入设计，区分论文复现、潜在因子发现及凝聚实证。
+- 🟢 [Done] [未知組合せ・依存反例の比較実験](G3.4-Compositional-Holdout-2026-10-10.md)を3 seed・2世界・24/48/96 Eventで実行。局所遷移は既知、全交差経路は未知と監査。RISA候補on/off、制約保持表、同一BFSのRISA通常Primitiveは各360/360、誤受理0 / Run audited unseen-whole-path controls: native RISA on/off, guarded table and shared-BFS RISA primitives each score360/360 with zero false accepts / 三seed、两世界及三个checkpoint完成未知完整路径审计，RISA候选开关、约束表与共享BFS普通Primitive各360/360、误受理零。
+- 🟢 [Done] 完全経路表は独立世界の未知4件を棄却。役割周辺化・資源リセット・ticket除去の対照は対応反例を誤受理し、依存条件の必要性を確認。弱い対照への勝利を固有の利得としない / Whole-path control misses four independent combinations; marginal-role, reset-resource and dropped-ticket controls expose targeted false accepts, not a strong-baseline advantage / 完整路径表漏掉四个独立组合，角色边际化、资源重置及删除ticket暴露对应误受理，不作为超越强基线的证据。
+- 🟢 [Done] 完全結果720件の復元/計測一致、評価不変性を確認。候補18・採用0、候補利得0で既定gate不合格。接地Event参照は経験数に比例し、G3.4の凝縮条件は未達 / Verify720 complete reload/instrumentation matches and immutable evaluation;18 proposed/zero adopted candidates fail advantage gate, and linear evidence reads leave condensation unproven / 验证720个完整结果恢复/计量一致及评估不变；候选十八/采纳零、优势门槛未通过，证据读取线性增长，凝聚未证明。
+- 🟠 [Next] G3.4接地indexの役割多様化・signature成長と学習/query交互実行の再構築費用を測定。独立world・同一planner品質/成長評価も継続 / Measure varied-role signature growth and interleaved learning/query rebuild cost; continue independent-world/same-planner quality and growth / 测量角色多样化、signature增长及学习/query交替重建费用，继续独立world/同planner质量与增长评估。
+- 🟠 [Next] 初期checkpointで品質が飽和しない意味規則群と正当な候補採用機会を事前固定。未知組合せの必要Event数、独立化による誤受理、構造数・限界費用を強い因子化表と同一plannerで比較。採用gateは緩和しない / Freeze varied semantic worlds and legitimate candidate opportunities; compare learning curves, dependency errors and marginal costs against a strong factorized table with the same planner, without relaxing adoption gates / 预先固定变化语义world及真实候选机会，以同planner对比强因子化表的学习曲线、依赖误受理及边际成本，不放宽采纳门槛。
+- 🔴 [Later] 構造効果の実証後に学習可能なkey/value記憶を別armとして検討。現実験はニューラルMemory Mosaicsを実装しない / Consider learned key/value memories as a separate arm only after structural benefit is established; current controls do not implement neural Memory Mosaics / 结构收益确立后再考虑可学习key/value记忆独立比较，目前未实现神经Memory Mosaics。
+
+日本語: 未達項目は開発環境で検証可能なため🟠 [Next]として扱う。環境都合で試験不能な作業が発生した場合のみ⭕️ [Pending]へ移す。
+
+English: Unfinished experiments remain testable development work, marked Next. Use Pending only for checks the development environment cannot execute.
+
+简体中文: 未完成实验可在开发环境验证，保持Next；仅环境无法执行的验证才标记Pending。
+
+### Compositional grounding index cost audit — 2026-10-10
+
+- 🟢 [Done] [未知組合せfixtureでのindex費用監査](G3.4-Compositional-Grounding-Costs-2026-10-10.md): 候補on/off720 queryの完全結果一致、正解720/720・誤受理0。追加学習・cold構築・復元・診断有無も一致 / Verify720 exact compositional results with candidate on/off, append, cold build, reload and instrumentation;720/720 correct, zero false accepts / 候选开关720个组合query完整结果一致，追加学习、冷构建、恢复及计量模式均一致，全正确且误受理零。
+- 🟢 [Done] warm接地Event参照を独立848/1,696/3,392・依存880/1,760/3,520から0へ削減（各40 query）。構築参照24/48/96とwitness検査224/234を別計数 / Reduce warm grounding Event reads to zero, separately counting24/48/96 build reads and224/234 witness checks per40-query panel / warm接地Event访问降为零，另计24/48/96构建读取及每40-query面板224/234 witness检查。
+- 🟢 [Done] 3 seed×3回で構築・追加学習＋全再構築・query・実保存・loadを計測。保存バイト列同一、追加0 byte。論理summary1,325/1,343 byte、tracemalloc保持9,358 byte。全再構築方式・opt-inを維持 / Measure build, append plus full rebuild, query, actual save and load; identical persisted bytes, zero extra, logical summary1,325/1,343 bytes and traced retained9,358 bytes; keep opt-in full rebuild / 三seed×三次测量构建、追加学习加全重建、query、实际保存及load；持久化字节相同、额外零、逻辑summary1,325/1,343 byte、追踪保持9,358 byte；维持opt-in全重建。
+- 🟢 [Done] 96 Event保存悪化と交互実行を下記の追加監査で切り分けた。旧測定は保持し、役割多様化・差分更新・既定有効化の判断は未完了 / Attribute the96-Event save regression and measure interleaving below; preserve old results, with role diversity, incremental updates and default enablement still open / 已完成下述96 Event保存及交替执行审计，保留旧测量；角色多样化、增量更新与默认启用仍待评估。
+
+### Save GC attribution and interleaved updates — 2026-10-10
+
+- 🟢 [Done] [保存GC・交互実行監査](G3.4-Save-GC-and-Interleaving-2026-10-10.md): 旧手順で35.5%悪化を再現し、世代2 GCがreference0/index12回へ偏ることを記録。GC停止を除く中央値差は2.6%、均等先行順の新規保存差は0.1%。元artifactにGC traceはなく再現実験での帰属 / Reproduce35.5% save regression with generation-2 GC skew0/12; GC-subtracted median gap2.6%, balanced-order fresh-save gap0.1%; attribution is from reproduction, not a trace of the original run / 复现35.5%保存恶化及世代2 GC偏斜0/12；扣GC中位差2.6%、均衡顺序新保存差0.1%，归因来自复现而非旧trace。
+- 🟢 [Done] 既存費用benchmarkの既定3回を4回へ変更し先行順を均等化、結果へpaired_order_balancedを記録。保存検証・backup・fsync・本番GC動作は維持 / Balance the previous benchmark with four repetitions and record paired_order_balanced; preserve production validation, backup, fsync and GC / 旧benchmark默认改四次均衡先行顺序并记录paired_order_balanced，保留生产验证、backup、fsync及GC。
+- 🟢 [Done] 1/3/24 Event更新×1/40 queryを比較。1,584更新のシリアライズ、32,472 queryの完全結果、144 checkpointの実保存/backup/復元が一致。1 queryでは再構築込みindexが遅く、40 queryでは本fixtureで短縮 / Compare1/3/24-Event updates with1/40 queries:1,584 serialized states,32,472 complete results and144 file/backup/reload checkpoints match; cold index loses at one query and improves at40 in this fixture / 比较1/3/24 Event与1/40 query：1,584序列化、32,472完整结果及144实文件/backup/恢复checkpoint一致；单query全重建更慢，40 query改善。
+- 🟠 [Next] 低query密度での差分更新または全走査選択を、役割多様化・証拠変更・split・復元とともに評価。閾値を今回の2密度だけで決めずopt-in維持 / Evaluate incremental maintenance or full-scan selection for sparse queries with diverse roles, evidence changes, split and reload; retain opt-in without inferring a threshold from only two densities / 在多样角色、证据变化、split及恢复下评估低query密度的增量维护或全扫描选择，不凭两种密度定阈值，保持opt-in。

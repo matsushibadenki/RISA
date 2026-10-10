@@ -26,6 +26,7 @@ does not implement the outstanding contracts below.
 | P8 | 手動scoreを確率と呼ばない。圧縮はschema・束縛・例外を含む実測costで評価 | Heuristic scores are not probabilities; measure compression including schemas, bindings and exceptions | 启发式分数不是概率，压缩需计入schema、绑定与例外成本 |
 | P9 | 局所性は走査数・更新数・Replay予算・時間・memoryで評価。探索半径だけで主張しない | Measure scans, updates, replay budgets, time and memory, not radius alone | 用扫描、更新、重放预算、时间及内存评估局部性，而非仅看半径 |
 | P10 | 中核修正・評価を先行し、新機構は一つずつ比較。既存plannerを固定して学習の寄与を測る | Fix semantics and evaluate first; add mechanisms individually, holding planning fixed to isolate learning | 先修语义再评估，逐项引入机制，固定规划器以隔离学习收益 |
+| P11 | 因子分解は未知組合せと依存反例で検証。joint役割/identity・状態消費・共有資源を保持し、制約保持の因子化表と比較する | Test factorization on unseen combinations and dependency counterexamples; preserve joint role/identity, state consumption and shared resources; compare with a guarded factorized table | 通过未知组合和依赖反例验证分解，保留联合角色/identity、状态消耗及共享资源，并与约束因子化表比较 |
 
 日本語: 「独立Verifierを標準経路にしない」は内部学習機構の選択であり、独立したテストや環境oracleを
 避ける理由にはしない。自己整合する構造が現実に正しいとは限らない。前提やdeltaを人が与えるモードと、

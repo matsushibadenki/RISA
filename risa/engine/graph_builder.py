@@ -27,6 +27,8 @@ def ingest_event(
 
         index_applicability_evidence(state, event)
 
+    from risa.engine.primitive_grounding import invalidate_primitive_grounding
+    invalidate_primitive_grounding(state)
     actor_id = _node_id("entity", event.actor)
     action_id = _node_id("process", event.action)
     event_id = _node_id("event", event.id)

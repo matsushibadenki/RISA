@@ -1,0 +1,2899 @@
+{
+  "benchmark_version": "g3.4-independent-joint-quality-development-v1",
+  "development_source_audit": "v1 source=index%2 confounds source with family; candidate count zero. Retained as development diagnostic, not candidate ablation evidence.",
+  "manifest_sha256": "ca3df6b20d6a5efb4100cd752fb57a6fb9501cadf6be4c46214eefad60565d7d",
+  "overlap_audits": [
+    {
+      "event_case_id_overlap": 0,
+      "events": 8,
+      "identity_overlap": 0,
+      "seed": 101
+    },
+    {
+      "event_case_id_overlap": 0,
+      "events": 16,
+      "identity_overlap": 0,
+      "seed": 101
+    },
+    {
+      "event_case_id_overlap": 0,
+      "events": 32,
+      "identity_overlap": 0,
+      "seed": 101
+    },
+    {
+      "event_case_id_overlap": 0,
+      "events": 8,
+      "identity_overlap": 0,
+      "seed": 211
+    },
+    {
+      "event_case_id_overlap": 0,
+      "events": 16,
+      "identity_overlap": 0,
+      "seed": 211
+    },
+    {
+      "event_case_id_overlap": 0,
+      "events": 32,
+      "identity_overlap": 0,
+      "seed": 211
+    },
+    {
+      "event_case_id_overlap": 0,
+      "events": 8,
+      "identity_overlap": 0,
+      "seed": 307
+    },
+    {
+      "event_case_id_overlap": 0,
+      "events": 16,
+      "identity_overlap": 0,
+      "seed": 307
+    },
+    {
+      "event_case_id_overlap": 0,
+      "events": 32,
+      "identity_overlap": 0,
+      "seed": 307
+    }
+  ],
+  "rows": [
+    {
+      "active_primitives": 2,
+      "adopted_candidates": 0,
+      "candidate_advantage_pass": false,
+      "candidates": 0,
+      "cases": 40,
+      "events": 8,
+      "false_accept_gate": true,
+      "metrics": {
+        "candidate_off": {
+          "correct": 40,
+          "false_accepts": 0,
+          "positive_correct": 8
+        },
+        "candidate_on": {
+          "correct": 40,
+          "false_accepts": 0,
+          "positive_correct": 8
+        },
+        "table_simple_search": {
+          "correct": 40,
+          "false_accepts": 0,
+          "positive_correct": 8
+        }
+      },
+      "outputs": [
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:101:0",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:101:1",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:2",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:3",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:4",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:5",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:6",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:7",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:8",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:9",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:101:10",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:101:11",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:12",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:13",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:14",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:15",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:16",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:17",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:18",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:19",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:101:20",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:101:21",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:22",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:23",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:24",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:25",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:26",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:27",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:28",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:29",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:101:30",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:101:31",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:32",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:33",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:34",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:35",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:36",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:37",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:38",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:39",
+          "expected": false,
+          "table_simple_search": false
+        }
+      ],
+      "positive_cases": 8,
+      "reload_mismatches": 0,
+      "risa_stored_bytes": 28261,
+      "seed": 101,
+      "table_contracts": 4,
+      "table_expanded_nodes": 48,
+      "table_stored_bytes": 6517
+    },
+    {
+      "active_primitives": 2,
+      "adopted_candidates": 0,
+      "candidate_advantage_pass": false,
+      "candidates": 0,
+      "cases": 40,
+      "events": 16,
+      "false_accept_gate": true,
+      "metrics": {
+        "candidate_off": {
+          "correct": 40,
+          "false_accepts": 0,
+          "positive_correct": 8
+        },
+        "candidate_on": {
+          "correct": 40,
+          "false_accepts": 0,
+          "positive_correct": 8
+        },
+        "table_simple_search": {
+          "correct": 40,
+          "false_accepts": 0,
+          "positive_correct": 8
+        }
+      },
+      "outputs": [
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:101:0",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:101:1",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:2",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:3",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:4",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:5",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:6",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:7",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:8",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:9",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:101:10",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:101:11",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:12",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:13",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:14",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:15",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:16",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:17",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:18",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:19",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:101:20",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:101:21",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:22",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:23",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:24",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:25",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:26",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:27",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:28",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:29",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:101:30",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:101:31",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:32",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:33",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:34",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:35",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:36",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:37",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:38",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:39",
+          "expected": false,
+          "table_simple_search": false
+        }
+      ],
+      "positive_cases": 8,
+      "reload_mismatches": 0,
+      "risa_stored_bytes": 50199,
+      "seed": 101,
+      "table_contracts": 4,
+      "table_expanded_nodes": 48,
+      "table_stored_bytes": 12104
+    },
+    {
+      "active_primitives": 2,
+      "adopted_candidates": 0,
+      "candidate_advantage_pass": false,
+      "candidates": 0,
+      "cases": 40,
+      "events": 32,
+      "false_accept_gate": true,
+      "metrics": {
+        "candidate_off": {
+          "correct": 40,
+          "false_accepts": 0,
+          "positive_correct": 8
+        },
+        "candidate_on": {
+          "correct": 40,
+          "false_accepts": 0,
+          "positive_correct": 8
+        },
+        "table_simple_search": {
+          "correct": 40,
+          "false_accepts": 0,
+          "positive_correct": 8
+        }
+      },
+      "outputs": [
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:101:0",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:101:1",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:2",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:3",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:4",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:5",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:6",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:7",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:8",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:9",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:101:10",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:101:11",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:12",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:13",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:14",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:15",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:16",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:17",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:18",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:19",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:101:20",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:101:21",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:22",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:23",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:24",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:25",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:26",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:27",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:28",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:29",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:101:30",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:101:31",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:32",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:33",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:34",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:35",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:36",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:37",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:38",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:101:39",
+          "expected": false,
+          "table_simple_search": false
+        }
+      ],
+      "positive_cases": 8,
+      "reload_mismatches": 0,
+      "risa_stored_bytes": 94344,
+      "seed": 101,
+      "table_contracts": 4,
+      "table_expanded_nodes": 48,
+      "table_stored_bytes": 23328
+    },
+    {
+      "active_primitives": 2,
+      "adopted_candidates": 0,
+      "candidate_advantage_pass": false,
+      "candidates": 0,
+      "cases": 40,
+      "events": 8,
+      "false_accept_gate": true,
+      "metrics": {
+        "candidate_off": {
+          "correct": 40,
+          "false_accepts": 0,
+          "positive_correct": 8
+        },
+        "candidate_on": {
+          "correct": 40,
+          "false_accepts": 0,
+          "positive_correct": 8
+        },
+        "table_simple_search": {
+          "correct": 40,
+          "false_accepts": 0,
+          "positive_correct": 8
+        }
+      },
+      "outputs": [
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:211:0",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:211:1",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:2",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:3",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:4",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:5",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:6",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:7",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:8",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:9",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:211:10",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:211:11",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:12",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:13",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:14",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:15",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:16",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:17",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:18",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:19",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:211:20",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:211:21",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:22",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:23",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:24",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:25",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:26",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:27",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:28",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:29",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:211:30",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:211:31",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:32",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:33",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:34",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:35",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:36",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:37",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:38",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:39",
+          "expected": false,
+          "table_simple_search": false
+        }
+      ],
+      "positive_cases": 8,
+      "reload_mismatches": 0,
+      "risa_stored_bytes": 28261,
+      "seed": 211,
+      "table_contracts": 4,
+      "table_expanded_nodes": 48,
+      "table_stored_bytes": 6517
+    },
+    {
+      "active_primitives": 2,
+      "adopted_candidates": 0,
+      "candidate_advantage_pass": false,
+      "candidates": 0,
+      "cases": 40,
+      "events": 16,
+      "false_accept_gate": true,
+      "metrics": {
+        "candidate_off": {
+          "correct": 40,
+          "false_accepts": 0,
+          "positive_correct": 8
+        },
+        "candidate_on": {
+          "correct": 40,
+          "false_accepts": 0,
+          "positive_correct": 8
+        },
+        "table_simple_search": {
+          "correct": 40,
+          "false_accepts": 0,
+          "positive_correct": 8
+        }
+      },
+      "outputs": [
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:211:0",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:211:1",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:2",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:3",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:4",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:5",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:6",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:7",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:8",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:9",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:211:10",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:211:11",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:12",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:13",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:14",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:15",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:16",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:17",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:18",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:19",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:211:20",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:211:21",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:22",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:23",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:24",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:25",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:26",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:27",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:28",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:29",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:211:30",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:211:31",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:32",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:33",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:34",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:35",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:36",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:37",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:38",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:39",
+          "expected": false,
+          "table_simple_search": false
+        }
+      ],
+      "positive_cases": 8,
+      "reload_mismatches": 0,
+      "risa_stored_bytes": 50199,
+      "seed": 211,
+      "table_contracts": 4,
+      "table_expanded_nodes": 48,
+      "table_stored_bytes": 12104
+    },
+    {
+      "active_primitives": 2,
+      "adopted_candidates": 0,
+      "candidate_advantage_pass": false,
+      "candidates": 0,
+      "cases": 40,
+      "events": 32,
+      "false_accept_gate": true,
+      "metrics": {
+        "candidate_off": {
+          "correct": 40,
+          "false_accepts": 0,
+          "positive_correct": 8
+        },
+        "candidate_on": {
+          "correct": 40,
+          "false_accepts": 0,
+          "positive_correct": 8
+        },
+        "table_simple_search": {
+          "correct": 40,
+          "false_accepts": 0,
+          "positive_correct": 8
+        }
+      },
+      "outputs": [
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:211:0",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:211:1",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:2",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:3",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:4",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:5",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:6",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:7",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:8",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:9",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:211:10",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:211:11",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:12",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:13",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:14",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:15",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:16",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:17",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:18",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:19",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:211:20",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:211:21",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:22",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:23",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:24",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:25",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:26",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:27",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:28",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:29",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:211:30",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:211:31",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:32",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:33",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:34",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:35",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:36",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:37",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:38",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:211:39",
+          "expected": false,
+          "table_simple_search": false
+        }
+      ],
+      "positive_cases": 8,
+      "reload_mismatches": 0,
+      "risa_stored_bytes": 94344,
+      "seed": 211,
+      "table_contracts": 4,
+      "table_expanded_nodes": 48,
+      "table_stored_bytes": 23328
+    },
+    {
+      "active_primitives": 2,
+      "adopted_candidates": 0,
+      "candidate_advantage_pass": false,
+      "candidates": 0,
+      "cases": 40,
+      "events": 8,
+      "false_accept_gate": true,
+      "metrics": {
+        "candidate_off": {
+          "correct": 40,
+          "false_accepts": 0,
+          "positive_correct": 8
+        },
+        "candidate_on": {
+          "correct": 40,
+          "false_accepts": 0,
+          "positive_correct": 8
+        },
+        "table_simple_search": {
+          "correct": 40,
+          "false_accepts": 0,
+          "positive_correct": 8
+        }
+      },
+      "outputs": [
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:307:0",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:307:1",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:2",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:3",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:4",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:5",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:6",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:7",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:8",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:9",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:307:10",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:307:11",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:12",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:13",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:14",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:15",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:16",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:17",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:18",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:19",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:307:20",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:307:21",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:22",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:23",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:24",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:25",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:26",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:27",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:28",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:29",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:307:30",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:307:31",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:32",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:33",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:34",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:35",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:36",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:37",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:38",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:39",
+          "expected": false,
+          "table_simple_search": false
+        }
+      ],
+      "positive_cases": 8,
+      "reload_mismatches": 0,
+      "risa_stored_bytes": 28261,
+      "seed": 307,
+      "table_contracts": 4,
+      "table_expanded_nodes": 48,
+      "table_stored_bytes": 6517
+    },
+    {
+      "active_primitives": 2,
+      "adopted_candidates": 0,
+      "candidate_advantage_pass": false,
+      "candidates": 0,
+      "cases": 40,
+      "events": 16,
+      "false_accept_gate": true,
+      "metrics": {
+        "candidate_off": {
+          "correct": 40,
+          "false_accepts": 0,
+          "positive_correct": 8
+        },
+        "candidate_on": {
+          "correct": 40,
+          "false_accepts": 0,
+          "positive_correct": 8
+        },
+        "table_simple_search": {
+          "correct": 40,
+          "false_accepts": 0,
+          "positive_correct": 8
+        }
+      },
+      "outputs": [
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:307:0",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:307:1",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:2",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:3",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:4",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:5",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:6",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:7",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:8",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:9",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:307:10",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:307:11",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:12",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:13",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:14",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:15",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:16",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:17",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:18",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:19",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:307:20",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:307:21",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:22",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:23",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:24",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:25",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:26",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:27",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:28",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:29",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:307:30",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:307:31",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:32",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:33",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:34",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:35",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:36",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:37",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:38",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:39",
+          "expected": false,
+          "table_simple_search": false
+        }
+      ],
+      "positive_cases": 8,
+      "reload_mismatches": 0,
+      "risa_stored_bytes": 50199,
+      "seed": 307,
+      "table_contracts": 4,
+      "table_expanded_nodes": 48,
+      "table_stored_bytes": 12104
+    },
+    {
+      "active_primitives": 2,
+      "adopted_candidates": 0,
+      "candidate_advantage_pass": false,
+      "candidates": 0,
+      "cases": 40,
+      "events": 32,
+      "false_accept_gate": true,
+      "metrics": {
+        "candidate_off": {
+          "correct": 40,
+          "false_accepts": 0,
+          "positive_correct": 8
+        },
+        "candidate_on": {
+          "correct": 40,
+          "false_accepts": 0,
+          "positive_correct": 8
+        },
+        "table_simple_search": {
+          "correct": 40,
+          "false_accepts": 0,
+          "positive_correct": 8
+        }
+      },
+      "outputs": [
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:307:0",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:307:1",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:2",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:3",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:4",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:5",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:6",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:7",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:8",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:9",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:307:10",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:307:11",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:12",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:13",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:14",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:15",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:16",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:17",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:18",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:19",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:307:20",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:307:21",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:22",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:23",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:24",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:25",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:26",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:27",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:28",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:29",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:307:30",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": true,
+          "candidate_on": true,
+          "case_id": "sealed-quality-v1:case:307:31",
+          "expected": true,
+          "table_simple_search": true
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:32",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:33",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:34",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:35",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:36",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:37",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:38",
+          "expected": false,
+          "table_simple_search": false
+        },
+        {
+          "candidate_off": false,
+          "candidate_on": false,
+          "case_id": "sealed-quality-v1:case:307:39",
+          "expected": false,
+          "table_simple_search": false
+        }
+      ],
+      "positive_cases": 8,
+      "reload_mismatches": 0,
+      "risa_stored_bytes": 94344,
+      "seed": 307,
+      "table_contracts": 4,
+      "table_expanded_nodes": 48,
+      "table_stored_bytes": 23328
+    }
+  ],
+  "status": "independent_fixture_development_control"
+}

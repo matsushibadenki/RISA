@@ -1,0 +1,653 @@
+{
+  "manifest": {
+    "benchmark_version": "g3.4-grounding-index-development-v1",
+    "cases_per_seed": 40,
+    "heldout_partition": "grounding-index-regression-v1",
+    "policy": "Exact complete CompositionResult parity against full evidence for candidate on/off, append checkpoints and reload. Build reads/cost measured separately from warmed query access. No adoption or quality threshold change; opt-in only.",
+    "seeds": [
+      419,
+      523,
+      631
+    ],
+    "training_episode_checkpoints": [
+      4,
+      8,
+      16,
+      64,
+      256
+    ]
+  },
+  "rows": [
+    {
+      "complete_result_mismatches": 0,
+      "correct": 80,
+      "events": 8,
+      "false_accepts": 0,
+      "index_build_event_reads": 8,
+      "index_build_seconds": 3.983399801654741e-05,
+      "index_payload_bytes": 490,
+      "index_signatures": 4,
+      "queries": 80,
+      "query_seconds": {
+        "full_scan": 0.0013994170003570616,
+        "indexed": 0.0009526220092084259
+      },
+      "seed": 419,
+      "work": {
+        "full_scan": {
+          "candidate_step_attempts": 0,
+          "eligible_primitives": 32,
+          "expanded_nodes": 96,
+          "grounding_event_reads": 576,
+          "grounding_signature_checks": 0,
+          "index_build_event_reads": 0,
+          "plan_candidates": 0,
+          "primitive_scan_count": 192,
+          "successor_candidates": 16,
+          "transition_checks": 80
+        },
+        "indexed": {
+          "candidate_step_attempts": 0,
+          "eligible_primitives": 32,
+          "expanded_nodes": 96,
+          "grounding_event_reads": 0,
+          "grounding_signature_checks": 224,
+          "index_build_event_reads": 0,
+          "plan_candidates": 0,
+          "primitive_scan_count": 192,
+          "successor_candidates": 16,
+          "transition_checks": 80
+        }
+      }
+    },
+    {
+      "complete_result_mismatches": 0,
+      "correct": 80,
+      "events": 16,
+      "false_accepts": 0,
+      "index_build_event_reads": 16,
+      "index_build_seconds": 3.979199391324073e-05,
+      "index_payload_bytes": 490,
+      "index_signatures": 4,
+      "queries": 80,
+      "query_seconds": {
+        "full_scan": 0.0016681629931554198,
+        "indexed": 0.0008816260306048207
+      },
+      "seed": 419,
+      "work": {
+        "full_scan": {
+          "candidate_step_attempts": 0,
+          "eligible_primitives": 32,
+          "expanded_nodes": 96,
+          "grounding_event_reads": 1152,
+          "grounding_signature_checks": 0,
+          "index_build_event_reads": 0,
+          "plan_candidates": 0,
+          "primitive_scan_count": 192,
+          "successor_candidates": 16,
+          "transition_checks": 80
+        },
+        "indexed": {
+          "candidate_step_attempts": 0,
+          "eligible_primitives": 32,
+          "expanded_nodes": 96,
+          "grounding_event_reads": 0,
+          "grounding_signature_checks": 224,
+          "index_build_event_reads": 0,
+          "plan_candidates": 0,
+          "primitive_scan_count": 192,
+          "successor_candidates": 16,
+          "transition_checks": 80
+        }
+      }
+    },
+    {
+      "complete_result_mismatches": 0,
+      "correct": 80,
+      "events": 32,
+      "false_accepts": 0,
+      "index_build_event_reads": 32,
+      "index_build_seconds": 6.254199979593977e-05,
+      "index_payload_bytes": 490,
+      "index_signatures": 4,
+      "queries": 80,
+      "query_seconds": {
+        "full_scan": 0.002607709029689431,
+        "indexed": 0.0009697939894977026
+      },
+      "seed": 419,
+      "work": {
+        "full_scan": {
+          "candidate_step_attempts": 0,
+          "eligible_primitives": 32,
+          "expanded_nodes": 96,
+          "grounding_event_reads": 2304,
+          "grounding_signature_checks": 0,
+          "index_build_event_reads": 0,
+          "plan_candidates": 0,
+          "primitive_scan_count": 192,
+          "successor_candidates": 16,
+          "transition_checks": 80
+        },
+        "indexed": {
+          "candidate_step_attempts": 0,
+          "eligible_primitives": 32,
+          "expanded_nodes": 96,
+          "grounding_event_reads": 0,
+          "grounding_signature_checks": 224,
+          "index_build_event_reads": 0,
+          "plan_candidates": 0,
+          "primitive_scan_count": 192,
+          "successor_candidates": 16,
+          "transition_checks": 80
+        }
+      }
+    },
+    {
+      "complete_result_mismatches": 0,
+      "correct": 80,
+      "events": 128,
+      "false_accepts": 0,
+      "index_build_event_reads": 128,
+      "index_build_seconds": 0.00021466700127348304,
+      "index_payload_bytes": 490,
+      "index_signatures": 4,
+      "queries": 80,
+      "query_seconds": {
+        "full_scan": 0.007544079977378715,
+        "indexed": 0.0010818790251505561
+      },
+      "seed": 419,
+      "work": {
+        "full_scan": {
+          "candidate_step_attempts": 0,
+          "eligible_primitives": 32,
+          "expanded_nodes": 96,
+          "grounding_event_reads": 9216,
+          "grounding_signature_checks": 0,
+          "index_build_event_reads": 0,
+          "plan_candidates": 0,
+          "primitive_scan_count": 192,
+          "successor_candidates": 16,
+          "transition_checks": 80
+        },
+        "indexed": {
+          "candidate_step_attempts": 0,
+          "eligible_primitives": 32,
+          "expanded_nodes": 96,
+          "grounding_event_reads": 0,
+          "grounding_signature_checks": 224,
+          "index_build_event_reads": 0,
+          "plan_candidates": 0,
+          "primitive_scan_count": 192,
+          "successor_candidates": 16,
+          "transition_checks": 80
+        }
+      }
+    },
+    {
+      "complete_result_mismatches": 0,
+      "correct": 80,
+      "events": 512,
+      "false_accepts": 0,
+      "index_build_event_reads": 512,
+      "index_build_seconds": 0.0008380419967579655,
+      "index_payload_bytes": 490,
+      "index_signatures": 4,
+      "queries": 80,
+      "query_seconds": {
+        "full_scan": 0.02685932906024391,
+        "indexed": 0.0011257979858783074
+      },
+      "seed": 419,
+      "work": {
+        "full_scan": {
+          "candidate_step_attempts": 0,
+          "eligible_primitives": 32,
+          "expanded_nodes": 96,
+          "grounding_event_reads": 36864,
+          "grounding_signature_checks": 0,
+          "index_build_event_reads": 0,
+          "plan_candidates": 0,
+          "primitive_scan_count": 192,
+          "successor_candidates": 16,
+          "transition_checks": 80
+        },
+        "indexed": {
+          "candidate_step_attempts": 0,
+          "eligible_primitives": 32,
+          "expanded_nodes": 96,
+          "grounding_event_reads": 0,
+          "grounding_signature_checks": 224,
+          "index_build_event_reads": 0,
+          "plan_candidates": 0,
+          "primitive_scan_count": 192,
+          "successor_candidates": 16,
+          "transition_checks": 80
+        }
+      }
+    },
+    {
+      "complete_result_mismatches": 0,
+      "correct": 80,
+      "events": 8,
+      "false_accepts": 0,
+      "index_build_event_reads": 8,
+      "index_build_seconds": 3.658300556708127e-05,
+      "index_payload_bytes": 490,
+      "index_signatures": 4,
+      "queries": 80,
+      "query_seconds": {
+        "full_scan": 0.0015410009946208447,
+        "indexed": 0.0009850419519352727
+      },
+      "seed": 523,
+      "work": {
+        "full_scan": {
+          "candidate_step_attempts": 0,
+          "eligible_primitives": 32,
+          "expanded_nodes": 96,
+          "grounding_event_reads": 576,
+          "grounding_signature_checks": 0,
+          "index_build_event_reads": 0,
+          "plan_candidates": 0,
+          "primitive_scan_count": 192,
+          "successor_candidates": 16,
+          "transition_checks": 80
+        },
+        "indexed": {
+          "candidate_step_attempts": 0,
+          "eligible_primitives": 32,
+          "expanded_nodes": 96,
+          "grounding_event_reads": 0,
+          "grounding_signature_checks": 224,
+          "index_build_event_reads": 0,
+          "plan_candidates": 0,
+          "primitive_scan_count": 192,
+          "successor_candidates": 16,
+          "transition_checks": 80
+        }
+      }
+    },
+    {
+      "complete_result_mismatches": 0,
+      "correct": 80,
+      "events": 16,
+      "false_accepts": 0,
+      "index_build_event_reads": 16,
+      "index_build_seconds": 5.5791999329812825e-05,
+      "index_payload_bytes": 490,
+      "index_signatures": 4,
+      "queries": 80,
+      "query_seconds": {
+        "full_scan": 0.0024718720378587022,
+        "indexed": 0.0014838709830655716
+      },
+      "seed": 523,
+      "work": {
+        "full_scan": {
+          "candidate_step_attempts": 0,
+          "eligible_primitives": 32,
+          "expanded_nodes": 96,
+          "grounding_event_reads": 1152,
+          "grounding_signature_checks": 0,
+          "index_build_event_reads": 0,
+          "plan_candidates": 0,
+          "primitive_scan_count": 192,
+          "successor_candidates": 16,
+          "transition_checks": 80
+        },
+        "indexed": {
+          "candidate_step_attempts": 0,
+          "eligible_primitives": 32,
+          "expanded_nodes": 96,
+          "grounding_event_reads": 0,
+          "grounding_signature_checks": 224,
+          "index_build_event_reads": 0,
+          "plan_candidates": 0,
+          "primitive_scan_count": 192,
+          "successor_candidates": 16,
+          "transition_checks": 80
+        }
+      }
+    },
+    {
+      "complete_result_mismatches": 0,
+      "correct": 80,
+      "events": 32,
+      "false_accepts": 0,
+      "index_build_event_reads": 32,
+      "index_build_seconds": 7.625000580446795e-05,
+      "index_payload_bytes": 490,
+      "index_signatures": 4,
+      "queries": 80,
+      "query_seconds": {
+        "full_scan": 0.002713750975090079,
+        "indexed": 0.0011575400349101983
+      },
+      "seed": 523,
+      "work": {
+        "full_scan": {
+          "candidate_step_attempts": 0,
+          "eligible_primitives": 32,
+          "expanded_nodes": 96,
+          "grounding_event_reads": 2304,
+          "grounding_signature_checks": 0,
+          "index_build_event_reads": 0,
+          "plan_candidates": 0,
+          "primitive_scan_count": 192,
+          "successor_candidates": 16,
+          "transition_checks": 80
+        },
+        "indexed": {
+          "candidate_step_attempts": 0,
+          "eligible_primitives": 32,
+          "expanded_nodes": 96,
+          "grounding_event_reads": 0,
+          "grounding_signature_checks": 224,
+          "index_build_event_reads": 0,
+          "plan_candidates": 0,
+          "primitive_scan_count": 192,
+          "successor_candidates": 16,
+          "transition_checks": 80
+        }
+      }
+    },
+    {
+      "complete_result_mismatches": 0,
+      "correct": 80,
+      "events": 128,
+      "false_accepts": 0,
+      "index_build_event_reads": 128,
+      "index_build_seconds": 0.00022575000184588134,
+      "index_payload_bytes": 490,
+      "index_signatures": 4,
+      "queries": 80,
+      "query_seconds": {
+        "full_scan": 0.007948585007397924,
+        "indexed": 0.001279621988942381
+      },
+      "seed": 523,
+      "work": {
+        "full_scan": {
+          "candidate_step_attempts": 0,
+          "eligible_primitives": 32,
+          "expanded_nodes": 96,
+          "grounding_event_reads": 9216,
+          "grounding_signature_checks": 0,
+          "index_build_event_reads": 0,
+          "plan_candidates": 0,
+          "primitive_scan_count": 192,
+          "successor_candidates": 16,
+          "transition_checks": 80
+        },
+        "indexed": {
+          "candidate_step_attempts": 0,
+          "eligible_primitives": 32,
+          "expanded_nodes": 96,
+          "grounding_event_reads": 0,
+          "grounding_signature_checks": 224,
+          "index_build_event_reads": 0,
+          "plan_candidates": 0,
+          "primitive_scan_count": 192,
+          "successor_candidates": 16,
+          "transition_checks": 80
+        }
+      }
+    },
+    {
+      "complete_result_mismatches": 0,
+      "correct": 80,
+      "events": 512,
+      "false_accepts": 0,
+      "index_build_event_reads": 512,
+      "index_build_seconds": 0.0008348339979420416,
+      "index_payload_bytes": 490,
+      "index_signatures": 4,
+      "queries": 80,
+      "query_seconds": {
+        "full_scan": 0.02648012300778646,
+        "indexed": 0.0010747939959401265
+      },
+      "seed": 523,
+      "work": {
+        "full_scan": {
+          "candidate_step_attempts": 0,
+          "eligible_primitives": 32,
+          "expanded_nodes": 96,
+          "grounding_event_reads": 36864,
+          "grounding_signature_checks": 0,
+          "index_build_event_reads": 0,
+          "plan_candidates": 0,
+          "primitive_scan_count": 192,
+          "successor_candidates": 16,
+          "transition_checks": 80
+        },
+        "indexed": {
+          "candidate_step_attempts": 0,
+          "eligible_primitives": 32,
+          "expanded_nodes": 96,
+          "grounding_event_reads": 0,
+          "grounding_signature_checks": 224,
+          "index_build_event_reads": 0,
+          "plan_candidates": 0,
+          "primitive_scan_count": 192,
+          "successor_candidates": 16,
+          "transition_checks": 80
+        }
+      }
+    },
+    {
+      "complete_result_mismatches": 0,
+      "correct": 80,
+      "events": 8,
+      "false_accepts": 0,
+      "index_build_event_reads": 8,
+      "index_build_seconds": 3.7790996429976076e-05,
+      "index_payload_bytes": 490,
+      "index_signatures": 4,
+      "queries": 80,
+      "query_seconds": {
+        "full_scan": 0.0014404579706024379,
+        "indexed": 0.0009954530178220011
+      },
+      "seed": 631,
+      "work": {
+        "full_scan": {
+          "candidate_step_attempts": 0,
+          "eligible_primitives": 32,
+          "expanded_nodes": 96,
+          "grounding_event_reads": 576,
+          "grounding_signature_checks": 0,
+          "index_build_event_reads": 0,
+          "plan_candidates": 0,
+          "primitive_scan_count": 192,
+          "successor_candidates": 16,
+          "transition_checks": 80
+        },
+        "indexed": {
+          "candidate_step_attempts": 0,
+          "eligible_primitives": 32,
+          "expanded_nodes": 96,
+          "grounding_event_reads": 0,
+          "grounding_signature_checks": 224,
+          "index_build_event_reads": 0,
+          "plan_candidates": 0,
+          "primitive_scan_count": 192,
+          "successor_candidates": 16,
+          "transition_checks": 80
+        }
+      }
+    },
+    {
+      "complete_result_mismatches": 0,
+      "correct": 80,
+      "events": 16,
+      "false_accepts": 0,
+      "index_build_event_reads": 16,
+      "index_build_seconds": 4.616699879989028e-05,
+      "index_payload_bytes": 490,
+      "index_signatures": 4,
+      "queries": 80,
+      "query_seconds": {
+        "full_scan": 0.0018433320001349784,
+        "indexed": 0.0010074169986182824
+      },
+      "seed": 631,
+      "work": {
+        "full_scan": {
+          "candidate_step_attempts": 0,
+          "eligible_primitives": 32,
+          "expanded_nodes": 96,
+          "grounding_event_reads": 1152,
+          "grounding_signature_checks": 0,
+          "index_build_event_reads": 0,
+          "plan_candidates": 0,
+          "primitive_scan_count": 192,
+          "successor_candidates": 16,
+          "transition_checks": 80
+        },
+        "indexed": {
+          "candidate_step_attempts": 0,
+          "eligible_primitives": 32,
+          "expanded_nodes": 96,
+          "grounding_event_reads": 0,
+          "grounding_signature_checks": 224,
+          "index_build_event_reads": 0,
+          "plan_candidates": 0,
+          "primitive_scan_count": 192,
+          "successor_candidates": 16,
+          "transition_checks": 80
+        }
+      }
+    },
+    {
+      "complete_result_mismatches": 0,
+      "correct": 80,
+      "events": 32,
+      "false_accepts": 0,
+      "index_build_event_reads": 32,
+      "index_build_seconds": 8.712500130059198e-05,
+      "index_payload_bytes": 490,
+      "index_signatures": 4,
+      "queries": 80,
+      "query_seconds": {
+        "full_scan": 0.002615122990391683,
+        "indexed": 0.0009599610057193786
+      },
+      "seed": 631,
+      "work": {
+        "full_scan": {
+          "candidate_step_attempts": 0,
+          "eligible_primitives": 32,
+          "expanded_nodes": 96,
+          "grounding_event_reads": 2304,
+          "grounding_signature_checks": 0,
+          "index_build_event_reads": 0,
+          "plan_candidates": 0,
+          "primitive_scan_count": 192,
+          "successor_candidates": 16,
+          "transition_checks": 80
+        },
+        "indexed": {
+          "candidate_step_attempts": 0,
+          "eligible_primitives": 32,
+          "expanded_nodes": 96,
+          "grounding_event_reads": 0,
+          "grounding_signature_checks": 224,
+          "index_build_event_reads": 0,
+          "plan_candidates": 0,
+          "primitive_scan_count": 192,
+          "successor_candidates": 16,
+          "transition_checks": 80
+        }
+      }
+    },
+    {
+      "complete_result_mismatches": 0,
+      "correct": 80,
+      "events": 128,
+      "false_accepts": 0,
+      "index_build_event_reads": 128,
+      "index_build_seconds": 0.00022258399985730648,
+      "index_payload_bytes": 490,
+      "index_signatures": 4,
+      "queries": 80,
+      "query_seconds": {
+        "full_scan": 0.007767374940158334,
+        "indexed": 0.0010520030336920172
+      },
+      "seed": 631,
+      "work": {
+        "full_scan": {
+          "candidate_step_attempts": 0,
+          "eligible_primitives": 32,
+          "expanded_nodes": 96,
+          "grounding_event_reads": 9216,
+          "grounding_signature_checks": 0,
+          "index_build_event_reads": 0,
+          "plan_candidates": 0,
+          "primitive_scan_count": 192,
+          "successor_candidates": 16,
+          "transition_checks": 80
+        },
+        "indexed": {
+          "candidate_step_attempts": 0,
+          "eligible_primitives": 32,
+          "expanded_nodes": 96,
+          "grounding_event_reads": 0,
+          "grounding_signature_checks": 224,
+          "index_build_event_reads": 0,
+          "plan_candidates": 0,
+          "primitive_scan_count": 192,
+          "successor_candidates": 16,
+          "transition_checks": 80
+        }
+      }
+    },
+    {
+      "complete_result_mismatches": 0,
+      "correct": 80,
+      "events": 512,
+      "false_accepts": 0,
+      "index_build_event_reads": 512,
+      "index_build_seconds": 0.0008175409966497682,
+      "index_payload_bytes": 490,
+      "index_signatures": 4,
+      "queries": 80,
+      "query_seconds": {
+        "full_scan": 0.030743583985895384,
+        "indexed": 0.0013943360390840098
+      },
+      "seed": 631,
+      "work": {
+        "full_scan": {
+          "candidate_step_attempts": 0,
+          "eligible_primitives": 32,
+          "expanded_nodes": 96,
+          "grounding_event_reads": 36864,
+          "grounding_signature_checks": 0,
+          "index_build_event_reads": 0,
+          "plan_candidates": 0,
+          "primitive_scan_count": 192,
+          "successor_candidates": 16,
+          "transition_checks": 80
+        },
+        "indexed": {
+          "candidate_step_attempts": 0,
+          "eligible_primitives": 32,
+          "expanded_nodes": 96,
+          "grounding_event_reads": 0,
+          "grounding_signature_checks": 224,
+          "index_build_event_reads": 0,
+          "plan_candidates": 0,
+          "primitive_scan_count": 192,
+          "successor_candidates": 16,
+          "transition_checks": 80
+        }
+      }
+    }
+  ],
+  "status": "development_lossless_grounding_index"
+}

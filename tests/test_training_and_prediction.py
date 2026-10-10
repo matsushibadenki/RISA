@@ -4445,9 +4445,9 @@ class TrainingAndPredictionTests(unittest.TestCase):
         )
         self.assertEqual(wrong_actor.primitive_ids, [])
         self.assertEqual(missing_actor_role.primitive_ids, [])
-        self.assertTrue(untyped_baseline.primitive_ids)
+        self.assertEqual(untyped_baseline.primitive_ids, [])
         self.assertEqual(same_identity.primitive_ids, [])
-        self.assertTrue(same_identity_baseline.primitive_ids)
+        self.assertEqual(same_identity_baseline.primitive_ids, [])
         self.assertIn("identities or relations violate", same_identity.explanation)
         self.assertIn("do not match query role bindings", wrong_actor.explanation)
 

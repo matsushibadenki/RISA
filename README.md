@@ -177,8 +177,70 @@ English: The G3.4 growth/novel-entity pilot shows saturated accuracy and approxi
 
 简体中文: G3.4增长及未知entity迁移pilot显示精度饱和、边际存储近似线性；该负载不支持联合增长假设。
 
-系列・誘導roleのG3.4b pilotは候補を発見できましたが、合成のrelation適用範囲に誤受理がありました。[評価報告](docs/G3.4-Structural-Growth-2026-10-09.md)。
+系列・誘導roleのG3.4b pilotで発見した合成の対象役割接地を修正し、誤受理は0になりました。凝縮効果は未実証です。[評価報告](docs/G3.4-Structural-Growth-2026-10-09.md)。
 
-English: The G3.4b sequence/induced-role pilot discovers candidates and exposes unsupported/reversed-relation composition false accepts.
+English: The G3.4b target-role grounding repair eliminates unsupported/reversed-relation false accepts; condensation remains unproven.
 
-简体中文: G3.4b序列及诱导role pilot发现候选，也发现合成错误接受非支持及反向relation的情况。
+简体中文: G3.4b目标角色接地修复消除非支持及反向relation的误受理，凝聚效果仍未证明。
+
+[Composition grounding regression / 合成接地の修正回帰 / 合成接地修复回归](docs/G3.4-Composition-Grounding-2026-10-09.md).
+
+Ordinary actor/target composition now enforces joint typed evidence and identity equality: both ordinary and candidate paths score100% in the five-seed regression, eliminating the previous candidate gain. This remains a repair regression, not independent condensation evidence. [Actor binding report / actor束縛修正 / actor绑定修复](docs/G3.4-Actor-Binding-2026-10-09.md).
+
+日本語: 通常合成にもactor/target役割とidentity等値の共同照合を追加。5 seed回帰で両経路100%となり、旧候補利得は消失した。独立した凝縮効果の証拠ではない。
+
+简体中文: 普通合成新增actor/target角色与identity等值的joint验证，五seed回归两路径100%，旧候选增益消失；不属于独立凝聚效果证据。
+
+The new joint-binding entity fixture ties a learned grounded contract table with simple search at100% quality. Proposed candidates remain unadopted and storage grows nearly linearly; this does not establish condensation or an independent-final world result. [Quality report / joint品質報告 / joint质量报告](docs/G3.4-Independent-Joint-Quality-2026-10-10.md).
+
+日本語: 新しいjoint束縛entity課題は学習済み具体表と同率100%。候補未採用・保存量ほぼ線形で凝縮は未実証。
+
+简体中文: 新joint绑定entity任务与学得具体表同为100%；候选未采纳、存储近线性，凝聚未获证明。
+
+Direct composition counters show constant search nodes but grounding Event accesses rising288→576→1,152 for8→16→32 Events, with exact instrumented/uninstrumented results. [Search-work report / 合成仕事量 / 合成工作量](docs/G3.4-Composition-Search-Work-2026-10-10.md).
+
+日本語: 合成node数は一定でも役割接地のEvent参照は経験数に比例して増える。query仕事量低下は未実証。
+
+简体中文: 合成node数固定，但角色接地Event访问随经验线性增加，query工作量降低未获证明。
+
+G3.4 now includes unseen complete paths and dependency counterexamples inspired by Memory Mosaics.
+Native RISA and a guarded factorized table both score360/360; candidate adoption remains zero and evidence
+reads grow linearly. This validates supplied-contract composition, not candidate superiority or condensation.
+[Protocol / 実験契約 / 实验协议](docs/G3.4-Compositional-Holdout-Protocol.md) ·
+[Results / 結果 / 结果](docs/G3.4-Compositional-Holdout-2026-10-10.md).
+
+日本語: G3.4へ未知全経路と独立化してはいけない反例を追加。RISAと制約保持の因子化表は各360/360、候補採用0。
+証拠参照は線形増加し、候補優位・凝縮は未実証。既知の明示制約を守った合成の開発評価である。
+
+简体中文: G3.4新增未知完整路径及不可独立化反例。RISA与保留约束的因子化表均360/360、候选采纳零。
+证据读取线性增长，候选优势与凝聚未获证明；这是已知明确约束下的组合开发评估。
+
+### Opt-in Primitive grounding index
+
+A reconstructible joint-role/identity summary preserves complete full-scan results across incremental learning and reloads (1,200/1,200 correct). At512 Events, 80 warm queries use zero grounding Event reads after512 build reads, versus36,864 full-scan reads. This does not reduce persisted Event storage or establish structural quality superiority. [Report](docs/G3.4-Primitive-Grounding-Index-2026-10-10.md).
+
+日本語: opt-in接地indexは完全結果を保持し、512 Eventで構築512参照後、80 queryの接地参照36,864→0。保存量削減・品質優位は未実証。
+
+简体中文: opt-in接地index保持完整结果；512 Event构建512访问后，80 query接地访问36,864→0。尚未证明存储降低或质量优势。
+
+The compositional G3.4 fixture also preserves all720 complete results, including unseen paths and dependency
+counterexamples. Warm grounding reads drop to zero; full rebuilds still read24/48/96 Events. Paired build,
+append, query, fresh-file save/load and allocation measurements retain a96-Event save-time regression.
+Persisted bytes are identical. [Cost audit / 費用監査 / 成本审计](docs/G3.4-Compositional-Grounding-Costs-2026-10-10.md).
+
+日本語: 未知組合せ・依存反例720 queryも完全一致。warm参照0、全再構築は24/48/96 Eventを参照。
+構築・更新・保存/復元費用を測定し、保存バイト列は同一。96 Eventの保存時間悪化も保持している。
+
+简体中文: 未知组合及依赖反例720 query完整一致，warm访问零，全重建仍读取24/48/96 Event。
+已测构建、更新、保存/恢复成本，持久化字节相同，并保留96 Event保存时间变慢的结果。
+
+The96-Event save regression reproduces with GC pauses concentrated in the indexed arm; balanced save order
+removes the consistent35% gap. The benchmark now uses four repetitions. Interleaving preserves32,472 complete
+results, but cold rebuilds lose at one query per update and improve at40 in this fixture.
+[Follow-up / 追試 / 后续](docs/G3.4-Save-GC-and-Interleaving-2026-10-10.md).
+
+日本語: 保存悪化をGC停止の偏りへ切り分け、測定順を均等化。交互実行32,472 queryは完全一致。
+更新ごとに1 queryでは全再構築が不利、40 queryでは短縮。保存の本番動作は変更しない。
+
+简体中文: 保存恶化主要对应GC停止偏斜，已均衡测量顺序。交替执行32,472 query完整一致，
+每更新单query全重建不利、40 query改善；生产保存行为不变。

@@ -1,0 +1,11 @@
+{
+  "version": "g3.4-save-attribution-interleave-v1",
+  "seeds": [701, 809, 907],
+  "worlds": ["independent", "coupled"],
+  "save_repetitions": 12,
+  "legacy_reproduction": true,
+  "gc_modes": ["natural", "collect_before", "disabled"],
+  "event_batches": [1, 3, 24],
+  "queries_per_update": [1, 40],
+  "policy": "96 Event save attribution uses balanced randomized arm order, fresh and overwrite paths, actual save_state stage timings and GC callbacks. GC interventions are diagnostic only and never production policy. Interleave grows to96 Events, measures cold queries including full rebuild, verifies complete results and serialized bytes every step and actual primary/backup/reload every24 Events. Preserve all outcomes; no candidate gate or production GC changes."
+}

@@ -350,7 +350,7 @@ class ComparativeEvaluationTests(unittest.TestCase):
         self.assertGreater(final["mean_prediction_p95_ms_before"], 0.0)
         self.assertGreater(final["mean_prediction_p95_ms_after"], 0.0)
 
-    def test_role_scoped_temporal_candidate_is_adopted_on_disjoint_evidence(self) -> None:
+    def test_role_scoped_temporal_candidate_is_redundant_after_grounding(self) -> None:
         result = run_temporal_candidate_evaluation(
             {
                 "benchmark_version": "test-temporal-candidate",
@@ -363,7 +363,7 @@ class ComparativeEvaluationTests(unittest.TestCase):
         )
 
         self.assertEqual(
-            result["decision"], "adopted_role_scoped_temporal_candidate"
+            result["decision"], "rejected_redundant_temporal_candidate"
         )
         self.assertEqual(result["leakage_audit"]["support_development_overlap"], 0)
         self.assertEqual(result["leakage_audit"]["support_final_overlap"], 0)
@@ -372,11 +372,11 @@ class ComparativeEvaluationTests(unittest.TestCase):
             row for row in result["aggregate"] if row["partition"] == "final"
         )
         self.assertEqual(final["candidate_success_rate"], 1.0)
-        self.assertEqual(final["existing_path_success_rate"], 0.75)
-        self.assertEqual(final["paired_delta"], 0.25)
+        self.assertEqual(final["existing_path_success_rate"], 1.0)
+        self.assertEqual(final["paired_delta"], 0.0)
         self.assertEqual(final["candidate_false_generalization_rate"], 0.0)
 
-    def test_actor_target_relational_candidate_is_adopted(self) -> None:
+    def test_actor_target_candidate_is_redundant_after_binding_repair(self) -> None:
         result = run_temporal_candidate_evaluation(
             {
                 "benchmark_version": "test-relational-candidate",
@@ -390,14 +390,14 @@ class ComparativeEvaluationTests(unittest.TestCase):
         )
 
         self.assertEqual(
-            result["decision"], "adopted_role_scoped_temporal_candidate"
+            result["decision"], "rejected_redundant_temporal_candidate"
         )
         final = next(
             row for row in result["aggregate"] if row["partition"] == "final"
         )
         self.assertEqual(final["candidate_success_rate"], 1.0)
-        self.assertEqual(final["existing_path_success_rate"], 0.4)
-        self.assertEqual(final["paired_delta"], 0.6)
+        self.assertEqual(final["existing_path_success_rate"], 1.0)
+        self.assertEqual(final["paired_delta"], 0.0)
         self.assertEqual(final["candidate_false_generalization_rate"], 0.0)
 
     def test_generic_entity_relation_candidate_is_adopted(self) -> None:

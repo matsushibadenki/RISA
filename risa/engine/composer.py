@@ -15,6 +15,8 @@ from risa.engine.candidate_discovery import (
 )
 from risa.engine.graph_builder import normalize_label
 from risa.engine.role_induction import (
+    effective_event_actor_roles,
+    effective_event_target_roles,
     effective_query_actor_roles,
     effective_query_entity_role_bindings,
     effective_query_target_roles,
@@ -61,6 +63,7 @@ def forecast_next_effects(
         available_variables,
         include_supported_alternatives=include_supported_alternatives,
         target_roles=target_roles or [],
+        require_target_grounding=target is not None or bool(target_roles),
         enable_candidate_concepts=enable_candidate_concepts,
     ):
         score = _primitive_score(primitive, context)
@@ -101,6 +104,16 @@ def forecast_next_effects(
     return candidates[:max_candidates]
 
 
+def _count_search(diagnostics, key, amount=1):
+    if diagnostics is not None:
+        diagnostics[key] += amount
+
+
+def _counted_transition(state, primitive, states, variables, diagnostics):
+    _count_search(diagnostics, "transition_checks")
+    return apply_primitive_transition(state, primitive, states, variables)
+
+
 def compose_to_effect(
     state: RisaState,
     start_action: str,
@@ -118,8 +131,15 @@ def compose_to_effect(
     entity_relations: list[dict[str, str]] | None = None,
     enable_candidate_concepts: bool = True,
     enable_role_induction: bool = True,
+    search_diagnostics: dict[str, int] | None = None,
+    use_grounding_index: bool = False,
 ) -> CompositionResult:
     """Find a local sequence of adopted transition primitives toward an effect."""
+    if search_diagnostics is not None:
+        search_diagnostics.clear()
+        search_diagnostics.update(dict(expanded_nodes=0, primitive_scan_count=0,
+            eligible_primitives=0, successor_candidates=0, plan_candidates=0,
+            candidate_step_attempts=0, transition_checks=0, grounding_event_reads=0, index_build_event_reads=0, grounding_signature_checks=0))
     action = normalize_label(start_action)
     effect = normalize_label(target_effect)
     context = {normalize_label(tag) for tag in context_tags or []}
@@ -156,6 +176,7 @@ def compose_to_effect(
             actor_roles or [],
             entity_role_bindings or {},
         )
+        _count_search(search_diagnostics, "plan_candidates", len(role_matching_plans))
         query_entity_bindings = {
             normalize_label(variable): normalize_label(identity)
             for variable, identity in (entity_bindings or {}).items()
@@ -190,6 +211,7 @@ def compose_to_effect(
             initial_states,
             initial_variables,
             max_steps,
+            search_diagnostics=search_diagnostics,
         )
         if candidate_result is not None:
             return candidate_result
@@ -213,6 +235,7 @@ def compose_to_effect(
 
     while queue:
         current_action, available_states, available_variables, primitive_ids, paths, score, depth = queue.popleft()
+        _count_search(search_diagnostics, "expanded_nodes")
         for primitive in _adopted_primitives_for_action(
             state,
             current_action,
@@ -220,6 +243,10 @@ def compose_to_effect(
             available_states,
             available_variables,
             target_roles=target_roles or [],
+            require_target_grounding=target is not None or bool(target_roles),
+            actor_roles=actor_roles, actor=actor, target=target,
+            search_diagnostics=search_diagnostics,
+            use_grounding_index=use_grounding_index,
             enable_candidate_concepts=enable_candidate_concepts,
         ):
             primitive_score = _primitive_score(primitive, context)
@@ -234,11 +261,12 @@ def compose_to_effect(
                 ],
             ]
             next_score = score * primitive_score
-            application = apply_primitive_transition(
+            application = _counted_transition(
                 state,
                 primitive,
                 available_states,
                 available_variables,
+                search_diagnostics,
             )
             if application is None:
                 continue
@@ -264,6 +292,7 @@ def compose_to_effect(
                 continue
 
             for next_action, precedence_score in next_actions(state, current_action, context):
+                _count_search(search_diagnostics, "successor_candidates")
                 next_depth = depth + 1
                 if next_depth >= best_depth_by_action.get(next_action, max_steps):
                     continue
@@ -294,6 +323,7 @@ def _compose_adopted_candidate_plan(
     initial_states: set[str],
     initial_variables: dict[str, float],
     max_steps: int,
+    search_diagnostics: dict[str, int] | None = None,
 ) -> CompositionResult | None:
     """Apply a learned same-target macro without materializing it in stored memory."""
     for candidate in candidates:
@@ -368,8 +398,9 @@ def _compose_adopted_candidate_plan(
                 ),
                 adopted=True,
             )
-            application = apply_primitive_transition(
-                state, primitive, available_states, available_variables
+            _count_search(search_diagnostics, "candidate_step_attempts")
+            application = _counted_transition(
+                state, primitive, available_states, available_variables, search_diagnostics
             )
             if application is None:
                 applicable = False
@@ -498,6 +529,60 @@ def _candidate_relation_constraints_match(
     return required.issubset(available)
 
 
+def _grounding_events(state, primitive, diagnostics):
+    for event_id in primitive.evidence_event_ids:
+        event = state.events_by_id.get(event_id)
+        if event is not None:
+            _count_search(diagnostics, "grounding_event_reads")
+            yield event
+
+
+def _primitive_actor_binding_matches(state, primitive, actor_roles, actor, target, target_roles, diagnostics=None, indexed=False):
+    """Require a joint typed evidence witness for actor/target binding.
+
+    Identity equality is scoped to evidence carrying an explicit/induced actor
+    role, matching the typed sequence contract; untyped abstract use remains.
+    """
+    if indexed:
+        from risa.engine.primitive_grounding import grounding_entry, actor_matches
+        return actor_matches(grounding_entry(state, primitive, diagnostics), actor_roles, actor, target, target_roles, diagnostics)
+    if actor is None and not actor_roles and target is None and not target_roles:
+        return True
+    events = list(_grounding_events(state, primitive, diagnostics))
+    typed = [(event, effective_event_actor_roles(event)) for event in events]
+    if not any(roles for _, roles in typed):
+        return True
+    query_roles = {normalize_label(r) for r in actor_roles}
+    for event, roles in typed:
+        if not roles or not (query_roles & {normalize_label(r) for r in roles}):
+            continue
+        event_target_roles = {normalize_label(r) for r in effective_event_target_roles(event)}
+        if (target is not None or target_roles) and event_target_roles and not event_target_roles.intersection(normalize_label(r) for r in target_roles):
+            continue
+        if actor is not None and target is not None and event.target is not None:
+            if (normalize_label(actor) == normalize_label(target)) != (normalize_label(event.actor) == normalize_label(event.target)):
+                continue
+        return True
+    return False
+
+
+def _primitive_target_role_matches(state, primitive, target_roles, diagnostics=None, indexed=False):
+    """Typed primary evidence constrains reuse on a supplied target.
+
+    Untyped legacy primitives keep their existing generic applicability.
+    An omitted target leaves abstract composition available.
+    """
+    if indexed:
+        from risa.engine.primitive_grounding import grounding_entry, target_matches
+        return target_matches(grounding_entry(state, primitive, diagnostics), target_roles, diagnostics)
+    evidence_roles = {
+        normalize_label(role)
+        for event in _grounding_events(state, primitive, diagnostics)
+        for role in effective_event_target_roles(event)
+    }
+    return not evidence_roles or bool(evidence_roles & {normalize_label(r) for r in target_roles})
+
+
 def _adopted_primitives_for_action(
     state: RisaState,
     action: str,
@@ -506,19 +591,29 @@ def _adopted_primitives_for_action(
     available_variables: dict[str, float],
     include_supported_alternatives: bool = False,
     target_roles: list[str] | None = None,
+    require_target_grounding: bool = False,
+    actor_roles: list[str] | None = None,
+    actor: str | None = None,
+    target: str | None = None,
     enable_candidate_concepts: bool = True,
+    search_diagnostics: dict[str, int] | None = None,
+    use_grounding_index: bool = False,
 ) -> list[StructuralPrimitive]:
+    _count_search(search_diagnostics, "primitive_scan_count", len(state.structural_primitives))
     input_condition = f"process:{action}"
     primitives = [
         primitive
         for primitive in state.structural_primitives.values()
         if (primitive.adopted or (include_supported_alternatives and _is_supported_alternative(primitive)))
         and input_condition in primitive.input_conditions
-        and apply_primitive_transition(
+        and _primitive_actor_binding_matches(state, primitive, actor_roles or [], actor, target, target_roles or [], search_diagnostics, use_grounding_index)
+        and (not require_target_grounding or _primitive_target_role_matches(state, primitive, target_roles or [], search_diagnostics, use_grounding_index))
+        and _counted_transition(
             state,
             primitive,
             available_states,
             available_variables,
+            search_diagnostics,
         ) is not None
         and _context_compatible(primitive.context_tags, context)
     ]
@@ -528,6 +623,7 @@ def _adopted_primitives_for_action(
                 state, action, target_roles or [], context
             )
         )
+    _count_search(search_diagnostics, "eligible_primitives", len(primitives))
     return primitives
 
 

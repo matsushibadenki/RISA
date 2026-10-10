@@ -1,0 +1,24 @@
+{
+  "benchmark_version": "g3.4-independent-joint-quality-development-v2",
+  "seeds": [
+    419,
+    523,
+    631
+  ],
+  "training_episode_checkpoints": [
+    4,
+    8,
+    16
+  ],
+  "training_families": [
+    "distinct",
+    "self"
+  ],
+  "heldout_partition": "sealed-quality-v2",
+  "cases_per_seed": 40,
+  "minimum_advantage": 0.05,
+  "maximum_false_accepts": 0,
+  "max_steps": 2,
+  "policy": "New identities, paired actor/target and equality witnesses, wrong/missing roles, state/resource counterexamples. Fix oracle truth table independently from training. No adoption labels or threshold changes. Learned grounded contracts plus simple BFS shares the transition kernel, not RISA search. Exploratory independent fixture; not final G3.4 acceptance.",
+  "source_policy": "Each binding family spans both sources; source=(episode_index//2)%2. V1 source-confounding diagnostic retained separately. V2 seeds/partition frozen before this run."
+}

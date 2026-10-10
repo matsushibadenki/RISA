@@ -1,0 +1,6 @@
+{
+  "benchmark_version": "g3.4-compositional-grounding-cost-development-v1",
+  "fixture_manifest": "experiments/g3_compositional_holdout_manifest.json",
+  "repetitions": 4,
+  "policy": "Keep previous G3.4 seeds, worlds, queries, labels and candidate gates unchanged. Compare complete results with candidate on/off, append, cold index, reload and instrumentation. Alternate paired timing order. Measure whole rebuild after append, actual fresh save_state files including validation and fsync, load plus separate index rebuild, and separate tracemalloc index allocations. Opt-in index; direct source edits require invalidation. No production latency, p99, incremental-update or condensation claim."
+}

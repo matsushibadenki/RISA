@@ -1,0 +1,549 @@
+{
+  "manifest": {
+    "cases_per_partition": 24,
+    "episode_checkpoints": [
+      8,
+      16,
+      32
+    ],
+    "episodes_per_chunk": 4,
+    "minimum_marginal_bytes_reduction": 0.1,
+    "minimum_quality_gain": 0.05,
+    "policy": "Separate training-template and held-out Cartesian generators; relation-induced roles only, no supplied target roles; candidate-on/off ablation without forced adoption. Freeze parameters before final inspection. Exploratory pilot, not full G3.4 acceptance.",
+    "replay_budget": 12,
+    "seeds": [
+      13,
+      29,
+      47
+    ],
+    "worker_budget_seconds": 45
+  },
+  "manifest_sha256": "cac0d6e8bc374ebcf8a9902d3dc7491013538479f540feb5d80bcc21b276235c",
+  "runs": [
+    {
+      "case_ids": {
+        "development": [
+          "development-13-5",
+          "development-13-23",
+          "development-13-14",
+          "development-13-15",
+          "development-13-18",
+          "development-13-3",
+          "development-13-21",
+          "development-13-17",
+          "development-13-0",
+          "development-13-11",
+          "development-13-12",
+          "development-13-7",
+          "development-13-8",
+          "development-13-2",
+          "development-13-19",
+          "development-13-13",
+          "development-13-16",
+          "development-13-4",
+          "development-13-22",
+          "development-13-20",
+          "development-13-10",
+          "development-13-6",
+          "development-13-9",
+          "development-13-1"
+        ],
+        "final": [
+          "final-13-2",
+          "final-13-22",
+          "final-13-14",
+          "final-13-15",
+          "final-13-19",
+          "final-13-10",
+          "final-13-12",
+          "final-13-4",
+          "final-13-7",
+          "final-13-23",
+          "final-13-18",
+          "final-13-13",
+          "final-13-20",
+          "final-13-5",
+          "final-13-16",
+          "final-13-0",
+          "final-13-9",
+          "final-13-6",
+          "final-13-11",
+          "final-13-1",
+          "final-13-17",
+          "final-13-21",
+          "final-13-3",
+          "final-13-8"
+        ]
+      },
+      "error": null,
+      "rows": [
+        {
+          "active_primitives": 4,
+          "adopted_candidates": 0,
+          "bytes_per_event": 2923.4166666666665,
+          "candidate_description_length_delta": 4328,
+          "candidate_kinds": {
+            "relational_sequence": 2,
+            "single_transition": 6,
+            "temporal_sequence": 2
+          },
+          "candidates": 10,
+          "events": 24,
+          "marginal_bytes_per_event": 2923.4166666666665,
+          "metrics": {
+            "development": {
+              "candidate_off_correct": 24,
+              "candidate_off_false_accepts": 0,
+              "candidate_on_correct": 24,
+              "candidate_on_false_accepts": 0,
+              "cases": 24,
+              "invalid_cases": 16,
+              "no_induction_correct": 8,
+              "prediction_correct": 24
+            },
+            "final": {
+              "candidate_off_correct": 24,
+              "candidate_off_false_accepts": 0,
+              "candidate_on_correct": 24,
+              "candidate_on_false_accepts": 0,
+              "cases": 24,
+              "invalid_cases": 16,
+              "no_induction_correct": 8,
+              "prediction_correct": 24
+            }
+          },
+          "reload_mismatches": 0,
+          "stored_bytes": 70162
+        },
+        {
+          "active_primitives": 4,
+          "adopted_candidates": 0,
+          "bytes_per_event": 2728.6875,
+          "candidate_description_length_delta": 9962,
+          "candidate_kinds": {
+            "relational_sequence": 2,
+            "single_transition": 6,
+            "temporal_sequence": 2
+          },
+          "candidates": 10,
+          "events": 48,
+          "marginal_bytes_per_event": 2533.9583333333335,
+          "metrics": {
+            "development": {
+              "candidate_off_correct": 24,
+              "candidate_off_false_accepts": 0,
+              "candidate_on_correct": 24,
+              "candidate_on_false_accepts": 0,
+              "cases": 24,
+              "invalid_cases": 16,
+              "no_induction_correct": 8,
+              "prediction_correct": 24
+            },
+            "final": {
+              "candidate_off_correct": 24,
+              "candidate_off_false_accepts": 0,
+              "candidate_on_correct": 24,
+              "candidate_on_false_accepts": 0,
+              "cases": 24,
+              "invalid_cases": 16,
+              "no_induction_correct": 8,
+              "prediction_correct": 24
+            }
+          },
+          "reload_mismatches": 0,
+          "stored_bytes": 130977
+        },
+        {
+          "active_primitives": 4,
+          "adopted_candidates": 0,
+          "bytes_per_event": 2632.7291666666665,
+          "candidate_description_length_delta": 21242,
+          "candidate_kinds": {
+            "relational_sequence": 2,
+            "single_transition": 6,
+            "temporal_sequence": 2
+          },
+          "candidates": 10,
+          "events": 96,
+          "marginal_bytes_per_event": 2536.7708333333335,
+          "metrics": {
+            "development": {
+              "candidate_off_correct": 24,
+              "candidate_off_false_accepts": 0,
+              "candidate_on_correct": 24,
+              "candidate_on_false_accepts": 0,
+              "cases": 24,
+              "invalid_cases": 16,
+              "no_induction_correct": 8,
+              "prediction_correct": 24
+            },
+            "final": {
+              "candidate_off_correct": 24,
+              "candidate_off_false_accepts": 0,
+              "candidate_on_correct": 24,
+              "candidate_on_false_accepts": 0,
+              "cases": 24,
+              "invalid_cases": 16,
+              "no_induction_correct": 8,
+              "prediction_correct": 24
+            }
+          },
+          "reload_mismatches": 0,
+          "stored_bytes": 252742
+        }
+      ],
+      "seed": 13,
+      "status": "complete"
+    },
+    {
+      "case_ids": {
+        "development": [
+          "development-29-7",
+          "development-29-16",
+          "development-29-11",
+          "development-29-17",
+          "development-29-0",
+          "development-29-2",
+          "development-29-22",
+          "development-29-14",
+          "development-29-21",
+          "development-29-19",
+          "development-29-15",
+          "development-29-8",
+          "development-29-4",
+          "development-29-3",
+          "development-29-1",
+          "development-29-13",
+          "development-29-9",
+          "development-29-5",
+          "development-29-23",
+          "development-29-18",
+          "development-29-10",
+          "development-29-20",
+          "development-29-6",
+          "development-29-12"
+        ],
+        "final": [
+          "final-29-5",
+          "final-29-19",
+          "final-29-10",
+          "final-29-18",
+          "final-29-2",
+          "final-29-4",
+          "final-29-16",
+          "final-29-12",
+          "final-29-15",
+          "final-29-20",
+          "final-29-7",
+          "final-29-6",
+          "final-29-3",
+          "final-29-21",
+          "final-29-1",
+          "final-29-22",
+          "final-29-13",
+          "final-29-0",
+          "final-29-9",
+          "final-29-14",
+          "final-29-11",
+          "final-29-23",
+          "final-29-17",
+          "final-29-8"
+        ]
+      },
+      "error": null,
+      "rows": [
+        {
+          "active_primitives": 4,
+          "adopted_candidates": 0,
+          "bytes_per_event": 2923.4166666666665,
+          "candidate_description_length_delta": 4328,
+          "candidate_kinds": {
+            "relational_sequence": 2,
+            "single_transition": 6,
+            "temporal_sequence": 2
+          },
+          "candidates": 10,
+          "events": 24,
+          "marginal_bytes_per_event": 2923.4166666666665,
+          "metrics": {
+            "development": {
+              "candidate_off_correct": 24,
+              "candidate_off_false_accepts": 0,
+              "candidate_on_correct": 24,
+              "candidate_on_false_accepts": 0,
+              "cases": 24,
+              "invalid_cases": 16,
+              "no_induction_correct": 8,
+              "prediction_correct": 24
+            },
+            "final": {
+              "candidate_off_correct": 24,
+              "candidate_off_false_accepts": 0,
+              "candidate_on_correct": 24,
+              "candidate_on_false_accepts": 0,
+              "cases": 24,
+              "invalid_cases": 16,
+              "no_induction_correct": 8,
+              "prediction_correct": 24
+            }
+          },
+          "reload_mismatches": 0,
+          "stored_bytes": 70162
+        },
+        {
+          "active_primitives": 4,
+          "adopted_candidates": 0,
+          "bytes_per_event": 2728.6875,
+          "candidate_description_length_delta": 9962,
+          "candidate_kinds": {
+            "relational_sequence": 2,
+            "single_transition": 6,
+            "temporal_sequence": 2
+          },
+          "candidates": 10,
+          "events": 48,
+          "marginal_bytes_per_event": 2533.9583333333335,
+          "metrics": {
+            "development": {
+              "candidate_off_correct": 24,
+              "candidate_off_false_accepts": 0,
+              "candidate_on_correct": 24,
+              "candidate_on_false_accepts": 0,
+              "cases": 24,
+              "invalid_cases": 16,
+              "no_induction_correct": 8,
+              "prediction_correct": 24
+            },
+            "final": {
+              "candidate_off_correct": 24,
+              "candidate_off_false_accepts": 0,
+              "candidate_on_correct": 24,
+              "candidate_on_false_accepts": 0,
+              "cases": 24,
+              "invalid_cases": 16,
+              "no_induction_correct": 8,
+              "prediction_correct": 24
+            }
+          },
+          "reload_mismatches": 0,
+          "stored_bytes": 130977
+        },
+        {
+          "active_primitives": 4,
+          "adopted_candidates": 0,
+          "bytes_per_event": 2632.7291666666665,
+          "candidate_description_length_delta": 21242,
+          "candidate_kinds": {
+            "relational_sequence": 2,
+            "single_transition": 6,
+            "temporal_sequence": 2
+          },
+          "candidates": 10,
+          "events": 96,
+          "marginal_bytes_per_event": 2536.7708333333335,
+          "metrics": {
+            "development": {
+              "candidate_off_correct": 24,
+              "candidate_off_false_accepts": 0,
+              "candidate_on_correct": 24,
+              "candidate_on_false_accepts": 0,
+              "cases": 24,
+              "invalid_cases": 16,
+              "no_induction_correct": 8,
+              "prediction_correct": 24
+            },
+            "final": {
+              "candidate_off_correct": 24,
+              "candidate_off_false_accepts": 0,
+              "candidate_on_correct": 24,
+              "candidate_on_false_accepts": 0,
+              "cases": 24,
+              "invalid_cases": 16,
+              "no_induction_correct": 8,
+              "prediction_correct": 24
+            }
+          },
+          "reload_mismatches": 0,
+          "stored_bytes": 252742
+        }
+      ],
+      "seed": 29,
+      "status": "complete"
+    },
+    {
+      "case_ids": {
+        "development": [
+          "development-47-17",
+          "development-47-18",
+          "development-47-3",
+          "development-47-12",
+          "development-47-6",
+          "development-47-4",
+          "development-47-7",
+          "development-47-21",
+          "development-47-23",
+          "development-47-2",
+          "development-47-13",
+          "development-47-14",
+          "development-47-22",
+          "development-47-16",
+          "development-47-5",
+          "development-47-0",
+          "development-47-19",
+          "development-47-8",
+          "development-47-1",
+          "development-47-15",
+          "development-47-10",
+          "development-47-11",
+          "development-47-9",
+          "development-47-20"
+        ],
+        "final": [
+          "final-47-14",
+          "final-47-7",
+          "final-47-8",
+          "final-47-4",
+          "final-47-20",
+          "final-47-21",
+          "final-47-5",
+          "final-47-13",
+          "final-47-3",
+          "final-47-0",
+          "final-47-2",
+          "final-47-19",
+          "final-47-10",
+          "final-47-18",
+          "final-47-23",
+          "final-47-12",
+          "final-47-17",
+          "final-47-1",
+          "final-47-6",
+          "final-47-22",
+          "final-47-15",
+          "final-47-16",
+          "final-47-11",
+          "final-47-9"
+        ]
+      },
+      "error": null,
+      "rows": [
+        {
+          "active_primitives": 4,
+          "adopted_candidates": 0,
+          "bytes_per_event": 2923.4166666666665,
+          "candidate_description_length_delta": 4328,
+          "candidate_kinds": {
+            "relational_sequence": 2,
+            "single_transition": 6,
+            "temporal_sequence": 2
+          },
+          "candidates": 10,
+          "events": 24,
+          "marginal_bytes_per_event": 2923.4166666666665,
+          "metrics": {
+            "development": {
+              "candidate_off_correct": 24,
+              "candidate_off_false_accepts": 0,
+              "candidate_on_correct": 24,
+              "candidate_on_false_accepts": 0,
+              "cases": 24,
+              "invalid_cases": 16,
+              "no_induction_correct": 8,
+              "prediction_correct": 24
+            },
+            "final": {
+              "candidate_off_correct": 24,
+              "candidate_off_false_accepts": 0,
+              "candidate_on_correct": 24,
+              "candidate_on_false_accepts": 0,
+              "cases": 24,
+              "invalid_cases": 16,
+              "no_induction_correct": 8,
+              "prediction_correct": 24
+            }
+          },
+          "reload_mismatches": 0,
+          "stored_bytes": 70162
+        },
+        {
+          "active_primitives": 4,
+          "adopted_candidates": 0,
+          "bytes_per_event": 2728.6875,
+          "candidate_description_length_delta": 9962,
+          "candidate_kinds": {
+            "relational_sequence": 2,
+            "single_transition": 6,
+            "temporal_sequence": 2
+          },
+          "candidates": 10,
+          "events": 48,
+          "marginal_bytes_per_event": 2533.9583333333335,
+          "metrics": {
+            "development": {
+              "candidate_off_correct": 24,
+              "candidate_off_false_accepts": 0,
+              "candidate_on_correct": 24,
+              "candidate_on_false_accepts": 0,
+              "cases": 24,
+              "invalid_cases": 16,
+              "no_induction_correct": 8,
+              "prediction_correct": 24
+            },
+            "final": {
+              "candidate_off_correct": 24,
+              "candidate_off_false_accepts": 0,
+              "candidate_on_correct": 24,
+              "candidate_on_false_accepts": 0,
+              "cases": 24,
+              "invalid_cases": 16,
+              "no_induction_correct": 8,
+              "prediction_correct": 24
+            }
+          },
+          "reload_mismatches": 0,
+          "stored_bytes": 130977
+        },
+        {
+          "active_primitives": 4,
+          "adopted_candidates": 0,
+          "bytes_per_event": 2632.7291666666665,
+          "candidate_description_length_delta": 21242,
+          "candidate_kinds": {
+            "relational_sequence": 2,
+            "single_transition": 6,
+            "temporal_sequence": 2
+          },
+          "candidates": 10,
+          "events": 96,
+          "marginal_bytes_per_event": 2536.7708333333335,
+          "metrics": {
+            "development": {
+              "candidate_off_correct": 24,
+              "candidate_off_false_accepts": 0,
+              "candidate_on_correct": 24,
+              "candidate_on_false_accepts": 0,
+              "cases": 24,
+              "invalid_cases": 16,
+              "no_induction_correct": 8,
+              "prediction_correct": 24
+            },
+            "final": {
+              "candidate_off_correct": 24,
+              "candidate_off_false_accepts": 0,
+              "candidate_on_correct": 24,
+              "candidate_on_false_accepts": 0,
+              "cases": 24,
+              "invalid_cases": 16,
+              "no_induction_correct": 8,
+              "prediction_correct": 24
+            }
+          },
+          "reload_mismatches": 0,
+          "stored_bytes": 252742
+        }
+      ],
+      "seed": 47,
+      "status": "complete"
+    }
+  ]
+}
