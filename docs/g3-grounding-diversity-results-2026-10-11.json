@@ -1,0 +1,3251 @@
+{
+  "updates": 16,
+  "rows": [
+    {
+      "shape": "roles",
+      "diversity": 8,
+      "density": 1,
+      "repeat": 0,
+      "stats": {
+        "scan": {
+          "train": 0.0069024990002617415,
+          "query": 0.001154999000391399,
+          "maintenance": 0.0,
+          "reads": 363,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.0067024189997937356,
+          "query": 0.002436957001009432,
+          "maintenance": 0.0,
+          "reads": 264,
+          "checks": 166
+        },
+        "legacy": {
+          "train": 0.007981872999152984,
+          "query": 0.0007159130000218283,
+          "maintenance": 0.0004136670008847432,
+          "reads": 0,
+          "checks": 168
+        },
+        "incremental": {
+          "train": 0.008542082000076334,
+          "query": 0.0007216229992081935,
+          "maintenance": 0.00016266600005110377,
+          "reads": 0,
+          "checks": 166
+        }
+      },
+      "cold": {
+        "legacy": 9.412500003236346e-05,
+        "incremental": 5.13340000907192e-05
+      },
+      "comparisons": 304,
+      "saved_bytes": 47629,
+      "mismatches": 0,
+      "signatures": 16,
+      "logical_bytes": 794
+    },
+    {
+      "shape": "roles",
+      "diversity": 8,
+      "density": 1,
+      "repeat": 1,
+      "stats": {
+        "scan": {
+          "train": 0.008661206999477145,
+          "query": 0.005512499999895226,
+          "maintenance": 0.0,
+          "reads": 363,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.008766791999732959,
+          "query": 0.002555579000272701,
+          "maintenance": 0.0,
+          "reads": 264,
+          "checks": 166
+        },
+        "legacy": {
+          "train": 0.009374705000027461,
+          "query": 0.0007844990004741703,
+          "maintenance": 0.0006703749995722319,
+          "reads": 0,
+          "checks": 168
+        },
+        "incremental": {
+          "train": 0.008889791999990848,
+          "query": 0.000855914001022029,
+          "maintenance": 0.00018074999934469815,
+          "reads": 0,
+          "checks": 166
+        }
+      },
+      "cold": {
+        "legacy": 6.625000014537363e-05,
+        "incremental": 4.320899961385294e-05
+      },
+      "comparisons": 304,
+      "saved_bytes": 47629,
+      "mismatches": 0,
+      "signatures": 16,
+      "logical_bytes": 794
+    },
+    {
+      "shape": "roles",
+      "diversity": 8,
+      "density": 1,
+      "repeat": 2,
+      "stats": {
+        "scan": {
+          "train": 0.0069662499995502,
+          "query": 0.0013063739993413037,
+          "maintenance": 0.0,
+          "reads": 363,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.0067922079992968065,
+          "query": 0.0020758759997079324,
+          "maintenance": 0.0,
+          "reads": 264,
+          "checks": 166
+        },
+        "legacy": {
+          "train": 0.007935792000353104,
+          "query": 0.0006960840009924141,
+          "maintenance": 0.00037391700061562005,
+          "reads": 0,
+          "checks": 168
+        },
+        "incremental": {
+          "train": 0.007456876001924684,
+          "query": 0.000643043998934445,
+          "maintenance": 0.00016020899965951685,
+          "reads": 0,
+          "checks": 166
+        }
+      },
+      "cold": {
+        "legacy": 9.129199997914839e-05,
+        "incremental": 0.00012116700008846237
+      },
+      "comparisons": 304,
+      "saved_bytes": 47661,
+      "mismatches": 0,
+      "signatures": 16,
+      "logical_bytes": 794
+    },
+    {
+      "shape": "roles",
+      "diversity": 8,
+      "density": 1,
+      "repeat": 3,
+      "stats": {
+        "scan": {
+          "train": 0.006856789999346802,
+          "query": 0.0010110410007655446,
+          "maintenance": 0.0,
+          "reads": 363,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.007051873998534575,
+          "query": 0.00240545699989525,
+          "maintenance": 0.0,
+          "reads": 264,
+          "checks": 166
+        },
+        "legacy": {
+          "train": 0.006911290000061854,
+          "query": 0.000568752001527173,
+          "maintenance": 0.0003509969988044759,
+          "reads": 0,
+          "checks": 168
+        },
+        "incremental": {
+          "train": 0.0071117510010481055,
+          "query": 0.000649709000299481,
+          "maintenance": 0.00019749999864870915,
+          "reads": 0,
+          "checks": 166
+        }
+      },
+      "cold": {
+        "legacy": 8.024999988265336e-05,
+        "incremental": 4.708400001618429e-05
+      },
+      "comparisons": 304,
+      "saved_bytes": 47665,
+      "mismatches": 0,
+      "signatures": 16,
+      "logical_bytes": 794
+    },
+    {
+      "shape": "roles",
+      "diversity": 8,
+      "density": 4,
+      "repeat": 0,
+      "stats": {
+        "scan": {
+          "train": 0.00870616799875279,
+          "query": 0.004219040999032586,
+          "maintenance": 0.0,
+          "reads": 1419,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.0072829560008358385,
+          "query": 0.005339000000276428,
+          "maintenance": 0.0,
+          "reads": 264,
+          "checks": 674
+        },
+        "legacy": {
+          "train": 0.008804208001038205,
+          "query": 0.0018970420010191447,
+          "maintenance": 0.00044616499963012757,
+          "reads": 0,
+          "checks": 688
+        },
+        "incremental": {
+          "train": 0.006583041001249512,
+          "query": 0.001698460998795781,
+          "maintenance": 0.00015229299970087595,
+          "reads": 0,
+          "checks": 674
+        }
+      },
+      "cold": {
+        "legacy": 0.00011524999990797369,
+        "incremental": 6.975000042075408e-05
+      },
+      "comparisons": 352,
+      "saved_bytes": 47665,
+      "mismatches": 0,
+      "signatures": 16,
+      "logical_bytes": 794
+    },
+    {
+      "shape": "roles",
+      "diversity": 8,
+      "density": 4,
+      "repeat": 1,
+      "stats": {
+        "scan": {
+          "train": 0.007368540999777906,
+          "query": 0.003886500001044624,
+          "maintenance": 0.0,
+          "reads": 1419,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.006943250001313572,
+          "query": 0.003214168001250073,
+          "maintenance": 0.0,
+          "reads": 264,
+          "checks": 674
+        },
+        "legacy": {
+          "train": 0.0073699589997886505,
+          "query": 0.001926706999711314,
+          "maintenance": 0.00039291599841817515,
+          "reads": 0,
+          "checks": 688
+        },
+        "incremental": {
+          "train": 0.007877294000081747,
+          "query": 0.001974959999188286,
+          "maintenance": 0.00016224900036831968,
+          "reads": 0,
+          "checks": 674
+        }
+      },
+      "cold": {
+        "legacy": 0.0001387910001540149,
+        "incremental": 7.504099994548596e-05
+      },
+      "comparisons": 352,
+      "saved_bytes": 47665,
+      "mismatches": 0,
+      "signatures": 16,
+      "logical_bytes": 794
+    },
+    {
+      "shape": "roles",
+      "diversity": 8,
+      "density": 4,
+      "repeat": 2,
+      "stats": {
+        "scan": {
+          "train": 0.00669620999997278,
+          "query": 0.0036372889994709112,
+          "maintenance": 0.0,
+          "reads": 1419,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.0068730409998352116,
+          "query": 0.0036424980003175733,
+          "maintenance": 0.0,
+          "reads": 264,
+          "checks": 674
+        },
+        "legacy": {
+          "train": 0.008004667999102821,
+          "query": 0.0018430409995744412,
+          "maintenance": 0.00038704299959135824,
+          "reads": 0,
+          "checks": 688
+        },
+        "incremental": {
+          "train": 0.007354833999215771,
+          "query": 0.0019156230005137331,
+          "maintenance": 0.0001854160013863293,
+          "reads": 0,
+          "checks": 674
+        }
+      },
+      "cold": {
+        "legacy": 8.48329996188113e-05,
+        "incremental": 5.07919999108708e-05
+      },
+      "comparisons": 352,
+      "saved_bytes": 47665,
+      "mismatches": 0,
+      "signatures": 16,
+      "logical_bytes": 794
+    },
+    {
+      "shape": "roles",
+      "diversity": 8,
+      "density": 4,
+      "repeat": 3,
+      "stats": {
+        "scan": {
+          "train": 0.006929624999884254,
+          "query": 0.0038971260005382646,
+          "maintenance": 0.0,
+          "reads": 1419,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.007454208999661205,
+          "query": 0.0038830850003250816,
+          "maintenance": 0.0,
+          "reads": 264,
+          "checks": 674
+        },
+        "legacy": {
+          "train": 0.0073004590008167725,
+          "query": 0.0017271249998884741,
+          "maintenance": 0.00035420799986241036,
+          "reads": 0,
+          "checks": 688
+        },
+        "incremental": {
+          "train": 0.006968334000248433,
+          "query": 0.0017047919996002747,
+          "maintenance": 0.00015258299936249387,
+          "reads": 0,
+          "checks": 674
+        }
+      },
+      "cold": {
+        "legacy": 7.779199995638919e-05,
+        "incremental": 5.0582999847392784e-05
+      },
+      "comparisons": 352,
+      "saved_bytes": 47665,
+      "mismatches": 0,
+      "signatures": 16,
+      "logical_bytes": 794
+    },
+    {
+      "shape": "roles",
+      "diversity": 8,
+      "density": 16,
+      "repeat": 0,
+      "stats": {
+        "scan": {
+          "train": 0.008284335999633186,
+          "query": 0.014373083000464248,
+          "maintenance": 0.0,
+          "reads": 5643,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.00826079199941887,
+          "query": 0.008713789999546862,
+          "maintenance": 0.0,
+          "reads": 264,
+          "checks": 2695
+        },
+        "legacy": {
+          "train": 0.008460584000204108,
+          "query": 0.006448333999742317,
+          "maintenance": 0.0003950430004806549,
+          "reads": 0,
+          "checks": 2741
+        },
+        "incremental": {
+          "train": 0.009603585000149906,
+          "query": 0.00662937400102237,
+          "maintenance": 0.00024153999856935116,
+          "reads": 0,
+          "checks": 2695
+        }
+      },
+      "cold": {
+        "legacy": 0.00012712499983535963,
+        "incremental": 7.229199991343194e-05
+      },
+      "comparisons": 544,
+      "saved_bytes": 47665,
+      "mismatches": 0,
+      "signatures": 16,
+      "logical_bytes": 794
+    },
+    {
+      "shape": "roles",
+      "diversity": 8,
+      "density": 16,
+      "repeat": 1,
+      "stats": {
+        "scan": {
+          "train": 0.006164709001041047,
+          "query": 0.011482414999136381,
+          "maintenance": 0.0,
+          "reads": 5643,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.006373956998686481,
+          "query": 0.007721582000158378,
+          "maintenance": 0.0,
+          "reads": 264,
+          "checks": 2695
+        },
+        "legacy": {
+          "train": 0.007642751000275894,
+          "query": 0.005905416000587138,
+          "maintenance": 0.0003514979994179157,
+          "reads": 0,
+          "checks": 2741
+        },
+        "incremental": {
+          "train": 0.006870457000331953,
+          "query": 0.005452458001400373,
+          "maintenance": 0.00014674800149805378,
+          "reads": 0,
+          "checks": 2695
+        }
+      },
+      "cold": {
+        "legacy": 8.004199980859994e-05,
+        "incremental": 5.175000023882603e-05
+      },
+      "comparisons": 544,
+      "saved_bytes": 47665,
+      "mismatches": 0,
+      "signatures": 16,
+      "logical_bytes": 794
+    },
+    {
+      "shape": "roles",
+      "diversity": 8,
+      "density": 16,
+      "repeat": 2,
+      "stats": {
+        "scan": {
+          "train": 0.006852292000075977,
+          "query": 0.012960083000052691,
+          "maintenance": 0.0,
+          "reads": 5643,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.0075572480009213905,
+          "query": 0.00873283300006733,
+          "maintenance": 0.0,
+          "reads": 264,
+          "checks": 2695
+        },
+        "legacy": {
+          "train": 0.00881916599928445,
+          "query": 0.00592878900033611,
+          "maintenance": 0.00045708099878538633,
+          "reads": 0,
+          "checks": 2741
+        },
+        "incremental": {
+          "train": 0.006742415000189794,
+          "query": 0.005307458000515908,
+          "maintenance": 0.0001436669990653172,
+          "reads": 0,
+          "checks": 2695
+        }
+      },
+      "cold": {
+        "legacy": 0.00010995799993906985,
+        "incremental": 7.316700020965072e-05
+      },
+      "comparisons": 544,
+      "saved_bytes": 47665,
+      "mismatches": 0,
+      "signatures": 16,
+      "logical_bytes": 794
+    },
+    {
+      "shape": "roles",
+      "diversity": 8,
+      "density": 16,
+      "repeat": 3,
+      "stats": {
+        "scan": {
+          "train": 0.007637996999619645,
+          "query": 0.013736707999214559,
+          "maintenance": 0.0,
+          "reads": 5643,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.007608831000652572,
+          "query": 0.008192165998934797,
+          "maintenance": 0.0,
+          "reads": 264,
+          "checks": 2695
+        },
+        "legacy": {
+          "train": 0.008240458999807743,
+          "query": 0.0067259159995956,
+          "maintenance": 0.0003976640000473708,
+          "reads": 0,
+          "checks": 2741
+        },
+        "incremental": {
+          "train": 0.008689917000538117,
+          "query": 0.006748124000750977,
+          "maintenance": 0.00017412699935448472,
+          "reads": 0,
+          "checks": 2695
+        }
+      },
+      "cold": {
+        "legacy": 7.979200017871335e-05,
+        "incremental": 4.987500005881884e-05
+      },
+      "comparisons": 544,
+      "saved_bytes": 47665,
+      "mismatches": 0,
+      "signatures": 16,
+      "logical_bytes": 794
+    },
+    {
+      "shape": "roles",
+      "diversity": 64,
+      "density": 1,
+      "repeat": 0,
+      "stats": {
+        "scan": {
+          "train": 0.01510675000054107,
+          "query": 0.0026312100007999106,
+          "maintenance": 0.0,
+          "reads": 1595,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.014658664999842586,
+          "query": 0.007149584000217146,
+          "maintenance": 0.0,
+          "reads": 1160,
+          "checks": 920
+        },
+        "legacy": {
+          "train": 0.015215167999485857,
+          "query": 0.000750584000343224,
+          "maintenance": 0.0010192499998993299,
+          "reads": 0,
+          "checks": 850
+        },
+        "incremental": {
+          "train": 0.01354824799909693,
+          "query": 0.0008512079980391718,
+          "maintenance": 0.00015549899990219274,
+          "reads": 0,
+          "checks": 923
+        }
+      },
+      "cold": {
+        "legacy": 0.0003584170003705367,
+        "incremental": 0.00029116600035195006
+      },
+      "comparisons": 976,
+      "saved_bytes": 162272,
+      "mismatches": 0,
+      "signatures": 72,
+      "logical_bytes": 3395
+    },
+    {
+      "shape": "roles",
+      "diversity": 64,
+      "density": 1,
+      "repeat": 1,
+      "stats": {
+        "scan": {
+          "train": 0.02019620899909569,
+          "query": 0.0034659580005609314,
+          "maintenance": 0.0,
+          "reads": 1595,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.020892460000595747,
+          "query": 0.00914041600026394,
+          "maintenance": 0.0,
+          "reads": 1160,
+          "checks": 920
+        },
+        "legacy": {
+          "train": 0.022420583999974042,
+          "query": 0.0012593739993462805,
+          "maintenance": 0.0012672920001932653,
+          "reads": 0,
+          "checks": 850
+        },
+        "incremental": {
+          "train": 0.02100687400024981,
+          "query": 0.0011100430001533823,
+          "maintenance": 0.0002552909995756636,
+          "reads": 0,
+          "checks": 923
+        }
+      },
+      "cold": {
+        "legacy": 0.00032566699974267976,
+        "incremental": 0.0002617909999571566
+      },
+      "comparisons": 976,
+      "saved_bytes": 162272,
+      "mismatches": 0,
+      "signatures": 72,
+      "logical_bytes": 3395
+    },
+    {
+      "shape": "roles",
+      "diversity": 64,
+      "density": 1,
+      "repeat": 2,
+      "stats": {
+        "scan": {
+          "train": 0.01768441800004439,
+          "query": 0.0029693730016333575,
+          "maintenance": 0.0,
+          "reads": 1595,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.017168081999898277,
+          "query": 0.007592998999371048,
+          "maintenance": 0.0,
+          "reads": 1160,
+          "checks": 920
+        },
+        "legacy": {
+          "train": 0.01906154400012383,
+          "query": 0.001039460999891162,
+          "maintenance": 0.0012990820000595704,
+          "reads": 0,
+          "checks": 850
+        },
+        "incremental": {
+          "train": 0.017215416999079025,
+          "query": 0.0010020419981628947,
+          "maintenance": 0.00017592000040167477,
+          "reads": 0,
+          "checks": 923
+        }
+      },
+      "cold": {
+        "legacy": 0.0003776250000555592,
+        "incremental": 0.0002612080002108996
+      },
+      "comparisons": 976,
+      "saved_bytes": 162304,
+      "mismatches": 0,
+      "signatures": 72,
+      "logical_bytes": 3395
+    },
+    {
+      "shape": "roles",
+      "diversity": 64,
+      "density": 1,
+      "repeat": 3,
+      "stats": {
+        "scan": {
+          "train": 0.017255579999073234,
+          "query": 0.0027157500007888302,
+          "maintenance": 0.0,
+          "reads": 1595,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.01683895999985907,
+          "query": 0.007302332999643113,
+          "maintenance": 0.0,
+          "reads": 1160,
+          "checks": 920
+        },
+        "legacy": {
+          "train": 0.018968792000578105,
+          "query": 0.0010827899996002088,
+          "maintenance": 0.001056085000072926,
+          "reads": 0,
+          "checks": 850
+        },
+        "incremental": {
+          "train": 0.018388710000181163,
+          "query": 0.0011008769997715717,
+          "maintenance": 0.00019212599954698817,
+          "reads": 0,
+          "checks": 923
+        }
+      },
+      "cold": {
+        "legacy": 0.00031687499995314283,
+        "incremental": 0.00025749999986146577
+      },
+      "comparisons": 976,
+      "saved_bytes": 162308,
+      "mismatches": 0,
+      "signatures": 72,
+      "logical_bytes": 3395
+    },
+    {
+      "shape": "roles",
+      "diversity": 64,
+      "density": 4,
+      "repeat": 0,
+      "stats": {
+        "scan": {
+          "train": 0.01845028999969145,
+          "query": 0.012714542000139772,
+          "maintenance": 0.0,
+          "reads": 6235,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.019801084999926388,
+          "query": 0.009936377000030916,
+          "maintenance": 0.0,
+          "reads": 1160,
+          "checks": 3711
+        },
+        "legacy": {
+          "train": 0.01819278800030588,
+          "query": 0.0029067899999972724,
+          "maintenance": 0.0011822510000456532,
+          "reads": 0,
+          "checks": 3538
+        },
+        "incremental": {
+          "train": 0.019155497999236104,
+          "query": 0.003139958000247134,
+          "maintenance": 0.00023532999966846546,
+          "reads": 0,
+          "checks": 3714
+        }
+      },
+      "cold": {
+        "legacy": 0.0004086660001121345,
+        "incremental": 0.0002947920002043247
+      },
+      "comparisons": 1024,
+      "saved_bytes": 162308,
+      "mismatches": 0,
+      "signatures": 72,
+      "logical_bytes": 3395
+    },
+    {
+      "shape": "roles",
+      "diversity": 64,
+      "density": 4,
+      "repeat": 1,
+      "stats": {
+        "scan": {
+          "train": 0.019095540000307665,
+          "query": 0.010923955999714963,
+          "maintenance": 0.0,
+          "reads": 6235,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.01875341799996022,
+          "query": 0.00991150099935112,
+          "maintenance": 0.0,
+          "reads": 1160,
+          "checks": 3711
+        },
+        "legacy": {
+          "train": 0.02029287400046087,
+          "query": 0.003352084999278304,
+          "maintenance": 0.0011936659989260079,
+          "reads": 0,
+          "checks": 3538
+        },
+        "incremental": {
+          "train": 0.02029066899922327,
+          "query": 0.0038101670002106403,
+          "maintenance": 0.000228751999202359,
+          "reads": 0,
+          "checks": 3714
+        }
+      },
+      "cold": {
+        "legacy": 0.0007225829999697453,
+        "incremental": 0.0005247089998192678
+      },
+      "comparisons": 1024,
+      "saved_bytes": 162308,
+      "mismatches": 0,
+      "signatures": 72,
+      "logical_bytes": 3395
+    },
+    {
+      "shape": "roles",
+      "diversity": 64,
+      "density": 4,
+      "repeat": 2,
+      "stats": {
+        "scan": {
+          "train": 0.01675508400057879,
+          "query": 0.01110345699953541,
+          "maintenance": 0.0,
+          "reads": 6235,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.01912583299963444,
+          "query": 0.0109558310000466,
+          "maintenance": 0.0,
+          "reads": 1160,
+          "checks": 3711
+        },
+        "legacy": {
+          "train": 0.022582915999464603,
+          "query": 0.0032338739993065246,
+          "maintenance": 0.0014102940003795084,
+          "reads": 0,
+          "checks": 3538
+        },
+        "incremental": {
+          "train": 0.019131794999793783,
+          "query": 0.003053126999475353,
+          "maintenance": 0.00026170899991484475,
+          "reads": 0,
+          "checks": 3714
+        }
+      },
+      "cold": {
+        "legacy": 0.0005403330001172435,
+        "incremental": 0.0004574159997901006
+      },
+      "comparisons": 1024,
+      "saved_bytes": 162308,
+      "mismatches": 0,
+      "signatures": 72,
+      "logical_bytes": 3395
+    },
+    {
+      "shape": "roles",
+      "diversity": 64,
+      "density": 4,
+      "repeat": 3,
+      "stats": {
+        "scan": {
+          "train": 0.03958587599800012,
+          "query": 0.016134291000071244,
+          "maintenance": 0.0,
+          "reads": 6235,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.02278045899947756,
+          "query": 0.011060875000111992,
+          "maintenance": 0.0,
+          "reads": 1160,
+          "checks": 3711
+        },
+        "legacy": {
+          "train": 0.02138749999767242,
+          "query": 0.003212208997865673,
+          "maintenance": 0.0014318309999907797,
+          "reads": 0,
+          "checks": 3538
+        },
+        "incremental": {
+          "train": 0.020451668000532663,
+          "query": 0.003155542000058631,
+          "maintenance": 0.00019895899913535686,
+          "reads": 0,
+          "checks": 3714
+        }
+      },
+      "cold": {
+        "legacy": 0.00032012500014388934,
+        "incremental": 0.0002587089998087322
+      },
+      "comparisons": 1024,
+      "saved_bytes": 162308,
+      "mismatches": 0,
+      "signatures": 72,
+      "logical_bytes": 3395
+    },
+    {
+      "shape": "roles",
+      "diversity": 64,
+      "density": 16,
+      "repeat": 0,
+      "stats": {
+        "scan": {
+          "train": 0.01591195699893433,
+          "query": 0.038856875000874425,
+          "maintenance": 0.0,
+          "reads": 24795,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.016671330999997735,
+          "query": 0.015156208000917104,
+          "maintenance": 0.0,
+          "reads": 1160,
+          "checks": 14987
+        },
+        "legacy": {
+          "train": 0.017736210999373725,
+          "query": 0.007303458999558643,
+          "maintenance": 0.0012214610010232718,
+          "reads": 0,
+          "checks": 13528
+        },
+        "incremental": {
+          "train": 0.016061458000876883,
+          "query": 0.007986203999735153,
+          "maintenance": 0.00019004000023414847,
+          "reads": 0,
+          "checks": 14990
+        }
+      },
+      "cold": {
+        "legacy": 0.0005245419997663703,
+        "incremental": 0.0003455840001151955
+      },
+      "comparisons": 1216,
+      "saved_bytes": 162308,
+      "mismatches": 0,
+      "signatures": 72,
+      "logical_bytes": 3395
+    },
+    {
+      "shape": "roles",
+      "diversity": 64,
+      "density": 16,
+      "repeat": 1,
+      "stats": {
+        "scan": {
+          "train": 0.017277167999509402,
+          "query": 0.03843383100002029,
+          "maintenance": 0.0,
+          "reads": 24795,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.019485418000385835,
+          "query": 0.015889127999344055,
+          "maintenance": 0.0,
+          "reads": 1160,
+          "checks": 14987
+        },
+        "legacy": {
+          "train": 0.019003623998742114,
+          "query": 0.008417207000093185,
+          "maintenance": 0.001244373999270465,
+          "reads": 0,
+          "checks": 13528
+        },
+        "incremental": {
+          "train": 0.01574550200075464,
+          "query": 0.008772873000452819,
+          "maintenance": 0.0001841669991335948,
+          "reads": 0,
+          "checks": 14990
+        }
+      },
+      "cold": {
+        "legacy": 0.0003939590001209581,
+        "incremental": 0.0003011670000887534
+      },
+      "comparisons": 1216,
+      "saved_bytes": 162308,
+      "mismatches": 0,
+      "signatures": 72,
+      "logical_bytes": 3395
+    },
+    {
+      "shape": "roles",
+      "diversity": 64,
+      "density": 16,
+      "repeat": 2,
+      "stats": {
+        "scan": {
+          "train": 0.017432375000225875,
+          "query": 0.042898371999854135,
+          "maintenance": 0.0,
+          "reads": 24795,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.02162641699987944,
+          "query": 0.01780829200060907,
+          "maintenance": 0.0,
+          "reads": 1160,
+          "checks": 14987
+        },
+        "legacy": {
+          "train": 0.020127999001488206,
+          "query": 0.009219291999215784,
+          "maintenance": 0.0012769180007126124,
+          "reads": 0,
+          "checks": 13528
+        },
+        "incremental": {
+          "train": 0.01760637899997164,
+          "query": 0.009196291000534984,
+          "maintenance": 0.00019429500025580637,
+          "reads": 0,
+          "checks": 14990
+        }
+      },
+      "cold": {
+        "legacy": 0.0003403340001568722,
+        "incremental": 0.0002836250000655127
+      },
+      "comparisons": 1216,
+      "saved_bytes": 162308,
+      "mismatches": 0,
+      "signatures": 72,
+      "logical_bytes": 3395
+    },
+    {
+      "shape": "roles",
+      "diversity": 64,
+      "density": 16,
+      "repeat": 3,
+      "stats": {
+        "scan": {
+          "train": 0.01797795699985727,
+          "query": 0.04011533299990333,
+          "maintenance": 0.0,
+          "reads": 24795,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.019480084000861098,
+          "query": 0.014211873000931519,
+          "maintenance": 0.0,
+          "reads": 1160,
+          "checks": 14987
+        },
+        "legacy": {
+          "train": 0.018085453999447054,
+          "query": 0.008271578999483609,
+          "maintenance": 0.0011495000003378664,
+          "reads": 0,
+          "checks": 13528
+        },
+        "incremental": {
+          "train": 0.016269747999103856,
+          "query": 0.007706874000632524,
+          "maintenance": 0.00017904399919643765,
+          "reads": 0,
+          "checks": 14990
+        }
+      },
+      "cold": {
+        "legacy": 0.00042866600006163935,
+        "incremental": 0.00045516699992731446
+      },
+      "comparisons": 1216,
+      "saved_bytes": 162308,
+      "mismatches": 0,
+      "signatures": 72,
+      "logical_bytes": 3395
+    },
+    {
+      "shape": "roles",
+      "diversity": 256,
+      "density": 1,
+      "repeat": 0,
+      "stats": {
+        "scan": {
+          "train": 0.05549516599967319,
+          "query": 0.012924873999509146,
+          "maintenance": 0.0,
+          "reads": 5819,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.059042126999884204,
+          "query": 0.027698498998233845,
+          "maintenance": 0.0,
+          "reads": 4232,
+          "checks": 3376
+        },
+        "legacy": {
+          "train": 0.05650703999981488,
+          "query": 0.0020175820000076783,
+          "maintenance": 0.00400095799977862,
+          "reads": 0,
+          "checks": 3339
+        },
+        "incremental": {
+          "train": 0.05614487300044857,
+          "query": 0.0025010430003931106,
+          "maintenance": 0.00023079099992173724,
+          "reads": 0,
+          "checks": 3376
+        }
+      },
+      "cold": {
+        "legacy": 0.0020721669998238212,
+        "incremental": 0.0010919579999608686
+      },
+      "comparisons": 3280,
+      "saved_bytes": 567506,
+      "mismatches": 0,
+      "signatures": 264,
+      "logical_bytes": 12815
+    },
+    {
+      "shape": "roles",
+      "diversity": 256,
+      "density": 1,
+      "repeat": 1,
+      "stats": {
+        "scan": {
+          "train": 0.05385649899881173,
+          "query": 0.009079211000425857,
+          "maintenance": 0.0,
+          "reads": 5819,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.052518080998652295,
+          "query": 0.025443164000080287,
+          "maintenance": 0.0,
+          "reads": 4232,
+          "checks": 3376
+        },
+        "legacy": {
+          "train": 0.05861095899945212,
+          "query": 0.0016728740010876209,
+          "maintenance": 0.0038771240006099106,
+          "reads": 0,
+          "checks": 3339
+        },
+        "incremental": {
+          "train": 0.05041891999917425,
+          "query": 0.0018267050008944352,
+          "maintenance": 0.00020933200084982673,
+          "reads": 0,
+          "checks": 3376
+        }
+      },
+      "cold": {
+        "legacy": 0.0015120829998522822,
+        "incremental": 0.0010910000000876607
+      },
+      "comparisons": 3280,
+      "saved_bytes": 567506,
+      "mismatches": 0,
+      "signatures": 264,
+      "logical_bytes": 12815
+    },
+    {
+      "shape": "roles",
+      "diversity": 256,
+      "density": 1,
+      "repeat": 2,
+      "stats": {
+        "scan": {
+          "train": 0.03774187400085793,
+          "query": 0.007401997999750165,
+          "maintenance": 0.0,
+          "reads": 5819,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.05580808100012291,
+          "query": 0.018713916999786306,
+          "maintenance": 0.0,
+          "reads": 4232,
+          "checks": 3376
+        },
+        "legacy": {
+          "train": 0.04220941500034314,
+          "query": 0.0012592920006682107,
+          "maintenance": 0.0034637069998098013,
+          "reads": 0,
+          "checks": 3339
+        },
+        "incremental": {
+          "train": 0.03807295799970234,
+          "query": 0.0015807910017429094,
+          "maintenance": 0.00022995799963609898,
+          "reads": 0,
+          "checks": 3376
+        }
+      },
+      "cold": {
+        "legacy": 0.0011166660001435957,
+        "incremental": 0.0009995420000450395
+      },
+      "comparisons": 3280,
+      "saved_bytes": 567538,
+      "mismatches": 0,
+      "signatures": 264,
+      "logical_bytes": 12815
+    },
+    {
+      "shape": "roles",
+      "diversity": 256,
+      "density": 1,
+      "repeat": 3,
+      "stats": {
+        "scan": {
+          "train": 0.07232920900014506,
+          "query": 0.008342122998783452,
+          "maintenance": 0.0,
+          "reads": 5819,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.041931541000394645,
+          "query": 0.020215500000631437,
+          "maintenance": 0.0,
+          "reads": 4232,
+          "checks": 3376
+        },
+        "legacy": {
+          "train": 0.042782332000115275,
+          "query": 0.0013477890011017735,
+          "maintenance": 0.0034149989996876684,
+          "reads": 0,
+          "checks": 3339
+        },
+        "incremental": {
+          "train": 0.03735837700060074,
+          "query": 0.0018104180003319925,
+          "maintenance": 0.00019762600004469277,
+          "reads": 0,
+          "checks": 3376
+        }
+      },
+      "cold": {
+        "legacy": 0.0013191250000090804,
+        "incremental": 0.0010569159999249678
+      },
+      "comparisons": 3280,
+      "saved_bytes": 567542,
+      "mismatches": 0,
+      "signatures": 264,
+      "logical_bytes": 12815
+    },
+    {
+      "shape": "roles",
+      "diversity": 256,
+      "density": 4,
+      "repeat": 0,
+      "stats": {
+        "scan": {
+          "train": 0.05027787400149464,
+          "query": 0.034204833999410766,
+          "maintenance": 0.0,
+          "reads": 22747,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.048233916001208854,
+          "query": 0.028512041000794852,
+          "maintenance": 0.0,
+          "reads": 4232,
+          "checks": 13537
+        },
+        "legacy": {
+          "train": 0.05097662800017133,
+          "query": 0.004778789001647965,
+          "maintenance": 0.0038431670000136364,
+          "reads": 0,
+          "checks": 13952
+        },
+        "incremental": {
+          "train": 0.04471670800012362,
+          "query": 0.005198043000291364,
+          "maintenance": 0.0001813779995245568,
+          "reads": 0,
+          "checks": 13537
+        }
+      },
+      "cold": {
+        "legacy": 0.001257458000054612,
+        "incremental": 0.0011969999995926628
+      },
+      "comparisons": 3328,
+      "saved_bytes": 567542,
+      "mismatches": 0,
+      "signatures": 264,
+      "logical_bytes": 12815
+    },
+    {
+      "shape": "roles",
+      "diversity": 256,
+      "density": 4,
+      "repeat": 1,
+      "stats": {
+        "scan": {
+          "train": 0.03820875000064916,
+          "query": 0.03026725000108854,
+          "maintenance": 0.0,
+          "reads": 22747,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.0381648759998825,
+          "query": 0.023264708000624523,
+          "maintenance": 0.0,
+          "reads": 4232,
+          "checks": 13537
+        },
+        "legacy": {
+          "train": 0.04074383300076079,
+          "query": 0.0037611689990626473,
+          "maintenance": 0.0031607930009158736,
+          "reads": 0,
+          "checks": 13952
+        },
+        "incremental": {
+          "train": 0.03632537300063632,
+          "query": 0.003989623000961728,
+          "maintenance": 0.00016925200088735437,
+          "reads": 0,
+          "checks": 13537
+        }
+      },
+      "cold": {
+        "legacy": 0.0011172910003551806,
+        "incremental": 0.001029125000059139
+      },
+      "comparisons": 3328,
+      "saved_bytes": 567542,
+      "mismatches": 0,
+      "signatures": 264,
+      "logical_bytes": 12815
+    },
+    {
+      "shape": "roles",
+      "diversity": 256,
+      "density": 4,
+      "repeat": 2,
+      "stats": {
+        "scan": {
+          "train": 0.04171274900136268,
+          "query": 0.031190957000944763,
+          "maintenance": 0.0,
+          "reads": 22747,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.04304954200051725,
+          "query": 0.024000668000098813,
+          "maintenance": 0.0,
+          "reads": 4232,
+          "checks": 13537
+        },
+        "legacy": {
+          "train": 0.04595833099938318,
+          "query": 0.004316876999837405,
+          "maintenance": 0.0035944580004070303,
+          "reads": 0,
+          "checks": 13952
+        },
+        "incremental": {
+          "train": 0.040699414000755496,
+          "query": 0.004542707999007689,
+          "maintenance": 0.0001764160010679916,
+          "reads": 0,
+          "checks": 13537
+        }
+      },
+      "cold": {
+        "legacy": 0.0013842500002283487,
+        "incremental": 0.0012009170000055747
+      },
+      "comparisons": 3328,
+      "saved_bytes": 567542,
+      "mismatches": 0,
+      "signatures": 264,
+      "logical_bytes": 12815
+    },
+    {
+      "shape": "roles",
+      "diversity": 256,
+      "density": 4,
+      "repeat": 3,
+      "stats": {
+        "scan": {
+          "train": 0.05855708300077822,
+          "query": 0.04427129100076854,
+          "maintenance": 0.0,
+          "reads": 22747,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.053894917999059544,
+          "query": 0.02795562599931145,
+          "maintenance": 0.0,
+          "reads": 4232,
+          "checks": 13537
+        },
+        "legacy": {
+          "train": 0.0619129179990523,
+          "query": 0.0062931679995017475,
+          "maintenance": 0.004562291000638652,
+          "reads": 0,
+          "checks": 13952
+        },
+        "incremental": {
+          "train": 0.06266454099977636,
+          "query": 0.006781794000744412,
+          "maintenance": 0.00025916899994626874,
+          "reads": 0,
+          "checks": 13537
+        }
+      },
+      "cold": {
+        "legacy": 0.0012287909999031399,
+        "incremental": 0.001131249999616557
+      },
+      "comparisons": 3328,
+      "saved_bytes": 567542,
+      "mismatches": 0,
+      "signatures": 264,
+      "logical_bytes": 12815
+    },
+    {
+      "shape": "roles",
+      "diversity": 256,
+      "density": 16,
+      "repeat": 0,
+      "stats": {
+        "scan": {
+          "train": 0.04295658399951208,
+          "query": 0.11720158399975844,
+          "maintenance": 0.0,
+          "reads": 90459,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.04798908499878962,
+          "query": 0.03628725100043084,
+          "maintenance": 0.0,
+          "reads": 4232,
+          "checks": 54203
+        },
+        "legacy": {
+          "train": 0.04373233500064089,
+          "query": 0.013888248999137431,
+          "maintenance": 0.003097417999924801,
+          "reads": 0,
+          "checks": 54715
+        },
+        "incremental": {
+          "train": 0.04032629099947371,
+          "query": 0.014687294000395923,
+          "maintenance": 0.00021583199941233033,
+          "reads": 0,
+          "checks": 54203
+        }
+      },
+      "cold": {
+        "legacy": 0.0011481669998829602,
+        "incremental": 0.0010680420000426238
+      },
+      "comparisons": 3520,
+      "saved_bytes": 567542,
+      "mismatches": 0,
+      "signatures": 264,
+      "logical_bytes": 12815
+    },
+    {
+      "shape": "roles",
+      "diversity": 256,
+      "density": 16,
+      "repeat": 1,
+      "stats": {
+        "scan": {
+          "train": 0.0661593769996216,
+          "query": 0.19317112399994585,
+          "maintenance": 0.0,
+          "reads": 90459,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.0631078759988668,
+          "query": 0.05176475199959896,
+          "maintenance": 0.0,
+          "reads": 4232,
+          "checks": 54203
+        },
+        "legacy": {
+          "train": 0.1290816659993652,
+          "query": 0.01992391499970836,
+          "maintenance": 0.004670083000291925,
+          "reads": 0,
+          "checks": 54715
+        },
+        "incremental": {
+          "train": 0.05992841400029647,
+          "query": 0.018622751000293647,
+          "maintenance": 0.0002628340002956975,
+          "reads": 0,
+          "checks": 54203
+        }
+      },
+      "cold": {
+        "legacy": 0.0011728340000445314,
+        "incremental": 0.001075541999853158
+      },
+      "comparisons": 3520,
+      "saved_bytes": 567542,
+      "mismatches": 0,
+      "signatures": 264,
+      "logical_bytes": 12815
+    },
+    {
+      "shape": "roles",
+      "diversity": 256,
+      "density": 16,
+      "repeat": 2,
+      "stats": {
+        "scan": {
+          "train": 0.15053654299890695,
+          "query": 0.3413827100002891,
+          "maintenance": 0.0,
+          "reads": 90459,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.18200691699985327,
+          "query": 0.11883550199900128,
+          "maintenance": 0.0,
+          "reads": 4232,
+          "checks": 54203
+        },
+        "legacy": {
+          "train": 0.3968519580002976,
+          "query": 0.03144862700037265,
+          "maintenance": 0.02787262399942847,
+          "reads": 0,
+          "checks": 54715
+        },
+        "incremental": {
+          "train": 0.11889600199947381,
+          "query": 0.038291751000997465,
+          "maintenance": 0.001049833999331895,
+          "reads": 0,
+          "checks": 54203
+        }
+      },
+      "cold": {
+        "legacy": 0.002345916999729525,
+        "incremental": 0.0013265000002320448
+      },
+      "comparisons": 3520,
+      "saved_bytes": 567542,
+      "mismatches": 0,
+      "signatures": 264,
+      "logical_bytes": 12815
+    },
+    {
+      "shape": "roles",
+      "diversity": 256,
+      "density": 16,
+      "repeat": 3,
+      "stats": {
+        "scan": {
+          "train": 0.06575787600013427,
+          "query": 0.19359287399902314,
+          "maintenance": 0.0,
+          "reads": 90459,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.07007175099943197,
+          "query": 0.05323558199961553,
+          "maintenance": 0.0,
+          "reads": 4232,
+          "checks": 54203
+        },
+        "legacy": {
+          "train": 0.07417066600055477,
+          "query": 0.020083876999706263,
+          "maintenance": 0.005444874000204436,
+          "reads": 0,
+          "checks": 54715
+        },
+        "incremental": {
+          "train": 0.06450183399920206,
+          "query": 0.023020459000690607,
+          "maintenance": 0.00028262399882805767,
+          "reads": 0,
+          "checks": 54203
+        }
+      },
+      "cold": {
+        "legacy": 0.0025756249997357372,
+        "incremental": 0.0023994160001166165
+      },
+      "comparisons": 3520,
+      "saved_bytes": 567542,
+      "mismatches": 0,
+      "signatures": 264,
+      "logical_bytes": 12815
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 8,
+      "density": 1,
+      "repeat": 0,
+      "stats": {
+        "scan": {
+          "train": 0.009080039999389555,
+          "query": 0.0019442910011093772,
+          "maintenance": 0.0,
+          "reads": 363,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.00883478900004775,
+          "query": 0.0031340810000983765,
+          "maintenance": 0.0,
+          "reads": 264,
+          "checks": 165
+        },
+        "legacy": {
+          "train": 0.01331912600016949,
+          "query": 0.0010236259990961116,
+          "maintenance": 0.0005527509993044077,
+          "reads": 0,
+          "checks": 168
+        },
+        "incremental": {
+          "train": 0.011623497999607935,
+          "query": 0.0011083749986937619,
+          "maintenance": 0.000296540999897843,
+          "reads": 0,
+          "checks": 168
+        }
+      },
+      "cold": {
+        "legacy": 0.00012945800017405418,
+        "incremental": 5.679099967892398e-05
+      },
+      "comparisons": 304,
+      "saved_bytes": 43737,
+      "mismatches": 0,
+      "signatures": 16,
+      "logical_bytes": 771
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 8,
+      "density": 1,
+      "repeat": 1,
+      "stats": {
+        "scan": {
+          "train": 0.00602412399939567,
+          "query": 0.0012592090006364742,
+          "maintenance": 0.0,
+          "reads": 363,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.007004038000559376,
+          "query": 0.0024213770002461388,
+          "maintenance": 0.0,
+          "reads": 264,
+          "checks": 165
+        },
+        "legacy": {
+          "train": 0.006880751000153396,
+          "query": 0.0005677479998666968,
+          "maintenance": 0.00035866799953510053,
+          "reads": 0,
+          "checks": 168
+        },
+        "incremental": {
+          "train": 0.00659837700004573,
+          "query": 0.000621458000750863,
+          "maintenance": 0.0001639150000301015,
+          "reads": 0,
+          "checks": 168
+        }
+      },
+      "cold": {
+        "legacy": 9.558300007483922e-05,
+        "incremental": 8.945799982029712e-05
+      },
+      "comparisons": 304,
+      "saved_bytes": 43737,
+      "mismatches": 0,
+      "signatures": 16,
+      "logical_bytes": 771
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 8,
+      "density": 1,
+      "repeat": 2,
+      "stats": {
+        "scan": {
+          "train": 0.008664375999160256,
+          "query": 0.001654330999826925,
+          "maintenance": 0.0,
+          "reads": 363,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.008566044000872353,
+          "query": 0.0030812920003882027,
+          "maintenance": 0.0,
+          "reads": 264,
+          "checks": 165
+        },
+        "legacy": {
+          "train": 0.010167334999550803,
+          "query": 0.0008620409998911782,
+          "maintenance": 0.0004982909999853291,
+          "reads": 0,
+          "checks": 168
+        },
+        "incremental": {
+          "train": 0.009869626000181597,
+          "query": 0.0009120849999817437,
+          "maintenance": 0.00021479200086105266,
+          "reads": 0,
+          "checks": 168
+        }
+      },
+      "cold": {
+        "legacy": 7.825000011507655e-05,
+        "incremental": 4.774999979417771e-05
+      },
+      "comparisons": 304,
+      "saved_bytes": 43769,
+      "mismatches": 0,
+      "signatures": 16,
+      "logical_bytes": 771
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 8,
+      "density": 1,
+      "repeat": 3,
+      "stats": {
+        "scan": {
+          "train": 0.0059637899998961075,
+          "query": 0.0013331230002222583,
+          "maintenance": 0.0,
+          "reads": 363,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.005752580999342172,
+          "query": 0.00192320899986953,
+          "maintenance": 0.0,
+          "reads": 264,
+          "checks": 165
+        },
+        "legacy": {
+          "train": 0.006151081999632879,
+          "query": 0.0005248730017228809,
+          "maintenance": 0.00031171099999482976,
+          "reads": 0,
+          "checks": 168
+        },
+        "incremental": {
+          "train": 0.006366375000197877,
+          "query": 0.0005590440000560193,
+          "maintenance": 0.00014449899981627823,
+          "reads": 0,
+          "checks": 168
+        }
+      },
+      "cold": {
+        "legacy": 7.349999987127376e-05,
+        "incremental": 4.683299994212575e-05
+      },
+      "comparisons": 304,
+      "saved_bytes": 43773,
+      "mismatches": 0,
+      "signatures": 16,
+      "logical_bytes": 771
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 8,
+      "density": 4,
+      "repeat": 0,
+      "stats": {
+        "scan": {
+          "train": 0.01463499900091847,
+          "query": 0.00736999600121635,
+          "maintenance": 0.0,
+          "reads": 1419,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.01267124799960584,
+          "query": 0.005713042000479618,
+          "maintenance": 0.0,
+          "reads": 264,
+          "checks": 641
+        },
+        "legacy": {
+          "train": 0.016705332001492934,
+          "query": 0.0040281679998770414,
+          "maintenance": 0.0007894580003267038,
+          "reads": 0,
+          "checks": 688
+        },
+        "incremental": {
+          "train": 0.013638958001138235,
+          "query": 0.004617416000201047,
+          "maintenance": 0.00028166599940959713,
+          "reads": 0,
+          "checks": 671
+        }
+      },
+      "cold": {
+        "legacy": 9.016700005304301e-05,
+        "incremental": 5.237499999566353e-05
+      },
+      "comparisons": 352,
+      "saved_bytes": 43773,
+      "mismatches": 0,
+      "signatures": 16,
+      "logical_bytes": 771
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 8,
+      "density": 4,
+      "repeat": 1,
+      "stats": {
+        "scan": {
+          "train": 0.007704210999236238,
+          "query": 0.006635541000832745,
+          "maintenance": 0.0,
+          "reads": 1419,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.011904415999651974,
+          "query": 0.005006333998153423,
+          "maintenance": 0.0,
+          "reads": 264,
+          "checks": 641
+        },
+        "legacy": {
+          "train": 0.012680707999606966,
+          "query": 0.004053916999964713,
+          "maintenance": 0.0005269599992061558,
+          "reads": 0,
+          "checks": 688
+        },
+        "incremental": {
+          "train": 0.01529458499953762,
+          "query": 0.002687583000806626,
+          "maintenance": 0.00032878800038815825,
+          "reads": 0,
+          "checks": 671
+        }
+      },
+      "cold": {
+        "legacy": 0.00012925000010000076,
+        "incremental": 7.470799982911558e-05
+      },
+      "comparisons": 352,
+      "saved_bytes": 43773,
+      "mismatches": 0,
+      "signatures": 16,
+      "logical_bytes": 771
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 8,
+      "density": 4,
+      "repeat": 2,
+      "stats": {
+        "scan": {
+          "train": 0.008547501000066404,
+          "query": 0.006489711000085663,
+          "maintenance": 0.0,
+          "reads": 1419,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.010728790000484878,
+          "query": 0.0051130410015503,
+          "maintenance": 0.0,
+          "reads": 264,
+          "checks": 641
+        },
+        "legacy": {
+          "train": 0.009418665000339388,
+          "query": 0.0022597099996346515,
+          "maintenance": 0.0004643769989343127,
+          "reads": 0,
+          "checks": 688
+        },
+        "incremental": {
+          "train": 0.009274956999433925,
+          "query": 0.002572916999724839,
+          "maintenance": 0.00020179200009806664,
+          "reads": 0,
+          "checks": 671
+        }
+      },
+      "cold": {
+        "legacy": 8.08750000942382e-05,
+        "incremental": 7.370899993475177e-05
+      },
+      "comparisons": 352,
+      "saved_bytes": 43773,
+      "mismatches": 0,
+      "signatures": 16,
+      "logical_bytes": 771
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 8,
+      "density": 4,
+      "repeat": 3,
+      "stats": {
+        "scan": {
+          "train": 0.006603081000321254,
+          "query": 0.004996128001039324,
+          "maintenance": 0.0,
+          "reads": 1419,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.007519500000398693,
+          "query": 0.0036619169995901757,
+          "maintenance": 0.0,
+          "reads": 264,
+          "checks": 641
+        },
+        "legacy": {
+          "train": 0.007608039999468019,
+          "query": 0.0018818329999703565,
+          "maintenance": 0.0003823319989351148,
+          "reads": 0,
+          "checks": 688
+        },
+        "incremental": {
+          "train": 0.007251959000313946,
+          "query": 0.00216629099986676,
+          "maintenance": 0.00017583199996806798,
+          "reads": 0,
+          "checks": 671
+        }
+      },
+      "cold": {
+        "legacy": 8.92499997462437e-05,
+        "incremental": 0.00010579099989627139
+      },
+      "comparisons": 352,
+      "saved_bytes": 43773,
+      "mismatches": 0,
+      "signatures": 16,
+      "logical_bytes": 771
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 8,
+      "density": 16,
+      "repeat": 0,
+      "stats": {
+        "scan": {
+          "train": 0.007158833999710623,
+          "query": 0.018528709001202515,
+          "maintenance": 0.0,
+          "reads": 5643,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.008410332999574166,
+          "query": 0.008919541000523168,
+          "maintenance": 0.0,
+          "reads": 264,
+          "checks": 2629
+        },
+        "legacy": {
+          "train": 0.008328458000505634,
+          "query": 0.006678376999843749,
+          "maintenance": 0.000447124999936932,
+          "reads": 0,
+          "checks": 2741
+        },
+        "incremental": {
+          "train": 0.007829997000499134,
+          "query": 0.006460373998834257,
+          "maintenance": 0.00017120900065492606,
+          "reads": 0,
+          "checks": 2667
+        }
+      },
+      "cold": {
+        "legacy": 8.654200019009295e-05,
+        "incremental": 4.7666999762441264e-05
+      },
+      "comparisons": 544,
+      "saved_bytes": 43773,
+      "mismatches": 0,
+      "signatures": 16,
+      "logical_bytes": 771
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 8,
+      "density": 16,
+      "repeat": 1,
+      "stats": {
+        "scan": {
+          "train": 0.0063542080001752765,
+          "query": 0.01790458399864292,
+          "maintenance": 0.0,
+          "reads": 5643,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.0077092520014048205,
+          "query": 0.007760040000448498,
+          "maintenance": 0.0,
+          "reads": 264,
+          "checks": 2629
+        },
+        "legacy": {
+          "train": 0.007570501999452972,
+          "query": 0.006226082000466704,
+          "maintenance": 0.0004837910000787815,
+          "reads": 0,
+          "checks": 2741
+        },
+        "incremental": {
+          "train": 0.008115875999919808,
+          "query": 0.006171997999899759,
+          "maintenance": 0.0001822509998419264,
+          "reads": 0,
+          "checks": 2667
+        }
+      },
+      "cold": {
+        "legacy": 8.695899987287703e-05,
+        "incremental": 4.8833000164449913e-05
+      },
+      "comparisons": 544,
+      "saved_bytes": 43773,
+      "mismatches": 0,
+      "signatures": 16,
+      "logical_bytes": 771
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 8,
+      "density": 16,
+      "repeat": 2,
+      "stats": {
+        "scan": {
+          "train": 0.010465749998729734,
+          "query": 0.024917166000705038,
+          "maintenance": 0.0,
+          "reads": 5643,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.011272917000951566,
+          "query": 0.010151708999273978,
+          "maintenance": 0.0,
+          "reads": 264,
+          "checks": 2629
+        },
+        "legacy": {
+          "train": 0.01470895900092728,
+          "query": 0.00902929399990171,
+          "maintenance": 0.0005397909990279004,
+          "reads": 0,
+          "checks": 2741
+        },
+        "incremental": {
+          "train": 0.01132433300062985,
+          "query": 0.00858454399940456,
+          "maintenance": 0.0002094580008815683,
+          "reads": 0,
+          "checks": 2667
+        }
+      },
+      "cold": {
+        "legacy": 0.00012837499980378198,
+        "incremental": 0.00010433299985379563
+      },
+      "comparisons": 544,
+      "saved_bytes": 43773,
+      "mismatches": 0,
+      "signatures": 16,
+      "logical_bytes": 771
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 8,
+      "density": 16,
+      "repeat": 3,
+      "stats": {
+        "scan": {
+          "train": 0.009087248000469117,
+          "query": 0.021190668000599544,
+          "maintenance": 0.0,
+          "reads": 5643,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.009411915999862686,
+          "query": 0.009509625999726268,
+          "maintenance": 0.0,
+          "reads": 264,
+          "checks": 2629
+        },
+        "legacy": {
+          "train": 0.0090544590002537,
+          "query": 0.007073582999964856,
+          "maintenance": 0.0004887079999207344,
+          "reads": 0,
+          "checks": 2741
+        },
+        "incremental": {
+          "train": 0.008723251000446908,
+          "query": 0.007638166000106139,
+          "maintenance": 0.0001877519994195609,
+          "reads": 0,
+          "checks": 2667
+        }
+      },
+      "cold": {
+        "legacy": 8.116700018945266e-05,
+        "incremental": 5.1917000291723525e-05
+      },
+      "comparisons": 544,
+      "saved_bytes": 43773,
+      "mismatches": 0,
+      "signatures": 16,
+      "logical_bytes": 771
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 64,
+      "density": 1,
+      "repeat": 0,
+      "stats": {
+        "scan": {
+          "train": 0.014175752000483044,
+          "query": 0.004088919000878377,
+          "maintenance": 0.0,
+          "reads": 1595,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.014778498000396212,
+          "query": 0.006615123999381467,
+          "maintenance": 0.0,
+          "reads": 1160,
+          "checks": 890
+        },
+        "legacy": {
+          "train": 0.01593333499977234,
+          "query": 0.000962373000675143,
+          "maintenance": 0.0010505440004635602,
+          "reads": 0,
+          "checks": 850
+        },
+        "incremental": {
+          "train": 0.014809918999617366,
+          "query": 0.0009168749988930358,
+          "maintenance": 0.00023133399872676819,
+          "reads": 0,
+          "checks": 886
+        }
+      },
+      "cold": {
+        "legacy": 0.0003047909999622789,
+        "incremental": 0.00025920899997800007
+      },
+      "comparisons": 976,
+      "saved_bytes": 144062,
+      "mismatches": 0,
+      "signatures": 72,
+      "logical_bytes": 3261
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 64,
+      "density": 1,
+      "repeat": 1,
+      "stats": {
+        "scan": {
+          "train": 0.01698608299921034,
+          "query": 0.0042988769982912345,
+          "maintenance": 0.0,
+          "reads": 1595,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.016960500999175565,
+          "query": 0.008024540999485907,
+          "maintenance": 0.0,
+          "reads": 1160,
+          "checks": 890
+        },
+        "legacy": {
+          "train": 0.022090665000632725,
+          "query": 0.0013978749989291828,
+          "maintenance": 0.0014186250000420841,
+          "reads": 0,
+          "checks": 850
+        },
+        "incremental": {
+          "train": 0.023326044000896218,
+          "query": 0.001545333000649407,
+          "maintenance": 0.0007791660013936053,
+          "reads": 0,
+          "checks": 886
+        }
+      },
+      "cold": {
+        "legacy": 0.00047483299977102433,
+        "incremental": 0.0002824170001076709
+      },
+      "comparisons": 976,
+      "saved_bytes": 144062,
+      "mismatches": 0,
+      "signatures": 72,
+      "logical_bytes": 3261
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 64,
+      "density": 1,
+      "repeat": 2,
+      "stats": {
+        "scan": {
+          "train": 0.015655916999548936,
+          "query": 0.003927376999854459,
+          "maintenance": 0.0,
+          "reads": 1595,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.01416370799915967,
+          "query": 0.006915043001299637,
+          "maintenance": 0.0,
+          "reads": 1160,
+          "checks": 890
+        },
+        "legacy": {
+          "train": 0.019331374001922086,
+          "query": 0.0010781219993987179,
+          "maintenance": 0.0011877949996232928,
+          "reads": 0,
+          "checks": 850
+        },
+        "incremental": {
+          "train": 0.016496085000653693,
+          "query": 0.001124290999086952,
+          "maintenance": 0.00018229199940833496,
+          "reads": 0,
+          "checks": 886
+        }
+      },
+      "cold": {
+        "legacy": 0.00034591699977681856,
+        "incremental": 0.0002906670001721068
+      },
+      "comparisons": 976,
+      "saved_bytes": 144094,
+      "mismatches": 0,
+      "signatures": 72,
+      "logical_bytes": 3261
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 64,
+      "density": 1,
+      "repeat": 3,
+      "stats": {
+        "scan": {
+          "train": 0.017548081000768434,
+          "query": 0.004685835999225674,
+          "maintenance": 0.0,
+          "reads": 1595,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.016494830999818078,
+          "query": 0.006859208000150829,
+          "maintenance": 0.0,
+          "reads": 1160,
+          "checks": 890
+        },
+        "legacy": {
+          "train": 0.017531497999243584,
+          "query": 0.0010280839996994473,
+          "maintenance": 0.0013278339993121335,
+          "reads": 0,
+          "checks": 850
+        },
+        "incremental": {
+          "train": 0.0176265830000375,
+          "query": 0.0014941239987820154,
+          "maintenance": 0.00018420899914417532,
+          "reads": 0,
+          "checks": 886
+        }
+      },
+      "cold": {
+        "legacy": 0.0003161660001751443,
+        "incremental": 0.00025645799996709684
+      },
+      "comparisons": 976,
+      "saved_bytes": 144098,
+      "mismatches": 0,
+      "signatures": 72,
+      "logical_bytes": 3261
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 64,
+      "density": 4,
+      "repeat": 0,
+      "stats": {
+        "scan": {
+          "train": 0.0175752069999362,
+          "query": 0.016406539999934466,
+          "maintenance": 0.0,
+          "reads": 6235,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.01916637400063337,
+          "query": 0.009721458000058192,
+          "maintenance": 0.0,
+          "reads": 1160,
+          "checks": 3686
+        },
+        "legacy": {
+          "train": 0.017786372000955453,
+          "query": 0.0032276669999191654,
+          "maintenance": 0.0010544159995333757,
+          "reads": 0,
+          "checks": 3538
+        },
+        "incremental": {
+          "train": 0.018125707000308466,
+          "query": 0.003979543000241392,
+          "maintenance": 0.00020933199857608997,
+          "reads": 0,
+          "checks": 3662
+        }
+      },
+      "cold": {
+        "legacy": 0.00039204199993037037,
+        "incremental": 0.0002897090002988989
+      },
+      "comparisons": 1024,
+      "saved_bytes": 144098,
+      "mismatches": 0,
+      "signatures": 72,
+      "logical_bytes": 3261
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 64,
+      "density": 4,
+      "repeat": 1,
+      "stats": {
+        "scan": {
+          "train": 0.015798540999185207,
+          "query": 0.015393290001611604,
+          "maintenance": 0.0,
+          "reads": 6235,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.016228123000018968,
+          "query": 0.008771081000759295,
+          "maintenance": 0.0,
+          "reads": 1160,
+          "checks": 3686
+        },
+        "legacy": {
+          "train": 0.016648795000037353,
+          "query": 0.002874916000109806,
+          "maintenance": 0.0011476669997136923,
+          "reads": 0,
+          "checks": 3538
+        },
+        "incremental": {
+          "train": 0.015568333000373968,
+          "query": 0.0028496659992924833,
+          "maintenance": 0.0002027909995376831,
+          "reads": 0,
+          "checks": 3662
+        }
+      },
+      "cold": {
+        "legacy": 0.00038829200002510333,
+        "incremental": 0.0002564159999565163
+      },
+      "comparisons": 1024,
+      "saved_bytes": 144098,
+      "mismatches": 0,
+      "signatures": 72,
+      "logical_bytes": 3261
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 64,
+      "density": 4,
+      "repeat": 2,
+      "stats": {
+        "scan": {
+          "train": 0.014082747998600098,
+          "query": 0.01530241900081819,
+          "maintenance": 0.0,
+          "reads": 6235,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.015678707000006398,
+          "query": 0.008034125999529351,
+          "maintenance": 0.0,
+          "reads": 1160,
+          "checks": 3686
+        },
+        "legacy": {
+          "train": 0.015530376001152035,
+          "query": 0.0028032089999214804,
+          "maintenance": 0.001014871000279527,
+          "reads": 0,
+          "checks": 3538
+        },
+        "incremental": {
+          "train": 0.014977877000092121,
+          "query": 0.0028039569997417857,
+          "maintenance": 0.00017445799994675326,
+          "reads": 0,
+          "checks": 3662
+        }
+      },
+      "cold": {
+        "legacy": 0.000300167000204965,
+        "incremental": 0.0002453330002936127
+      },
+      "comparisons": 1024,
+      "saved_bytes": 144098,
+      "mismatches": 0,
+      "signatures": 72,
+      "logical_bytes": 3261
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 64,
+      "density": 4,
+      "repeat": 3,
+      "stats": {
+        "scan": {
+          "train": 0.014213041000402882,
+          "query": 0.014930168998944282,
+          "maintenance": 0.0,
+          "reads": 6235,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.015199544000552123,
+          "query": 0.00850462299922583,
+          "maintenance": 0.0,
+          "reads": 1160,
+          "checks": 3686
+        },
+        "legacy": {
+          "train": 0.01715945400064811,
+          "query": 0.0029358730007515987,
+          "maintenance": 0.0011159570003655972,
+          "reads": 0,
+          "checks": 3538
+        },
+        "incremental": {
+          "train": 0.014628376000473509,
+          "query": 0.002925041999333189,
+          "maintenance": 0.00017712400085656554,
+          "reads": 0,
+          "checks": 3662
+        }
+      },
+      "cold": {
+        "legacy": 0.0003152080003019364,
+        "incremental": 0.00028183400036141393
+      },
+      "comparisons": 1024,
+      "saved_bytes": 144098,
+      "mismatches": 0,
+      "signatures": 72,
+      "logical_bytes": 3261
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 64,
+      "density": 16,
+      "repeat": 0,
+      "stats": {
+        "scan": {
+          "train": 0.015620164999745612,
+          "query": 0.06082058100037102,
+          "maintenance": 0.0,
+          "reads": 24795,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.016827956000724953,
+          "query": 0.015120667000246613,
+          "maintenance": 0.0,
+          "reads": 1160,
+          "checks": 14791
+        },
+        "legacy": {
+          "train": 0.017658455999480793,
+          "query": 0.008988416999272886,
+          "maintenance": 0.001190626001516648,
+          "reads": 0,
+          "checks": 13528
+        },
+        "incremental": {
+          "train": 0.015979123999386502,
+          "query": 0.009380166000482859,
+          "maintenance": 0.00018470899885869585,
+          "reads": 0,
+          "checks": 14740
+        }
+      },
+      "cold": {
+        "legacy": 0.00029629099981320905,
+        "incremental": 0.0002455839999129239
+      },
+      "comparisons": 1216,
+      "saved_bytes": 144098,
+      "mismatches": 0,
+      "signatures": 72,
+      "logical_bytes": 3261
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 64,
+      "density": 16,
+      "repeat": 1,
+      "stats": {
+        "scan": {
+          "train": 0.012490126000557211,
+          "query": 0.051138208999873314,
+          "maintenance": 0.0,
+          "reads": 24795,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.013220539999565517,
+          "query": 0.01329579200137232,
+          "maintenance": 0.0,
+          "reads": 1160,
+          "checks": 14791
+        },
+        "legacy": {
+          "train": 0.014148373000352876,
+          "query": 0.007446459000220784,
+          "maintenance": 0.0009606650000932859,
+          "reads": 0,
+          "checks": 13528
+        },
+        "incremental": {
+          "train": 0.01247300100112625,
+          "query": 0.008026122999581276,
+          "maintenance": 0.0001539160016363894,
+          "reads": 0,
+          "checks": 14740
+        }
+      },
+      "cold": {
+        "legacy": 0.000348416000178986,
+        "incremental": 0.0002625000001899025
+      },
+      "comparisons": 1216,
+      "saved_bytes": 144098,
+      "mismatches": 0,
+      "signatures": 72,
+      "logical_bytes": 3261
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 64,
+      "density": 16,
+      "repeat": 2,
+      "stats": {
+        "scan": {
+          "train": 0.019627042000593065,
+          "query": 0.07338549900032376,
+          "maintenance": 0.0,
+          "reads": 24795,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.020339872999102226,
+          "query": 0.017579375999957847,
+          "maintenance": 0.0,
+          "reads": 1160,
+          "checks": 14791
+        },
+        "legacy": {
+          "train": 0.021620166000047902,
+          "query": 0.010268167000958783,
+          "maintenance": 0.0013723749998462154,
+          "reads": 0,
+          "checks": 13528
+        },
+        "incremental": {
+          "train": 0.018469792998985213,
+          "query": 0.010983749000388343,
+          "maintenance": 0.00021320700034266338,
+          "reads": 0,
+          "checks": 14740
+        }
+      },
+      "cold": {
+        "legacy": 0.00030495800001517637,
+        "incremental": 0.000251500000103988
+      },
+      "comparisons": 1216,
+      "saved_bytes": 144098,
+      "mismatches": 0,
+      "signatures": 72,
+      "logical_bytes": 3261
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 64,
+      "density": 16,
+      "repeat": 3,
+      "stats": {
+        "scan": {
+          "train": 0.017403416000433936,
+          "query": 0.06635300099878805,
+          "maintenance": 0.0,
+          "reads": 24795,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.01753687400059789,
+          "query": 0.02174837499978821,
+          "maintenance": 0.0,
+          "reads": 1160,
+          "checks": 14791
+        },
+        "legacy": {
+          "train": 0.017450374999953056,
+          "query": 0.009240206999493239,
+          "maintenance": 0.0012609569985215785,
+          "reads": 0,
+          "checks": 13528
+        },
+        "incremental": {
+          "train": 0.015683127000102104,
+          "query": 0.010395292000794143,
+          "maintenance": 0.00018791700040310388,
+          "reads": 0,
+          "checks": 14740
+        }
+      },
+      "cold": {
+        "legacy": 0.0003338329997859546,
+        "incremental": 0.00030120800010990934
+      },
+      "comparisons": 1216,
+      "saved_bytes": 144098,
+      "mismatches": 0,
+      "signatures": 72,
+      "logical_bytes": 3261
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 256,
+      "density": 1,
+      "repeat": 0,
+      "stats": {
+        "scan": {
+          "train": 0.035296292998737044,
+          "query": 0.010810290999870631,
+          "maintenance": 0.0,
+          "reads": 5819,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.056588956000723556,
+          "query": 0.017782542000986723,
+          "maintenance": 0.0,
+          "reads": 4232,
+          "checks": 3437
+        },
+        "legacy": {
+          "train": 0.04452416600042852,
+          "query": 0.0016040420005083433,
+          "maintenance": 0.0030449979994955356,
+          "reads": 0,
+          "checks": 3339
+        },
+        "incremental": {
+          "train": 0.03639683699930174,
+          "query": 0.0018684140000004845,
+          "maintenance": 0.00016925099816944567,
+          "reads": 0,
+          "checks": 3437
+        }
+      },
+      "cold": {
+        "legacy": 0.0010607499998513958,
+        "incremental": 0.000957624999955442
+      },
+      "comparisons": 3280,
+      "saved_bytes": 498848,
+      "mismatches": 0,
+      "signatures": 264,
+      "logical_bytes": 12133
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 256,
+      "density": 1,
+      "repeat": 1,
+      "stats": {
+        "scan": {
+          "train": 0.051104705999932776,
+          "query": 0.015116626000690303,
+          "maintenance": 0.0,
+          "reads": 5819,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.0517692900007205,
+          "query": 0.02456520699934117,
+          "maintenance": 0.0,
+          "reads": 4232,
+          "checks": 3437
+        },
+        "legacy": {
+          "train": 0.05958233299998028,
+          "query": 0.002365667000958638,
+          "maintenance": 0.004404832000545866,
+          "reads": 0,
+          "checks": 3339
+        },
+        "incremental": {
+          "train": 0.056660163999822544,
+          "query": 0.0027311680005368544,
+          "maintenance": 0.00023733800026093377,
+          "reads": 0,
+          "checks": 3437
+        }
+      },
+      "cold": {
+        "legacy": 0.0012851660003434517,
+        "incremental": 0.0013103330002195435
+      },
+      "comparisons": 3280,
+      "saved_bytes": 498848,
+      "mismatches": 0,
+      "signatures": 264,
+      "logical_bytes": 12133
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 256,
+      "density": 1,
+      "repeat": 2,
+      "stats": {
+        "scan": {
+          "train": 0.044686418000765116,
+          "query": 0.01289308599962169,
+          "maintenance": 0.0,
+          "reads": 5819,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.04309579200071312,
+          "query": 0.02079662499954793,
+          "maintenance": 0.0,
+          "reads": 4232,
+          "checks": 3437
+        },
+        "legacy": {
+          "train": 0.047744126000452525,
+          "query": 0.0017707909996715898,
+          "maintenance": 0.0034486660001675773,
+          "reads": 0,
+          "checks": 3339
+        },
+        "incremental": {
+          "train": 0.06625779200021498,
+          "query": 0.0024023360001592664,
+          "maintenance": 0.0001827079995564418,
+          "reads": 0,
+          "checks": 3437
+        }
+      },
+      "cold": {
+        "legacy": 0.0011246670001128223,
+        "incremental": 0.0012609580003299925
+      },
+      "comparisons": 3280,
+      "saved_bytes": 498880,
+      "mismatches": 0,
+      "signatures": 264,
+      "logical_bytes": 12133
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 256,
+      "density": 1,
+      "repeat": 3,
+      "stats": {
+        "scan": {
+          "train": 0.04099008000048343,
+          "query": 0.011654084999008774,
+          "maintenance": 0.0,
+          "reads": 5819,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.0400274980015638,
+          "query": 0.0195348729998841,
+          "maintenance": 0.0,
+          "reads": 4232,
+          "checks": 3437
+        },
+        "legacy": {
+          "train": 0.04449804299929383,
+          "query": 0.0018827940002665855,
+          "maintenance": 0.0033926659984899743,
+          "reads": 0,
+          "checks": 3339
+        },
+        "incremental": {
+          "train": 0.03880658099933498,
+          "query": 0.0019495819997246144,
+          "maintenance": 0.00020304100007706438,
+          "reads": 0,
+          "checks": 3437
+        }
+      },
+      "cold": {
+        "legacy": 0.0016826249998302956,
+        "incremental": 0.0014586249999410938
+      },
+      "comparisons": 3280,
+      "saved_bytes": 498884,
+      "mismatches": 0,
+      "signatures": 264,
+      "logical_bytes": 12133
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 256,
+      "density": 4,
+      "repeat": 0,
+      "stats": {
+        "scan": {
+          "train": 0.03890545799959,
+          "query": 0.047735918001308164,
+          "maintenance": 0.0,
+          "reads": 22747,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.04155012599949259,
+          "query": 0.022803708999163064,
+          "maintenance": 0.0,
+          "reads": 4232,
+          "checks": 13928
+        },
+        "legacy": {
+          "train": 0.046769041000061407,
+          "query": 0.005889918000775651,
+          "maintenance": 0.0034267090004505008,
+          "reads": 0,
+          "checks": 13952
+        },
+        "incremental": {
+          "train": 0.06794683400039503,
+          "query": 0.005952665999302553,
+          "maintenance": 0.000180081000962673,
+          "reads": 0,
+          "checks": 13928
+        }
+      },
+      "cold": {
+        "legacy": 0.0010680830000637798,
+        "incremental": 0.0009764999999788415
+      },
+      "comparisons": 3328,
+      "saved_bytes": 498884,
+      "mismatches": 0,
+      "signatures": 264,
+      "logical_bytes": 12133
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 256,
+      "density": 4,
+      "repeat": 1,
+      "stats": {
+        "scan": {
+          "train": 0.0400806239999838,
+          "query": 0.04723974999933489,
+          "maintenance": 0.0,
+          "reads": 22747,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.040470582998750615,
+          "query": 0.024056917999587313,
+          "maintenance": 0.0,
+          "reads": 4232,
+          "checks": 13928
+        },
+        "legacy": {
+          "train": 0.041493960001389496,
+          "query": 0.005300166000779427,
+          "maintenance": 0.0031899169989628717,
+          "reads": 0,
+          "checks": 13952
+        },
+        "incremental": {
+          "train": 0.03811733400016237,
+          "query": 0.006082502998651762,
+          "maintenance": 0.00016737699888835778,
+          "reads": 0,
+          "checks": 13928
+        }
+      },
+      "cold": {
+        "legacy": 0.0011204170000382874,
+        "incremental": 0.0009827909998421092
+      },
+      "comparisons": 3328,
+      "saved_bytes": 498884,
+      "mismatches": 0,
+      "signatures": 264,
+      "logical_bytes": 12133
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 256,
+      "density": 4,
+      "repeat": 2,
+      "stats": {
+        "scan": {
+          "train": 0.058769374998973944,
+          "query": 0.0666325830002279,
+          "maintenance": 0.0,
+          "reads": 22747,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.0560827899994365,
+          "query": 0.035497707000558876,
+          "maintenance": 0.0,
+          "reads": 4232,
+          "checks": 13928
+        },
+        "legacy": {
+          "train": 0.06218587499915884,
+          "query": 0.00871845899928303,
+          "maintenance": 0.004672125000979577,
+          "reads": 0,
+          "checks": 13952
+        },
+        "incremental": {
+          "train": 0.055249541999728535,
+          "query": 0.009294082999531383,
+          "maintenance": 0.0002509609998924134,
+          "reads": 0,
+          "checks": 13928
+        }
+      },
+      "cold": {
+        "legacy": 0.0026067499998134736,
+        "incremental": 0.0016102499998851272
+      },
+      "comparisons": 3328,
+      "saved_bytes": 498884,
+      "mismatches": 0,
+      "signatures": 264,
+      "logical_bytes": 12133
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 256,
+      "density": 4,
+      "repeat": 3,
+      "stats": {
+        "scan": {
+          "train": 0.09041829199895801,
+          "query": 0.06883787399920038,
+          "maintenance": 0.0,
+          "reads": 22747,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.0746577919999254,
+          "query": 0.04037949999974444,
+          "maintenance": 0.0,
+          "reads": 4232,
+          "checks": 13928
+        },
+        "legacy": {
+          "train": 0.07790870900134905,
+          "query": 0.009886125000321044,
+          "maintenance": 0.005019290998916404,
+          "reads": 0,
+          "checks": 13952
+        },
+        "incremental": {
+          "train": 0.05795866800053773,
+          "query": 0.008129373999963718,
+          "maintenance": 0.0002518759993108688,
+          "reads": 0,
+          "checks": 13928
+        }
+      },
+      "cold": {
+        "legacy": 0.0017557500000293658,
+        "incremental": 0.0014135410001472337
+      },
+      "comparisons": 3328,
+      "saved_bytes": 498884,
+      "mismatches": 0,
+      "signatures": 264,
+      "logical_bytes": 12133
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 256,
+      "density": 16,
+      "repeat": 0,
+      "stats": {
+        "scan": {
+          "train": 0.040416628000002675,
+          "query": 0.20519675100013046,
+          "maintenance": 0.0,
+          "reads": 90459,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.04497966699864264,
+          "query": 0.039126666999436566,
+          "maintenance": 0.0,
+          "reads": 4232,
+          "checks": 54941
+        },
+        "legacy": {
+          "train": 0.04240612500052521,
+          "query": 0.01865254099948288,
+          "maintenance": 0.003219166998860601,
+          "reads": 0,
+          "checks": 54715
+        },
+        "incremental": {
+          "train": 0.03901137800039578,
+          "query": 0.01919241699988561,
+          "maintenance": 0.00018554099960965686,
+          "reads": 0,
+          "checks": 54941
+        }
+      },
+      "cold": {
+        "legacy": 0.00118975000032151,
+        "incremental": 0.001090916999601177
+      },
+      "comparisons": 3520,
+      "saved_bytes": 498884,
+      "mismatches": 0,
+      "signatures": 264,
+      "logical_bytes": 12133
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 256,
+      "density": 16,
+      "repeat": 1,
+      "stats": {
+        "scan": {
+          "train": 0.09004066800071087,
+          "query": 0.25787316800051485,
+          "maintenance": 0.0,
+          "reads": 90459,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.06434679300036805,
+          "query": 0.05658483299976069,
+          "maintenance": 0.0,
+          "reads": 4232,
+          "checks": 54941
+        },
+        "legacy": {
+          "train": 0.0756124160006948,
+          "query": 0.03569012299840324,
+          "maintenance": 0.005114207999667997,
+          "reads": 0,
+          "checks": 54715
+        },
+        "incremental": {
+          "train": 0.06067904500150689,
+          "query": 0.029095374999997148,
+          "maintenance": 0.0002574569994067133,
+          "reads": 0,
+          "checks": 54941
+        }
+      },
+      "cold": {
+        "legacy": 0.0016096250001282897,
+        "incremental": 0.002296457999818813
+      },
+      "comparisons": 3520,
+      "saved_bytes": 498884,
+      "mismatches": 0,
+      "signatures": 264,
+      "logical_bytes": 12133
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 256,
+      "density": 16,
+      "repeat": 2,
+      "stats": {
+        "scan": {
+          "train": 0.13730366799973126,
+          "query": 0.7104114170006142,
+          "maintenance": 0.0,
+          "reads": 90459,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.18685850099973322,
+          "query": 0.26942912299819,
+          "maintenance": 0.0,
+          "reads": 4232,
+          "checks": 54941
+        },
+        "legacy": {
+          "train": 0.35449771000048713,
+          "query": 0.0518186240005889,
+          "maintenance": 0.004796709000402188,
+          "reads": 0,
+          "checks": 54715
+        },
+        "incremental": {
+          "train": 0.10294466599907537,
+          "query": 0.1131237070003408,
+          "maintenance": 0.00029441400056384737,
+          "reads": 0,
+          "checks": 54941
+        }
+      },
+      "cold": {
+        "legacy": 0.0017115000000558211,
+        "incremental": 0.0012229999997543928
+      },
+      "comparisons": 3520,
+      "saved_bytes": 498884,
+      "mismatches": 0,
+      "signatures": 264,
+      "logical_bytes": 12133
+    },
+    {
+      "shape": "shared_actor",
+      "diversity": 256,
+      "density": 16,
+      "repeat": 3,
+      "stats": {
+        "scan": {
+          "train": 0.05718450199947256,
+          "query": 0.23394837400064716,
+          "maintenance": 0.0,
+          "reads": 90459,
+          "checks": 0
+        },
+        "rebuild": {
+          "train": 0.05465016700009073,
+          "query": 0.053915040999527264,
+          "maintenance": 0.0,
+          "reads": 4232,
+          "checks": 54941
+        },
+        "legacy": {
+          "train": 0.063773291999496,
+          "query": 0.025497417000224232,
+          "maintenance": 0.00498679100019217,
+          "reads": 0,
+          "checks": 54715
+        },
+        "incremental": {
+          "train": 0.050959248999333795,
+          "query": 0.027842622999287414,
+          "maintenance": 0.00025887500032695243,
+          "reads": 0,
+          "checks": 54941
+        }
+      },
+      "cold": {
+        "legacy": 0.0014232089997676667,
+        "incremental": 0.0011928339999940363
+      },
+      "comparisons": 3520,
+      "saved_bytes": 498884,
+      "mismatches": 0,
+      "signatures": 264,
+      "logical_bytes": 12133
+    }
+  ],
+  "environment": {
+    "python": "3.10.18",
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "hash_seed": "random"
+  },
+  "order_balanced": true
+}

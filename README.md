@@ -244,3 +244,26 @@ results, but cold rebuilds lose at one query per update and improve at40 in this
 
 简体中文: 保存恶化主要对应GC停止偏斜，已均衡测量顺序。交替执行32,472 query完整一致，
 每更新单query全重建不利、40 query改善；生产保存行为不变。
+
+Incremental grounding maintenance is now opt-in with `build_primitive_grounding(state, incremental=True)`.
+At96 Events it reduces append-maintenance reads from4,578 to96 for single-Event updates, preserving97,416
+complete query comparisons and saved bytes. Total-time gains depend on query density; scan/rebuild remain
+available. [Results / 結果 / 结果](docs/G3.4-Incremental-Grounding-2026-10-11.md).
+
+日本語: 接地indexのappend差分更新を追加。97,416完全結果比較と保存内容を維持し、1 Event更新時の維持参照4,578→96。
+合計時間は常に改善するわけではなく、明示opt-inを維持する。
+
+简体中文: 新增接地index的append差分维护，保持97,416完整结果及保存内容，单Event更新维护读取4,578→96。
+总时间并非始终改善，保持显式opt-in。
+
+役割・witnessの多様化評価では72軌跡の完全結果・実保存を照合し、appendの全集合コピーと並べ直しを除去しました。方式選択の費用条件と悪化例も[計測報告](docs/G3.4-Grounding-Diversity-2026-10-11.md)に記録しています。
+
+The diversity study verifies complete results and saved bytes across72 trajectories, removes full-set append copying/sorting, and records selection costs and regressions in the linked report.
+
+角色与witness多样性实验验证72条轨迹的完整结果与保存字节，移除追加的全集合复制/排序，并记录选择成本和退化情况。
+
+同じactor役割に集中するwitness向けに、役割対とidentityを保持した[接地検索索引](docs/G3.4-Grounding-Lookup-2026-10-11.md)を追加しました。256種類では旧線形index比でquery時間を59〜68%削減し、構築・更新・メモリ増加も計測しました。
+
+A joint role/identity lookup reduces queries against concentrated witnesses by59–68% at256 types versus the prior linear index; the linked report records build/update and memory costs.
+
+新增保留角色对与identity的接地查询索引，256种集中witness的query时间较旧线性index减少59–68%，报告包含构建、更新及内存成本。

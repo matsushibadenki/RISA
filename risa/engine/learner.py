@@ -19,7 +19,9 @@ from risa.engine.validator import validation_effect_support
 
 def learn_from_event(state: RisaState, event: Event) -> None:
     from risa.engine.primitive_grounding import invalidate_primitive_grounding
-    invalidate_primitive_grounding(state)
+    index = getattr(state, '_primitive_grounding_index', None)
+    if index is not None and not index['incremental']:
+        invalidate_primitive_grounding(state)
     index_event_evidence(state, event)
     actor = normalize_label(event.actor)
     action = normalize_label(event.action)
@@ -378,7 +380,11 @@ def _update_structural_primitive(
     primitive.state_variable_deltas.update(state_variable_deltas)
     for group, state_name in state_group_updates.items():
         state.exclusive_state_groups.setdefault(group, set()).add(f"state:{state_name}")
+    already_supported = event_id in primitive.evidence_event_ids
     primitive.evidence_event_ids.add(event_id)
+    if getattr(state, '_primitive_grounding_index', None) is not None:
+        from risa.engine.primitive_grounding import update_primitive_grounding
+        update_primitive_grounding(state, primitive, event_id, already_supported)
     if context_key != "__no_context__":
         primitive.context_tags.update(context_key.split("|"))
     refresh_primitive_adoption(primitive)

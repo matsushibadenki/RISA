@@ -20,6 +20,8 @@ def ingest_event(
     event: Event,
     enable_coactivation: bool = True,
 ) -> None:
+    from risa.engine.primitive_grounding import prepare_grounding_ingest
+    prepare_grounding_ingest(state, event)
     state.events_by_id[event.id] = event
     index_event_order(state, event)
     if event.before_state_observed:
@@ -27,8 +29,6 @@ def ingest_event(
 
         index_applicability_evidence(state, event)
 
-    from risa.engine.primitive_grounding import invalidate_primitive_grounding
-    invalidate_primitive_grounding(state)
     actor_id = _node_id("entity", event.actor)
     action_id = _node_id("process", event.action)
     event_id = _node_id("event", event.id)

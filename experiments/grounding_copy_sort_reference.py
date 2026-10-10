@@ -1,4 +1,6 @@
-"""Reconstructible joint-witness summaries for ordinary Primitive grounding.
+"""Frozen pre-diversity copy/sort baseline (2026-10-11); benchmark only.
+
+Reconstructible joint-witness summaries for ordinary Primitive grounding.
 
 The default mode invalidates on ingestion/learning. Explicitly build with
 incremental=True to maintain appended support without full reconstruction.
@@ -8,11 +10,6 @@ After invalidation/load, explicitly select incremental mode again if desired.
 The JSON payload size measures a serializable summary, not Python heap usage.
 After incremental updates use grounding_payload_bytes for current size;
 payload_bytes is set to None rather than returning stale size metadata.
-Rows and target unions are private mutable sets: append does not copy or sort
-existing witnesses. Canonical sorting occurs only during explicit export-size
-measurement. Joint actor/target/identity rows remain indivisible.
-An actor/target role lookup stores equality masks from individual witnesses;
-queries inspect supplied role combinations instead of scanning stored rows.
 """
 import json
 from time import perf_counter
@@ -23,21 +20,6 @@ from risa.engine.role_induction import effective_event_actor_roles, effective_ev
 
 def invalidate_primitive_grounding(state):
     state._primitive_grounding_index = None
-
-
-def _add_lookup(lookup, row):
-    """Expand roles within ONE witness; equality masks never join evidence rows."""
-    actor_roles, target_roles, equal = row
-    mask = 3 if equal is None else (2 if equal else 1)
-    for role in actor_roles:
-        bucket = lookup.get(role)
-        if bucket is None:
-            bucket = lookup[role] = dict(any=0, wildcard=0, targets={})
-        bucket['any'] |= mask
-        if not target_roles:
-            bucket['wildcard'] |= mask
-        for target_role in target_roles:
-            bucket['targets'][target_role] = bucket['targets'].get(target_role, 0) | mask
 
 
 def build_primitive_grounding(state, *, incremental=False):
@@ -58,13 +40,10 @@ def build_primitive_grounding(state, *, incremental=False):
             targets.update(tr)
             equal = None if event.target is None else normalize_label(event.actor) == normalize_label(event.target)
             rows.add((ar, tr, equal))
-        lookup = {}
-        for row in rows:
-            _add_lookup(lookup, row)
-        entries[key] = dict(rows=rows, targets=targets, lookup=lookup,
+        entries[key] = dict(rows=tuple(sorted(rows, key=repr)), targets=frozenset(targets),
                             actor_typed=any(ar for ar, _, _ in rows))
         references[key] = primitive
-    payload = {key: dict(rows=sorted(entry['rows'], key=repr), targets=sorted(entry['targets'])) for key, entry in entries.items()}
+    payload = {key: dict(rows=entry['rows'], targets=sorted(entry['targets'])) for key, entry in entries.items()}
     index = dict(entries=entries, references=references, build_event_reads=reads,
                  signature_count=sum(len(e['rows']) for e in entries.values()),
                  payload_bytes=len(json.dumps(payload, sort_keys=True).encode()),
@@ -92,18 +71,16 @@ def update_primitive_grounding(state, primitive, event_id, already_supported):
         return
     key = primitive.id
     current = index['entries'].get(key)
-    old_count = len(current['rows']) if current else 0
     expected = len(primitive.evidence_event_ids) - (not already_supported)
     if (current is None or index['references'].get(key) is not primitive
             or index['support_counts'].get(key) != expected):
         ids = primitive.evidence_event_ids
-        rows, targets, lookup = set(), set(), {}
+        rows, targets = set(), set()
     elif already_supported:
         return
     else:
         ids = (event_id,)
-        rows, targets, lookup = current['rows'], current['targets'], current['lookup']
-    actor_typed = bool(current and rows is current['rows'] and current['actor_typed'])
+        rows, targets = set(current['rows']), set(current['targets'])
     for eid in ids:
         index['update_support_visits'] += 1
         event = state.events_by_id.get(eid)
@@ -114,15 +91,11 @@ def update_primitive_grounding(state, primitive, event_id, already_supported):
         ar = tuple(sorted({normalize_label(r) for r in effective_event_actor_roles(event)}))
         tr = tuple(sorted({normalize_label(r) for r in effective_event_target_roles(event)}))
         equal = None if event.target is None else normalize_label(event.actor) == normalize_label(event.target)
-        row = (ar, tr, equal)
-        if row not in rows:
-            rows.add(row)
-            _add_lookup(lookup, row)
-        actor_typed = actor_typed or bool(ar)
+        rows.add((ar, tr, equal))
         targets.update(tr)
-    index['signature_count'] += len(rows) - old_count
-    index['entries'][key] = dict(rows=rows, targets=targets, lookup=lookup,
-                                  actor_typed=actor_typed)
+    index['signature_count'] += len(rows) - (len(current['rows']) if current else 0)
+    index['entries'][key] = dict(rows=tuple(sorted(rows, key=repr)), targets=frozenset(targets),
+                                  actor_typed=any(ar for ar, _, _ in rows))
     index['references'][key] = primitive
     index['support_counts'][key] = len(primitive.evidence_event_ids)
     # Export-size accounting is deferred to explicit measurement, not queries.
@@ -130,7 +103,7 @@ def update_primitive_grounding(state, primitive, event_id, already_supported):
 
 
 def grounding_payload_bytes(index):
-    payload = {key: dict(rows=sorted(entry['rows'], key=repr), targets=sorted(entry['targets']))
+    payload = {key: dict(rows=entry['rows'], targets=sorted(entry['targets']))
                for key, entry in index['entries'].items()}
     return len(json.dumps(payload, sort_keys=True).encode())
 
@@ -151,27 +124,17 @@ def actor_matches(entry, actor_roles, actor, target, target_roles, diagnostics=N
     if not entry['actor_typed']:
         return True
     ars, trs = {normalize_label(r) for r in actor_roles}, {normalize_label(r) for r in target_roles}
-    required = 3
-    if actor is not None and target is not None:
-        required = 2 if normalize_label(actor) == normalize_label(target) else 1
-    constrained_target = target is not None or bool(target_roles)
-    for role in ars:
-        bucket = entry['lookup'].get(role)
+    for ar, tr, equal in entry['rows']:
         if diagnostics is not None:
-            diagnostics['grounding_lookup_probes'] = diagnostics.get('grounding_lookup_probes', 0) + 1
-        if bucket is None:
+            diagnostics['grounding_signature_checks'] += 1
+        if not ars.intersection(ar):
             continue
-        if not constrained_target:
-            if bucket['any'] & required:
-                return True
+        if (target is not None or target_roles) and tr and not trs.intersection(tr):
             continue
-        if bucket['wildcard'] & required:
-            return True
-        for target_role in trs:
-            if diagnostics is not None:
-                diagnostics['grounding_lookup_probes'] = diagnostics.get('grounding_lookup_probes', 0) + 1
-            if bucket['targets'].get(target_role, 0) & required:
-                return True
+        if actor is not None and target is not None and equal is not None:
+            if (normalize_label(actor) == normalize_label(target)) != equal:
+                continue
+        return True
     return False
 
 

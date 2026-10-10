@@ -1,0 +1,9 @@
+{
+  "version": "g3.4-incremental-grounding-v1",
+  "seeds": [701, 809, 907],
+  "worlds": ["independent", "coupled"],
+  "event_batches": [1, 3, 24],
+  "queries_per_update": [1, 40],
+  "repetitions": 3,
+  "policy": "Rotate three-arm execution order by step and repetition. Include append update work in training time. Compare complete results and serialized states at every step, actual save bytes and reload at96 Events. Keep old full-rebuild mode and opt-in defaults. No quality/candidate gate change."
+}

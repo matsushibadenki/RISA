@@ -139,7 +139,7 @@ def compose_to_effect(
         search_diagnostics.clear()
         search_diagnostics.update(dict(expanded_nodes=0, primitive_scan_count=0,
             eligible_primitives=0, successor_candidates=0, plan_candidates=0,
-            candidate_step_attempts=0, transition_checks=0, grounding_event_reads=0, index_build_event_reads=0, grounding_signature_checks=0))
+            candidate_step_attempts=0, transition_checks=0, grounding_event_reads=0, index_build_event_reads=0, grounding_signature_checks=0, grounding_lookup_probes=0))
     action = normalize_label(start_action)
     effect = normalize_label(target_effect)
     context = {normalize_label(tag) for tag in context_tags or []}
