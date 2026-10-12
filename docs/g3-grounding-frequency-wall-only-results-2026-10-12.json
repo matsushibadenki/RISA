@@ -1,0 +1,2675 @@
+{
+  "processes": [
+    {
+      "hash_seed": "0",
+      "repeat": 0,
+      "pid": 55988,
+      "queries": 256,
+      "rows": [
+        {
+          "workload": "stationary",
+          "stats": {
+            "id": {
+              "build": 0.002805333999276627,
+              "train": 0.016842291999637382,
+              "query": 0.9157175419986743,
+              "rebalance": 0.0,
+              "promotions": 0,
+              "demotions": 0,
+              "cost_probes": 0,
+              "heap": 125837
+            },
+            "frequency": {
+              "build": 0.026115458000276703,
+              "train": 0.25588462500127207,
+              "query": 0.7395015000001877,
+              "rebalance": 0.05248833400219155,
+              "promotions": 2,
+              "demotions": 4,
+              "cost_probes": 7,
+              "heap": 131175
+            }
+          },
+          "trace": [
+            {
+              "hot": 3,
+              "id": {
+                "query": 0.17086312500032363,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.2264065830004256,
+                "rebalance": 0.007508999999117805,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 3,
+              "frequency": {
+                "query": 0.15906995800105506,
+                "rebalance": 2.6917001378023997e-05,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "id": {
+                "query": 0.11634187500021653,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 3,
+              "id": {
+                "query": 0.16090554099901055,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.059344166998926084,
+                "rebalance": 0.0005803330004710006,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 3,
+              "frequency": {
+                "query": 0.05234995799946773,
+                "rebalance": 0.014202459000443923,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "id": {
+                "query": 0.02537937499982945,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 3,
+              "id": {
+                "query": 0.23066983399985475,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.17401787500057253,
+                "rebalance": 0.030139708000206156,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            },
+            {
+              "hot": 3,
+              "frequency": {
+                "query": 0.06831295899974066,
+                "rebalance": 2.991700057464186e-05,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "id": {
+                "query": 0.21155779199943936,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            }
+          ],
+          "comparisons": 288,
+          "mismatches": 0,
+          "saved_sha256": "01b380bd8e51e1d5cebbd190740828b44461284e916c80981a737b413cf9e104"
+        },
+        {
+          "workload": "shifting",
+          "stats": {
+            "id": {
+              "build": 0.0032986670012178365,
+              "train": 0.11029945800146379,
+              "query": 0.6459523760004231,
+              "rebalance": 0.0,
+              "promotions": 0,
+              "demotions": 0,
+              "cost_probes": 0,
+              "heap": 125837
+            },
+            "frequency": {
+              "build": 0.024622417000500718,
+              "train": 0.056087375000061,
+              "query": 0.33232075100022485,
+              "rebalance": 0.03769179200207873,
+              "promotions": 4,
+              "demotions": 5,
+              "cost_probes": 7,
+              "heap": 131175
+            }
+          },
+          "trace": [
+            {
+              "hot": 3,
+              "id": {
+                "query": 0.14349933400080772,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.12591874999998254,
+                "rebalance": 0.0009336250004707836,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 3,
+              "frequency": {
+                "query": 0.0485362500003248,
+                "rebalance": 2.5332999939564615e-05,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "id": {
+                "query": 0.12313250000079279,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 0,
+              "id": {
+                "query": 0.12208670899963181,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.023272874999747728,
+                "rebalance": 0.0009517920007056091,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 0,
+              "frequency": {
+                "query": 0.06569158400088781,
+                "rebalance": 2.9000000722589903e-05,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "id": {
+                "query": 0.04188712500035763,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 2,
+              "id": {
+                "query": 0.0654269579990796,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.05334483399929013,
+                "rebalance": 0.03572004200032097,
+                "selected": [
+                  "primitive:transition:entity->process->state:go2->done2"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            },
+            {
+              "hot": 2,
+              "frequency": {
+                "query": 0.015556457999991835,
+                "rebalance": 3.199999991920777e-05,
+                "selected": [
+                  "primitive:transition:entity->process->state:go2->done2"
+                ]
+              },
+              "id": {
+                "query": 0.14991974999975355,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            }
+          ],
+          "comparisons": 288,
+          "mismatches": 0,
+          "saved_sha256": "01b380bd8e51e1d5cebbd190740828b44461284e916c80981a737b413cf9e104"
+        },
+        {
+          "workload": "rapid",
+          "stats": {
+            "id": {
+              "build": 0.027927749999435036,
+              "train": 0.09782570799870882,
+              "query": 0.6510257510017254,
+              "rebalance": 0.0,
+              "promotions": 0,
+              "demotions": 0,
+              "cost_probes": 0,
+              "heap": 125837
+            },
+            "frequency": {
+              "build": 0.06463150000126916,
+              "train": 0.06828579200009699,
+              "query": 0.6023736680017464,
+              "rebalance": 0.030476500000077067,
+              "promotions": 9,
+              "demotions": 9,
+              "cost_probes": 6,
+              "heap": 126587
+            }
+          },
+          "trace": [
+            {
+              "hot": 3,
+              "id": {
+                "query": 0.1810676670011162,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.08902875000057975,
+                "rebalance": 0.018364500001553097,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 0,
+              "frequency": {
+                "query": 0.03255741700013459,
+                "rebalance": 0.00037200000042503234,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "id": {
+                "query": 0.09792241700051818,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 2,
+              "id": {
+                "query": 0.16632054200090352,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.08889229200030968,
+                "rebalance": 0.0010130409991688794,
+                "selected": [
+                  "primitive:transition:entity->process->state:go2->done2"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 1,
+              "frequency": {
+                "query": 0.06051354200099013,
+                "rebalance": 0.000353958999767201,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "id": {
+                "query": 0.03438354199897731,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 3,
+              "id": {
+                "query": 0.054527750000488595,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.25850479200016707,
+                "rebalance": 0.0010608749998937128,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            },
+            {
+              "hot": 0,
+              "frequency": {
+                "query": 0.07287687499956519,
+                "rebalance": 0.009312124999269145,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "id": {
+                "query": 0.11680383299972164,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            }
+          ],
+          "comparisons": 288,
+          "mismatches": 0,
+          "saved_sha256": "01b380bd8e51e1d5cebbd190740828b44461284e916c80981a737b413cf9e104"
+        }
+      ]
+    },
+    {
+      "hash_seed": "0",
+      "repeat": 1,
+      "pid": 56273,
+      "queries": 256,
+      "rows": [
+        {
+          "workload": "stationary",
+          "stats": {
+            "id": {
+              "build": 0.004098625000551692,
+              "train": 0.3267521249999845,
+              "query": 1.0013226670016593,
+              "rebalance": 0.0,
+              "promotions": 0,
+              "demotions": 0,
+              "cost_probes": 0,
+              "heap": 125837
+            },
+            "frequency": {
+              "build": 0.10164891699969303,
+              "train": 0.22407812500023283,
+              "query": 0.7301476669981639,
+              "rebalance": 0.0033674989972496405,
+              "promotions": 2,
+              "demotions": 4,
+              "cost_probes": 7,
+              "heap": 131175
+            }
+          },
+          "trace": [
+            {
+              "hot": 3,
+              "frequency": {
+                "query": 0.1596587920012098,
+                "rebalance": 0.000993457999356906,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "id": {
+                "query": 0.31042475000140257,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 3,
+              "id": {
+                "query": 0.02168237499972747,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.19549841699881654,
+                "rebalance": 2.4540999220334925e-05,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 3,
+              "frequency": {
+                "query": 0.023226874998727,
+                "rebalance": 0.0012801670000044396,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "id": {
+                "query": 0.21359091700105637,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 3,
+              "id": {
+                "query": 0.1262948330004292,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.10925216599935084,
+                "rebalance": 2.8249998649698682e-05,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 3,
+              "frequency": {
+                "query": 0.1513685420013644,
+                "rebalance": 0.0010114579999935813,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "id": {
+                "query": 0.19712829199852422,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            },
+            {
+              "hot": 3,
+              "id": {
+                "query": 0.13220150000051945,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.09114287499869533,
+                "rebalance": 2.9625000024680048e-05,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            }
+          ],
+          "comparisons": 288,
+          "mismatches": 0,
+          "saved_sha256": "01b380bd8e51e1d5cebbd190740828b44461284e916c80981a737b413cf9e104"
+        },
+        {
+          "workload": "shifting",
+          "stats": {
+            "id": {
+              "build": 0.004800790999070159,
+              "train": 0.03928333400108386,
+              "query": 0.5303009990002465,
+              "rebalance": 0.0,
+              "promotions": 0,
+              "demotions": 0,
+              "cost_probes": 0,
+              "heap": 125837
+            },
+            "frequency": {
+              "build": 0.006775249999918742,
+              "train": 0.07742433299972618,
+              "query": 0.7372395000020333,
+              "rebalance": 0.1286280429976614,
+              "promotions": 4,
+              "demotions": 5,
+              "cost_probes": 7,
+              "heap": 131175
+            }
+          },
+          "trace": [
+            {
+              "hot": 3,
+              "frequency": {
+                "query": 0.20380683300027158,
+                "rebalance": 0.12320433300010336,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "id": {
+                "query": 0.08675779099939973,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 3,
+              "id": {
+                "query": 0.09481920799953514,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.14693279200037068,
+                "rebalance": 2.633400072227232e-05,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 0,
+              "frequency": {
+                "query": 0.1418281249989377,
+                "rebalance": 0.0010568339985184139,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "id": {
+                "query": 0.05889033300081792,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 0,
+              "id": {
+                "query": 0.011660624999421998,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.02967637500114506,
+                "rebalance": 3.258399920014199e-05,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 2,
+              "frequency": {
+                "query": 0.1844918750011857,
+                "rebalance": 0.0042765830003190786,
+                "selected": [
+                  "primitive:transition:entity->process->state:go2->done2"
+                ]
+              },
+              "id": {
+                "query": 0.1508525000008376,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            },
+            {
+              "hot": 2,
+              "id": {
+                "query": 0.12732054200023413,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.030503500000122585,
+                "rebalance": 3.137499879812822e-05,
+                "selected": [
+                  "primitive:transition:entity->process->state:go2->done2"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            }
+          ],
+          "comparisons": 288,
+          "mismatches": 0,
+          "saved_sha256": "01b380bd8e51e1d5cebbd190740828b44461284e916c80981a737b413cf9e104"
+        },
+        {
+          "workload": "rapid",
+          "stats": {
+            "id": {
+              "build": 0.020937291999871377,
+              "train": 0.05243829199935135,
+              "query": 1.0894703329977347,
+              "rebalance": 0.0,
+              "promotions": 0,
+              "demotions": 0,
+              "cost_probes": 0,
+              "heap": 125837
+            },
+            "frequency": {
+              "build": 0.009238374999767984,
+              "train": 0.19278816699988965,
+              "query": 0.9179809159995784,
+              "rebalance": 0.00525675100107037,
+              "promotions": 9,
+              "demotions": 9,
+              "cost_probes": 6,
+              "heap": 126587
+            }
+          },
+          "trace": [
+            {
+              "hot": 3,
+              "frequency": {
+                "query": 0.11343950000082259,
+                "rebalance": 0.0007122920014808187,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "id": {
+                "query": 0.13171704099841008,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 0,
+              "id": {
+                "query": 0.016103292000479996,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.1200030420004623,
+                "rebalance": 0.000300292000247282,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 2,
+              "frequency": {
+                "query": 0.052691082999444916,
+                "rebalance": 0.0025187920000462327,
+                "selected": [
+                  "primitive:transition:entity->process->state:go2->done2"
+                ]
+              },
+              "id": {
+                "query": 0.6910673749989655,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 1,
+              "id": {
+                "query": 0.00852850000046601,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.06042974999945727,
+                "rebalance": 0.0003644169992185198,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 3,
+              "frequency": {
+                "query": 0.4309042499990028,
+                "rebalance": 0.0010085829999297857,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "id": {
+                "query": 0.1845573329992476,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            },
+            {
+              "hot": 0,
+              "id": {
+                "query": 0.05749679200016544,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.14051329100038856,
+                "rebalance": 0.00035237500014773104,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            }
+          ],
+          "comparisons": 288,
+          "mismatches": 0,
+          "saved_sha256": "01b380bd8e51e1d5cebbd190740828b44461284e916c80981a737b413cf9e104"
+        }
+      ]
+    },
+    {
+      "hash_seed": "1",
+      "repeat": 0,
+      "pid": 56728,
+      "queries": 256,
+      "rows": [
+        {
+          "workload": "stationary",
+          "stats": {
+            "id": {
+              "build": 0.003975042000092799,
+              "train": 0.04302095799903327,
+              "query": 1.0180273760033742,
+              "rebalance": 0.0,
+              "promotions": 0,
+              "demotions": 0,
+              "cost_probes": 0,
+              "heap": 125837
+            },
+            "frequency": {
+              "build": 0.07823437499973807,
+              "train": 0.16777291700054775,
+              "query": 0.8754037509988848,
+              "rebalance": 0.03502875099547964,
+              "promotions": 2,
+              "demotions": 4,
+              "cost_probes": 7,
+              "heap": 131175
+            }
+          },
+          "trace": [
+            {
+              "hot": 3,
+              "id": {
+                "query": 0.18621725000048173,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.10469924999961222,
+                "rebalance": 0.02007420900008583,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 3,
+              "frequency": {
+                "query": 0.1027604999999312,
+                "rebalance": 2.8707998353638686e-05,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "id": {
+                "query": 0.10853658400083077,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 3,
+              "id": {
+                "query": 0.15231937499993364,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.07267120899996371,
+                "rebalance": 0.0005992499991407385,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 3,
+              "frequency": {
+                "query": 0.10632724999959464,
+                "rebalance": 2.208299883932341e-05,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "id": {
+                "query": 0.3333792920002452,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 3,
+              "id": {
+                "query": 0.13072966700019606,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.3000859589992615,
+                "rebalance": 0.014273791999585228,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            },
+            {
+              "hot": 3,
+              "frequency": {
+                "query": 0.18885958300052152,
+                "rebalance": 3.070899947488215e-05,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "id": {
+                "query": 0.10684520800168684,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            }
+          ],
+          "comparisons": 288,
+          "mismatches": 0,
+          "saved_sha256": "01b380bd8e51e1d5cebbd190740828b44461284e916c80981a737b413cf9e104"
+        },
+        {
+          "workload": "shifting",
+          "stats": {
+            "id": {
+              "build": 0.009357208999063005,
+              "train": 0.06901599999946484,
+              "query": 0.4782542079956329,
+              "rebalance": 0.0,
+              "promotions": 0,
+              "demotions": 0,
+              "cost_probes": 0,
+              "heap": 125837
+            },
+            "frequency": {
+              "build": 0.017537333000291255,
+              "train": 0.07866362499953539,
+              "query": 0.8165657089994056,
+              "rebalance": 0.029270625000208383,
+              "promotions": 4,
+              "demotions": 5,
+              "cost_probes": 7,
+              "heap": 131175
+            }
+          },
+          "trace": [
+            {
+              "hot": 3,
+              "id": {
+                "query": 0.10711162499865168,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.15649595800095994,
+                "rebalance": 0.018303374999959487,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 3,
+              "frequency": {
+                "query": 0.12649066700032563,
+                "rebalance": 2.3208000129670836e-05,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "id": {
+                "query": 0.056485666000298806,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 0,
+              "id": {
+                "query": 0.04122266699960164,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.15319833300054597,
+                "rebalance": 0.009708749999845168,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 0,
+              "frequency": {
+                "query": 0.04006666699933703,
+                "rebalance": 3.825000021606684e-05,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "id": {
+                "query": 0.08127287499883096,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 2,
+              "id": {
+                "query": 0.16160533299989766,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.2037304999994376,
+                "rebalance": 0.0011656249989755452,
+                "selected": [
+                  "primitive:transition:entity->process->state:go2->done2"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            },
+            {
+              "hot": 2,
+              "frequency": {
+                "query": 0.13658358399879944,
+                "rebalance": 3.1417001082445495e-05,
+                "selected": [
+                  "primitive:transition:entity->process->state:go2->done2"
+                ]
+              },
+              "id": {
+                "query": 0.030556041998352157,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            }
+          ],
+          "comparisons": 288,
+          "mismatches": 0,
+          "saved_sha256": "01b380bd8e51e1d5cebbd190740828b44461284e916c80981a737b413cf9e104"
+        },
+        {
+          "workload": "rapid",
+          "stats": {
+            "id": {
+              "build": 0.04520600000068953,
+              "train": 0.10016224999890255,
+              "query": 0.5860446259994205,
+              "rebalance": 0.0,
+              "promotions": 0,
+              "demotions": 0,
+              "cost_probes": 0,
+              "heap": 125837
+            },
+            "frequency": {
+              "build": 0.07263604199943074,
+              "train": 0.02153145800002676,
+              "query": 0.5986962919996586,
+              "rebalance": 0.054132748999109026,
+              "promotions": 9,
+              "demotions": 9,
+              "cost_probes": 6,
+              "heap": 126587
+            }
+          },
+          "trace": [
+            {
+              "hot": 3,
+              "id": {
+                "query": 0.09523770899977535,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.08201279199965938,
+                "rebalance": 0.0010202499997831183,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 0,
+              "frequency": {
+                "query": 0.01604633399983868,
+                "rebalance": 0.00040187500053434633,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "id": {
+                "query": 0.18747987499955343,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 2,
+              "id": {
+                "query": 0.04690962499989837,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.16409158299939008,
+                "rebalance": 0.04021662499872036,
+                "selected": [
+                  "primitive:transition:entity->process->state:go2->done2"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 1,
+              "frequency": {
+                "query": 0.15305350000016915,
+                "rebalance": 0.0003583329998946283,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "id": {
+                "query": 0.05905212499965273,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 3,
+              "id": {
+                "query": 0.15193983400058642,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.1200865419996262,
+                "rebalance": 0.011762291000195546,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            },
+            {
+              "hot": 0,
+              "frequency": {
+                "query": 0.06340554100097506,
+                "rebalance": 0.0003733749999810243,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "id": {
+                "query": 0.04542545799995423,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            }
+          ],
+          "comparisons": 288,
+          "mismatches": 0,
+          "saved_sha256": "01b380bd8e51e1d5cebbd190740828b44461284e916c80981a737b413cf9e104"
+        }
+      ]
+    },
+    {
+      "hash_seed": "1",
+      "repeat": 1,
+      "pid": 56879,
+      "queries": 256,
+      "rows": [
+        {
+          "workload": "stationary",
+          "stats": {
+            "id": {
+              "build": 0.006946583998796996,
+              "train": 0.127662708000571,
+              "query": 0.5498250860018743,
+              "rebalance": 0.0,
+              "promotions": 0,
+              "demotions": 0,
+              "cost_probes": 0,
+              "heap": 125837
+            },
+            "frequency": {
+              "build": 0.002694667000469053,
+              "train": 0.007488082999770995,
+              "query": 0.5166675849977764,
+              "rebalance": 0.010312417000022833,
+              "promotions": 2,
+              "demotions": 4,
+              "cost_probes": 7,
+              "heap": 131175
+            }
+          },
+          "trace": [
+            {
+              "hot": 3,
+              "frequency": {
+                "query": 0.11259549999886076,
+                "rebalance": 0.00087304199951177,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "id": {
+                "query": 0.046935917000155314,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 3,
+              "id": {
+                "query": 0.1351451669997914,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.10874562500066531,
+                "rebalance": 2.45829996856628e-05,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 3,
+              "frequency": {
+                "query": 0.0995168339995871,
+                "rebalance": 0.008376333998967311,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "id": {
+                "query": 0.07391229200038651,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 3,
+              "id": {
+                "query": 0.09223820900115243,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.03138633399976243,
+                "rebalance": 2.7042000510846265e-05,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 3,
+              "frequency": {
+                "query": 0.09011024999927031,
+                "rebalance": 0.000983040999926743,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "id": {
+                "query": 0.12406516699957137,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            },
+            {
+              "hot": 3,
+              "id": {
+                "query": 0.07752833400081727,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.07431304199963051,
+                "rebalance": 2.8375001420499757e-05,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            }
+          ],
+          "comparisons": 288,
+          "mismatches": 0,
+          "saved_sha256": "01b380bd8e51e1d5cebbd190740828b44461284e916c80981a737b413cf9e104"
+        },
+        {
+          "workload": "shifting",
+          "stats": {
+            "id": {
+              "build": 0.0029044589991826797,
+              "train": 0.06821416599996155,
+              "query": 0.7115497499980847,
+              "rebalance": 0.0,
+              "promotions": 0,
+              "demotions": 0,
+              "cost_probes": 0,
+              "heap": 125837
+            },
+            "frequency": {
+              "build": 0.07710512499943434,
+              "train": 0.1174228329982725,
+              "query": 0.5132819159971405,
+              "rebalance": 0.004181083999355906,
+              "promotions": 4,
+              "demotions": 5,
+              "cost_probes": 7,
+              "heap": 131175
+            }
+          },
+          "trace": [
+            {
+              "hot": 3,
+              "frequency": {
+                "query": 0.1536346249995404,
+                "rebalance": 0.000966208001045743,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "id": {
+                "query": 0.10875616700104729,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 3,
+              "id": {
+                "query": 0.11230354199869907,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.00692341700050747,
+                "rebalance": 3.3999998777289875e-05,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 0,
+              "frequency": {
+                "query": 0.03358562499852269,
+                "rebalance": 0.0009769169992068782,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "id": {
+                "query": 0.1149366249992454,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 0,
+              "id": {
+                "query": 0.14246825000009267,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.19749904199852608,
+                "rebalance": 3.387500146345701e-05,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 2,
+              "frequency": {
+                "query": 0.10907429100006993,
+                "rebalance": 0.0010912500001722947,
+                "selected": [
+                  "primitive:transition:entity->process->state:go2->done2"
+                ]
+              },
+              "id": {
+                "query": 0.16463070799909474,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            },
+            {
+              "hot": 2,
+              "id": {
+                "query": 0.06845445799990557,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.012564915999973891,
+                "rebalance": 0.0010788339986902429,
+                "selected": [
+                  "primitive:transition:entity->process->state:go2->done2"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            }
+          ],
+          "comparisons": 288,
+          "mismatches": 0,
+          "saved_sha256": "01b380bd8e51e1d5cebbd190740828b44461284e916c80981a737b413cf9e104"
+        },
+        {
+          "workload": "rapid",
+          "stats": {
+            "id": {
+              "build": 0.0829867499996908,
+              "train": 0.09254441699886229,
+              "query": 0.6447852909986977,
+              "rebalance": 0.0,
+              "promotions": 0,
+              "demotions": 0,
+              "cost_probes": 0,
+              "heap": 125837
+            },
+            "frequency": {
+              "build": 0.003939541000363533,
+              "train": 0.04835050000110641,
+              "query": 0.5530208339987439,
+              "rebalance": 0.0395828340024309,
+              "promotions": 9,
+              "demotions": 9,
+              "cost_probes": 6,
+              "heap": 126587
+            }
+          },
+          "trace": [
+            {
+              "hot": 3,
+              "frequency": {
+                "query": 0.1470910839998396,
+                "rebalance": 0.0008468329997413093,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "id": {
+                "query": 0.07486704199982341,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 0,
+              "id": {
+                "query": 0.020700416000181576,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.08375100000012026,
+                "rebalance": 0.013996167001096183,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 2,
+              "frequency": {
+                "query": 0.09133983299943793,
+                "rebalance": 0.02306891700027336,
+                "selected": [
+                  "primitive:transition:entity->process->state:go2->done2"
+                ]
+              },
+              "id": {
+                "query": 0.15344508299858717,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 1,
+              "id": {
+                "query": 0.1536244999988412,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.019922541998312226,
+                "rebalance": 0.00037108400101715233,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 3,
+              "frequency": {
+                "query": 0.1497990830011986,
+                "rebalance": 0.0009520410003460711,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "id": {
+                "query": 0.1468765000008716,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            },
+            {
+              "hot": 0,
+              "id": {
+                "query": 0.09527175000039279,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.06111729199983529,
+                "rebalance": 0.00034779199995682575,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            }
+          ],
+          "comparisons": 288,
+          "mismatches": 0,
+          "saved_sha256": "01b380bd8e51e1d5cebbd190740828b44461284e916c80981a737b413cf9e104"
+        }
+      ]
+    },
+    {
+      "hash_seed": "42",
+      "repeat": 0,
+      "pid": 57184,
+      "queries": 256,
+      "rows": [
+        {
+          "workload": "stationary",
+          "stats": {
+            "id": {
+              "build": 0.0035345420001249295,
+              "train": 0.09286808300021221,
+              "query": 0.6670800839983713,
+              "rebalance": 0.0,
+              "promotions": 0,
+              "demotions": 0,
+              "cost_probes": 0,
+              "heap": 125837
+            },
+            "frequency": {
+              "build": 0.0860189579998405,
+              "train": 0.21739816700028314,
+              "query": 0.2587634169994999,
+              "rebalance": 0.002527997998186038,
+              "promotions": 2,
+              "demotions": 4,
+              "cost_probes": 7,
+              "heap": 131175
+            }
+          },
+          "trace": [
+            {
+              "hot": 3,
+              "id": {
+                "query": 0.1826379159992939,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.07578316700164578,
+                "rebalance": 0.0010237920014333213,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 3,
+              "frequency": {
+                "query": 0.01080379199993331,
+                "rebalance": 2.8250000468688086e-05,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "id": {
+                "query": 0.06797687499965832,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 3,
+              "id": {
+                "query": 0.1729739589991368,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.0077808329988329206,
+                "rebalance": 0.0005922909986111335,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 3,
+              "frequency": {
+                "query": 0.05931425000017043,
+                "rebalance": 2.9165999876568094e-05,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "id": {
+                "query": 0.05562275000011141,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 3,
+              "id": {
+                "query": 0.16422141700059,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.09747237499868788,
+                "rebalance": 0.0008252909992734203,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            },
+            {
+              "hot": 3,
+              "frequency": {
+                "query": 0.007609000000229571,
+                "rebalance": 2.9207998522906564e-05,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "id": {
+                "query": 0.023647166999580804,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            }
+          ],
+          "comparisons": 288,
+          "mismatches": 0,
+          "saved_sha256": "01b380bd8e51e1d5cebbd190740828b44461284e916c80981a737b413cf9e104"
+        },
+        {
+          "workload": "shifting",
+          "stats": {
+            "id": {
+              "build": 0.003590000000258442,
+              "train": 0.0588488330013206,
+              "query": 0.5031754150004417,
+              "rebalance": 0.0,
+              "promotions": 0,
+              "demotions": 0,
+              "cost_probes": 0,
+              "heap": 125837
+            },
+            "frequency": {
+              "build": 0.05997108400151774,
+              "train": 0.011888582999745267,
+              "query": 0.6523372500014375,
+              "rebalance": 0.004038250999656157,
+              "promotions": 4,
+              "demotions": 5,
+              "cost_probes": 7,
+              "heap": 131175
+            }
+          },
+          "trace": [
+            {
+              "hot": 3,
+              "id": {
+                "query": 0.031211999999868567,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.1722647919996234,
+                "rebalance": 0.0009489999993093079,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 3,
+              "frequency": {
+                "query": 0.05031737500030431,
+                "rebalance": 2.954199953819625e-05,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "id": {
+                "query": 0.11100987500140036,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 0,
+              "id": {
+                "query": 0.07727616599913745,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.05464775000109512,
+                "rebalance": 0.0008214999998017447,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 0,
+              "frequency": {
+                "query": 0.10701504200005729,
+                "rebalance": 2.8209000447532162e-05,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "id": {
+                "query": 0.05467879100069695,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 2,
+              "id": {
+                "query": 0.028755375000400818,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.2603085410009953,
+                "rebalance": 0.002183708000302431,
+                "selected": [
+                  "primitive:transition:entity->process->state:go2->done2"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            },
+            {
+              "hot": 2,
+              "frequency": {
+                "query": 0.007783749999362044,
+                "rebalance": 2.6292000256944448e-05,
+                "selected": [
+                  "primitive:transition:entity->process->state:go2->done2"
+                ]
+              },
+              "id": {
+                "query": 0.20024320799893758,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            }
+          ],
+          "comparisons": 288,
+          "mismatches": 0,
+          "saved_sha256": "01b380bd8e51e1d5cebbd190740828b44461284e916c80981a737b413cf9e104"
+        },
+        {
+          "workload": "rapid",
+          "stats": {
+            "id": {
+              "build": 0.0036328749993117526,
+              "train": 0.03538029099945561,
+              "query": 0.8934180419983022,
+              "rebalance": 0.0,
+              "promotions": 0,
+              "demotions": 0,
+              "cost_probes": 0,
+              "heap": 125837
+            },
+            "frequency": {
+              "build": 0.004494332999456674,
+              "train": 0.07616683299966098,
+              "query": 0.9745025420015736,
+              "rebalance": 0.005259625000689994,
+              "promotions": 9,
+              "demotions": 9,
+              "cost_probes": 6,
+              "heap": 126587
+            }
+          },
+          "trace": [
+            {
+              "hot": 3,
+              "id": {
+                "query": 0.26568841700100165,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.1744798340005218,
+                "rebalance": 0.0024395000000367872,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 0,
+              "frequency": {
+                "query": 0.1836998750004568,
+                "rebalance": 0.00034950000008393545,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "id": {
+                "query": 0.08361958299974503,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 2,
+              "id": {
+                "query": 0.18514770899855648,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.07342345800134353,
+                "rebalance": 0.0007255000000441214,
+                "selected": [
+                  "primitive:transition:entity->process->state:go2->done2"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 1,
+              "frequency": {
+                "query": 0.17777420799939136,
+                "rebalance": 0.00034979200063389726,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "id": {
+                "query": 0.014339124998514308,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 3,
+              "id": {
+                "query": 0.27766870800041943,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.12355974999991304,
+                "rebalance": 0.0010339170003135223,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            },
+            {
+              "hot": 0,
+              "frequency": {
+                "query": 0.24156541699994705,
+                "rebalance": 0.00036141599957772996,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "id": {
+                "query": 0.06695450000006531,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            }
+          ],
+          "comparisons": 288,
+          "mismatches": 0,
+          "saved_sha256": "01b380bd8e51e1d5cebbd190740828b44461284e916c80981a737b413cf9e104"
+        }
+      ]
+    },
+    {
+      "hash_seed": "42",
+      "repeat": 1,
+      "pid": 57518,
+      "queries": 256,
+      "rows": [
+        {
+          "workload": "stationary",
+          "stats": {
+            "id": {
+              "build": 0.025286542000685586,
+              "train": 0.18367450000005192,
+              "query": 0.6825844160011911,
+              "rebalance": 0.0,
+              "promotions": 0,
+              "demotions": 0,
+              "cost_probes": 0,
+              "heap": 125837
+            },
+            "frequency": {
+              "build": 0.00662387500051409,
+              "train": 0.021513457999390084,
+              "query": 0.5360982089987374,
+              "rebalance": 0.1842392899980041,
+              "promotions": 2,
+              "demotions": 4,
+              "cost_probes": 7,
+              "heap": 131175
+            }
+          },
+          "trace": [
+            {
+              "hot": 3,
+              "frequency": {
+                "query": 0.21949366700027895,
+                "rebalance": 0.0014697079986945027,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "id": {
+                "query": 0.0515893749998213,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 3,
+              "id": {
+                "query": 0.06608000000051106,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.09446862500044517,
+                "rebalance": 2.7957999918726273e-05,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 3,
+              "frequency": {
+                "query": 0.010858916999495705,
+                "rebalance": 0.1816359160002321,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "id": {
+                "query": 0.12852654099879146,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 3,
+              "id": {
+                "query": 0.08962187500037544,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.015213041999231791,
+                "rebalance": 2.741599928413052e-05,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 3,
+              "frequency": {
+                "query": 0.12983983300000546,
+                "rebalance": 0.0010498339997866424,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "id": {
+                "query": 0.2676480000009178,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            },
+            {
+              "hot": 3,
+              "id": {
+                "query": 0.07911862500077405,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.06622412499928032,
+                "rebalance": 2.845800008799415e-05,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            }
+          ],
+          "comparisons": 288,
+          "mismatches": 0,
+          "saved_sha256": "01b380bd8e51e1d5cebbd190740828b44461284e916c80981a737b413cf9e104"
+        },
+        {
+          "workload": "shifting",
+          "stats": {
+            "id": {
+              "build": 0.008122624998577521,
+              "train": 0.10259204100111674,
+              "query": 0.664914499000588,
+              "rebalance": 0.0,
+              "promotions": 0,
+              "demotions": 0,
+              "cost_probes": 0,
+              "heap": 125837
+            },
+            "frequency": {
+              "build": 0.05160575000081735,
+              "train": 0.06669295800020336,
+              "query": 0.336030499998742,
+              "rebalance": 0.022167664998050896,
+              "promotions": 4,
+              "demotions": 5,
+              "cost_probes": 7,
+              "heap": 131175
+            }
+          },
+          "trace": [
+            {
+              "hot": 3,
+              "frequency": {
+                "query": 0.09672124999997322,
+                "rebalance": 0.016545665999728953,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "id": {
+                "query": 0.06379104099869437,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 3,
+              "id": {
+                "query": 0.17345412500071689,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.04643041599956632,
+                "rebalance": 4.391599941300228e-05,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 0,
+              "frequency": {
+                "query": 0.12402958299935563,
+                "rebalance": 0.004555875000733067,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "id": {
+                "query": 0.019389167000554153,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 0,
+              "id": {
+                "query": 0.028336707999187638,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.03082337500018184,
+                "rebalance": 3.3041000278899446e-05,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 2,
+              "frequency": {
+                "query": 0.023793917000148213,
+                "rebalance": 0.0009587079985067248,
+                "selected": [
+                  "primitive:transition:entity->process->state:go2->done2"
+                ]
+              },
+              "id": {
+                "query": 0.27400458300144237,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            },
+            {
+              "hot": 2,
+              "id": {
+                "query": 0.10593887499999255,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.014231958999516792,
+                "rebalance": 3.045899939024821e-05,
+                "selected": [
+                  "primitive:transition:entity->process->state:go2->done2"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            }
+          ],
+          "comparisons": 288,
+          "mismatches": 0,
+          "saved_sha256": "01b380bd8e51e1d5cebbd190740828b44461284e916c80981a737b413cf9e104"
+        },
+        {
+          "workload": "rapid",
+          "stats": {
+            "id": {
+              "build": 0.1987950410002668,
+              "train": 0.2961345830008213,
+              "query": 0.7375286240003334,
+              "rebalance": 0.0,
+              "promotions": 0,
+              "demotions": 0,
+              "cost_probes": 0,
+              "heap": 125837
+            },
+            "frequency": {
+              "build": 0.004906374999336549,
+              "train": 0.15416050000021642,
+              "query": 1.2485821659993235,
+              "rebalance": 0.027407042996856035,
+              "promotions": 9,
+              "demotions": 9,
+              "cost_probes": 6,
+              "heap": 126587
+            }
+          },
+          "trace": [
+            {
+              "hot": 3,
+              "frequency": {
+                "query": 0.2540340830000787,
+                "rebalance": 0.008570374999180785,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "id": {
+                "query": 0.032074750000901986,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 0,
+              "id": {
+                "query": 0.028461041001719423,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.29883275000065623,
+                "rebalance": 0.0018691249988478376,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "881893f558436183cad3107753551f882add810866408182ae447e6dfa55f9b8"
+            },
+            {
+              "hot": 2,
+              "frequency": {
+                "query": 0.2019950419999077,
+                "rebalance": 0.015502791999097099,
+                "selected": [
+                  "primitive:transition:entity->process->state:go2->done2"
+                ]
+              },
+              "id": {
+                "query": 0.2656243749988789,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 1,
+              "id": {
+                "query": 0.04847249999875203,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.12919045799935702,
+                "rebalance": 0.00028741700043610763,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "e1adf91c5e0f7675f2a007d3dd7d64bb7e9c66806161784be50ca3514a7fb9c7"
+            },
+            {
+              "hot": 3,
+              "frequency": {
+                "query": 0.19895704199916509,
+                "rebalance": 0.0008268749988928903,
+                "selected": [
+                  "primitive:transition:entity->process->state:go3->done3"
+                ]
+              },
+              "id": {
+                "query": 0.3556794579999405,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            },
+            {
+              "hot": 0,
+              "id": {
+                "query": 0.007216500000140513,
+                "rebalance": 0.0,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "frequency": {
+                "query": 0.16557279100015876,
+                "rebalance": 0.0003504590004013153,
+                "selected": [
+                  "primitive:transition:entity->process->state:go0->done0",
+                  "primitive:transition:entity->process->state:go1->done1"
+                ]
+              },
+              "result_sha256": "4e80079aa4a7be0df0b2013d233a954c04225261329762b284031fe6e7995519"
+            }
+          ],
+          "comparisons": 288,
+          "mismatches": 0,
+          "saved_sha256": "01b380bd8e51e1d5cebbd190740828b44461284e916c80981a737b413cf9e104"
+        }
+      ]
+    }
+  ],
+  "cross_process_saved_and_allocations_equal": true
+}

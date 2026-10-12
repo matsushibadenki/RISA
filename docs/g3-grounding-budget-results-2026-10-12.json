@@ -1,0 +1,2263 @@
+{
+  "rows": [
+    {
+      "world": "shared",
+      "width": 4,
+      "density": 1,
+      "repeat": 0,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.0019042099993384909,
+          "query": 0.0006784590004826896,
+          "correction_query": 0.00011337499927321915,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.00018487500074115815,
+          "train": 0.001829999998335552,
+          "query": 0.0003002499997819541,
+          "correction_query": 0.00020829100049013505,
+          "heap": 37494,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.00019579200034058886,
+          "train": 0.0019020820009245654,
+          "query": 0.00031404099991050316,
+          "correction_query": 0.00023475000034522964,
+          "heap": 57631,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.00018520799949328648,
+          "train": 0.0018039579999822308,
+          "query": 0.0003162910006722086,
+          "correction_query": 0.00022658299985778285,
+          "heap": 37522,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 185427,
+      "mismatches": 0
+    },
+    {
+      "world": "shared",
+      "width": 4,
+      "density": 1,
+      "repeat": 1,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.0018851679988074466,
+          "query": 0.0006723340002281475,
+          "correction_query": 0.00011195799925189931,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.00018195799930253997,
+          "train": 0.0018950410003526486,
+          "query": 0.0003145419996144483,
+          "correction_query": 0.00021337500038498547,
+          "heap": 37494,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.00021345799996197456,
+          "train": 0.0018226670008516521,
+          "query": 0.0003088749999733409,
+          "correction_query": 0.00023354200038738782,
+          "heap": 57631,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.0001900000006571645,
+          "train": 0.001907875000142667,
+          "query": 0.0003130839995719725,
+          "correction_query": 0.00022650000028079376,
+          "heap": 37522,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 185427,
+      "mismatches": 0
+    },
+    {
+      "world": "shared",
+      "width": 4,
+      "density": 1,
+      "repeat": 2,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.0018342909997954848,
+          "query": 0.000646958999823255,
+          "correction_query": 0.0001122089997807052,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.00015195900050457567,
+          "train": 0.0019192909994671936,
+          "query": 0.0002726239999901736,
+          "correction_query": 0.00018020900006376905,
+          "heap": 37494,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.00023058399983710842,
+          "train": 0.0019094589988526423,
+          "query": 0.0003359989996170043,
+          "correction_query": 0.0002493330002835137,
+          "heap": 57631,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.0002025420008067158,
+          "train": 0.0018369169993093237,
+          "query": 0.00032000000101106707,
+          "correction_query": 0.00022862500009068754,
+          "heap": 37522,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 185427,
+      "mismatches": 0
+    },
+    {
+      "world": "shared",
+      "width": 4,
+      "density": 1,
+      "repeat": 3,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.0018536270008553402,
+          "query": 0.0006672499994238024,
+          "correction_query": 0.00012370800050121034,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.00015987499955372186,
+          "train": 0.0019849179989250842,
+          "query": 0.000297209001473675,
+          "correction_query": 0.00020745900019392138,
+          "heap": 37494,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.0001995840002564364,
+          "train": 0.0019754180020754575,
+          "query": 0.00031399999897985253,
+          "correction_query": 0.0002382080001552822,
+          "heap": 57631,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.00022887499926582677,
+          "train": 0.0019260839999333257,
+          "query": 0.0003580009997676825,
+          "correction_query": 0.00025570899924787227,
+          "heap": 37522,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 185427,
+      "mismatches": 0
+    },
+    {
+      "world": "shared",
+      "width": 4,
+      "density": 16,
+      "repeat": 0,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.005647500000122818,
+          "query": 0.007583749000332318,
+          "correction_query": 0.001562583000122686,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.00020116699943173444,
+          "train": 0.0018830829994840315,
+          "query": 0.001357290997475502,
+          "correction_query": 0.0004247919996487326,
+          "heap": 37494,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.00021412499972939258,
+          "train": 0.0019635420003396575,
+          "query": 0.0011770420005632332,
+          "correction_query": 0.0004047920001539751,
+          "heap": 57631,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.00020787499943253351,
+          "train": 0.0018533749989728676,
+          "query": 0.0013640010001836345,
+          "correction_query": 0.00044233299922780134,
+          "heap": 37522,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 185427,
+      "mismatches": 0
+    },
+    {
+      "world": "shared",
+      "width": 4,
+      "density": 16,
+      "repeat": 1,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.0018667509993974818,
+          "query": 0.0075620839998009615,
+          "correction_query": 0.0014800420003666659,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.00018233299942949088,
+          "train": 0.0019596229985836544,
+          "query": 0.0013547079997806577,
+          "correction_query": 0.00041858299937302945,
+          "heap": 37494,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.0001985829994737287,
+          "train": 0.001870251000582357,
+          "query": 0.0011488339996503782,
+          "correction_query": 0.0003932919998987927,
+          "heap": 57631,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.0001883750001070439,
+          "train": 0.0018831669995051925,
+          "query": 0.001354166999590234,
+          "correction_query": 0.00043362499945942545,
+          "heap": 37522,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 185427,
+      "mismatches": 0
+    },
+    {
+      "world": "shared",
+      "width": 4,
+      "density": 16,
+      "repeat": 2,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.0019940000001952285,
+          "query": 0.007425042999784637,
+          "correction_query": 0.00147225000000617,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.00015116699978534598,
+          "train": 0.0018273330006195465,
+          "query": 0.0013129580001987051,
+          "correction_query": 0.0004011250002804445,
+          "heap": 37494,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.00023212500036606798,
+          "train": 0.0018936669985123444,
+          "query": 0.001214708000588871,
+          "correction_query": 0.00043929200001002755,
+          "heap": 57631,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.0001955839998117881,
+          "train": 0.0018743329992503277,
+          "query": 0.001428750999366457,
+          "correction_query": 0.0004961250006090268,
+          "heap": 37522,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 185427,
+      "mismatches": 0
+    },
+    {
+      "world": "shared",
+      "width": 4,
+      "density": 16,
+      "repeat": 3,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.0018262500007040217,
+          "query": 0.007480209000277682,
+          "correction_query": 0.0014838749993941747,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.00015425000037794234,
+          "train": 0.0020032070015076897,
+          "query": 0.0013159150003048126,
+          "correction_query": 0.0004097080000065034,
+          "heap": 37494,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.00019933399926230777,
+          "train": 0.0018604990000312682,
+          "query": 0.0011700840004778001,
+          "correction_query": 0.0003900420006175409,
+          "heap": 57631,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.00021833400023751892,
+          "train": 0.0018687080000745482,
+          "query": 0.0013934600001448416,
+          "correction_query": 0.0004788750002262532,
+          "heap": 37522,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 185427,
+      "mismatches": 0
+    },
+    {
+      "world": "shared",
+      "width": 16,
+      "density": 1,
+      "repeat": 0,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.00973904399870662,
+          "query": 0.00683104200015805,
+          "correction_query": 0.004963790999681805,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.0005637920003209729,
+          "train": 0.009359043001495593,
+          "query": 0.006006542001159687,
+          "correction_query": 0.005717583000659943,
+          "heap": 118974,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.0010624169999573496,
+          "train": 0.010548749998633866,
+          "query": 0.0041864170007102075,
+          "correction_query": 0.003846708000310173,
+          "heap": 419839,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.000517250000484637,
+          "train": 0.039025999999466876,
+          "query": 0.004463125999791373,
+          "correction_query": 0.004074333999597002,
+          "heap": 119002,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 1365243,
+      "mismatches": 0
+    },
+    {
+      "world": "shared",
+      "width": 16,
+      "density": 1,
+      "repeat": 1,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.010996373998750641,
+          "query": 0.0022223329997359542,
+          "correction_query": 0.0003538330001902068,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.0005716670002584578,
+          "train": 0.012835375000577187,
+          "query": 0.0009101219993681298,
+          "correction_query": 0.0006752080007572658,
+          "heap": 118974,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.0010632080002324074,
+          "train": 0.013488333000168495,
+          "query": 0.0014529989994116477,
+          "correction_query": 0.0011834580000140704,
+          "heap": 419839,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.0007153330006985925,
+          "train": 0.00944425000125193,
+          "query": 0.0008512499998687417,
+          "correction_query": 0.0006050000001778244,
+          "heap": 119002,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 1365243,
+      "mismatches": 0
+    },
+    {
+      "world": "shared",
+      "width": 16,
+      "density": 1,
+      "repeat": 2,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.009124415999394841,
+          "query": 0.0022346249998008716,
+          "correction_query": 0.0003717500003403984,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.0005139579998285626,
+          "train": 0.009156956999504473,
+          "query": 0.0008526679985152441,
+          "correction_query": 0.0005991669995637494,
+          "heap": 118974,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.001081082999917271,
+          "train": 0.009148917000857182,
+          "query": 0.0015206660009425832,
+          "correction_query": 0.0013256660004117293,
+          "heap": 419839,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.0005497920001289458,
+          "train": 0.009159207998891361,
+          "query": 0.0009379989996887161,
+          "correction_query": 0.0006570409996129456,
+          "heap": 119002,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 1365243,
+      "mismatches": 0
+    },
+    {
+      "world": "shared",
+      "width": 16,
+      "density": 1,
+      "repeat": 3,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.009062958998583781,
+          "query": 0.002201040999352699,
+          "correction_query": 0.0003833330001725699,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.0005118330000186688,
+          "train": 0.008932166000704456,
+          "query": 0.0008476249977320549,
+          "correction_query": 0.0005961249999018037,
+          "heap": 118974,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.0010319579996576067,
+          "train": 0.009466249000979587,
+          "query": 0.001343084000836825,
+          "correction_query": 0.0011357920002410538,
+          "heap": 419839,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.0006127920005383203,
+          "train": 0.009071832999325125,
+          "query": 0.0010113759999512695,
+          "correction_query": 0.0006913750003150199,
+          "heap": 119002,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 1365243,
+      "mismatches": 0
+    },
+    {
+      "world": "shared",
+      "width": 16,
+      "density": 16,
+      "repeat": 0,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.00880999899982271,
+          "query": 0.024313373998666066,
+          "correction_query": 0.004989624999325315,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.0005680000003849273,
+          "train": 0.009258207000129914,
+          "query": 0.002764374999969732,
+          "correction_query": 0.0010055409993583453,
+          "heap": 118974,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.001036333000229206,
+          "train": 0.00901216600141197,
+          "query": 0.002852083001016581,
+          "correction_query": 0.001479999999901338,
+          "heap": 419839,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.0005156249999345164,
+          "train": 0.008816082999146602,
+          "query": 0.0026839590000236058,
+          "correction_query": 0.0009572919998390717,
+          "heap": 119002,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 1365243,
+      "mismatches": 0
+    },
+    {
+      "world": "shared",
+      "width": 16,
+      "density": 16,
+      "repeat": 1,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.008745957999963139,
+          "query": 0.02364208200106077,
+          "correction_query": 0.004723000000012689,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.0005736250004702015,
+          "train": 0.00901374999921245,
+          "query": 0.002991082998960337,
+          "correction_query": 0.0012962499995410326,
+          "heap": 118974,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.0010262919995511766,
+          "train": 0.009228250999512966,
+          "query": 0.0027856669994434924,
+          "correction_query": 0.0014557079994119704,
+          "heap": 419839,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.0005160000000614673,
+          "train": 0.008777041999564972,
+          "query": 0.0026478740001039114,
+          "correction_query": 0.0009518329998172703,
+          "heap": 119002,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 1365243,
+      "mismatches": 0
+    },
+    {
+      "world": "shared",
+      "width": 16,
+      "density": 16,
+      "repeat": 2,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.008682582999426813,
+          "query": 0.023662790998969285,
+          "correction_query": 0.004761000000144122,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.00048145799974008696,
+          "train": 0.008852124999975786,
+          "query": 0.002647041998898203,
+          "correction_query": 0.0009171249994324171,
+          "heap": 118974,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.0011066669994761469,
+          "train": 0.008992957999907958,
+          "query": 0.002945664999060682,
+          "correction_query": 0.001585250000061933,
+          "heap": 419839,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.0005504589998963638,
+          "train": 0.009313834000749921,
+          "query": 0.0026568319990474265,
+          "correction_query": 0.0009726660000524134,
+          "heap": 119002,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 1365243,
+      "mismatches": 0
+    },
+    {
+      "world": "shared",
+      "width": 16,
+      "density": 16,
+      "repeat": 3,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.008742541000174242,
+          "query": 0.023560290000204986,
+          "correction_query": 0.004838458000449464,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.000504040999658173,
+          "train": 0.008966749001046992,
+          "query": 0.002692000999559241,
+          "correction_query": 0.0009776670003702748,
+          "heap": 118974,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.0010157500000786968,
+          "train": 0.008949667999331723,
+          "query": 0.002756750000116881,
+          "correction_query": 0.00144308299968543,
+          "heap": 419839,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.0006208750000951113,
+          "train": 0.008714833999874827,
+          "query": 0.002754915997684293,
+          "correction_query": 0.0010910829996646498,
+          "heap": 119002,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 1365243,
+      "mismatches": 0
+    },
+    {
+      "world": "shared",
+      "width": 64,
+      "density": 1,
+      "repeat": 0,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.09139683399826026,
+          "query": 0.008890292001524358,
+          "correction_query": 0.001413207999576116,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.0021798750003654277,
+          "train": 0.36283683300007397,
+          "query": 0.003133999999590742,
+          "correction_query": 0.0023333330000241403,
+          "heap": 446622,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.01000508400011313,
+          "train": 0.09659054199983075,
+          "query": 0.012862874998972984,
+          "correction_query": 0.011440665999543853,
+          "heap": 5188159,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.0019519159995979862,
+          "train": 0.09605933399961941,
+          "query": 0.0031550420017083525,
+          "correction_query": 0.0023222910003823927,
+          "heap": 446650,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 17708949,
+      "mismatches": 0
+    },
+    {
+      "world": "shared",
+      "width": 64,
+      "density": 1,
+      "repeat": 1,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.1356541670011211,
+          "query": 0.011977000000115368,
+          "correction_query": 0.0016019169997889549,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.002477625000210537,
+          "train": 0.1733319989998563,
+          "query": 0.00348933200166357,
+          "correction_query": 0.002717291000408295,
+          "heap": 446622,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.01157929199962382,
+          "train": 0.10553183299907687,
+          "query": 0.014760374000616139,
+          "correction_query": 0.012991250000595755,
+          "heap": 5188159,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.002036541999586916,
+          "train": 0.1323780419988907,
+          "query": 0.0033722079988365294,
+          "correction_query": 0.0023489169998356374,
+          "heap": 446650,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 17708949,
+      "mismatches": 0
+    },
+    {
+      "world": "shared",
+      "width": 64,
+      "density": 1,
+      "repeat": 2,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.1248495850004474,
+          "query": 0.010677415999452933,
+          "correction_query": 0.0014317919994937256,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.0020447500000955188,
+          "train": 0.10714091699901473,
+          "query": 0.0036543340002026525,
+          "correction_query": 0.0024189589994421112,
+          "heap": 446622,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.013840791999427893,
+          "train": 0.098473125000055,
+          "query": 0.016621791000034136,
+          "correction_query": 0.015183290999630117,
+          "heap": 5188159,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.0024357080001209397,
+          "train": 0.09704420999969443,
+          "query": 0.0035092510015601874,
+          "correction_query": 0.0027172090003659832,
+          "heap": 446650,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 17708949,
+      "mismatches": 0
+    },
+    {
+      "world": "shared",
+      "width": 64,
+      "density": 1,
+      "repeat": 3,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.08759149900015473,
+          "query": 0.008064708001256804,
+          "correction_query": 0.001336625000476488,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.0019369999999980791,
+          "train": 0.08728845800033014,
+          "query": 0.002891082997848571,
+          "correction_query": 0.002202291999310546,
+          "heap": 446622,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.010068624999803433,
+          "train": 0.08869896000032895,
+          "query": 0.013048083999819937,
+          "correction_query": 0.011809167000137677,
+          "heap": 5188159,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.0021002089997637086,
+          "train": 0.09063254200009396,
+          "query": 0.0031202920008581714,
+          "correction_query": 0.002402625000286207,
+          "heap": 446650,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 17708949,
+      "mismatches": 0
+    },
+    {
+      "world": "shared",
+      "width": 64,
+      "density": 16,
+      "repeat": 0,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.08936904100028187,
+          "query": 0.09184345700032281,
+          "correction_query": 0.018677208000553946,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.0023166250002759625,
+          "train": 0.08866058300009172,
+          "query": 0.007781041000271216,
+          "correction_query": 0.0032265840000036405,
+          "heap": 446622,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.010124249999535095,
+          "train": 0.09247816700008116,
+          "query": 0.018416207999507606,
+          "correction_query": 0.012851665999733086,
+          "heap": 5188159,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.002159166999263107,
+          "train": 0.08905287700054032,
+          "query": 0.007991751001100056,
+          "correction_query": 0.0031512089999523596,
+          "heap": 446650,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 17708949,
+      "mismatches": 0
+    },
+    {
+      "world": "shared",
+      "width": 64,
+      "density": 16,
+      "repeat": 1,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.09129445800135727,
+          "query": 0.09709999900042021,
+          "correction_query": 0.018001708000156214,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.0021673330002158764,
+          "train": 0.0921065840002484,
+          "query": 0.00806112500049494,
+          "correction_query": 0.003402750000532251,
+          "heap": 446622,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.014204916000380763,
+          "train": 0.09141724999972212,
+          "query": 0.018497623999792268,
+          "correction_query": 0.012667209000028379,
+          "heap": 5188159,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.0023639999999431893,
+          "train": 0.08729912599937961,
+          "query": 0.007992374002242286,
+          "correction_query": 0.0032487080006831093,
+          "heap": 446650,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 17708949,
+      "mismatches": 0
+    },
+    {
+      "world": "shared",
+      "width": 64,
+      "density": 16,
+      "repeat": 2,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.08827374999964377,
+          "query": 0.12085229300009814,
+          "correction_query": 0.0467876669999896,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.0018847919991458184,
+          "train": 0.08807508300014888,
+          "query": 0.010527956999794696,
+          "correction_query": 0.005901874999835854,
+          "heap": 446622,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.010239042000648624,
+          "train": 0.08891416800088336,
+          "query": 0.04000470800110634,
+          "correction_query": 0.0344623330001923,
+          "heap": 5188159,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.0020237920007275534,
+          "train": 0.08824654299951362,
+          "query": 0.013537167998947552,
+          "correction_query": 0.008818416999929468,
+          "heap": 446650,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 17708949,
+      "mismatches": 0
+    },
+    {
+      "world": "shared",
+      "width": 64,
+      "density": 16,
+      "repeat": 3,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.08880600000065897,
+          "query": 0.09149308300129633,
+          "correction_query": 0.01909395799975755,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.0019394580003790907,
+          "train": 0.0884019579989399,
+          "query": 0.008083750998594041,
+          "correction_query": 0.0032818339996083523,
+          "heap": 446622,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.010047999999187596,
+          "train": 0.09039812499759137,
+          "query": 0.018279416999575915,
+          "correction_query": 0.012825167000301008,
+          "heap": 5188159,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.002109250000103202,
+          "train": 0.08917229199960275,
+          "query": 0.008212041000660975,
+          "correction_query": 0.003545665999808989,
+          "heap": 446650,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 17708949,
+      "mismatches": 0
+    },
+    {
+      "world": "distinct",
+      "width": 4,
+      "density": 1,
+      "repeat": 0,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.0020405840004968923,
+          "query": 0.0004493750002438901,
+          "correction_query": 6.725000002916204e-05,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.00022483300017483998,
+          "train": 0.002110540999638033,
+          "query": 0.0003117080004813033,
+          "correction_query": 0.00022220800019567832,
+          "heap": 37454,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.0002312500000698492,
+          "train": 0.0020409999997355044,
+          "query": 0.00031829199997446267,
+          "correction_query": 0.0002455419999023434,
+          "heap": 109131,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.0001793749997887062,
+          "train": 0.0020199570008117007,
+          "query": 0.0002865409996957169,
+          "correction_query": 0.00020033300006616628,
+          "heap": 37482,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 235917,
+      "mismatches": 0
+    },
+    {
+      "world": "distinct",
+      "width": 4,
+      "density": 1,
+      "repeat": 1,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.001981334000447532,
+          "query": 0.0004344160006439779,
+          "correction_query": 6.679200032522203e-05,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.00019579200034058886,
+          "train": 0.0020719160011140048,
+          "query": 0.00034258299911016366,
+          "correction_query": 0.000240999999732594,
+          "heap": 37454,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.0002164999996239203,
+          "train": 0.002055833000667917,
+          "query": 0.00032054100120149087,
+          "correction_query": 0.00024391700026171748,
+          "heap": 109131,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.00017158300033770502,
+          "train": 0.002099999001075048,
+          "query": 0.0002876249982364243,
+          "correction_query": 0.0002013749999605352,
+          "heap": 37482,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 235917,
+      "mismatches": 0
+    },
+    {
+      "world": "distinct",
+      "width": 4,
+      "density": 1,
+      "repeat": 2,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.0019925840006180806,
+          "query": 0.0004583749996527331,
+          "correction_query": 6.358300015563145e-05,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.00020808299996133428,
+          "train": 0.0020917909996569506,
+          "query": 0.0002728749996094848,
+          "correction_query": 0.0001809170007618377,
+          "heap": 37454,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.0002478750002410379,
+          "train": 0.0020106249994569225,
+          "query": 0.00037287500163074583,
+          "correction_query": 0.00028220800049894024,
+          "heap": 109131,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.00018287500006408663,
+          "train": 0.0021071659994049696,
+          "query": 0.00031062499965628376,
+          "correction_query": 0.00020933300038450398,
+          "heap": 37482,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 235917,
+      "mismatches": 0
+    },
+    {
+      "world": "distinct",
+      "width": 4,
+      "density": 1,
+      "repeat": 3,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.007139123999877484,
+          "query": 0.000449750000370841,
+          "correction_query": 6.675000076938886e-05,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.00016595899978710804,
+          "train": 0.0021457090006151702,
+          "query": 0.00028891700185340596,
+          "correction_query": 0.00018879200069932267,
+          "heap": 37454,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.00021912499960308196,
+          "train": 0.002059999999801221,
+          "query": 0.00030883399995218497,
+          "correction_query": 0.00023308300023927586,
+          "heap": 109131,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.00025604199981899,
+          "train": 0.0020163739991403418,
+          "query": 0.0003375410005901358,
+          "correction_query": 0.0002427079998597037,
+          "heap": 37482,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 235917,
+      "mismatches": 0
+    },
+    {
+      "world": "distinct",
+      "width": 4,
+      "density": 16,
+      "repeat": 0,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.002028873998824565,
+          "query": 0.006490291000773141,
+          "correction_query": 0.0012058330003128503,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.00020045800010848325,
+          "train": 0.0021672499997293926,
+          "query": 0.0013740009990215185,
+          "correction_query": 0.00043275000007270137,
+          "heap": 37454,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.00021366700002545258,
+          "train": 0.0021176659993216163,
+          "query": 0.0013135830013197847,
+          "correction_query": 0.00048012500064942287,
+          "heap": 109131,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.00017645900061324937,
+          "train": 0.0023444589987775544,
+          "query": 0.0013703329996133107,
+          "correction_query": 0.00042712499998742715,
+          "heap": 37482,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 235917,
+      "mismatches": 0
+    },
+    {
+      "world": "distinct",
+      "width": 4,
+      "density": 16,
+      "repeat": 1,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.002063958000690036,
+          "query": 0.006474125000750064,
+          "correction_query": 0.0011633750000328291,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.0002222499997515115,
+          "train": 0.0020877919987469795,
+          "query": 0.0014190419988153735,
+          "correction_query": 0.00042370899973320775,
+          "heap": 37454,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.00022033300047041848,
+          "train": 0.0021425400000225636,
+          "query": 0.001244833000782819,
+          "correction_query": 0.0004195829997115652,
+          "heap": 109131,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.00018162499964091694,
+          "train": 0.001959210001587053,
+          "query": 0.0013286239982335246,
+          "correction_query": 0.00039766600002622,
+          "heap": 37482,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 235917,
+      "mismatches": 0
+    },
+    {
+      "world": "distinct",
+      "width": 4,
+      "density": 16,
+      "repeat": 2,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.001971416999367648,
+          "query": 0.006376917000125104,
+          "correction_query": 0.0012286250002944143,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.00015749999965919415,
+          "train": 0.0021441669996420387,
+          "query": 0.0013634589995490387,
+          "correction_query": 0.00040624999928695615,
+          "heap": 37454,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.0002587079998193076,
+          "train": 0.002147459000298113,
+          "query": 0.00134458199954679,
+          "correction_query": 0.0004535410007520113,
+          "heap": 109131,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.00018620799983182224,
+          "train": 0.0021235820013316697,
+          "query": 0.0013269999999465654,
+          "correction_query": 0.00040012499994190875,
+          "heap": 37482,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 235917,
+      "mismatches": 0
+    },
+    {
+      "world": "distinct",
+      "width": 4,
+      "density": 16,
+      "repeat": 3,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.0021190000006754417,
+          "query": 0.006675752000774082,
+          "correction_query": 0.0012523340001280303,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.00016024999968067277,
+          "train": 0.0022124600000097416,
+          "query": 0.001390290999552235,
+          "correction_query": 0.00043249999998806743,
+          "heap": 37454,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.00020754199977091048,
+          "train": 0.0021849999993719393,
+          "query": 0.0013247910010250052,
+          "correction_query": 0.0004761660002259305,
+          "heap": 109131,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.0002149579995602835,
+          "train": 0.002097624999805703,
+          "query": 0.0014390409996849485,
+          "correction_query": 0.0004538329994829837,
+          "heap": 37482,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 235917,
+      "mismatches": 0
+    },
+    {
+      "world": "distinct",
+      "width": 16,
+      "density": 1,
+      "repeat": 0,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.009094082998672093,
+          "query": 0.0013869149988749996,
+          "correction_query": 0.0002386249998380663,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.0005670840000675526,
+          "train": 0.009013042000333371,
+          "query": 0.0008699569998498191,
+          "correction_query": 0.0006932500000402797,
+          "heap": 118814,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.0012034170003971667,
+          "train": 0.029864958999496594,
+          "query": 0.0013888329995097592,
+          "correction_query": 0.0012299999998504063,
+          "heap": 639771,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.0005142909994901856,
+          "train": 0.05059316700044292,
+          "query": 0.0007825830007277546,
+          "correction_query": 0.0005842919999849983,
+          "heap": 118842,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 1797561,
+      "mismatches": 0
+    },
+    {
+      "world": "distinct",
+      "width": 16,
+      "density": 1,
+      "repeat": 1,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.009218916999998328,
+          "query": 0.0013746259992331034,
+          "correction_query": 0.0001992919997064746,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.0006038749997969717,
+          "train": 0.009424624000530457,
+          "query": 0.0008492499991916702,
+          "correction_query": 0.0006739169994034455,
+          "heap": 118814,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.0011006670001734165,
+          "train": 0.009414332999767794,
+          "query": 0.001389582999763661,
+          "correction_query": 0.0012437080004019663,
+          "heap": 639771,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.0005145829991306528,
+          "train": 0.009187209000629082,
+          "query": 0.0007946669993543765,
+          "correction_query": 0.0006077089992686524,
+          "heap": 118842,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 1797561,
+      "mismatches": 0
+    },
+    {
+      "world": "distinct",
+      "width": 16,
+      "density": 1,
+      "repeat": 2,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.009497166000073776,
+          "query": 0.001354748998892319,
+          "correction_query": 0.0001990000000660075,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.0004910829993605148,
+          "train": 0.00931879099971411,
+          "query": 0.0007279589999598102,
+          "correction_query": 0.0005641249999825959,
+          "heap": 118814,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.0011764580003728042,
+          "train": 0.009340000000520376,
+          "query": 0.0014787909994993242,
+          "correction_query": 0.0013254160003270954,
+          "heap": 639771,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.0005389589996411814,
+          "train": 0.009291667999605124,
+          "query": 0.0008002910008144681,
+          "correction_query": 0.0006199999997988925,
+          "heap": 118842,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 1797561,
+      "mismatches": 0
+    },
+    {
+      "world": "distinct",
+      "width": 16,
+      "density": 1,
+      "repeat": 3,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.009507000000667176,
+          "query": 0.0013812090010105749,
+          "correction_query": 0.00020595899968611775,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.0005162910001672572,
+          "train": 0.00928083299913851,
+          "query": 0.0007411670003421023,
+          "correction_query": 0.0005890840002393816,
+          "heap": 118814,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.001095917000384361,
+          "train": 0.009083333000489802,
+          "query": 0.0015742090026833466,
+          "correction_query": 0.0014418750006370828,
+          "heap": 639771,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.000637167000604677,
+          "train": 0.009275208999497409,
+          "query": 0.0008913340006984072,
+          "correction_query": 0.0007221249998110579,
+          "heap": 118842,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 1797561,
+      "mismatches": 0
+    },
+    {
+      "world": "distinct",
+      "width": 16,
+      "density": 16,
+      "repeat": 0,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.009533416000522266,
+          "query": 0.019984251000096265,
+          "correction_query": 0.0036695419994430267,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.0006171670002004248,
+          "train": 0.009376291000080528,
+          "query": 0.002196124999500171,
+          "correction_query": 0.0009493329998804256,
+          "heap": 118814,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.0012310840002101031,
+          "train": 0.009428166001271165,
+          "query": 0.0026552070003162953,
+          "correction_query": 0.001539791000141122,
+          "heap": 639771,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.0005194169998503639,
+          "train": 0.008991916000013589,
+          "query": 0.002200582999648759,
+          "correction_query": 0.0009502499997324776,
+          "heap": 118842,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 1797561,
+      "mismatches": 0
+    },
+    {
+      "world": "distinct",
+      "width": 16,
+      "density": 16,
+      "repeat": 1,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.009244874999239983,
+          "query": 0.019533749999936845,
+          "correction_query": 0.0035189589998481097,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.0005843330000061542,
+          "train": 0.009546665999550896,
+          "query": 0.0023330410003836732,
+          "correction_query": 0.000997708000795683,
+          "heap": 118814,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.0011238340002819314,
+          "train": 0.009315374000834709,
+          "query": 0.0025899589991240646,
+          "correction_query": 0.0015079579998200643,
+          "heap": 639771,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.0005367089997889707,
+          "train": 0.009116999000980286,
+          "query": 0.0022335840003506746,
+          "correction_query": 0.0008898750002117595,
+          "heap": 118842,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 1797561,
+      "mismatches": 0
+    },
+    {
+      "world": "distinct",
+      "width": 16,
+      "density": 16,
+      "repeat": 2,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.009455999999772757,
+          "query": 0.019560790999094024,
+          "correction_query": 0.003704457999447186,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.000488833999952476,
+          "train": 0.009370624999974098,
+          "query": 0.002253417000247282,
+          "correction_query": 0.0009442919999855803,
+          "heap": 118814,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.001179374999992433,
+          "train": 0.009588416000951838,
+          "query": 0.002808459001244046,
+          "correction_query": 0.0015965840002536424,
+          "heap": 639771,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.0005417500005933107,
+          "train": 0.009230625998497999,
+          "query": 0.002198043001044425,
+          "correction_query": 0.0009490419997746358,
+          "heap": 118842,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 1797561,
+      "mismatches": 0
+    },
+    {
+      "world": "distinct",
+      "width": 16,
+      "density": 16,
+      "repeat": 3,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.00931875000060245,
+          "query": 0.019359957000233408,
+          "correction_query": 0.0034898750000138534,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.0005795000006401096,
+          "train": 0.00942087499970512,
+          "query": 0.002201334000346833,
+          "correction_query": 0.0008747920001042075,
+          "heap": 118814,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.0011348750003890018,
+          "train": 0.009764834000634437,
+          "query": 0.002601708999463881,
+          "correction_query": 0.0014621249993069796,
+          "heap": 639771,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.0006819999998697313,
+          "train": 0.009523375000753731,
+          "query": 0.0023726669987809146,
+          "correction_query": 0.0010495420001461753,
+          "heap": 118842,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 1797561,
+      "mismatches": 0
+    },
+    {
+      "world": "distinct",
+      "width": 64,
+      "density": 1,
+      "repeat": 0,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.08669091700085119,
+          "query": 0.005203875000916014,
+          "correction_query": 0.000825292000627087,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.0021442079996631946,
+          "train": 0.2668303320006089,
+          "query": 0.002743209000072966,
+          "correction_query": 0.0023689589997957228,
+          "heap": 445982,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.010427791000438447,
+          "train": 0.0872398739993514,
+          "query": 0.011665291000099387,
+          "correction_query": 0.011343457999828388,
+          "heap": 6289179,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.0021550409992414643,
+          "train": 0.08648749899930408,
+          "query": 0.0026332489997002995,
+          "correction_query": 0.002259500000036496,
+          "heap": 446010,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 23420763,
+      "mismatches": 0
+    },
+    {
+      "world": "distinct",
+      "width": 64,
+      "density": 1,
+      "repeat": 1,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.11380470799940667,
+          "query": 0.0068534580004779855,
+          "correction_query": 0.0010861670007216162,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.002373416999944311,
+          "train": 0.10832912600017153,
+          "query": 0.0046312100002978696,
+          "correction_query": 0.004185208999842871,
+          "heap": 445982,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.013881458000469138,
+          "train": 0.11347845900036191,
+          "query": 0.01730024900098215,
+          "correction_query": 0.016904250000152388,
+          "heap": 6289179,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.0026767919998746947,
+          "train": 0.10767795799984015,
+          "query": 0.006336917001135589,
+          "correction_query": 0.00587199999972654,
+          "heap": 446010,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 23420763,
+      "mismatches": 0
+    },
+    {
+      "world": "distinct",
+      "width": 64,
+      "density": 1,
+      "repeat": 2,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.08477316699918447,
+          "query": 0.005142666001120233,
+          "correction_query": 0.0007543750007243943,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.0020107499994992395,
+          "train": 0.08417416700012836,
+          "query": 0.002576707000116585,
+          "correction_query": 0.002217416999883426,
+          "heap": 445982,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.010036958000455343,
+          "train": 0.0850064989999737,
+          "query": 0.011623207999946317,
+          "correction_query": 0.011348874999384861,
+          "heap": 6289179,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.0020772090001628385,
+          "train": 0.08448291700005939,
+          "query": 0.002728209999986575,
+          "correction_query": 0.0023635839997950825,
+          "heap": 446010,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 23420763,
+      "mismatches": 0
+    },
+    {
+      "world": "distinct",
+      "width": 64,
+      "density": 1,
+      "repeat": 3,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.08548520799922699,
+          "query": 0.005073958998764283,
+          "correction_query": 0.00075062500036438,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.0022172500002852757,
+          "train": 0.08489091699993878,
+          "query": 0.0028294599997025216,
+          "correction_query": 0.0024657920002937317,
+          "heap": 445982,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.010290832999999111,
+          "train": 0.08567516499897465,
+          "query": 0.011598709000281815,
+          "correction_query": 0.011307249999845226,
+          "heap": 6289179,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.0024367920004806365,
+          "train": 0.08491587599928607,
+          "query": 0.0028584559986484237,
+          "correction_query": 0.0024992909993670764,
+          "heap": 446010,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 23420763,
+      "mismatches": 0
+    },
+    {
+      "world": "distinct",
+      "width": 64,
+      "density": 16,
+      "repeat": 0,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.08737370699964231,
+          "query": 0.07448295799895277,
+          "correction_query": 0.013770124999609834,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.002154833000531653,
+          "train": 0.08580479099873628,
+          "query": 0.0052487500024653855,
+          "correction_query": 0.0028446670003177132,
+          "heap": 445982,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.009936917000231915,
+          "train": 0.08636500000011438,
+          "query": 0.013412791999144247,
+          "correction_query": 0.011395915999855788,
+          "heap": 6289179,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.002014708999922732,
+          "train": 0.30870970800060604,
+          "query": 0.005296042000736634,
+          "correction_query": 0.0027816669999083388,
+          "heap": 446010,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 23420763,
+      "mismatches": 0
+    },
+    {
+      "world": "distinct",
+      "width": 64,
+      "density": 16,
+      "repeat": 1,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.08512216600047395,
+          "query": 0.07446066699867515,
+          "correction_query": 0.013810832999297418,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.002176750000216998,
+          "train": 0.08450450000054843,
+          "query": 0.005388958998992166,
+          "correction_query": 0.0030465419995380216,
+          "heap": 445982,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.009959584000171162,
+          "train": 0.0846103759995458,
+          "query": 0.013508667999303725,
+          "correction_query": 0.01157583300027909,
+          "heap": 6289179,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.0021608749993902165,
+          "train": 0.08390650099863706,
+          "query": 0.005311748998792609,
+          "correction_query": 0.0029283329995450913,
+          "heap": 446010,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 23420763,
+      "mismatches": 0
+    },
+    {
+      "world": "distinct",
+      "width": 64,
+      "density": 16,
+      "repeat": 2,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.08501970900033484,
+          "query": 0.07463379199998599,
+          "correction_query": 0.013430750000225089,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.0020751250003741006,
+          "train": 0.08492054100042878,
+          "query": 0.005336666000403056,
+          "correction_query": 0.0029496249999283464,
+          "heap": 445982,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.01001704099962808,
+          "train": 0.08547129200087511,
+          "query": 0.01379037500009872,
+          "correction_query": 0.01180262500020035,
+          "heap": 6289179,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.002134999999725551,
+          "train": 0.08478550000018004,
+          "query": 0.0052250010003263014,
+          "correction_query": 0.002898374999858788,
+          "heap": 446010,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 23420763,
+      "mismatches": 0
+    },
+    {
+      "world": "distinct",
+      "width": 64,
+      "density": 16,
+      "repeat": 3,
+      "stats": {
+        "scan": {
+          "build": 0.0,
+          "train": 0.08502316800058907,
+          "query": 0.07586883400017541,
+          "correction_query": 0.013829749999786145,
+          "heap": 0,
+          "fallback_entries": 0,
+          "lookup_container_bytes": 0
+        },
+        "linear": {
+          "build": 0.0020720419997815043,
+          "train": 0.08614475000013044,
+          "query": 0.005333748999873933,
+          "correction_query": 0.0028450419995351695,
+          "heap": 445982,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        },
+        "lookup": {
+          "build": 0.009893834000649804,
+          "train": 0.08526075100053276,
+          "query": 0.01355216600040876,
+          "correction_query": 0.01159612500032381,
+          "heap": 6289179,
+          "fallback_entries": 0,
+          "lookup_container_bytes": null
+        },
+        "budget": {
+          "build": 0.0021739169997090357,
+          "train": 0.08437891700123146,
+          "query": 0.005463582999254868,
+          "correction_query": 0.003112458999567025,
+          "heap": 446010,
+          "fallback_entries": 1,
+          "lookup_container_bytes": 0
+        }
+      },
+      "comparisons": 432,
+      "saved_bytes": 23420763,
+      "mismatches": 0
+    }
+  ],
+  "budget_bytes_per_primitive": 8192,
+  "hash_seed": "0",
+  "order_balanced": true
+}

@@ -1,0 +1,2009 @@
+{
+  "processes": [
+    {
+      "hash_seed": "0",
+      "repeat": 0,
+      "pid": 74697,
+      "rows": [
+        {
+          "workload": "lookup_hot",
+          "stats": {
+            "scan": {
+              "build": 0.0,
+              "train": 0.010508166000363417,
+              "update": 0.0,
+              "query": 0.12098966700068559,
+              "cold_query": 0.022277957999904174,
+              "heap": 0,
+              "probes": 0,
+              "checks": 0,
+              "used": 0,
+              "allocation": []
+            },
+            "linear": {
+              "build": 0.003618207998442813,
+              "train": 0.00811562499984575,
+              "update": 9.691599916550331e-05,
+              "query": 0.022993667000264395,
+              "cold_query": 0.012693541999396984,
+              "heap": 97389,
+              "probes": 0,
+              "checks": 4145,
+              "used": 0,
+              "allocation": []
+            },
+            "unlimited": {
+              "build": 0.0035887089998141164,
+              "train": 0.010010625001086737,
+              "update": 0.00016979300016828347,
+              "query": 0.015971834001902607,
+              "cold_query": 0.011696958999891649,
+              "heap": 201118,
+              "probes": 497,
+              "checks": 79,
+              "used": 0,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1",
+                "primitive:transition:entity->process->state:go2->done2",
+                "primitive:transition:entity->process->state:go3->done3"
+              ]
+            },
+            "mixed": {
+              "build": 0.0021098749984957976,
+              "train": 0.015418041000884841,
+              "update": 0.00012641700050153304,
+              "query": 0.012672166998527246,
+              "cold_query": 0.0076375419994292315,
+              "heap": 104574,
+              "probes": 497,
+              "checks": 79,
+              "used": 6880,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1"
+              ]
+            }
+          },
+          "comparisons": 672,
+          "allocations": [
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ]
+          ],
+          "result_sha256": "5dae2383fc961ce604076c4bf3335908d2e43625a1b6133bb9544b76cdbf1935",
+          "saved_sha256": "173dc1885c6cbd046af27a5c335705f0a4d08930dc6cec9323073d78e653f09b",
+          "saved_bytes": 431944,
+          "mismatches": 0
+        },
+        {
+          "workload": "linear_hot",
+          "stats": {
+            "scan": {
+              "build": 0.0,
+              "train": 0.0070217079992289655,
+              "update": 0.0,
+              "query": 0.09555958299824852,
+              "cold_query": 0.032674624999344815,
+              "heap": 0,
+              "probes": 0,
+              "checks": 0,
+              "used": 0,
+              "allocation": []
+            },
+            "linear": {
+              "build": 0.001729874999000458,
+              "train": 0.006851874999483698,
+              "update": 8.854299994709436e-05,
+              "query": 0.016910209000343457,
+              "cold_query": 0.007174500000473927,
+              "heap": 97389,
+              "probes": 0,
+              "checks": 3864,
+              "used": 0,
+              "allocation": []
+            },
+            "unlimited": {
+              "build": 0.001967042000615038,
+              "train": 0.0070299999988492345,
+              "update": 0.00010074999954667874,
+              "query": 0.014254458999857889,
+              "cold_query": 0.006575916999281617,
+              "heap": 201118,
+              "probes": 5798,
+              "checks": 79,
+              "used": 0,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1",
+                "primitive:transition:entity->process->state:go2->done2",
+                "primitive:transition:entity->process->state:go3->done3"
+              ]
+            },
+            "mixed": {
+              "build": 0.0018200829999841517,
+              "train": 0.006435915998736164,
+              "update": 8.695699762029108e-05,
+              "query": 0.01514537499861035,
+              "cold_query": 0.006451792000007117,
+              "heap": 104574,
+              "probes": 0,
+              "checks": 3864,
+              "used": 6880,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1"
+              ]
+            }
+          },
+          "comparisons": 672,
+          "allocations": [
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ]
+          ],
+          "result_sha256": "5dae2383fc961ce604076c4bf3335908d2e43625a1b6133bb9544b76cdbf1935",
+          "saved_sha256": "173dc1885c6cbd046af27a5c335705f0a4d08930dc6cec9323073d78e653f09b",
+          "saved_bytes": 431944,
+          "mismatches": 0
+        }
+      ]
+    },
+    {
+      "hash_seed": "0",
+      "repeat": 1,
+      "pid": 74752,
+      "rows": [
+        {
+          "workload": "lookup_hot",
+          "stats": {
+            "scan": {
+              "build": 0.0,
+              "train": 0.0063530419993185205,
+              "update": 0.0,
+              "query": 0.027256667000983725,
+              "cold_query": 0.008234250000896282,
+              "heap": 0,
+              "probes": 0,
+              "checks": 0,
+              "used": 0,
+              "allocation": []
+            },
+            "linear": {
+              "build": 0.001540958999612485,
+              "train": 0.005903125000259024,
+              "update": 6.504100019810721e-05,
+              "query": 0.0102932919999148,
+              "cold_query": 0.004365083999800845,
+              "heap": 97389,
+              "probes": 0,
+              "checks": 4145,
+              "used": 0,
+              "allocation": []
+            },
+            "unlimited": {
+              "build": 0.002066832999844337,
+              "train": 0.005744500000218977,
+              "update": 0.00017250099881493952,
+              "query": 0.008522874999471242,
+              "cold_query": 0.004317999999329913,
+              "heap": 201118,
+              "probes": 497,
+              "checks": 79,
+              "used": 0,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1",
+                "primitive:transition:entity->process->state:go2->done2",
+                "primitive:transition:entity->process->state:go3->done3"
+              ]
+            },
+            "mixed": {
+              "build": 0.0017309590002696496,
+              "train": 0.006062958000256913,
+              "update": 7.129199912014883e-05,
+              "query": 0.008175458999176044,
+              "cold_query": 0.003687500000523869,
+              "heap": 104574,
+              "probes": 497,
+              "checks": 79,
+              "used": 6880,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1"
+              ]
+            }
+          },
+          "comparisons": 672,
+          "allocations": [
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ]
+          ],
+          "result_sha256": "5dae2383fc961ce604076c4bf3335908d2e43625a1b6133bb9544b76cdbf1935",
+          "saved_sha256": "173dc1885c6cbd046af27a5c335705f0a4d08930dc6cec9323073d78e653f09b",
+          "saved_bytes": 431944,
+          "mismatches": 0
+        },
+        {
+          "workload": "linear_hot",
+          "stats": {
+            "scan": {
+              "build": 0.0,
+              "train": 0.006098040999859222,
+              "update": 0.0,
+              "query": 0.09148412499780534,
+              "cold_query": 0.02814537499943981,
+              "heap": 0,
+              "probes": 0,
+              "checks": 0,
+              "used": 0,
+              "allocation": []
+            },
+            "linear": {
+              "build": 0.001442124999812222,
+              "train": 0.00666004099912243,
+              "update": 8.596000043326057e-05,
+              "query": 0.015079375001732842,
+              "cold_query": 0.006046124999556923,
+              "heap": 97389,
+              "probes": 0,
+              "checks": 3864,
+              "used": 0,
+              "allocation": []
+            },
+            "unlimited": {
+              "build": 0.0016971670011116657,
+              "train": 0.006681000000753556,
+              "update": 0.00010874900181079283,
+              "query": 0.013874125999791431,
+              "cold_query": 0.005864667000423651,
+              "heap": 201118,
+              "probes": 5798,
+              "checks": 79,
+              "used": 0,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1",
+                "primitive:transition:entity->process->state:go2->done2",
+                "primitive:transition:entity->process->state:go3->done3"
+              ]
+            },
+            "mixed": {
+              "build": 0.001676874999247957,
+              "train": 0.006149290999019286,
+              "update": 8.187399907910731e-05,
+              "query": 0.014709458999277558,
+              "cold_query": 0.00645687500036729,
+              "heap": 104574,
+              "probes": 0,
+              "checks": 3864,
+              "used": 6880,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1"
+              ]
+            }
+          },
+          "comparisons": 672,
+          "allocations": [
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ]
+          ],
+          "result_sha256": "5dae2383fc961ce604076c4bf3335908d2e43625a1b6133bb9544b76cdbf1935",
+          "saved_sha256": "173dc1885c6cbd046af27a5c335705f0a4d08930dc6cec9323073d78e653f09b",
+          "saved_bytes": 431944,
+          "mismatches": 0
+        }
+      ]
+    },
+    {
+      "hash_seed": "0",
+      "repeat": 2,
+      "pid": 74772,
+      "rows": [
+        {
+          "workload": "lookup_hot",
+          "stats": {
+            "scan": {
+              "build": 0.0,
+              "train": 0.01172966699959943,
+              "update": 0.0,
+              "query": 0.04964125000151398,
+              "cold_query": 0.01192612500017276,
+              "heap": 0,
+              "probes": 0,
+              "checks": 0,
+              "used": 0,
+              "allocation": []
+            },
+            "linear": {
+              "build": 0.0027814580007543555,
+              "train": 0.015312958001231891,
+              "update": 0.0005881240012968192,
+              "query": 0.017260624998016283,
+              "cold_query": 0.00504666599954362,
+              "heap": 97389,
+              "probes": 0,
+              "checks": 4145,
+              "used": 0,
+              "allocation": []
+            },
+            "unlimited": {
+              "build": 0.0022490000010293443,
+              "train": 0.013288957999975537,
+              "update": 0.00015108300067367963,
+              "query": 0.011659166999379522,
+              "cold_query": 0.004731499999252264,
+              "heap": 201118,
+              "probes": 497,
+              "checks": 79,
+              "used": 0,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1",
+                "primitive:transition:entity->process->state:go2->done2",
+                "primitive:transition:entity->process->state:go3->done3"
+              ]
+            },
+            "mixed": {
+              "build": 0.001878999999462394,
+              "train": 0.007964458000060404,
+              "update": 0.0001696660001471173,
+              "query": 0.011611583000558312,
+              "cold_query": 0.004708374999609077,
+              "heap": 104574,
+              "probes": 497,
+              "checks": 79,
+              "used": 6880,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1"
+              ]
+            }
+          },
+          "comparisons": 672,
+          "allocations": [
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ]
+          ],
+          "result_sha256": "5dae2383fc961ce604076c4bf3335908d2e43625a1b6133bb9544b76cdbf1935",
+          "saved_sha256": "173dc1885c6cbd046af27a5c335705f0a4d08930dc6cec9323073d78e653f09b",
+          "saved_bytes": 431944,
+          "mismatches": 0
+        },
+        {
+          "workload": "linear_hot",
+          "stats": {
+            "scan": {
+              "build": 0.0,
+              "train": 0.00860787500096194,
+              "update": 0.0,
+              "query": 0.1100296669992531,
+              "cold_query": 0.03610895800011349,
+              "heap": 0,
+              "probes": 0,
+              "checks": 0,
+              "used": 0,
+              "allocation": []
+            },
+            "linear": {
+              "build": 0.001841499999500229,
+              "train": 0.00857983400055673,
+              "update": 0.00012508399959187955,
+              "query": 0.01726225099810108,
+              "cold_query": 0.006839624998974614,
+              "heap": 97389,
+              "probes": 0,
+              "checks": 3864,
+              "used": 0,
+              "allocation": []
+            },
+            "unlimited": {
+              "build": 0.0022359590002452023,
+              "train": 0.0082780829998228,
+              "update": 0.000180582999746548,
+              "query": 0.016744209000535193,
+              "cold_query": 0.006626250000408618,
+              "heap": 201118,
+              "probes": 5798,
+              "checks": 79,
+              "used": 0,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1",
+                "primitive:transition:entity->process->state:go2->done2",
+                "primitive:transition:entity->process->state:go3->done3"
+              ]
+            },
+            "mixed": {
+              "build": 0.00206958300077531,
+              "train": 0.00821304100099951,
+              "update": 0.00011295699732727371,
+              "query": 0.019060582999372855,
+              "cold_query": 0.007299916000192752,
+              "heap": 104574,
+              "probes": 0,
+              "checks": 3864,
+              "used": 6880,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1"
+              ]
+            }
+          },
+          "comparisons": 672,
+          "allocations": [
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ]
+          ],
+          "result_sha256": "5dae2383fc961ce604076c4bf3335908d2e43625a1b6133bb9544b76cdbf1935",
+          "saved_sha256": "173dc1885c6cbd046af27a5c335705f0a4d08930dc6cec9323073d78e653f09b",
+          "saved_bytes": 431944,
+          "mismatches": 0
+        }
+      ]
+    },
+    {
+      "hash_seed": "0",
+      "repeat": 3,
+      "pid": 74794,
+      "rows": [
+        {
+          "workload": "lookup_hot",
+          "stats": {
+            "scan": {
+              "build": 0.0,
+              "train": 0.00889229200038244,
+              "update": 0.0,
+              "query": 0.04372529099782696,
+              "cold_query": 0.009511540998573764,
+              "heap": 0,
+              "probes": 0,
+              "checks": 0,
+              "used": 0,
+              "allocation": []
+            },
+            "linear": {
+              "build": 0.0011947079983656295,
+              "train": 0.007537292000051821,
+              "update": 9.49160003074212e-05,
+              "query": 0.010794665999128483,
+              "cold_query": 0.004745416999867302,
+              "heap": 97389,
+              "probes": 0,
+              "checks": 4145,
+              "used": 0,
+              "allocation": []
+            },
+            "unlimited": {
+              "build": 0.004195792000246001,
+              "train": 0.010092999998960295,
+              "update": 0.0001725410020299023,
+              "query": 0.011480707998998696,
+              "cold_query": 0.00416041700009373,
+              "heap": 201118,
+              "probes": 497,
+              "checks": 79,
+              "used": 0,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1",
+                "primitive:transition:entity->process->state:go2->done2",
+                "primitive:transition:entity->process->state:go3->done3"
+              ]
+            },
+            "mixed": {
+              "build": 0.0016332499999407446,
+              "train": 0.00900175000060699,
+              "update": 0.00010020899935625494,
+              "query": 0.009584376000930206,
+              "cold_query": 0.004387209000924486,
+              "heap": 104574,
+              "probes": 497,
+              "checks": 79,
+              "used": 6880,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1"
+              ]
+            }
+          },
+          "comparisons": 672,
+          "allocations": [
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ]
+          ],
+          "result_sha256": "5dae2383fc961ce604076c4bf3335908d2e43625a1b6133bb9544b76cdbf1935",
+          "saved_sha256": "173dc1885c6cbd046af27a5c335705f0a4d08930dc6cec9323073d78e653f09b",
+          "saved_bytes": 431944,
+          "mismatches": 0
+        },
+        {
+          "workload": "linear_hot",
+          "stats": {
+            "scan": {
+              "build": 0.0,
+              "train": 0.004956750000928878,
+              "update": 0.0,
+              "query": 0.07585424999888346,
+              "cold_query": 0.025487832999715465,
+              "heap": 0,
+              "probes": 0,
+              "checks": 0,
+              "used": 0,
+              "allocation": []
+            },
+            "linear": {
+              "build": 0.0014539170006173663,
+              "train": 0.0048771670008136425,
+              "update": 5.229299858910963e-05,
+              "query": 0.012135332997786463,
+              "cold_query": 0.0050602499995875405,
+              "heap": 97389,
+              "probes": 0,
+              "checks": 3864,
+              "used": 0,
+              "allocation": []
+            },
+            "unlimited": {
+              "build": 0.0016827500003273599,
+              "train": 0.004758875000334228,
+              "update": 7.25840000086464e-05,
+              "query": 0.012081041999408626,
+              "cold_query": 0.004877707999185077,
+              "heap": 201118,
+              "probes": 5798,
+              "checks": 79,
+              "used": 0,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1",
+                "primitive:transition:entity->process->state:go2->done2",
+                "primitive:transition:entity->process->state:go3->done3"
+              ]
+            },
+            "mixed": {
+              "build": 0.0015893750005488982,
+              "train": 0.005454166999697918,
+              "update": 6.583200047316495e-05,
+              "query": 0.01294991599934292,
+              "cold_query": 0.005360666000342462,
+              "heap": 104574,
+              "probes": 0,
+              "checks": 3864,
+              "used": 6880,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1"
+              ]
+            }
+          },
+          "comparisons": 672,
+          "allocations": [
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ]
+          ],
+          "result_sha256": "5dae2383fc961ce604076c4bf3335908d2e43625a1b6133bb9544b76cdbf1935",
+          "saved_sha256": "173dc1885c6cbd046af27a5c335705f0a4d08930dc6cec9323073d78e653f09b",
+          "saved_bytes": 431944,
+          "mismatches": 0
+        }
+      ]
+    },
+    {
+      "hash_seed": "1",
+      "repeat": 0,
+      "pid": 74809,
+      "rows": [
+        {
+          "workload": "lookup_hot",
+          "stats": {
+            "scan": {
+              "build": 0.0,
+              "train": 0.005504000000655651,
+              "update": 0.0,
+              "query": 0.024574000999564305,
+              "cold_query": 0.007953917000122601,
+              "heap": 0,
+              "probes": 0,
+              "checks": 0,
+              "used": 0,
+              "allocation": []
+            },
+            "linear": {
+              "build": 0.00127954199888336,
+              "train": 0.005654209000567789,
+              "update": 7.954200009407941e-05,
+              "query": 0.009481167997364537,
+              "cold_query": 0.004154833999564289,
+              "heap": 97389,
+              "probes": 0,
+              "checks": 3887,
+              "used": 0,
+              "allocation": []
+            },
+            "unlimited": {
+              "build": 0.001817207999920356,
+              "train": 0.005870125000001281,
+              "update": 8.562499897379894e-05,
+              "query": 0.008127084001898766,
+              "cold_query": 0.004112250000616768,
+              "heap": 201118,
+              "probes": 576,
+              "checks": 79,
+              "used": 0,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1",
+                "primitive:transition:entity->process->state:go2->done2",
+                "primitive:transition:entity->process->state:go3->done3"
+              ]
+            },
+            "mixed": {
+              "build": 0.0014534170004480984,
+              "train": 0.005817709001348703,
+              "update": 7.662500138394535e-05,
+              "query": 0.006605500997466152,
+              "cold_query": 0.0034689169988268986,
+              "heap": 104574,
+              "probes": 576,
+              "checks": 79,
+              "used": 6880,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1"
+              ]
+            }
+          },
+          "comparisons": 672,
+          "allocations": [
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ]
+          ],
+          "result_sha256": "5dae2383fc961ce604076c4bf3335908d2e43625a1b6133bb9544b76cdbf1935",
+          "saved_sha256": "173dc1885c6cbd046af27a5c335705f0a4d08930dc6cec9323073d78e653f09b",
+          "saved_bytes": 431944,
+          "mismatches": 0
+        },
+        {
+          "workload": "linear_hot",
+          "stats": {
+            "scan": {
+              "build": 0.0,
+              "train": 0.004483665999941877,
+              "update": 0.0,
+              "query": 0.08250049999878684,
+              "cold_query": 0.030623374999777297,
+              "heap": 0,
+              "probes": 0,
+              "checks": 0,
+              "used": 0,
+              "allocation": []
+            },
+            "linear": {
+              "build": 0.001335666000159108,
+              "train": 0.005512124998858781,
+              "update": 5.7375000324100256e-05,
+              "query": 0.013025459000346018,
+              "cold_query": 0.005659624999680091,
+              "heap": 97389,
+              "probes": 0,
+              "checks": 3960,
+              "used": 0,
+              "allocation": []
+            },
+            "unlimited": {
+              "build": 0.0015041250007925555,
+              "train": 0.004838625000047614,
+              "update": 0.00010566600030870177,
+              "query": 0.01299083399862866,
+              "cold_query": 0.005680666999978712,
+              "heap": 201118,
+              "probes": 5719,
+              "checks": 79,
+              "used": 0,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1",
+                "primitive:transition:entity->process->state:go2->done2",
+                "primitive:transition:entity->process->state:go3->done3"
+              ]
+            },
+            "mixed": {
+              "build": 0.0014537089991790708,
+              "train": 0.005359791999580921,
+              "update": 6.412400034605525e-05,
+              "query": 0.012421708001056686,
+              "cold_query": 0.005943709000348463,
+              "heap": 104574,
+              "probes": 0,
+              "checks": 3960,
+              "used": 6880,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1"
+              ]
+            }
+          },
+          "comparisons": 672,
+          "allocations": [
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ]
+          ],
+          "result_sha256": "5dae2383fc961ce604076c4bf3335908d2e43625a1b6133bb9544b76cdbf1935",
+          "saved_sha256": "173dc1885c6cbd046af27a5c335705f0a4d08930dc6cec9323073d78e653f09b",
+          "saved_bytes": 431944,
+          "mismatches": 0
+        }
+      ]
+    },
+    {
+      "hash_seed": "1",
+      "repeat": 1,
+      "pid": 74818,
+      "rows": [
+        {
+          "workload": "lookup_hot",
+          "stats": {
+            "scan": {
+              "build": 0.0,
+              "train": 0.004931167000904679,
+              "update": 0.0,
+              "query": 0.025051373999303905,
+              "cold_query": 0.009076457999981358,
+              "heap": 0,
+              "probes": 0,
+              "checks": 0,
+              "used": 0,
+              "allocation": []
+            },
+            "linear": {
+              "build": 0.0017877080008474877,
+              "train": 0.005740458000218496,
+              "update": 8.81670021044556e-05,
+              "query": 0.008960332999777165,
+              "cold_query": 0.0040684159994270885,
+              "heap": 97389,
+              "probes": 0,
+              "checks": 3887,
+              "used": 0,
+              "allocation": []
+            },
+            "unlimited": {
+              "build": 0.0019016670012206305,
+              "train": 0.005183875000511762,
+              "update": 0.00011541700405359734,
+              "query": 0.008657833999677678,
+              "cold_query": 0.004530291998889879,
+              "heap": 201118,
+              "probes": 576,
+              "checks": 79,
+              "used": 0,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1",
+                "primitive:transition:entity->process->state:go2->done2",
+                "primitive:transition:entity->process->state:go3->done3"
+              ]
+            },
+            "mixed": {
+              "build": 0.0014133330005279277,
+              "train": 0.00591720800002804,
+              "update": 7.508300041081384e-05,
+              "query": 0.007685083999604103,
+              "cold_query": 0.003999792001195601,
+              "heap": 104574,
+              "probes": 576,
+              "checks": 79,
+              "used": 6880,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1"
+              ]
+            }
+          },
+          "comparisons": 672,
+          "allocations": [
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ]
+          ],
+          "result_sha256": "5dae2383fc961ce604076c4bf3335908d2e43625a1b6133bb9544b76cdbf1935",
+          "saved_sha256": "173dc1885c6cbd046af27a5c335705f0a4d08930dc6cec9323073d78e653f09b",
+          "saved_bytes": 431944,
+          "mismatches": 0
+        },
+        {
+          "workload": "linear_hot",
+          "stats": {
+            "scan": {
+              "build": 0.0,
+              "train": 0.006035750000592088,
+              "update": 0.0,
+              "query": 0.09094570900015242,
+              "cold_query": 0.027189750000616186,
+              "heap": 0,
+              "probes": 0,
+              "checks": 0,
+              "used": 0,
+              "allocation": []
+            },
+            "linear": {
+              "build": 0.002109166000082041,
+              "train": 0.007253333998960443,
+              "update": 8.445799903711304e-05,
+              "query": 0.014532209001117735,
+              "cold_query": 0.005787874999441556,
+              "heap": 97389,
+              "probes": 0,
+              "checks": 3960,
+              "used": 0,
+              "allocation": []
+            },
+            "unlimited": {
+              "build": 0.0017834169993875548,
+              "train": 0.006286458999966271,
+              "update": 0.00011379199895600323,
+              "query": 0.011702667001372902,
+              "cold_query": 0.004954750000251806,
+              "heap": 201118,
+              "probes": 5719,
+              "checks": 79,
+              "used": 0,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1",
+                "primitive:transition:entity->process->state:go2->done2",
+                "primitive:transition:entity->process->state:go3->done3"
+              ]
+            },
+            "mixed": {
+              "build": 0.0016278330003842711,
+              "train": 0.005877584000700153,
+              "update": 7.791600000928156e-05,
+              "query": 0.014846416001091711,
+              "cold_query": 0.00632450000011886,
+              "heap": 104574,
+              "probes": 0,
+              "checks": 3960,
+              "used": 6880,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1"
+              ]
+            }
+          },
+          "comparisons": 672,
+          "allocations": [
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ]
+          ],
+          "result_sha256": "5dae2383fc961ce604076c4bf3335908d2e43625a1b6133bb9544b76cdbf1935",
+          "saved_sha256": "173dc1885c6cbd046af27a5c335705f0a4d08930dc6cec9323073d78e653f09b",
+          "saved_bytes": 431944,
+          "mismatches": 0
+        }
+      ]
+    },
+    {
+      "hash_seed": "1",
+      "repeat": 2,
+      "pid": 74832,
+      "rows": [
+        {
+          "workload": "lookup_hot",
+          "stats": {
+            "scan": {
+              "build": 0.0,
+              "train": 0.006536374999996042,
+              "update": 0.0,
+              "query": 0.026064748999488074,
+              "cold_query": 0.009577040998919983,
+              "heap": 0,
+              "probes": 0,
+              "checks": 0,
+              "used": 0,
+              "allocation": []
+            },
+            "linear": {
+              "build": 0.001675083000009181,
+              "train": 0.005031958000472514,
+              "update": 5.579200114880223e-05,
+              "query": 0.00987512599931506,
+              "cold_query": 0.0044387919988366775,
+              "heap": 97389,
+              "probes": 0,
+              "checks": 3887,
+              "used": 0,
+              "allocation": []
+            },
+            "unlimited": {
+              "build": 0.0022862910009280313,
+              "train": 0.007039083000563551,
+              "update": 0.000193793001017184,
+              "query": 0.009219874998962041,
+              "cold_query": 0.003900916999555193,
+              "heap": 201118,
+              "probes": 576,
+              "checks": 79,
+              "used": 0,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1",
+                "primitive:transition:entity->process->state:go2->done2",
+                "primitive:transition:entity->process->state:go3->done3"
+              ]
+            },
+            "mixed": {
+              "build": 0.0019396670013520634,
+              "train": 0.00649241599967354,
+              "update": 8.729200089874212e-05,
+              "query": 0.009290166997743654,
+              "cold_query": 0.004288958998586168,
+              "heap": 104574,
+              "probes": 576,
+              "checks": 79,
+              "used": 6880,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1"
+              ]
+            }
+          },
+          "comparisons": 672,
+          "allocations": [
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ]
+          ],
+          "result_sha256": "5dae2383fc961ce604076c4bf3335908d2e43625a1b6133bb9544b76cdbf1935",
+          "saved_sha256": "173dc1885c6cbd046af27a5c335705f0a4d08930dc6cec9323073d78e653f09b",
+          "saved_bytes": 431944,
+          "mismatches": 0
+        },
+        {
+          "workload": "linear_hot",
+          "stats": {
+            "scan": {
+              "build": 0.0,
+              "train": 0.006391584000084549,
+              "update": 0.0,
+              "query": 0.09015766700031236,
+              "cold_query": 0.02952704200106382,
+              "heap": 0,
+              "probes": 0,
+              "checks": 0,
+              "used": 0,
+              "allocation": []
+            },
+            "linear": {
+              "build": 0.0015717080004833406,
+              "train": 0.006201165999300429,
+              "update": 6.470899825217202e-05,
+              "query": 0.015235916998790344,
+              "cold_query": 0.007072459000482922,
+              "heap": 97389,
+              "probes": 0,
+              "checks": 3960,
+              "used": 0,
+              "allocation": []
+            },
+            "unlimited": {
+              "build": 0.0022322920012811664,
+              "train": 0.006316375000096741,
+              "update": 8.558399895264301e-05,
+              "query": 0.014813916001003236,
+              "cold_query": 0.00620020800124621,
+              "heap": 201118,
+              "probes": 5719,
+              "checks": 79,
+              "used": 0,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1",
+                "primitive:transition:entity->process->state:go2->done2",
+                "primitive:transition:entity->process->state:go3->done3"
+              ]
+            },
+            "mixed": {
+              "build": 0.0018034170007013017,
+              "train": 0.005737084000429604,
+              "update": 7.299999742826913e-05,
+              "query": 0.014694040999529534,
+              "cold_query": 0.006107666000389145,
+              "heap": 104574,
+              "probes": 0,
+              "checks": 3960,
+              "used": 6880,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1"
+              ]
+            }
+          },
+          "comparisons": 672,
+          "allocations": [
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ]
+          ],
+          "result_sha256": "5dae2383fc961ce604076c4bf3335908d2e43625a1b6133bb9544b76cdbf1935",
+          "saved_sha256": "173dc1885c6cbd046af27a5c335705f0a4d08930dc6cec9323073d78e653f09b",
+          "saved_bytes": 431944,
+          "mismatches": 0
+        }
+      ]
+    },
+    {
+      "hash_seed": "1",
+      "repeat": 3,
+      "pid": 74838,
+      "rows": [
+        {
+          "workload": "lookup_hot",
+          "stats": {
+            "scan": {
+              "build": 0.0,
+              "train": 0.006825291000495781,
+              "update": 0.0,
+              "query": 0.029606958001750172,
+              "cold_query": 0.009426083001017105,
+              "heap": 0,
+              "probes": 0,
+              "checks": 0,
+              "used": 0,
+              "allocation": []
+            },
+            "linear": {
+              "build": 0.0015585000001010485,
+              "train": 0.00803187500059721,
+              "update": 0.00022808299763710238,
+              "query": 0.011533291999512585,
+              "cold_query": 0.005240041999059031,
+              "heap": 97389,
+              "probes": 0,
+              "checks": 3887,
+              "used": 0,
+              "allocation": []
+            },
+            "unlimited": {
+              "build": 0.0019707080009538913,
+              "train": 0.006765166001059697,
+              "update": 0.00013341699923330452,
+              "query": 0.009004292000099667,
+              "cold_query": 0.00451745800091885,
+              "heap": 201118,
+              "probes": 576,
+              "checks": 79,
+              "used": 0,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1",
+                "primitive:transition:entity->process->state:go2->done2",
+                "primitive:transition:entity->process->state:go3->done3"
+              ]
+            },
+            "mixed": {
+              "build": 0.001744291999784764,
+              "train": 0.007981332999406732,
+              "update": 0.00016862499978742562,
+              "query": 0.009668164999311557,
+              "cold_query": 0.004181665999567485,
+              "heap": 104574,
+              "probes": 576,
+              "checks": 79,
+              "used": 6880,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1"
+              ]
+            }
+          },
+          "comparisons": 672,
+          "allocations": [
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ]
+          ],
+          "result_sha256": "5dae2383fc961ce604076c4bf3335908d2e43625a1b6133bb9544b76cdbf1935",
+          "saved_sha256": "173dc1885c6cbd046af27a5c335705f0a4d08930dc6cec9323073d78e653f09b",
+          "saved_bytes": 431944,
+          "mismatches": 0
+        },
+        {
+          "workload": "linear_hot",
+          "stats": {
+            "scan": {
+              "build": 0.0,
+              "train": 0.007807999998476589,
+              "update": 0.0,
+              "query": 0.19090775000040594,
+              "cold_query": 0.10470725000050152,
+              "heap": 0,
+              "probes": 0,
+              "checks": 0,
+              "used": 0,
+              "allocation": []
+            },
+            "linear": {
+              "build": 0.0029860840004403144,
+              "train": 0.00999950000004901,
+              "update": 0.0001226660024258308,
+              "query": 0.016846249998707208,
+              "cold_query": 0.006033791998561355,
+              "heap": 97389,
+              "probes": 0,
+              "checks": 3960,
+              "used": 0,
+              "allocation": []
+            },
+            "unlimited": {
+              "build": 0.002850499999112799,
+              "train": 0.008120917000269401,
+              "update": 0.0001382509999530157,
+              "query": 0.026742874999399646,
+              "cold_query": 0.018096624999088817,
+              "heap": 201118,
+              "probes": 5719,
+              "checks": 79,
+              "used": 0,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1",
+                "primitive:transition:entity->process->state:go2->done2",
+                "primitive:transition:entity->process->state:go3->done3"
+              ]
+            },
+            "mixed": {
+              "build": 0.0024557080014346866,
+              "train": 0.007300958999621798,
+              "update": 0.0001284159970964538,
+              "query": 0.01804120800079545,
+              "cold_query": 0.006880291000925354,
+              "heap": 104574,
+              "probes": 0,
+              "checks": 3960,
+              "used": 6880,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1"
+              ]
+            }
+          },
+          "comparisons": 672,
+          "allocations": [
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ]
+          ],
+          "result_sha256": "5dae2383fc961ce604076c4bf3335908d2e43625a1b6133bb9544b76cdbf1935",
+          "saved_sha256": "173dc1885c6cbd046af27a5c335705f0a4d08930dc6cec9323073d78e653f09b",
+          "saved_bytes": 431944,
+          "mismatches": 0
+        }
+      ]
+    },
+    {
+      "hash_seed": "42",
+      "repeat": 0,
+      "pid": 74867,
+      "rows": [
+        {
+          "workload": "lookup_hot",
+          "stats": {
+            "scan": {
+              "build": 0.0,
+              "train": 0.006988208999246126,
+              "update": 0.0,
+              "query": 0.028157959000964183,
+              "cold_query": 0.010172042000704096,
+              "heap": 0,
+              "probes": 0,
+              "checks": 0,
+              "used": 0,
+              "allocation": []
+            },
+            "linear": {
+              "build": 0.0019451249991107034,
+              "train": 0.006799708000471583,
+              "update": 8.354099918506108e-05,
+              "query": 0.010802540999065968,
+              "cold_query": 0.00513683400095033,
+              "heap": 97389,
+              "probes": 0,
+              "checks": 4190,
+              "used": 0,
+              "allocation": []
+            },
+            "unlimited": {
+              "build": 0.0021570420012722025,
+              "train": 0.006633791999774985,
+              "update": 0.00010766699961095583,
+              "query": 0.009275916998376488,
+              "cold_query": 0.004293499998311745,
+              "heap": 201118,
+              "probes": 576,
+              "checks": 79,
+              "used": 0,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1",
+                "primitive:transition:entity->process->state:go2->done2",
+                "primitive:transition:entity->process->state:go3->done3"
+              ]
+            },
+            "mixed": {
+              "build": 0.0017101670000556624,
+              "train": 0.006854166000266559,
+              "update": 0.00010545899931457825,
+              "query": 0.009673790998931509,
+              "cold_query": 0.004725666000013007,
+              "heap": 104574,
+              "probes": 576,
+              "checks": 79,
+              "used": 6880,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1"
+              ]
+            }
+          },
+          "comparisons": 672,
+          "allocations": [
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ]
+          ],
+          "result_sha256": "5dae2383fc961ce604076c4bf3335908d2e43625a1b6133bb9544b76cdbf1935",
+          "saved_sha256": "173dc1885c6cbd046af27a5c335705f0a4d08930dc6cec9323073d78e653f09b",
+          "saved_bytes": 431944,
+          "mismatches": 0
+        },
+        {
+          "workload": "linear_hot",
+          "stats": {
+            "scan": {
+              "build": 0.0,
+              "train": 0.005471374999615364,
+              "update": 0.0,
+              "query": 0.08398333299919614,
+              "cold_query": 0.0252432500001305,
+              "heap": 0,
+              "probes": 0,
+              "checks": 0,
+              "used": 0,
+              "allocation": []
+            },
+            "linear": {
+              "build": 0.0019264170005044434,
+              "train": 0.006591708999621915,
+              "update": 7.11230022716336e-05,
+              "query": 0.015309542000977672,
+              "cold_query": 0.005968833000224549,
+              "heap": 97389,
+              "probes": 0,
+              "checks": 4152,
+              "used": 0,
+              "allocation": []
+            },
+            "unlimited": {
+              "build": 0.001857249999375199,
+              "train": 0.00536212500082911,
+              "update": 8.508400060236454e-05,
+              "query": 0.01380829099980474,
+              "cold_query": 0.006254666001041187,
+              "heap": 201118,
+              "probes": 5719,
+              "checks": 79,
+              "used": 0,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1",
+                "primitive:transition:entity->process->state:go2->done2",
+                "primitive:transition:entity->process->state:go3->done3"
+              ]
+            },
+            "mixed": {
+              "build": 0.001846875000410364,
+              "train": 0.005557708000196726,
+              "update": 0.0001165409994428046,
+              "query": 0.014787001002332545,
+              "cold_query": 0.0064102920005097985,
+              "heap": 104574,
+              "probes": 0,
+              "checks": 4152,
+              "used": 6880,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1"
+              ]
+            }
+          },
+          "comparisons": 672,
+          "allocations": [
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ]
+          ],
+          "result_sha256": "5dae2383fc961ce604076c4bf3335908d2e43625a1b6133bb9544b76cdbf1935",
+          "saved_sha256": "173dc1885c6cbd046af27a5c335705f0a4d08930dc6cec9323073d78e653f09b",
+          "saved_bytes": 431944,
+          "mismatches": 0
+        }
+      ]
+    },
+    {
+      "hash_seed": "42",
+      "repeat": 1,
+      "pid": 74873,
+      "rows": [
+        {
+          "workload": "lookup_hot",
+          "stats": {
+            "scan": {
+              "build": 0.0,
+              "train": 0.00564933299938275,
+              "update": 0.0,
+              "query": 0.024106208999000955,
+              "cold_query": 0.007131458998628659,
+              "heap": 0,
+              "probes": 0,
+              "checks": 0,
+              "used": 0,
+              "allocation": []
+            },
+            "linear": {
+              "build": 0.0017233340004167985,
+              "train": 0.007313833999432973,
+              "update": 0.00011341700155753642,
+              "query": 0.009314915998402284,
+              "cold_query": 0.003560832999937702,
+              "heap": 97389,
+              "probes": 0,
+              "checks": 4190,
+              "used": 0,
+              "allocation": []
+            },
+            "unlimited": {
+              "build": 0.001831375000620028,
+              "train": 0.006529457999931765,
+              "update": 9.883299753710162e-05,
+              "query": 0.007814458997017937,
+              "cold_query": 0.0034094169986929046,
+              "heap": 201118,
+              "probes": 576,
+              "checks": 79,
+              "used": 0,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1",
+                "primitive:transition:entity->process->state:go2->done2",
+                "primitive:transition:entity->process->state:go3->done3"
+              ]
+            },
+            "mixed": {
+              "build": 0.001525707999462611,
+              "train": 0.0059397919994808035,
+              "update": 7.829099922673777e-05,
+              "query": 0.007814167000105954,
+              "cold_query": 0.0034312079988012556,
+              "heap": 104574,
+              "probes": 576,
+              "checks": 79,
+              "used": 6880,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1"
+              ]
+            }
+          },
+          "comparisons": 672,
+          "allocations": [
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ]
+          ],
+          "result_sha256": "5dae2383fc961ce604076c4bf3335908d2e43625a1b6133bb9544b76cdbf1935",
+          "saved_sha256": "173dc1885c6cbd046af27a5c335705f0a4d08930dc6cec9323073d78e653f09b",
+          "saved_bytes": 431944,
+          "mismatches": 0
+        },
+        {
+          "workload": "linear_hot",
+          "stats": {
+            "scan": {
+              "build": 0.0,
+              "train": 0.005951709001237759,
+              "update": 0.0,
+              "query": 0.07683991600060835,
+              "cold_query": 0.024580790999607416,
+              "heap": 0,
+              "probes": 0,
+              "checks": 0,
+              "used": 0,
+              "allocation": []
+            },
+            "linear": {
+              "build": 0.0013803330002701841,
+              "train": 0.007101084000169067,
+              "update": 0.00014208299944584724,
+              "query": 0.014376375003848807,
+              "cold_query": 0.005685208001523279,
+              "heap": 97389,
+              "probes": 0,
+              "checks": 4152,
+              "used": 0,
+              "allocation": []
+            },
+            "unlimited": {
+              "build": 0.0016859170009411173,
+              "train": 0.006262916998821311,
+              "update": 0.00012191700079711154,
+              "query": 0.012416167000992573,
+              "cold_query": 0.00513883299936424,
+              "heap": 201118,
+              "probes": 5719,
+              "checks": 79,
+              "used": 0,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1",
+                "primitive:transition:entity->process->state:go2->done2",
+                "primitive:transition:entity->process->state:go3->done3"
+              ]
+            },
+            "mixed": {
+              "build": 0.0016414999990956858,
+              "train": 0.006801292000091053,
+              "update": 6.629199924645945e-05,
+              "query": 0.012834750001275097,
+              "cold_query": 0.005102750001242384,
+              "heap": 104574,
+              "probes": 0,
+              "checks": 4152,
+              "used": 6880,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1"
+              ]
+            }
+          },
+          "comparisons": 672,
+          "allocations": [
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ]
+          ],
+          "result_sha256": "5dae2383fc961ce604076c4bf3335908d2e43625a1b6133bb9544b76cdbf1935",
+          "saved_sha256": "173dc1885c6cbd046af27a5c335705f0a4d08930dc6cec9323073d78e653f09b",
+          "saved_bytes": 431944,
+          "mismatches": 0
+        }
+      ]
+    },
+    {
+      "hash_seed": "42",
+      "repeat": 2,
+      "pid": 74923,
+      "rows": [
+        {
+          "workload": "lookup_hot",
+          "stats": {
+            "scan": {
+              "build": 0.0,
+              "train": 0.006347374999677413,
+              "update": 0.0,
+              "query": 0.026267166998877656,
+              "cold_query": 0.010000166999816429,
+              "heap": 0,
+              "probes": 0,
+              "checks": 0,
+              "used": 0,
+              "allocation": []
+            },
+            "linear": {
+              "build": 0.0015029590013000416,
+              "train": 0.0064096250007423805,
+              "update": 0.00010079099956783466,
+              "query": 0.009862291997706052,
+              "cold_query": 0.004664582998884725,
+              "heap": 97389,
+              "probes": 0,
+              "checks": 4190,
+              "used": 0,
+              "allocation": []
+            },
+            "unlimited": {
+              "build": 0.0020039580012962688,
+              "train": 0.006767750001017703,
+              "update": 0.0001319170005444903,
+              "query": 0.009353792000183603,
+              "cold_query": 0.004469125000468921,
+              "heap": 201118,
+              "probes": 576,
+              "checks": 79,
+              "used": 0,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1",
+                "primitive:transition:entity->process->state:go2->done2",
+                "primitive:transition:entity->process->state:go3->done3"
+              ]
+            },
+            "mixed": {
+              "build": 0.0017675420003797626,
+              "train": 0.006611667000470334,
+              "update": 8.125000022118911e-05,
+              "query": 0.008835292999719968,
+              "cold_query": 0.004576916999212699,
+              "heap": 104574,
+              "probes": 576,
+              "checks": 79,
+              "used": 6880,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1"
+              ]
+            }
+          },
+          "comparisons": 672,
+          "allocations": [
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ]
+          ],
+          "result_sha256": "5dae2383fc961ce604076c4bf3335908d2e43625a1b6133bb9544b76cdbf1935",
+          "saved_sha256": "173dc1885c6cbd046af27a5c335705f0a4d08930dc6cec9323073d78e653f09b",
+          "saved_bytes": 431944,
+          "mismatches": 0
+        },
+        {
+          "workload": "linear_hot",
+          "stats": {
+            "scan": {
+              "build": 0.0,
+              "train": 0.004662125000322703,
+              "update": 0.0,
+              "query": 0.06815116699908685,
+              "cold_query": 0.02197804199931852,
+              "heap": 0,
+              "probes": 0,
+              "checks": 0,
+              "used": 0,
+              "allocation": []
+            },
+            "linear": {
+              "build": 0.0013948340001661563,
+              "train": 0.004719332999229664,
+              "update": 5.03330029459903e-05,
+              "query": 0.012755249001202174,
+              "cold_query": 0.0057122500002151355,
+              "heap": 97389,
+              "probes": 0,
+              "checks": 4152,
+              "used": 0,
+              "allocation": []
+            },
+            "unlimited": {
+              "build": 0.0013651670014951378,
+              "train": 0.006216166999365669,
+              "update": 0.00015920800069579855,
+              "query": 0.011185542000021087,
+              "cold_query": 0.004965541998899425,
+              "heap": 201118,
+              "probes": 5719,
+              "checks": 79,
+              "used": 0,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1",
+                "primitive:transition:entity->process->state:go2->done2",
+                "primitive:transition:entity->process->state:go3->done3"
+              ]
+            },
+            "mixed": {
+              "build": 0.001286999999138061,
+              "train": 0.004983832999641891,
+              "update": 0.00010774999645946082,
+              "query": 0.011671832999127218,
+              "cold_query": 0.005320583999491646,
+              "heap": 104574,
+              "probes": 0,
+              "checks": 4152,
+              "used": 6880,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1"
+              ]
+            }
+          },
+          "comparisons": 672,
+          "allocations": [
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ]
+          ],
+          "result_sha256": "5dae2383fc961ce604076c4bf3335908d2e43625a1b6133bb9544b76cdbf1935",
+          "saved_sha256": "173dc1885c6cbd046af27a5c335705f0a4d08930dc6cec9323073d78e653f09b",
+          "saved_bytes": 431944,
+          "mismatches": 0
+        }
+      ]
+    },
+    {
+      "hash_seed": "42",
+      "repeat": 3,
+      "pid": 74949,
+      "rows": [
+        {
+          "workload": "lookup_hot",
+          "stats": {
+            "scan": {
+              "build": 0.0,
+              "train": 0.003936290999263292,
+              "update": 0.0,
+              "query": 0.019090125999355223,
+              "cold_query": 0.006610417000047164,
+              "heap": 0,
+              "probes": 0,
+              "checks": 0,
+              "used": 0,
+              "allocation": []
+            },
+            "linear": {
+              "build": 0.0011687090009218082,
+              "train": 0.004242125000018859,
+              "update": 5.274999784887768e-05,
+              "query": 0.0074848320000455715,
+              "cold_query": 0.003343665999636869,
+              "heap": 97389,
+              "probes": 0,
+              "checks": 4190,
+              "used": 0,
+              "allocation": []
+            },
+            "unlimited": {
+              "build": 0.0012552079988381593,
+              "train": 0.00432991699926788,
+              "update": 7.120799818949308e-05,
+              "query": 0.006161125002108747,
+              "cold_query": 0.002846417000910151,
+              "heap": 201118,
+              "probes": 576,
+              "checks": 79,
+              "used": 0,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1",
+                "primitive:transition:entity->process->state:go2->done2",
+                "primitive:transition:entity->process->state:go3->done3"
+              ]
+            },
+            "mixed": {
+              "build": 0.0013359169988689246,
+              "train": 0.004519833000813378,
+              "update": 5.346000034478493e-05,
+              "query": 0.006289291000939556,
+              "cold_query": 0.0028224159996170783,
+              "heap": 104574,
+              "probes": 576,
+              "checks": 79,
+              "used": 6880,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1"
+              ]
+            }
+          },
+          "comparisons": 672,
+          "allocations": [
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ]
+          ],
+          "result_sha256": "5dae2383fc961ce604076c4bf3335908d2e43625a1b6133bb9544b76cdbf1935",
+          "saved_sha256": "173dc1885c6cbd046af27a5c335705f0a4d08930dc6cec9323073d78e653f09b",
+          "saved_bytes": 431944,
+          "mismatches": 0
+        },
+        {
+          "workload": "linear_hot",
+          "stats": {
+            "scan": {
+              "build": 0.0,
+              "train": 0.0065524580004421296,
+              "update": 0.0,
+              "query": 0.07879337499980466,
+              "cold_query": 0.028186334000565694,
+              "heap": 0,
+              "probes": 0,
+              "checks": 0,
+              "used": 0,
+              "allocation": []
+            },
+            "linear": {
+              "build": 0.0014985830002842704,
+              "train": 0.005978999999570078,
+              "update": 9.262500316253863e-05,
+              "query": 0.014018792000570102,
+              "cold_query": 0.006207583001014427,
+              "heap": 97389,
+              "probes": 0,
+              "checks": 4152,
+              "used": 0,
+              "allocation": []
+            },
+            "unlimited": {
+              "build": 0.0016466249999211868,
+              "train": 0.004970791000232566,
+              "update": 7.895899943832774e-05,
+              "query": 0.012337458998445072,
+              "cold_query": 0.005852708998645539,
+              "heap": 201118,
+              "probes": 5719,
+              "checks": 79,
+              "used": 0,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1",
+                "primitive:transition:entity->process->state:go2->done2",
+                "primitive:transition:entity->process->state:go3->done3"
+              ]
+            },
+            "mixed": {
+              "build": 0.0015579589999106247,
+              "train": 0.005348333001165884,
+              "update": 6.804199983889703e-05,
+              "query": 0.013793248999718344,
+              "cold_query": 0.006033540999851539,
+              "heap": 104574,
+              "probes": 0,
+              "checks": 4152,
+              "used": 6880,
+              "allocation": [
+                "primitive:transition:entity->process->state:go0->done0",
+                "primitive:transition:entity->process->state:go1->done1"
+              ]
+            }
+          },
+          "comparisons": 672,
+          "allocations": [
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ],
+            [
+              "primitive:transition:entity->process->state:go0->done0",
+              "primitive:transition:entity->process->state:go1->done1"
+            ]
+          ],
+          "result_sha256": "5dae2383fc961ce604076c4bf3335908d2e43625a1b6133bb9544b76cdbf1935",
+          "saved_sha256": "173dc1885c6cbd046af27a5c335705f0a4d08930dc6cec9323073d78e653f09b",
+          "saved_bytes": 431944,
+          "mismatches": 0
+        }
+      ]
+    }
+  ],
+  "cross_process_exact": true
+}

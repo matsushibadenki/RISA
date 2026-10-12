@@ -23,7 +23,7 @@ from risa.engine.persistence import save_state, load_state
 def arm(name):
     with ExitStack() as stack:
         if name == 'linear':
-            for function in ('build_primitive_grounding', 'update_primitive_grounding', 'actor_matches'):
+            for function in ('build_primitive_grounding', 'update_primitive_grounding', 'actor_matches', 'grounding_entry'):
                 stack.enter_context(patch.object(grounding, function, getattr(linear, function)))
         yield
 

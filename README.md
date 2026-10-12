@@ -267,3 +267,21 @@ The diversity study verifies complete results and saved bytes across72 trajector
 A joint role/identity lookup reduces queries against concentrated witnesses by59–68% at256 types versus the prior linear index; the linked report records build/update and memory costs.
 
 新增保留角色对与identity的接地查询索引，256种集中witness的query时间较旧线性index减少59–68%，报告包含构建、更新及内存成本。
+
+[接地lookupの辞書予算](docs/G3.4-Grounding-Budget-2026-10-12.md)を明示指定できるようにしました。Primitive単位で超過すると、完全結果を保つ線形検索へ戻ります。状態全体やRSSの上限ではありません。
+
+An explicit per-primitive grounding lookup-container budget now falls back to exact linear scans on overflow. It is not a total-state or RSS limit.
+
+新增显式的每Primitive接地lookup字典预算，超限后精确线性扫描，不是整个状态或RSS上限。
+
+[全Primitive合計のlookup予算](docs/G3.4-Grounding-Total-Budget-2026-10-12.md)を追加しました。lookupと線形検索の混在を12個の別process・3 hash seedで検証し、完全結果と保存内容の一致、構築・更新・検索・メモリ費用を確認しています。
+
+Aggregate lookup-container budgets now support mixed lookup/linear execution, verified across12 fresh processes and3 hash seeds with exact results/persistence and measured build/update/query/memory costs.
+
+新增所有Primitive的lookup容器总预算，支持lookup/线性混合；在12个独立process及3个hash seed验证完整结果、保存一致性及构建/更新/查询/内存成本。
+
+[query頻度によるlookup再配置](docs/G3.4-Grounding-Frequency-2026-10-12.md)を明示的に有効化できます。直近の接地参照回数と辞書サイズで割当・再昇格し、同じ予算のID順方式と再配置費用込みで比較しています。
+
+Opt-in query-frequency lookup allocation promotes entries using recent grounding accesses per dictionary byte, compared with equal-budget ID order including reallocation costs.
+
+可显式启用query频率lookup分配，以最近接地访问/字典bytes升级，与同预算ID顺序比较并计入重分配成本。
