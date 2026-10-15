@@ -285,3 +285,15 @@ Aggregate lookup-container budgets now support mixed lookup/linear execution, ve
 Opt-in query-frequency lookup allocation promotes entries using recent grounding accesses per dictionary byte, compared with equal-budget ID order including reallocation costs.
 
 可显式启用query频率lookup分配，以最近接地访问/字典bytes升级，与同预算ID顺序比较并计入重分配成本。
+
+[再配置の安定化](docs/G3.4-Grounding-Stability-2026-10-15.md): `rebalance_primitive_grounding(state, confirmation_windows=2)`で同じ割当案を2区間確認し、`minimum_residency_windows=2`で移動後の最低保持区間を指定できます。既定の即時頻度方式とID順を含む4方式を、3種類のquery密度で比較しています。
+
+[Stable allocation](docs/G3.4-Grounding-Stability-2026-10-15.md): opt into two-window confirmation or minimum residency at each rebalance call. Four equal-budget modes are compared across three query densities; defaults remain unchanged.
+
+[稳定分配](docs/G3.4-Grounding-Stability-2026-10-15.md)：可在每次重分配时指定连续两个区间确认或最短保持区间。以三种query密度比较四种同预算方式，默认保持不变。
+
+[冷候補調査と費用回収](docs/G3.4-Grounding-Payback-2026-10-15.md): 頻度再配置は、区間内で未参照の費用未調査候補を保留し、後で参照されたときに調査します。開発用の独立・結合worldで実composerの接地参照分布と再配置込みの費用回収を測定します。実運用ログの検証は未完了です。
+
+[Cold probes and payback](docs/G3.4-Grounding-Payback-2026-10-15.md): defer unknown-cost unaccessed candidates until queried. Evaluate actual composer accesses and amortization on development worlds; production-trace validation remains open.
+
+[冷候选探测与成本回收](docs/G3.4-Grounding-Payback-2026-10-15.md)：未访问且成本未知的候选延后至访问时探测。在开发world测量实际composer访问及成本回收，生产日志验证仍未完成。

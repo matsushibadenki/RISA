@@ -50,27 +50,31 @@ def verify(states):
         for k,e in state._primitive_grounding_index['entries'].items():
             if 'query_hits' in e:
                 e['query_hits'] = snapshots[name][k]
-    assert states['id'].to_dict() == states['frequency'].to_dict()
+    assert all(state.to_dict() == states['id'].to_dict() for state in states.values())
     return count, hashlib.sha256(json.dumps(complete_results).encode()).hexdigest()
 
 
-def run_worker(repeat=0, queries=256):
+def run_worker(repeat=0, queries=256, gates=None):
+    gates = gates or {'id': {}, 'frequency': {'probe_cold_candidates': True}}
     base = RisaState()
     train_events(base,[event(p,k) for p in range(4) for k in range(64)],OPTIONS)
     rows = []
     for workload, schedule in dict(stationary=[3]*6, shifting=[3,3,0,0,2,2], rapid=[3,0,2,1,3,0]).items():
-        states = {name:RisaState.from_dict(base.to_dict()) for name in ('id','frequency')}
+        states = {name:RisaState.from_dict(base.to_dict()) for name in gates}
         stats = {name:dict(build=0.,train=0.,query=0.,rebalance=0.,build_cpu=0.,train_cpu=0.,query_cpu=0.,rebalance_cpu=0.,promotions=0,demotions=0,cost_probes=0,heap=0) for name in states}
-        for name in list(states)[::(-1 if repeat%2 else 1)]:
+        order = list(states)
+        offset = repeat % len(order)
+        for name in order[offset:] + order[:offset]:
             start = perf_counter()
             start_cpu = process_time()
-            g.build_primitive_grounding(states[name], incremental=True,total_lookup_budget_bytes=12000,allocation_policy=name)
+            g.build_primitive_grounding(states[name], incremental=True,total_lookup_budget_bytes=12000,allocation_policy='id' if name == 'id' else 'frequency')
             stats[name]['build'] = perf_counter()-start
             stats[name]['build_cpu'] = process_time()-start_cpu
         comparisons, trace = 0, []
         for block,hot in enumerate(schedule):
             block_trace = dict(hot=hot)
-            for name in list(states)[::(-1 if (repeat+block)%2 else 1)]:
+            offset = (repeat + block) % len(order)
+            for name in order[offset:] + order[:offset]:
                 state = states[name]
                 if block == 2:
                     start = perf_counter()
@@ -88,7 +92,7 @@ def run_worker(repeat=0, queries=256):
                 stats[name]['query'] += elapsed
                 stats[name]['query_cpu'] += process_time()-start_cpu
                 start_cpu = process_time()
-                moved = g.rebalance_primitive_grounding(state)
+                moved = g.rebalance_primitive_grounding(state, **gates[name])
                 stats[name]['rebalance'] += moved['seconds']
                 stats[name]['rebalance_cpu'] += process_time()-start_cpu
                 for k in ('promotions','demotions','cost_probes'): stats[name][k] += moved[k]
@@ -108,7 +112,7 @@ def run_worker(repeat=0, queries=256):
                 save_state(state,path)
                 saved.append((path/'state.json').read_bytes())
                 restored = load_state(path)
-                g.build_primitive_grounding(restored,total_lookup_budget_bytes=12000,allocation_policy=name)
+                g.build_primitive_grounding(restored,total_lookup_budget_bytes=12000,allocation_policy='id' if name == 'id' else 'frequency')
                 for p in range(4):
                     for k in (0,63,64):
                         for v in range(3):

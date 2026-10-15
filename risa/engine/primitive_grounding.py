@@ -216,14 +216,31 @@ def update_primitive_grounding(state, primitive, event_id, already_supported):
     index['support_counts'][key] = len(primitive.evidence_event_ids)
     # Export-size accounting is deferred to explicit measurement, not queries.
     index['payload_bytes'] = None
+    index.update(proposal=None, proposal_windows=0)
 
 
-def rebalance_primitive_grounding(state):
+def rebalance_primitive_grounding(state, *, confirmation_windows=1, minimum_residency_windows=0,
+                                   probe_cold_candidates=False):
     """Explicit query-window boundary. Rank recent actor-binding hits per byte.
 
+    Optional confirmation requires the same proposed allocation in consecutive
+    nonempty windows. Minimum residency holds the allocation for N boundaries
+    after a move (the initial allocation starts at boundary zero). Empty windows
+    break confirmation and do not advance residency. These are explicit caller
+    controls, not latency/payback predictions; repeat them on each call.
+    By default, unknown-cost linear candidates with no accesses this window are
+    not probed or admitted. Their cost stays unknown so a later access can promote
+    them. Retained lookups and known-cost candidates still participate normally.
+    Set probe_cold_candidates=True to reproduce eager cost exploration.
     Counts reset after each window; no future queries or persisted state are used.
     Cost probes and promoted dictionaries are included in returned elapsed time.
     """
+    if type(probe_cold_candidates) is not bool:
+        raise ValueError('probe_cold_candidates must be a bool')
+    for name, value, lower in (('confirmation_windows', confirmation_windows, 1),
+                               ('minimum_residency_windows', minimum_residency_windows, 0)):
+        if type(value) is not int or value < lower:
+            raise ValueError(f'{name} must be an integer >= {lower}')
     started = perf_counter()
     index = getattr(state, '_primitive_grounding_index', None)
     if index is None or index['allocation_policy'] != 'frequency':
@@ -236,7 +253,12 @@ def rebalance_primitive_grounding(state):
             total_lookup_budget_bytes=index['total_lookup_budget_bytes'], allocation_policy='frequency')
         return dict(seconds=perf_counter()-started, promotions=0, demotions=0, cost_probes=0)
     entries = index['entries']
+    controls = (confirmation_windows, minimum_residency_windows, probe_cold_candidates)
+    if index.get('rebalance_controls') != controls:
+        index.update(rebalance_controls=controls, proposal=None, proposal_windows=0,
+                     query_window=0, last_move_window=0)
     if not any(e['query_hits'] for e in entries.values()):
+        index.update(proposal=None, proposal_windows=0)
         return dict(seconds=perf_counter()-started, promotions=0, demotions=0, cost_probes=0)
     limit = _lookup_limit(index['lookup_budget_bytes'], index['total_lookup_budget_bytes'], 0)
     probes = 0
@@ -251,18 +273,29 @@ def rebalance_primitive_grounding(state):
         if entry['lookup_cost'] is None:
             if entry['lookup'] is not None:
                 entry['lookup_cost'] = entry['lookup_bytes']
-            else:
+            elif probe_cold_candidates or entry['query_hits']:
                 lookup, size = construct(entry)
                 entry['lookup_cost'] = size if lookup is not None else float('inf')
                 del lookup
                 probes += 1
-    ranked = sorted(entries, key=lambda k: (-entries[k]['query_hits'] / entries[k]['lookup_cost'], k))
+    eligible = (k for k,e in entries.items() if e['lookup_cost'] is not None)
+    ranked = sorted(eligible, key=lambda k: (-entries[k]['query_hits'] / entries[k]['lookup_cost'], k))
     selected, used = set(), 0
     for key in ranked:
         size = entries[key]['lookup_cost']
         if size + used <= index['total_lookup_budget_bytes']:
             selected.add(key)
             used += size
+    index['query_window'] += 1
+    proposal = frozenset(selected)
+    index['proposal_windows'] = index['proposal_windows'] + 1 if index['proposal'] == proposal else 1
+    index['proposal'] = proposal
+    current = {k for k,e in entries.items() if e['lookup'] is not None}
+    if (index['proposal_windows'] < confirmation_windows
+            or index['query_window'] - index['last_move_window'] < minimum_residency_windows):
+        selected = current
+    if selected != current:
+        index['last_move_window'] = index['query_window']
     promotions = demotions = 0
     for key, entry in entries.items():
         if key not in selected and entry['lookup'] is not None:
