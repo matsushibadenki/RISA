@@ -521,7 +521,7 @@ English: Unfinished experiments remain testable development work, marked Next. U
 
 - 🟢 [Done] [冷候補調査と費用回収](G3.4-Grounding-Payback-2026-10-15.md): 未参照・費用未知の線形候補を保留し、後続参照で調査・昇格可能。`probe_cold_candidates=True`で旧方式を再現 / Defer unknown-cost unaccessed linear candidates while permitting later probes/promotions; retain explicit eager baseline / 延后未访问且成本未知的线性候选，后续可探测升级，显式保留旧方式。
 - 🟢 [Done] 実composerの接地参照数を採取。query短縮Sと維持増分Cを対応processごとに分離し、S>Cの回収判定と事後損益分岐を記録。将来予測・自動閾値ではない / Record actual composer accesses and paired query savings S/extra maintenance C, observed S>C recovery and retrospective break-even; no prediction/automatic threshold / 记录实际composer访问，逐配对process分离节省S/额外维护C，记录S>C回收及事后盈亏平衡，不做预测/自动阈值。
-- 🟠 [Next] witnessが少ないworldでの線形/lookup単価差を測定し、頻度/bytesだけでなく候補ごとの検索利益を費用回収条件へ組み込む検証 / Measure linear/lookup unit costs on low-witness worlds and validate per-candidate search benefit beyond frequency/bytes / 测量少witness world的线性/lookup单价，验证除频率/bytes外的候选搜索收益。
+- 🟢 [Done] 下記で過去照合例から線形/lookup単価を計測し、計測・構築費を含む候補利益による明示配分を実装・比較。運用評価と自動化は継続課題 / Measure past-sample unit costs and compare explicit candidate-benefit allocation including calibration/build costs below; operational evaluation/automation remain open / 下述计测历史照合单价，实现并比较含计测/构建费的显式收益分配；运行评估和自动化仍待完成。
 - ⭕️ [Pending] 実運用queryログは未提供。運用分布での回収と窓幅の検証はログ入手後。開発worldを運用分布とは扱わない / Production query logs are unavailable; defer operational payback/window validation until supplied, without treating development worlds as production / 未提供生产query日志，获取后验证运行回收/区间，不把开发world当生产分布。
 - 🔴 [Later] 自動policy・既定のID順変更は独立した運用評価後 / Defer automatic policy/default ID changes until independent operational evaluation / 独立运行评估后再考虑自动policy或默认ID变更。
 - 🟢 [Done] 全313テスト成功（350.08秒）。性能測定はテスト終了後 / All313 tests pass in350.08s; performance runs follow tests / 全313测试通过（350.08秒），性能测量在测试结束后。
@@ -529,3 +529,46 @@ English: Unfinished experiments remain testable development work, marked Next. U
 - 🟢 [Done] 調査8→6回（25%減）、最初の確認待ちは3→0回。再配置CPU中央値3.8–16.2%減。ただし総CPUのID比は−1.5〜+4.2%、回収3–6/9 process。密度のみの閾値・普遍的優位は採用しない / Reduce probes8→6, first wait3→0 and rebalance CPU3.8–16.2%; total versus ID ranges−1.5 to+4.2% with recovery3–6/9, insufficient for density-only thresholds / 探测8→6、首次等待3→0、重分配CPU减少3.8–16.2%；总CPU较ID为−1.5至+4.2%、回收3–6/9，不采用仅密度阈值。
 - 🟢 [Done] 追加の保存監査を含む専用9テスト成功。process間のraw保存順・内部参照数・割当にはhash依存差があることも記録し、同一とは主張しない / Nine targeted tests pass after the added save audit; retain hash-dependent raw ordering/access/allocation differences without claiming equality / 添加保存审计后专用9测试通过；保留依赖hash的raw顺序/访问/分配差异，不声称一致。
 - 🔴 [Later] 接地index以前からあるgraph edge順と探索参照順の再現性を別途監査。保存内容やquery意味を変えずに決定化できるか検証 / Separately audit pre-existing graph edge/search order reproducibility before deterministic ordering changes / 单独审计既有graph edge/搜索顺序可复现性，再验证不改变语义的确定顺序。
+
+
+### Measured candidate search benefit — 2026-10-22
+
+- 🟢 [Done] [検索利益の実測](G3.4-Grounding-Benefit-2026-10-22.md): 明示calibrationと`allocation_metric='benefit'`を追加。過去照合の線形/lookup CPU単価差と、計測・昇格構築費で候補を評価。通常queryに収集処理を追加せず、既定の頻度/ID/全走査を維持 / Add explicit calibration and benefit ranking from past unit CPU costs and setup costs; no default sampling/policy changes / 添加显式计测及收益排序，使用历史CPU单价和设置费用；不改变默认采样/policy。
+- 🟢 [Done] appendは対象entryの見積りを失効、訂正/再構築/復元は全失効。query計数・保存schema・役割対/identity判定を維持。全317テスト成功（129.81秒） / Invalidate estimates on append/rebuild/load while preserving counters, persistence and joint semantics;317 tests pass / 追加/重建/加载使估算失效，保持计数、保存及联合语义；317测试通过。
+- 🟢 [Done] 下記で同じ照合例・joint行の計測値を回数制限付きで再利用する方式を実装し、毎回計測と比較。標本数と偏りの検証は継続 / Implement bounded reuse for unchanged samples/joint rows below and compare fresh calibration; sample-size/bias validation continues / 下述实现相同样本/joint行的限次复用并与每次计测比较；样本数/偏斜验证继续。
+- ⭕️ [Pending] 実運用ログによる分布変化・費用回収検証はログ提供後 / Production distribution/payback validation awaits logs / 生产分布/回收验证等待日志。
+- 🔴 [Later] 自動policy・既定変更、退避利益と複数区間償却の最適化 / Defer automatic/default policy and displacement/multi-window optimization / 暂缓自动/默认policy及驱逐/多区间优化。
+- 🟢 [Done] 9 process・3 hash seed、3 world×2密度の54軌跡。74,880完全結果・216保存checkpoint・162実保存/復元が一致。process間は完全結果とedge順のみ正規化した保存内容を照合 / Verify54 trajectories,74,880 complete cases,216 serialized checkpoints and162 save/reloads; cross-process full results and edge-order-normalized contents match / 验证54轨迹、74,880完整结果、216序列化及162保存/恢复，跨process完整结果及仅规范edge顺序的内容一致。
+- 🟢 [Done] 単価利益方式は頻度方式比で総CPU3.7–50.7%悪化。小worldの昇格2→0でも計測約4.1–4.3msを回収できず。集中512 queryはID比8.0%減だが頻度方式より遅い。実験用opt-inに限定し既定不採用 / Benefit policy regresses total CPU3.7–50.7% versus frequency; fewer small-world promotions do not repay calibration. Concentrated512 beats ID8.0% but loses to frequency; keep experimental opt-in / 收益方式总CPU较频率恶化3.7–50.7%，小world减少升级未回收计测费；集中512较ID快8.0%仍慢于频率，仅实验性启用。
+
+
+### Bounded calibration reuse — 2026-10-22
+
+- 🟢 [Done] [計測値の再利用](G3.4-Grounding-Reuse-2026-10-22.md): 明示`reuse=True, max_reuses=2`。照合例の内容/順序、計測設定、予算が一致する成功計測だけを再利用。上限後は再計測 / Add explicit bounded reuse for successful identical ordered samples/settings/budget; refresh after the limit / 显式限次复用相同有序样本/设置/预算的成功计测，上限后重测。
+- 🟢 [Done] 同じPrimitive・rowsでjoint行数不変の支持追加は辞書費用/計測を保持。新行・置換・不整合・訂正・再構築・復元は失効。集合全コピー/hashを増やさず、標本入力も最大64件で停止 / Preserve estimates on unchanged support without whole-set copies/hashes; invalidate changed rows/rebuilds and cap sample consumption at64 / 同行支持追加保留估算，不增加全集合复制/hash，变化/重建失效，最多消耗64样本。
+- 🟢 [Done] 全320テスト成功（128.33秒）。再利用上限、照合例変化、無効化、連続確認、入力消費上限、3 worldの結果/保存を回帰検証 / All320 tests pass, covering reuse limits, changed samples, invalidation, confirmation, bounded input and three-world parity / 全320测试通过，覆盖复用上限、样本变化、失效、确认、输入上限及三world一致性。
+- 🟢 [Done] 下記で同じ先頭queryから後半が変わる条件を追加し、prefix8/reservoir8/reservoir32の偏りと収集・計測込み費用を比較。収集/計測間隔の適応化は継続 / Compare prefix8/reservoir8/reservoir32 under changed tails below, including collection/calibration costs; adaptive cadence remains open / 下述比较尾部变化时三种采样的偏差及采集/计测成本，自适应间隔仍未完成。
+- ⭕️ [Pending] 実運用queryログによる自動切替・再利用間隔の検証はログ提供後 / Operational automatic switching/reuse cadence awaits production logs / 生产自动切换/复用间隔验证等待日志。
+- 🔴 [Later] 時間TTLや適応的失効、複数区間の償却・退避損失の最適化 / Defer time TTL/adaptive expiry and multi-window/displacement optimization / 暂缓时间TTL/自适应失效及多区间/驱逐优化。
+- 🟢 [Done] 12 process・3 hash seed、72軌跡で102,912完全結果・288保存checkpoint・288実保存/復元が一致。区間ごとの保持cache推定量も記録 / Verify102,912 complete cases,288 serialized checkpoints and288 save/reloads over72 trajectories/12 processes; record retained-cache snapshots / 72轨迹12 process验证102,912完整结果、288序列化及288保存/恢复，记录保留cache快照。
+- 🟢 [Done] 小worldの計測15→5回、集中world3→2回。計測CPU29.9–66.4%削減。対応processの総CPU変化率中央値は0.6–18.3%改善だが、独立/集中512 queryの方式別中央値比は約7.0%/6.8%悪化。両集計を保持し、頻度方式より遅いため既定不採用 / Cut calibration CPU29.9–66.4%; paired total changes improve0.6–18.3% but separate medians regress7.0%/6.8% at independent/concentrated512. Retain both summaries; frequency remains faster so no default change / 计测CPU减少29.9–66.4%，配对总变化改善0.6–18.3%，独立/集中512分别汇总中位比却恶化7.0%/6.8%；保留两种汇总，频率仍更快，不改默认。
+
+
+### Whole-window binding samples — 2026-10-22
+
+- 🟢 [Done] [区間全体からの標本化](G3.4-Grounding-Sampling-2026-10-22.md): 明示`GroundingSampleWindow`を追加。Primitiveごと1〜64件のjoint照合をreservoir/prefix方式で保持。同じseed/入力列では再現可能、通常queryは変更しない / Add explicit bounded per-Primitive reservoir/prefix windows preserving joint bindings and deterministic seeds; normal queries unchanged / 添加显式每Primitive限量reservoir/prefix，保持联合照合及seed可复现性，不改普通query。
+- 🟢 [Done] 先頭が同じでも後半が変わる集中worldでprefixの計測再利用とreservoirの再計測を確認。512 sampling seedで位置別選択頻度、Primitive間の独立性、役割/identity一体保持、入力変更からの保護を検証。全323テスト成功（102.14秒） / Validate changed-tail recalibration,512-seed inclusion frequencies, stream independence and joint immutable samples;323 tests pass / 验证尾变重测、512 seed选择频率、流独立及联合不可变样本；323测试通过。
+- 🟢 [Done] 下記で明示的な収集周期を実装し、省略区間の標本TVと費用を比較。適応化は継続 / Implement explicit cadence below and compare skipped-window TV/costs; adaptation remains open / 下述实现显式周期，比较跳过区间TV/成本，自适应仍未完成。
+- ⭕️ [Pending] 実運用ログ上の分布変化・sampling seed感度・自動間隔はログ提供後 / Operational drift/seed sensitivity/automatic cadence awaits logs / 生产漂移/seed敏感性/自动间隔等待日志。
+- 🔴 [Later] 省略を利用するreservoir方式と全Primitive合計のcollector予算 / Defer skip-based reservoir algorithms and aggregate collector memory budgets / 暂缓跳过式reservoir及全Primitive采集器总预算。
+- 🟢 [Done] 15 process・3 hash seed、90軌跡で132,480完全結果・360保存checkpoint・450実保存/復元が一致。同process内は保存バイト一致、process間は完全結果とedge順のみ正規化した保存内容が一致 / Verify132,480 complete cases,360 serialized checkpoints and450 save/reloads across90 trajectories/15 processes/3 hash seeds; bytes match within each process, full results and edge-order-normalized contents match across processes / 15 process、3 hash seed、90轨迹验证132,480完整结果、360序列化及450保存/恢复一致；同process字节一致，跨process完整结果及仅规范edge顺序的保存内容一致。
+- 🟢 [Done] 集中512 queryの後半変化で分布差TVはprefix8の0.9844からreservoir8の0.0156へ改善（sampling seed 0）。ただし収集・計測込み総CPU中央値はprefix8比で全条件0.3–28.9%増。32例も単一seedで必ず精度改善するとは限らず費用増。品質改善と費用を分けて記録し、明示opt-in・既定維持 / At sampling seed0, concentrated512 changed-tail TV improves0.9844→0.0156, but total CPU medians including collection/calibration regress0.3–28.9% versus prefix8 across all conditions.32 samples cost more without guaranteed single-seed accuracy gains; keep explicit opt-in/defaults / sampling seed0时集中512尾变TV从0.9844改善至0.0156，但含采样/计测总CPU中位数在各条件较prefix8增加0.3–28.9%；32例成本更高且单seed精度不保证改善，保持显式启用及默认配置。
+
+### Explicit collection cadence — 2026-10-26
+
+- 🟢 [Done] [収集間隔](G3.4-Grounding-Cadence-2026-10-26.md): `GroundingSampleSchedule`で毎区間/2区間/4区間を比較。省略区間にobserver不要、既知変更は`force=True`で収集・周期リセット。既定interval1、通常query変更なし / Add explicit cadence and forced refresh without skipped-window observers; retain interval1 and normal queries / 添加显式周期及强制刷新，跳过区间无观察器，保持间隔1及普通query。
+- 🟢 [Done] 全325テスト成功（42.54秒）。15 process・3 hash seed・90軌跡、132,480完全結果・360保存checkpoint・450実保存/復元一致。同process保存バイトとprocess間edge順のみ正規化した内容・完全結果digestを検証 / 325 tests pass; verify132,480 complete cases,360 checkpoints and450 save/reloads across90 trajectories/15 processes, with within-process bytes and cross-process normalized contents/results / 325测试通过；15 process、90轨迹验证132,480完整结果、360序列化及450保存/恢复，同process字节及跨process规范内容/结果一致。
+- 🟢 [Done] 4区間周期は毎区間比総CPU中央値が−23.9〜+0.2%、2区間周期は−13.1〜+10.0%。集中512の変化直後TVは毎区間0.0156に対し省略0.9844。全条件で頻度方式より遅く、既定不採用。計測境界と対応process集計も報告 / Every4 total medians range−23.9 to+0.2%, every2−13.1 to+10.0%; skipped drift TV0.9844 versus0.0156 at concentrated512. Frequency remains faster; report timing boundaries/paired summaries, no default change / 每4区间总中位变化−23.9至+0.2%，每2区间−13.1至+10.0%；集中512跳过TV0.9844而每区间0.0156，仍慢于频率，记录计时边界及配对汇总，不改默认。
+- 🟠 [Next] 短期間だけ変わって元に戻る分布と周期の位相差を比較。query件数等の低費用な観測で強制収集する条件を検証し、同件数・異なる役割/identity分布の見落としも測定 / Compare transient drift/phase offsets and cheap forced-refresh signals, including equal-count role/identity drift / 比较短暂漂移/相位及低成本强制刷新信号，包括同计数角色/identity漂移。
+- ⭕️ [Pending] 実運用ログによる周期・閾値選定 / Production cadence/threshold validation awaits logs / 生产周期/阈值验证等待日志。
+- 🔴 [Later] 適応周期・skip-based reservoir・全Primitive collector合計予算 / Adaptive cadence, skip-based reservoirs and aggregate collector budgets / 自适应周期、跳过式reservoir及采集器总预算。

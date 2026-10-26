@@ -212,6 +212,13 @@ def update_primitive_grounding(state, primitive, event_id, already_supported):
                                   actor_typed=actor_typed)
     if index['allocation_policy'] == 'frequency':
         index['entries'][key].update(query_hits=current.get('query_hits', 0) if current and index['references'].get(key) is primitive else 0, lookup_cost=None)
+        # Repeated support for an identical joint row changes neither matcher
+        # work nor dictionary shape. Keep only its transient measurements.
+        if current and rows is current['rows'] and len(rows) == old_count:
+            for field in ('lookup_cost', 'benefit_seconds', 'benefit_setup_cpu',
+                          'calibration_key', 'calibration_report', 'calibration_reuses'):
+                if field in current:
+                    index['entries'][key][field] = current[field]
     index['references'][key] = primitive
     index['support_counts'][key] = len(primitive.evidence_event_ids)
     # Export-size accounting is deferred to explicit measurement, not queries.
@@ -220,7 +227,7 @@ def update_primitive_grounding(state, primitive, event_id, already_supported):
 
 
 def rebalance_primitive_grounding(state, *, confirmation_windows=1, minimum_residency_windows=0,
-                                   probe_cold_candidates=False):
+                                   probe_cold_candidates=False, allocation_metric='frequency'):
     """Explicit query-window boundary. Rank recent actor-binding hits per byte.
 
     Optional confirmation requires the same proposed allocation in consecutive
@@ -232,9 +239,15 @@ def rebalance_primitive_grounding(state, *, confirmation_windows=1, minimum_resi
     not probed or admitted. Their cost stays unknown so a later access can promote
     them. Retained lookups and known-cost candidates still participate normally.
     Set probe_cold_candidates=True to reproduce eager cost exploration.
+    allocation_metric='benefit' requires explicit calibration using past samples.
+    Rank positive predicted one-window net CPU savings per byte; uncalibrated
+    entries remain linear. New rows/rebuild discard calibration; unchanged joint support preserves it. This is an
+    estimate, not a guarantee; default ranking remains frequency.
     Counts reset after each window; no future queries or persisted state are used.
     Cost probes and promoted dictionaries are included in returned elapsed time.
     """
+    if allocation_metric not in ('frequency', 'benefit'):
+        raise ValueError('allocation_metric must be frequency or benefit')
     if type(probe_cold_candidates) is not bool:
         raise ValueError('probe_cold_candidates must be a bool')
     for name, value, lower in (('confirmation_windows', confirmation_windows, 1),
@@ -253,7 +266,7 @@ def rebalance_primitive_grounding(state, *, confirmation_windows=1, minimum_resi
             total_lookup_budget_bytes=index['total_lookup_budget_bytes'], allocation_policy='frequency')
         return dict(seconds=perf_counter()-started, promotions=0, demotions=0, cost_probes=0)
     entries = index['entries']
-    controls = (confirmation_windows, minimum_residency_windows, probe_cold_candidates)
+    controls = (confirmation_windows, minimum_residency_windows, probe_cold_candidates, allocation_metric)
     if index.get('rebalance_controls') != controls:
         index.update(rebalance_controls=controls, proposal=None, proposal_windows=0,
                      query_window=0, last_move_window=0)
@@ -270,6 +283,8 @@ def rebalance_primitive_grounding(state, *, confirmation_windows=1, minimum_resi
                 break
         return (None, 0) if size > limit else (lookup, size)
     for entry in entries.values():
+        if allocation_metric == 'benefit' and entry.get('benefit_seconds', 0) <= 0:
+            continue
         if entry['lookup_cost'] is None:
             if entry['lookup'] is not None:
                 entry['lookup_cost'] = entry['lookup_bytes']
@@ -279,7 +294,17 @@ def rebalance_primitive_grounding(state, *, confirmation_windows=1, minimum_resi
                 del lookup
                 probes += 1
     eligible = (k for k,e in entries.items() if e['lookup_cost'] is not None)
-    ranked = sorted(eligible, key=lambda k: (-entries[k]['query_hits'] / entries[k]['lookup_cost'], k))
+    def value(entry):
+        if allocation_metric == 'frequency':
+            return entry['query_hits']
+        saving = entry['query_hits'] * entry.get('benefit_seconds', 0)
+        # One future window with the observed access count must cover both
+        # calibration and the prospective reconstruction. No future lookahead.
+        return saving - (entry.get('benefit_setup_cpu', float('inf'))
+                         if entry['lookup'] is None else 0)
+    if allocation_metric == 'benefit':
+        eligible = (k for k in eligible if value(entries[k]) > 0)
+    ranked = sorted(eligible, key=lambda k: (-value(entries[k]) / entries[k]['lookup_cost'], k))
     selected, used = set(), 0
     for key in ranked:
         size = entries[key]['lookup_cost']

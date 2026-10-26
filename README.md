@@ -297,3 +297,29 @@ Opt-in query-frequency lookup allocation promotes entries using recent grounding
 [Cold probes and payback](docs/G3.4-Grounding-Payback-2026-10-15.md): defer unknown-cost unaccessed candidates until queried. Evaluate actual composer accesses and amortization on development worlds; production-trace validation remains open.
 
 [冷候选探测与成本回收](docs/G3.4-Grounding-Payback-2026-10-15.md)：未访问且成本未知的候选延后至访问时探测。在开发world测量实际composer访问及成本回收，生产日志验证仍未完成。
+
+[検索利益による配分](docs/G3.4-Grounding-Benefit-2026-10-22.md): 過去の照合例で線形/lookup単価を明示計測し、`allocation_metric='benefit'`で計測・昇格費用を考慮できます。計測費用込みの比較では頻度方式より遅かったため、実験用opt-inに限定しています。既定は従来どおりです。
+
+[Measured-benefit allocation](docs/G3.4-Grounding-Benefit-2026-10-22.md): explicitly calibrate past binding samples and opt into `allocation_metric='benefit'`. Including profiling/setup costs, this lost to frequency ranking in the tested conditions; it remains experimental and opt-in.
+
+[实测收益分配](docs/G3.4-Grounding-Benefit-2026-10-22.md)：显式计测历史照合样本，通过`allocation_metric='benefit'`考虑计测/升级费用。计入这些成本后在测试条件慢于频率方式，仅实验性启用，默认不变。
+
+
+[計測値の再利用](docs/G3.4-Grounding-Reuse-2026-10-22.md): 同じjoint witnessと照合例の計測を`reuse=True, max_reuses=2`で再利用できます。変化時と再利用上限で再計測します。実験用の利益配分に対する明示オプションです。
+
+[Calibration reuse](docs/G3.4-Grounding-Reuse-2026-10-22.md): opt into bounded reuse for unchanged joint witnesses and binding samples, refreshing on changes or the reuse limit. Benefit allocation remains experimental.
+
+[计测值复用](docs/G3.4-Grounding-Reuse-2026-10-22.md)：相同joint witness及照合样本可显式限次复用，变化或达到上限时重测。收益分配仍为实验功能。
+
+
+[区間全体からの標本化](docs/G3.4-Grounding-Sampling-2026-10-22.md): `GroundingSampleWindow`で過去のjoint照合を一定数保持し、calibrationへ渡せます。reservoir方式は先頭以外も選びますが、追加費用と有限標本による見落としがあるため明示オプションです。
+
+[Whole-window samples](docs/G3.4-Grounding-Sampling-2026-10-22.md): explicitly collect bounded joint bindings with `GroundingSampleWindow` for calibration. Reservoir sampling covers beyond the prefix, with additional cost and possible missed drift.
+
+[全区间采样](docs/G3.4-Grounding-Sampling-2026-10-22.md)：使用`GroundingSampleWindow`显式收集限量联合照合供计测。reservoir可选取前缀之外的样本，但有额外成本和遗漏变化的可能。
+
+[収集間隔の制御](docs/G3.4-Grounding-Cadence-2026-10-26.md): `GroundingSampleSchedule`で収集する区間を明示的に選べます。省略区間はフック不要、既知の変更時は強制収集可能です。省略中の分布変化は検出できないため、既定は毎区間です。
+
+[Collection cadence](docs/G3.4-Grounding-Cadence-2026-10-26.md): `GroundingSampleSchedule` explicitly selects collection windows, with no observer on skipped windows and optional forced refresh. Skipped-window drift is unobserved; the default interval is one.
+
+[采样间隔](docs/G3.4-Grounding-Cadence-2026-10-26.md)：`GroundingSampleSchedule`显式选择采样区间，跳过区间无需观察器，已知变化可强制采样。无法检测跳过区间的漂移，默认间隔为一。
