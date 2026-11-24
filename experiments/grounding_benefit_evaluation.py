@@ -8,6 +8,7 @@ from pathlib import Path
 import subprocess
 import sys
 from tempfile import TemporaryDirectory
+from time import perf_counter, process_time
 from experiments.compositional_holdout import training_episode, heldout_cases
 from experiments.compositional_grounding_costs import _query
 from experiments.grounding_frequency_evaluation import event, query, OPTIONS
@@ -18,13 +19,15 @@ from risa.engine.runtime import train_events
 from risa.engine.persistence import save_state, load_state
 from risa.engine import primitive_grounding as g
 from risa.engine.grounding_calibration import calibrate_grounding_benefits
-from risa.engine.grounding_sampling import GroundingSampleWindow, GroundingSampleSchedule
+from risa.engine.grounding_sampling import GroundingSampleWindow, GroundingSampleSchedule, GroundingCountTrigger, collector_bytes
 
 ARMS=('id','frequency','benefit')
 
 
 def run_worker(repeat=0, densities=(32,512), variants=None, calibration_blocks=(0,2),
-               sample_configs=None, tail_shift=False, cadence_configs=None):
+               sample_configs=None, tail_shift=False, cadence_configs=None,
+               transient_block=None, count_burst=False, count_trigger_arms=(), time_observer_setup=False,
+               sample_factories=None):
     variants = {'benefit': {}} if variants is None else variants
     arms = ('id','frequency',*variants)
     rows=[]
@@ -45,16 +48,21 @@ def run_worker(repeat=0, densities=(32,512), variants=None, calibration_blocks=(
             traces=[]; checks=0
             schedules={n:GroundingSampleSchedule(**c) for n,c in (cadence_configs or {}).items()}
             retained={}
+            triggers={n:GroundingCountTrigger() for n in count_trigger_arms}
+            pending={n:False for n in count_trigger_arms}
+            window_count=8 if transient_block is not None else 4
             for n in arms[repeat%len(arms):]+arms[:repeat%len(arms)]:
                 _,stats[n]['build']=timed(lambda:g.build_primitive_grounding(states[n],incremental=True,
                     total_lookup_budget_bytes=budget,allocation_policy='id' if n=='id' else 'frequency'))
-            for block in range(4):
+            for block in range(window_count):
+                changed=(block==transient_block) if transient_block is not None else block!=0
+                count=density*(2 if count_burst and changed else 1)
                 if tail_shift:
                     prefix=[(3,0,0)]*8 if wide else hot[:8]
-                    tail=([(3,0,0)] if block==0 else [(3,63,2)]) if wide else [
+                    tail=([(3,0,0)] if not changed else [(3,63,2)]) if wide else [
                         c for c in hot if c[0]['category'] in
-                        (('seen_path','unseen_path') if block==0 else ('wrong_identity','crossed_roles'))]
-                    cases=(prefix+[tail[i%len(tail)] for i in range(max(0,density-len(prefix)))])[:density]
+                        (('seen_path','unseen_path') if not changed else ('wrong_identity','crossed_roles'))]
+                    cases=(prefix+[tail[i%len(tail)] for i in range(max(0,count-len(prefix)))])[:count]
                 else:
                     cases=[hot[i%len(hot)] for i in range(density)]
                 collected={}
@@ -65,21 +73,26 @@ def run_worker(repeat=0, densities=(32,512), variants=None, calibration_blocks=(
                         _,cost=timed(lambda:train_events(state,[event(p,64) for p in range(4)] if wide else
                             training_episode(17,world,32),OPTIONS))
                         stats[n]['train'].append(cost)
-                    if block==3:
+                    if block==window_count-1:
                         first='0-0' if wide else f'train:{world}:17:0:0'
                         state.events_by_id[first].target=state.events_by_id[first].actor
                         g.invalidate_primitive_grounding(state)
+                    if transient_block is not None or time_observer_setup:
+                        setup_wall,setup_cpu=perf_counter(),process_time()
                     samples={}
                     original=g.actor_matches
                     collect=n in variants and block in calibration_blocks
                     sampler=None
                     schedule_cost={'cpu':0.,'wall':0.}
                     if n in schedules:
-                        sampler,schedule_cost=timed(schedules[n].next_window)
-                        collect=sampler is not None and block != 3
+                        forced=pending.get(n,False)
+                        sampler,schedule_cost=timed(lambda:schedules[n].next_window(force=forced))
+                        collect=sampler is not None and block != window_count-1
                         trace[n]={'collected':collect}
+                        if transient_block is not None:
+                            trace[n].update(forced=forced,query_count=len(cases))
                     if collect and sample_configs is not None and n not in schedules:
-                        sampler=GroundingSampleWindow(**sample_configs[n])
+                        sampler=(sample_factories or {}).get(n, GroundingSampleWindow)(**sample_configs[n])
                     if collect:
                         by_id={id(e):k for k,e in state._primitive_grounding_index['entries'].items()}
                         def recording(entry,ars,actor,target,trs,diagnostics=None):
@@ -91,18 +104,30 @@ def run_worker(repeat=0, densities=(32,512), variants=None, calibration_blocks=(
                                 if len(bucket)<8:bucket.append((tuple(ars),actor,target,tuple(trs)))
                             return original(entry,ars,actor,target,trs,diagnostics)
                         g.actor_matches=recording
+                    if transient_block is not None or time_observer_setup:
+                        schedule_cost={'wall':perf_counter()-setup_wall,'cpu':process_time()-setup_cpu}
+                    cleanup_cost={'wall':0.,'cpu':0.}
                     try:
                         answers[n],cost=timed(lambda:[ask(state,c) for c in cases])
                     finally:
+                        if transient_block is not None or time_observer_setup:
+                            cleanup_wall,cleanup_cpu=perf_counter(),process_time()
                         g.actor_matches=original
-                    for clock in ('cpu','wall'):cost[clock]+=schedule_cost[clock]
+                        if transient_block is not None or time_observer_setup:
+                            cleanup_cost={'wall':perf_counter()-cleanup_wall,'cpu':process_time()-cleanup_cpu}
+                    for clock in ('cpu','wall'):cost[clock]+=schedule_cost[clock]+cleanup_cost[clock]
                     stats[n]['query'].append(cost)
+                    if n in triggers:
+                        pending[n],trigger_cost=timed(lambda:triggers[n].observe(len(cases),sampled=collect))
+                        for clock in ('cpu','wall'):stats[n]['query'][-1][clock]+=trigger_cost[clock]
+                        trace[n]['force_next']=pending[n]
                     if collect:
                         if sampler is not None:
                             samples,export_cost=timed(sampler.samples)
                             # Include snapshot construction in the charged collection cost.
                             for clock in ('cpu','wall'):stats[n]['query'][-1][clock]+=export_cost[clock]
-                            stats[n]['sampler_heap'].append(cache_heap(sampler._streams))
+                            stats[n]['sampler_heap'].append(collector_bytes(sampler._streams))
+                            trace[n] = dict(**trace.get(n, {}), collector_exhausted=sampler.exhausted)
                             collected[n]=samples
                             retained[n]=samples
                         report=calibrate_grounding_benefits(state,samples,**variants[n])
@@ -158,9 +183,10 @@ def run_worker(repeat=0, densities=(32,512), variants=None, calibration_blocks=(
                 saved=[]
                 for n,state in states.items():
                     stats[n]['heap']=cache_heap(state._primitive_grounding_index)
-                    path=Path(directory)/n;save_state(state,path)
+                    path=Path(directory)/n
+                    _,stats[n]['save']=timed(lambda:save_state(state,path))
                     saved.append((path/'state.json').read_bytes())
-                    restored=load_state(path)
+                    restored,stats[n]['load']=timed(lambda:load_state(path))
                     g.build_primitive_grounding(restored,total_lookup_budget_bytes=budget,
                         allocation_policy='id' if n=='id' else 'frequency')
                     for c in panel:

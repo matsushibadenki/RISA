@@ -323,3 +323,23 @@ Opt-in query-frequency lookup allocation promotes entries using recent grounding
 [Collection cadence](docs/G3.4-Grounding-Cadence-2026-10-26.md): `GroundingSampleSchedule` explicitly selects collection windows, with no observer on skipped windows and optional forced refresh. Skipped-window drift is unobserved; the default interval is one.
 
 [采样间隔](docs/G3.4-Grounding-Cadence-2026-10-26.md)：`GroundingSampleSchedule`显式选择采样区间，跳过区间无需观察器，已知变化可强制采样。无法检测跳过区间的漂移，默认间隔为一。
+
+[短期変化と件数ヒント](docs/G3.4-Grounding-Transient-2026-10-28.md): `GroundingCountTrigger`は完了区間の件数変化から次区間の強制収集を促します。比較可能な区間と既存の件数を使う明示オプションです。同件数の役割・identity変化や、既に終了した短期変化は検出できません。
+
+[Transient drift and count hints](docs/G3.4-Grounding-Transient-2026-10-28.md): opt-in `GroundingCountTrigger` uses completed counts from comparable windows to request collection in the next window. It cannot detect equal-count role/identity drift or recover a transient that has ended.
+
+[短期漂移与计数提示](docs/G3.4-Grounding-Transient-2026-10-28.md)：显式`GroundingCountTrigger`使用可比窗口的完成计数，提示下一窗口强制采样。无法检测同计数角色/identity漂移，也无法恢复已结束的短期变化。
+
+[長い照合列の収集費用 / Sampling long binding streams / 长照合流采样](docs/G3.4-Grounding-Skip-2026-11-02.md): `policy='skip'` は標本の次の入れ替え位置を先に決めます。長い列向けの明示オプションです。 / Use skip sampling explicitly for long per-Primitive streams; the default stays unchanged. / 长流可显式选用跳过采样，默认方式不变。
+
+
+[Collector memory budget / 収集メモリ予算 / 采样内存预算](docs/G3.4-Grounding-Collector-Budget-2026-11-19.md): RNGの遅延生成で多数短列の保持量を60.3%削減。総byte上限は実験用opt-inで、停止後の標本欠落と計量費用が残ります。 / Lazy RNG reduces many-short-stream retained memory by 60.3%; aggregate byte caps remain experimental due to coverage loss and accounting cost. / 延迟RNG使大量短流保留内存减少60.3%；总字节上限仍为实验选项，存在覆盖损失和计量成本。
+
+[Conservative collector accounting / 保守的な差分計量 / 保守增量计量](docs/G3.4-Grounding-Collector-Accounting-2026-11-19.md): 予算に余裕がある更新では全量走査と試行コピーを省略し、同じ標本と停止位置を維持します。 / Skip full accounting and trial copies when conservative headroom permits, preserving samples and stopping. / 保守余量足够时省略全量计量及试验复制，保持样本和停止位置。
+
+[Late-query collection / 後半queryの収集 / 后段query采集](docs/G3.4-Grounding-Recent-2026-11-19.md): `policy='recent'`で同じbyte予算内の最近のjoint bindingを収集できます。分布変化への追従は改善しますが、全区間の代表性と総費用にトレードオフがあり、明示opt-inです。 / Recent sampling stays within the byte cap and follows shifts, with full-window quality and cost tradeoffs; opt-in only. / 近期采样在字节预算内跟随分布变化，全窗口质量及总成本存在权衡，需显式启用。
+
+[Recent accounting cost / recentの計量費用 / recent计量成本](docs/G3.4-Grounding-Recent-Cost-2026-11-19.md): 同じ標本・byte予算で重複計量を省略し、32KiB条件の総CPU比中央値0.801。4KiBではほぼ同率で、recentは明示opt-inを維持します。 / Guarded accounting preserves samples and budgets; 32KiB paired CPU median is 0.801, tight budgets are roughly unchanged. Recent remains opt-in. / 带保护的计量保持样本及预算，32KiB配对CPU中位比0.801，紧预算基本不变，recent仍显式启用。
+
+
+[Grounding correction / 接地訂正 / 接地修改](docs/G3.4-Grounding-Correction-2026-11-24.md): `GroundingCorrectionTracker` は報告されたEvent変更の影響先だけを再構築する明示APIです。局所CPU比0.253–0.336、総費用の一貫した改善は未確認。学習状態全体の訂正は行いません。 / Explicit scoped cache refresh reduces local CPU to0.253–0.336 of full rebuilds; overall savings remain unproven. It does not repair learned-world state. / 显式局部缓存刷新CPU为全重建的0.253–0.336，整体收益尚未确认，不修正学习状态整体。
